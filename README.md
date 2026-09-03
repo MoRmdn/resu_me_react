@@ -18,11 +18,12 @@ JavaScript switched off.
 ## Getting started
 
 ```bash
+cp .env.example .env
 npm install
 npm run dev
 ```
 
-Then http://localhost:3000.
+Fill `.env` from Firebase → Project settings → Your apps. Then http://localhost:3000.
 
 ## Scripts
 

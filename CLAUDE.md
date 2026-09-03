@@ -84,9 +84,11 @@ Realtime Database, one live path:
 It is ~350 KB; a static import puts it on the critical path and roughly triples
 first-load JS. If you add a Firebase feature, follow the same pattern.
 
-Config is in `.env`, checked in on purpose — the web SDK ships those values in
-the client bundle regardless, and `output: "export"` inlines them at build time
-so CI needs them present. Security comes from `database.rules.json`.
+Local config is `.env` (gitignored). Copy `.env.example` and fill it from the
+Firebase console. The web SDK still ships these values in the client bundle;
+they stay out of git so GitHub secret scanning does not flag the API key.
+`output: "export"` inlines `NEXT_PUBLIC_*` at build time, so CI injects the same
+keys from GitHub Actions secrets. Security comes from `database.rules.json`.
 
 ---
 
