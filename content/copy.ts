@@ -18,7 +18,10 @@ export const hero = {
   headlineAccentIndex: 2,
   intro: `I'm ${site.name} — a mobile developer with ${metrics.yearsExperience} years spent building cross-platform products for teams in ${metrics.countries} countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.`,
   primaryCta: { label: "See the work", href: "#projects" },
-  secondaryCta: { label: contact.email, href: contact.emailUrl },
+  // WhatsApp is the stated first-choice channel, so it takes the hero's
+  // secondary action. The email address still appears in Contact, the footer
+  // and the structured data.
+  secondaryCta: { label: "WhatsApp", href: "https://wa.me/201281100168" },
   resumeCta: { label: "Download CV", href: contact.resumeUrl },
   trackRecordLabel: "Track record",
   trackRecord: [
@@ -74,6 +77,7 @@ export const projectsCopy = {
   sourceLabel: "Source",
   openLabel: "Open",
   closeLabel: "Close",
+  bundleIdLabel: "Application ID",
 };
 
 export const skillsCopy = {
@@ -87,26 +91,13 @@ export const contactCopy = {
   eyebrow: "05 / Contact",
   headline: ["Got an app", "to build?"],
   blurb:
-    "Full-time, contract or a second pair of hands on a release that's slipping — send the details and I'll reply within a day.",
+    "Full-time, contract or a second pair of hands on a release that's slipping — reach me wherever suits you and I'll reply within a day.",
   availabilityLabel: "AVAILABILITY",
   availability: "Taking new work · Mansoura / remote",
-  formEyebrow: "Or send a message directly",
-  fields: {
-    name: { label: "Full Name", placeholder: "Enter your full name" },
-    email: { label: "Email Address", placeholder: "Enter your email address" },
-    projectType: { label: "Project Type", placeholder: "e.g., Mobile App" },
-    budget: { label: "Budget Range", placeholder: "e.g., $5,000 - $10,000" },
-    message: { label: "Project Description", placeholder: "Tell me about your project..." },
-  },
-  submit: "Send Message",
-  submitting: "Sending…",
-  success: "Message sent successfully! I'll get back to you soon.",
-  failure: "Failed to send message. Please try again.",
-  errors: {
-    name: "Please enter your name.",
-    email: "Please enter a valid email address.",
-    message: "Please tell me a little about the project.",
-  },
+  channelsLabel: "Get in touch",
+  channelsNote: "Pick whichever is easiest — they all reach me.",
+  copyLabel: "Copy address",
+  copiedLabel: "Copied",
 };
 
 export const footerCopy = {

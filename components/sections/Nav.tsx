@@ -97,7 +97,7 @@ export function Nav() {
               className={cn(
                 "ml-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold",
                 "transition-[background-color,border-color,color,transform] duration-fast ease-fast hover:-translate-y-0.5",
-                pastHero
+                pastHero && active !== "contact"
                   ? "bg-copper text-ink-900 hover:bg-copper-bright"
                   : "border border-line-strong text-bone hover:border-copper hover:bg-bone-06",
               )}

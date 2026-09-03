@@ -147,6 +147,7 @@ function ProjectRow({
 
   return (
     <article
+      id={project.slug}
       data-open={isOpen}
       data-dimmed={isDimmed}
       className={cn(
@@ -217,6 +218,16 @@ function ProjectRow({
                 <p className="eyebrow text-bone-52">Category</p>
                 <p className="mt-2 text-body text-bone">{project.category}</p>
               </div>
+              {project.bundleId && (
+                <div>
+                  <p className="eyebrow text-bone-52">{projectsCopy.bundleIdLabel}</p>
+                  {/* Visible text, not only structured data: a literal
+                      identifier search is matched against the served HTML. */}
+                  <p className="mt-2 font-mono text-[0.8125rem] break-all text-bone">
+                    {project.bundleId}
+                  </p>
+                </div>
+              )}
               <div>
                 <p className="eyebrow text-bone-52">Built with</p>
                 <ul className="mt-2 flex flex-wrap gap-2">

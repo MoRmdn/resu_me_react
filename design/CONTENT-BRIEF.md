@@ -13,7 +13,7 @@ nothing here is a placeholder.
 - **Location:** Mansoura, Egypt (UTC+3)
 - **Email:** mormdn@outlook.com · **Phone:** +20 128 110 0168
 - **Résumé:** /Mohamed_Ramadan_CV.pdf
-- **Links:** LinkedIn → Eng. M.Ramadan (https://linkedin.com/in/mormdn) · GitHub → MoRmdn (https://github.com/MoRmdn) · Khamsat → M0Rmdn (https://khamsat.com/user/m0rmdn)
+- **Links:** GitHub → MoRmdn (https://github.com/MoRmdn) · LinkedIn → Eng. M.Ramadan (https://linkedin.com/in/mormdn)
 - **Headline numbers:** 5 years · 10 apps on both stores · 7 teams · 6 countries
 - **Nav:** About · Experience · Projects · Skills · Contact
 
@@ -45,7 +45,7 @@ credentials above so an in-progress course is never mistaken for a finished one.
   2. that actually
   3. ship.  ← copper
 - Intro: I'm Mohamed Ramadan — a mobile developer with 5 years spent building cross-platform products for teams in 6 countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.
-- CTAs: **See the work** (primary) · mormdn@outlook.com (ghost) · Download CV (text link)
+- CTAs: **See the work** (primary) · WhatsApp (ghost) · Download CV (text link)
 - Panel "Track record" — three metrics that count up once in view:
   - **5+** — Years shipping Flutter
   - **10** — Apps live on both stores
@@ -329,22 +329,20 @@ Clean Architecture · Feature-first architecture · SOLID · OOP · Firestore Se
 
 Headline: Got an app / to build? (the word "build?" is copper)
 
-Full-time, contract or a second pair of hands on a release that's slipping — send the details and I'll reply within a day.
+Full-time, contract or a second pair of hands on a release that's slipping — reach me wherever suits you and I'll reply within a day.
 
-- CTAs: **mormdn@outlook.com** (primary) · +20 128 110 0168 (ghost, mono)
-- Link panel: LinkedIn → Eng. M.Ramadan · GitHub → MoRmdn · Khamsat → M0Rmdn, plus a résumé download row
+- Channels, in priority order (the first takes the section's Tier 1 copper):
+  1. **WhatsApp** — +20 128 110 0168 · Fastest reply — https://wa.me/201281100168
+  2. **Upwork** — mormdn · Contract work, escrowed — https://www.upwork.com/freelancers/mormdn
+  3. **Email** — mormdn@outlook.com · Full-time and long briefs — mailto:mormdn@outlook.com
+  4. **Freelancer** — MoRmdn · Project bids — https://www.freelancer.com/u/MoRmdn
+  5. **Fiverr** — mormdn · Fixed-scope packages — https://www.fiverr.com/mormdn
+  6. **Khamsat** — m0rmdn · Arabic-language clients — https://khamsat.com/user/m0rmdn
+- Profile links (not hiring channels): GitHub → MoRmdn · LinkedIn → Eng. M.Ramadan
 - Availability block: label `AVAILABILITY`, jade dot, "Taking new work · Mansoura / remote"
-- Form eyebrow: "Or send a message directly"
-- Five fields, three required:
-  - **Full Name** — placeholder "Enter your full name" · required
-  - **Email Address** — placeholder "Enter your email address" · required
-  - **Project Type** — placeholder "e.g., Mobile App"
-  - **Budget Range** — placeholder "e.g., $5,000 - $10,000"
-  - **Project Description** — placeholder "Tell me about your project..." · required
-- Button: **Send Message** (sending: "Sending…")
-- Success: "Message sent successfully! I'll get back to you soon."
-- Failure: "Failed to send message. Please try again."
-- Inline errors need designing — every required field has a message and a rose border state.
+
+There is no contact form. It used to write to Firebase Realtime Database;
+enquiries now go straight to a channel, and that world-writable path is closed.
 
 ## Footer
 

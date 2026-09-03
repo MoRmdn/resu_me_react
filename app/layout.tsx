@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, JetBrains_Mono } from "next/font/google";
-import { site, contact, socials } from "@/content/site";
+import { site, contact, socials, channels, publisherNamespace } from "@/content/site";
 import { skillGroups } from "@/content/skills";
+import { projects } from "@/content/projects";
 import "./globals.css";
 
 /**
@@ -41,9 +42,16 @@ export const metadata: Metadata = {
     "Bloc",
     "Riverpod",
     "Firebase",
+    "React",
+    "Next.js",
     "Egypt",
+    "Mansoura",
     site.name,
     site.shortName,
+    publisherNamespace,
+    // Application ids, so an identifier search resolves to their author.
+    ...projects.map((p) => p.bundleId).filter((id): id is string => Boolean(id)),
+    ...channels.map((c) => `${site.shortName} ${c.label}`),
   ],
   alternates: { canonical: "/" },
   openGraph: {
@@ -87,12 +95,26 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/** schema.org Person — what makes the page legible to search engines as a CV. */
-function personJsonLd() {
-  return {
-    "@context": "https://schema.org",
+/**
+ * A schema.org @graph rather than a lone Person.
+ *
+ * Two jobs. `sameAs` folds eight scattered marketplace and social profiles into
+ * one entity, which is the single highest-value thing on this page for search.
+ * And each shipped app becomes a SoftwareApplication carrying its real
+ * `identifier`, so a query for an application id resolves to its author.
+ *
+ * Note the identifiers are not all under `com.mormdn`: the earlier apps use
+ * namespaces the client chose, and their store links are rendered on this same
+ * page. Publishing the real values means those searches land here too.
+ */
+function jsonLd() {
+  const personId = `${site.url}/#person`;
+
+  const person = {
     "@type": "Person",
+    "@id": personId,
     name: site.name,
+    alternateName: site.shortName,
     jobTitle: site.title,
     description: site.description,
     url: site.url,
@@ -103,12 +125,70 @@ function personJsonLd() {
       addressLocality: "Mansoura",
       addressCountry: "EG",
     },
-    sameAs: socials.map((s) => s.url),
-    knowsAbout: skillGroups.flatMap((g) => g.items),
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "Mansoura University",
-    },
+    // Every profile that is demonstrably the same person.
+    sameAs: [...socials.map((s) => s.url), ...channels.map((c) => c.url)].filter((url) =>
+      url.startsWith("http"),
+    ),
+    knowsAbout: [...skillGroups.flatMap((g) => g.items), publisherNamespace],
+    alumniOf: { "@type": "CollegeOrUniversity", name: "Mansoura University" },
+    knowsLanguage: [
+      { "@type": "Language", name: "Arabic" },
+      { "@type": "Language", name: "English" },
+    ],
+  };
+
+  const apps = projects
+    .filter((p) => p.bundleId)
+    .map((p) => ({
+      "@type": "MobileApplication",
+      "@id": `${site.url}/#${p.slug}`,
+      name: p.title,
+      identifier: p.bundleId,
+      description: p.description,
+      applicationCategory: p.category,
+      operatingSystem: "Android, iOS",
+      author: { "@id": personId },
+      ...(p.links.playStore || p.links.appStore
+        ? { installUrl: [p.links.playStore, p.links.appStore].filter(Boolean) }
+        : {}),
+    }));
+
+  const webApps = projects
+    .filter((p) => p.links.website)
+    .map((p) => ({
+      "@type": "WebApplication",
+      "@id": `${site.url}/#${p.slug}`,
+      name: p.title,
+      description: p.description,
+      applicationCategory: p.category,
+      url: p.links.website,
+      author: { "@id": personId },
+    }));
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      person,
+      {
+        "@type": "WebSite",
+        "@id": `${site.url}/#website`,
+        url: site.url,
+        name: `${site.name} — ${site.title}`,
+        inLanguage: "en",
+        publisher: { "@id": personId },
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": `${site.url}/#profile`,
+        url: site.url,
+        name: `${site.name} — ${site.title}`,
+        isPartOf: { "@id": `${site.url}/#website` },
+        about: { "@id": personId },
+        mainEntity: { "@id": personId },
+      },
+      ...apps,
+      ...webApps,
+    ],
   };
 }
 
@@ -121,7 +201,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           // Static, author-controlled string — no user input reaches this.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd()) }}
         />
         <a
           href="#main"

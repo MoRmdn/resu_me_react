@@ -22,6 +22,12 @@ export type Project = {
   /** The outcome line — a number wherever one is defensible. */
   achievement: string;
   links: { appStore?: string; playStore?: string; github?: string; website?: string };
+  /**
+   * Android application id. Rendered as visible text, not only in structured
+   * data: a literal identifier search is matched against the served HTML.
+   * Early apps carry client-chosen namespaces; see `publisherNamespace`.
+   */
+  bundleId?: string;
   /** Slug under public/images/ with generated AVIF/WebP variants, if any. */
   image?: { slug: string; width: number; height: number; alt: string };
   /** Private client delivery: no public listing, gets its own card treatment. */

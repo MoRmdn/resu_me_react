@@ -13,6 +13,7 @@
 import { writeFileSync } from "node:fs";
 import {
   site, contact, socials, metrics, navSections, education, learningNow,
+  channels,
 } from "../content/site";
 import { projects } from "../content/projects";
 import { experiences } from "../content/experience";
@@ -170,18 +171,15 @@ w(`Headline: ${copy.contactCopy.headline.join(" / ")} (the word "build?" is copp
 w();
 w(copy.contactCopy.blurb);
 w();
-w(`- CTAs: **${contact.email}** (primary) · ${contact.phoneDisplay} (ghost, mono)`);
-w(`- Link panel: ${socials.map((s) => `${s.label} → ${s.handle}`).join(" · ")}, plus a résumé download row`);
-w(`- Availability block: label \`${copy.contactCopy.availabilityLabel}\`, jade dot, "${copy.contactCopy.availability}"`);
-w(`- Form eyebrow: "${copy.contactCopy.formEyebrow}"`);
-w("- Five fields, three required:");
-Object.entries(copy.contactCopy.fields).forEach(([k, f]) =>
-  w(`  - **${f.label}** — placeholder "${f.placeholder}"${["name", "email", "message"].includes(k) ? " · required" : ""}`),
+w(`- Channels, in priority order (the first takes the section's Tier 1 copper):`);
+channels.forEach((c, i) =>
+  w(`  ${i + 1}. **${c.label}** \u2014 ${c.handle} \u00b7 ${c.note} \u2014 ${c.url}`),
 );
-w(`- Button: **${copy.contactCopy.submit}** (sending: "${copy.contactCopy.submitting}")`);
-w(`- Success: "${copy.contactCopy.success}"`);
-w(`- Failure: "${copy.contactCopy.failure}"`);
-w("- Inline errors need designing — every required field has a message and a rose border state.");
+w(`- Profile links (not hiring channels): ${socials.map((s) => `${s.label} \u2192 ${s.handle}`).join(" \u00b7 ")}`);
+w(`- Availability block: label \`${copy.contactCopy.availabilityLabel}\`, jade dot, "${copy.contactCopy.availability}"`);
+w();
+w("There is no contact form. It used to write to Firebase Realtime Database;");
+w("enquiries now go straight to a channel, and that world-writable path is closed.");
 w();
 w("## Footer");
 w();

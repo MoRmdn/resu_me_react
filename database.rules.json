@@ -1,7 +1,7 @@
 {
   "rules": {
     "contact_submissions": {
-      ".write": true,
+      ".write": false,
       ".read": false,
       "$submissionId": {
         ".validate": "newData.hasChildren(['name', 'email', 'message', 'timestamp', 'status'])",
@@ -32,7 +32,8 @@
         "id": {
           ".validate": "newData.isString()"
         }
-      }
+      },
+      "//": "Closed 2026-09. The site no longer has a form; enquiries go to email and the marketplaces. Leaving this world-writable was the one security hole a static export cannot hide behind a server route. Existing submissions are still readable in the console."
     },
     "views": {
       ".read": true,

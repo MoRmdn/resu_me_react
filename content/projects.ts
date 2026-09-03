@@ -10,6 +10,7 @@ import type { Project } from "./types";
 export const projects: Project[] = [
   {
     slug: "arcit-ai",
+    bundleId: "com.mormdn.arcitAI",
     title: "Arcit-AI",
     description:
       "Innovative social networking platform connecting service providers with clients in architecture and home improvement sector.",
@@ -84,6 +85,7 @@ export const projects: Project[] = [
   },
   {
     slug: "mutabbib",
+    bundleId: "com.mormdn.mutabbib",
     title: "Mutabbib",
     description:
       "Distinctive medical social network connecting users with hospitals, clinics, and doctors.",
@@ -102,6 +104,7 @@ export const projects: Project[] = [
   },
   {
     slug: "lpermis",
+    bundleId: "com.demetre.code",
     title: "Lpermis",
     description:
       "Comprehensive driving education platform with testing and appointment scheduling system.",
@@ -119,6 +122,7 @@ export const projects: Project[] = [
   },
   {
     slug: "lpermis-pro",
+    bundleId: "com.demetre.institution",
     title: "Lpermis Pro",
     description:
       "Advanced school management system for driving schools with comprehensive administrative features.",
@@ -136,6 +140,7 @@ export const projects: Project[] = [
   },
   {
     slug: "saber-yamen",
+    bundleId: "com.elevenstars.saber",
     title: "Saber Yamen",
     description:
       "Multi-vendor e-commerce platform for selling new and used items with intuitive interface.",

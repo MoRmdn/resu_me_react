@@ -66,9 +66,12 @@ export function Hero() {
             </a>
             <a
               href={hero.secondaryCta.href}
+              target="_blank"
+              rel="noreferrer noopener"
               className="inline-flex h-12 items-center rounded-md border border-line px-[22px] text-[0.9375rem] font-medium text-bone transition-[transform,border-color,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:border-line-strong hover:bg-bone-06 active:translate-y-0"
             >
               {hero.secondaryCta.label}
+              <span className="sr-only">(opens in a new tab)</span>
             </a>
             <a
               href={hero.resumeCta.href}

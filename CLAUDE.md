@@ -73,11 +73,12 @@ Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
 
 ### Firebase
 
-Realtime Database, two paths, unchanged from the Flutter app so the existing
-rules still apply:
+Realtime Database, one live path:
 
-- `contact_submissions/` — pushed by the contact form.
 - `views/total` — a counter incremented once per load and streamed live.
+- `contact_submissions/` — **closed.** There is no contact form; enquiries go to
+  the channels in `content/site.ts`. `.write` is `false` in
+  `database.rules.json`. Do not reopen it without App Check in front.
 
 **The SDK is imported dynamically, never at module scope** (`lib/firebase.ts`).
 It is ~350 KB; a static import puts it on the critical path and roughly triples
@@ -141,13 +142,11 @@ pane is collapsed — verify structurally (`getBoundingClientRect`,
 
 ## Open items
 
-- **`contact_submissions` has `.read: false`,** so no client-side admin inbox is
-  possible. The Flutter `admin_page.dart` could not read them either. Submissions
-  are visible only in the Firebase console until auth and rules are added. Not
-  ported for that reason.
-- **The RTDB is unauthenticated-writable.** Anyone can spam the contact form or
-  set `views/total` to any number. Fix with App Check (reCAPTCHA v3) required in
-  the rules. Static export gives no server route to hide behind.
+- **`views/total` is still world-writable** — anyone can set it to any number.
+  Embarrassing rather than dangerous. Fix with App Check (reCAPTCHA v3) required
+  in the rules; a static export has no server route to hide behind.
+- **The site is not deployed.** The repo is local-only with no remote, and
+  `m0rmdn.web.app` still serves the old Flutter build.
 - Light ("Bone") theme is specced in `design/DESIGN-SYSTEM.md` §1.2, not built.
 - Only Arcit-AI has a screenshot. Drop a PNG at
   `public/images/<slug>-src.png`, run `npm run images`, and set `image` on that

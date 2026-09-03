@@ -75,6 +75,23 @@ but still draws three Tier 1 fills in the hero:
 - Experience spends its one full-chroma copper on the open row's node; the row
   label and the active band label are bone.
 - The AYCO card carries zero copper at any tier. Copper marks the reachable.
+- The nav "Hire me" is copper only in the stretch between the other two Tier 1
+  fills: ghost over the hero (whose CTA holds it), copper mid-page, ghost again
+  at Contact (where the WhatsApp card holds it). Being ghost at Contact is also
+  simply correct — a button whose only job is to scroll you to Contact has
+  nothing to offer once you are there.
+
+**Three documented exemptions**, all non-actions: the logo's copper half
+(identity), the 2px scroll-progress bar (chrome), and Experience's 9px
+accordion node (a state marker, specified as a copper fill in §5.1). A sweep of
+44 viewport positions finds no viewport with two competing copper *actions*; the
+node co-occurs with the nav pill and is deliberately not counted against it.
+
+**Auditing this correctly requires occlusion.** The hero is sticky and stays in
+the viewport behind the opaque sheet for the whole page, so a check based on
+`getBoundingClientRect` alone reports its CTA as visible everywhere and gives
+false positives. Test the element at its own centre with
+`document.elementFromPoint` and only count it if it is the topmost thing there.
 
 **Built, that the spec listed as missing:** the 3% film grain overlay
 (`.grain`, pure CSS, no image request); the logo draw-on (`MoRmdnMarkDraw`,

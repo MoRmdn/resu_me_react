@@ -23,11 +23,72 @@ export const contact = {
   resumeUrl: "/Mohamed_Ramadan_CV.pdf",
 } as const;
 
-export const socials = [
-  { label: "LinkedIn", handle: "Eng. M.Ramadan", url: "https://linkedin.com/in/mormdn" },
-  { label: "GitHub", handle: "MoRmdn", url: "https://github.com/MoRmdn" },
-  { label: "Khamsat", handle: "M0Rmdn", url: "https://khamsat.com/user/m0rmdn" },
+/**
+ * Ways to actually hire him, in his stated priority order. The first is
+ * `primary` and takes the Contact viewport's single Tier 1 copper fill.
+ *
+ * These double as the `sameAs` set in the structured data, which is how a
+ * search engine folds eight scattered marketplace profiles into one entity.
+ */
+export const channels = [
+  {
+    id: "whatsapp",
+    label: "WhatsApp",
+    handle: contact.phoneDisplay,
+    url: "https://wa.me/201281100168",
+    note: "Fastest reply",
+    primary: true,
+  },
+  {
+    id: "upwork",
+    label: "Upwork",
+    handle: "mormdn",
+    url: "https://www.upwork.com/freelancers/mormdn",
+    note: "Contract work, escrowed",
+  },
+  {
+    id: "email",
+    label: "Email",
+    handle: contact.email,
+    url: contact.emailUrl,
+    note: "Full-time and long briefs",
+    copyable: true,
+  },
+  {
+    id: "freelancer",
+    label: "Freelancer",
+    handle: "MoRmdn",
+    url: "https://www.freelancer.com/u/MoRmdn",
+    note: "Project bids",
+  },
+  {
+    id: "fiverr",
+    label: "Fiverr",
+    handle: "mormdn",
+    url: "https://www.fiverr.com/mormdn",
+    note: "Fixed-scope packages",
+  },
+  {
+    id: "khamsat",
+    label: "Khamsat",
+    handle: "m0rmdn",
+    url: "https://khamsat.com/user/m0rmdn",
+    note: "Arabic-language clients",
+  },
 ] as const;
+
+/** Profiles rather than hiring channels — kept out of the Contact grid. */
+export const socials = [
+  { label: "GitHub", handle: "MoRmdn", url: "https://github.com/MoRmdn" },
+  { label: "LinkedIn", handle: "Eng. M.Ramadan", url: "https://linkedin.com/in/mormdn" },
+] as const;
+
+/**
+ * The Android publisher namespace. Only the apps he published himself carry it
+ * — the earlier ones use identifiers the client chose, and their Play Store
+ * links are on this same page, so the distinction has to stay honest.
+ */
+export const publisherNamespace = "com.mormdn";
 
 /**
  * Hero metrics. Confirmed 2026-09: the apps figure counts unlisted and
