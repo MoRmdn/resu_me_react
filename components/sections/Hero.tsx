@@ -1,72 +1,79 @@
 "use client";
 
 import { MoRmdnMarkDraw } from "@/components/brand/MoRmdnMarkDraw";
-import { ButtonLink } from "@/components/ui/Button";
 import { CountUp } from "@/components/motion/CountUp";
-import { CursorGlow } from "@/components/motion/CursorGlow";
 import { hero } from "@/content/copy";
 import { useViews } from "@/lib/useViews";
 
 /**
- * The one memorable moment on the page: the mark draws itself once on load
- * while the headline rises line by line and the track-record panel arrives
- * last. Everything below the fold is deliberately quieter than this.
+ * Held hero — the page slides over it rather than pushing it away.
+ *
+ * Two v2 changes worth naming. The headline no longer accents its final word:
+ * §1.3 spends this viewport's single Tier 1 on the CTA, and two full-chroma
+ * coppers in one viewport is exactly the contradiction the tiers resolve. And
+ * all three track-record metrics are bone, not copper — live values are jade,
+ * because jade is the status hue and is exempt from the accent count.
  */
 export function Hero() {
   const views = useViews({ increment: true });
 
   const rise = (i: number) =>
-    ({ "--rise-delay": `${0.15 + i * 0.09}s` }) as React.CSSProperties;
+    ({ "--rise-delay": `${0.15 + i * 0.08}s` }) as React.CSSProperties;
 
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden bg-ink-900 pt-36 pb-24 md:pt-44 md:pb-32"
+      className="hero-held relative isolate flex min-h-[680px] items-center overflow-hidden bg-ink-900 py-32 md:h-[880px] md:py-0"
     >
-      <CursorGlow />
-
-      {/* Oversized watermark — the one permitted second placement of the mark. */}
+      {/* The mark appears once at full strength in the nav and once here as an
+          oversized watermark at 5.5%. LOGO.md forbids a third placement. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-20 -right-32 z-0 hidden opacity-[0.055] md:block"
+        className="pointer-events-none absolute top-[120px] -right-[70px] z-0 hidden opacity-[0.055] md:block"
       >
-        <MoRmdnMarkDraw size={560} />
+        <MoRmdnMarkDraw size={620} />
       </div>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-content gap-16 px-5 md:px-8 lg:grid-cols-[155fr_100fr] lg:items-end lg:gap-20">
-        <div>
-          <div className="rise mb-8 flex flex-wrap items-center gap-3" style={rise(0)}>
-            <span className="inline-flex items-center gap-2">
+      <div className="relative z-10 mx-auto grid w-full max-w-content items-end gap-14 px-5 md:px-8 lg:grid-cols-[7fr_5fr] lg:gap-[72px]">
+        <div className="flex flex-col gap-7 lg:pb-2">
+          <div className="rise flex flex-wrap items-center gap-4" style={rise(0)}>
+            <span className="inline-flex items-center gap-2 rounded-pill border border-jade/32 py-[7px] pr-[13px] pl-[11px]">
               <span className="pulse-dot size-1.5 rounded-full bg-jade" aria-hidden />
               <span className="eyebrow text-jade">{hero.status}</span>
             </span>
-            <span className="h-3 w-px bg-line" aria-hidden />
             <span className="eyebrow text-bone-52">{hero.place}</span>
           </div>
 
-          <h1 className="text-display-xl text-balance">
-            {hero.headline.map((text, i) => (
-              <span key={text} className="rise block" style={rise(i + 1)}>
-                <span className={i === hero.headlineAccentIndex ? "text-copper" : undefined}>
-                  {text}
-                </span>
+          <h1 className="text-[clamp(2.75rem,7.5vw,6.75rem)] leading-[0.9] font-semibold tracking-[-0.04em] text-balance">
+            {hero.headline.map((line) => (
+              <span key={line} className="rise block" style={rise(1)}>
+                {line}
               </span>
             ))}
           </h1>
 
-          <p className="rise mt-8 max-w-[46ch] text-body-l text-bone-70" style={rise(4)}>
+          <p className="rise max-w-[46ch] text-body-l text-bone-70" style={rise(3)}>
             {hero.intro}
           </p>
 
-          <div className="rise mt-10 flex flex-wrap items-center gap-3" style={rise(5)}>
-            <ButtonLink href={hero.primaryCta.href}>{hero.primaryCta.label} &rarr;</ButtonLink>
-            <ButtonLink href={hero.secondaryCta.href} variant="ghost">
+          <div className="rise mt-3 flex flex-wrap items-center gap-3.5" style={rise(4)}>
+            {/* The one Tier 1 solid fill in this viewport. */}
+            <a
+              href={hero.primaryCta.href}
+              className="inline-flex h-12 items-center rounded-md bg-copper px-[22px] text-[0.9375rem] font-medium text-ink-900 transition-[transform,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:bg-copper-bright active:translate-y-0 active:bg-copper-dim"
+            >
+              {hero.primaryCta.label} &rarr;
+            </a>
+            <a
+              href={hero.secondaryCta.href}
+              className="inline-flex h-12 items-center rounded-md border border-line px-[22px] text-[0.9375rem] font-medium text-bone transition-[transform,border-color,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:border-line-strong hover:bg-bone-06 active:translate-y-0"
+            >
               {hero.secondaryCta.label}
-            </ButtonLink>
+            </a>
             <a
               href={hero.resumeCta.href}
               download
-              className="inline-flex min-h-11 items-center gap-2 px-1 text-[0.96875rem] text-bone-62 underline decoration-line underline-offset-4 transition-colors duration-fast ease-fast hover:text-bone hover:decoration-copper"
+              className="eyebrow inline-flex min-h-11 items-center border-b border-copper/38 pb-1 text-bone-70 transition-colors duration-fast ease-fast hover:border-copper hover:text-bone"
             >
               {hero.resumeCta.label} &darr;
             </a>
@@ -77,27 +84,46 @@ export function Hero() {
           className="rise rounded-lg bg-ink-700 p-7 elevation-card"
           style={{ "--rise-delay": "0.6s" } as React.CSSProperties}
         >
-          <p className="eyebrow mb-7 text-bone-52">{hero.trackRecordLabel}</p>
-          <dl className="flex flex-col gap-7">
+          <div className="flex items-baseline justify-between border-b border-line pb-5">
+            <p className="eyebrow text-bone-52">{hero.trackRecordLabel}</p>
+            <p className="eyebrow tabular text-bone-52">2021 &rarr;</p>
+          </div>
+
+          <dl>
             {hero.trackRecord.map((m, i) => (
-              <div key={m.label}>
-                <dd className={`text-metric ${i === 0 ? "text-copper" : "text-bone"}`}>
+              <div
+                key={m.label}
+                className={`flex items-baseline gap-4 py-[22px] ${
+                  i < hero.trackRecord.length - 1 ? "border-b border-line" : ""
+                }`}
+              >
+                <dd className="min-w-[96px] text-[2.875rem] leading-none font-semibold tracking-[-0.03em] tabular">
                   <CountUp value={m.value} suffix={m.suffix} />
                 </dd>
-                <dt className="mt-1.5 text-caption text-bone-52">{m.label}</dt>
+                <dt className="text-caption text-bone-52">{m.label}</dt>
               </div>
             ))}
           </dl>
 
           {views !== null && (
-            <p className="mt-7 flex items-center gap-2 border-t border-line pt-5 text-caption text-bone-52">
-              <span className="size-1.5 rounded-full bg-jade" aria-hidden />
-              <span className="tabular font-mono">{views.toLocaleString()}</span>
+            <p className="mt-2 flex items-center gap-2.5 border-t border-line pt-[18px] text-caption text-bone-52">
+              <span className="pulse-dot size-1.5 rounded-full bg-jade" aria-hidden />
+              <span className="tabular font-mono text-jade">{views.toLocaleString()}</span>
               {hero.viewsLabel}
             </p>
           )}
         </div>
       </div>
+
+      {/* The seam the nav border resolves against as the page slides up. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(242 118 46 / 0.14), transparent 62%)",
+        }}
+      />
     </section>
   );
 }

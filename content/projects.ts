@@ -2,8 +2,10 @@ import type { Project } from "./types";
 
 /**
  * Arcit-AI leads as the flagship (it is the only one with a screenshot).
- * AYCO follows: a private client delivery with no store links, added from
- * ayco-cv-entry.md and the KEY PROJECTS section of the CV.
+ *
+ * Three link patterns live here and the UI has to handle all three: app-store
+ * pairs, a live web app with source (JS Quest), and AYCO's deliberate absence
+ * of any link at all.
  */
 export const projects: Project[] = [
   {
@@ -55,6 +57,29 @@ export const projects: Project[] = [
       "Batched up to 100 devices per visit in resumable 25-report transaction chunks to stay within the Firestore transaction limit, with report numbering issued transactionally.",
       "Enforced a three-role permission model — super admin, admin, technician — server-side in Cloud Functions and security rules, and shipped two build flavours bound to separate development and production Firebase projects.",
       "Localised Arabic-first with full RTL: 906 strings across ar/en ARB files, with the layout, PDF and printed forms designed right-to-left.",
+    ],
+  },
+  {
+    slug: "js-quest",
+    title: "JS Quest",
+    description:
+      "A guided JavaScript-fundamentals course: 100 questions, five unlocking chapters, and answers the browser never sees before you have earned them.",
+    longDescription:
+      "JS Quest walks a learner through 100 JavaScript-fundamentals questions in a fixed order, grouped into five chapters that unlock one at a time. Every answer is written to Postgres the moment it is given, so closing the tab and coming back resumes exactly where you left off. The interesting part is the security model: the correct answer and its explanation never reach the browser until after your answer is committed, so the quiz cannot be beaten by reading the network tab.",
+    technologies: ["React 19", "Vite", "React Router", "Supabase", "PostgreSQL", "Vitest"],
+    tags: ["Learning", "Web", "Postgres", "Row-Level Security"],
+    country: "Web",
+    category: "Education",
+    achievement: "100 questions · 10 categories · shipped in two days",
+    links: {
+      website: "https://js-basics-quiz.vercel.app/dashboard",
+      github: "https://github.com/MoRmdn/js-basics-quiz",
+    },
+    highlights: [
+      "Withheld every correct answer server-side: the questions table has row-level security with no select policy, and the client reads through a security-definer function that returns the prompt and options but not the answer or explanation \u2014 those come back only after the answer row is committed.",
+      "Recomputed scoring in SQL rather than trusting the client, with the 70% pass mark enforced in the database; the browser's copy is display-only.",
+      "Made answer submission idempotent and replay-safe \u2014 a duplicate submission returns the existing row instead of double-counting, and out-of-order answers are rejected.",
+      "Enforced integrity in the schema, not the UI: a partial unique index allows one in-progress attempt per user, and check constraints keep an attempt's score, pass flag and completion time consistent with its status.",
     ],
   },
   {
@@ -129,4 +154,14 @@ export const projects: Project[] = [
 ];
 
 export const flagshipProject = projects[0];
-export const otherProjects = projects.slice(1);
+
+/**
+ * The artboard renders Projects in three registers, and the split is by kind,
+ * not by array position: one flagship panel, the expandable rows, then the
+ * private plane last. Deriving them here keeps the ordering out of the
+ * component.
+ */
+export const projectRows = projects.filter(
+  (p) => p !== flagshipProject && !p.isPrivate,
+);
+export const privateProjects = projects.filter((p) => p.isPrivate);

@@ -11,7 +11,9 @@
  * extensionless imports that Node's type stripping will not resolve.
  */
 import { writeFileSync } from "node:fs";
-import { site, contact, socials, metrics, navSections, education } from "../content/site";
+import {
+  site, contact, socials, metrics, navSections, education, learningNow,
+} from "../content/site";
 import { projects } from "../content/projects";
 import { experiences } from "../content/experience";
 import { skillGroups, marqueeItems } from "../content/skills";
@@ -42,6 +44,15 @@ w();
 w("### Education & certifications");
 w();
 education.forEach((e) => w(`- ${e}`));
+w();
+w(`### Currently — ${learningNow.period}`);
+w();
+w("Rendered as its own block in About, deliberately separate from the completed");
+w("credentials above so an in-progress course is never mistaken for a finished one.");
+w();
+learningNow.completed.forEach((c) => w(`- **Completed:** ${c.title} — ${c.provider}`));
+learningNow.inProgress.forEach((c) => w(`- **In progress:** ${c.title}`));
+w(`- **Built with it:** ${learningNow.built.title} — ${learningNow.built.note} (${learningNow.built.href})`);
 w();
 w("---");
 w();

@@ -10,7 +10,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line bg-ink-900">
+    <footer className="relative z-[22] border-t border-line bg-ink-800">
       <div className="mx-auto flex max-w-content flex-wrap items-center justify-between gap-4 px-5 py-8 font-mono text-[0.71875rem] tracking-[0.12em] text-bone-52 md:px-8">
         <p className="flex items-center gap-2.5">
           <MoRmdnMark size={16} />

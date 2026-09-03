@@ -19,8 +19,8 @@ export function Contact() {
   };
 
   return (
-    <Section id="contact" tone="ink-900">
-      <div className="grid gap-14 lg:grid-cols-[100fr_85fr] lg:gap-16">
+    <Section id="contact" tone="ink-900" z={20} offset={-40}>
+      <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
         <div>
           <Reveal>
             <Eyebrow>{contactCopy.eyebrow}</Eyebrow>
@@ -139,10 +139,12 @@ export function Contact() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-5">
+            {/* Ghost, deliberately. The copper email button above is this
+                viewport's one Tier 1 solid fill (DESIGN-SYSTEM v2 §1.3). */}
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="inline-flex min-h-11 items-center rounded-md bg-copper px-7 py-3.5 text-[0.96875rem] font-semibold text-ink-900 transition-[transform,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:bg-copper-bright active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+              className="inline-flex min-h-11 items-center rounded-md border border-line-strong px-7 py-3.5 text-[0.96875rem] font-semibold text-bone transition-[transform,border-color,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:border-copper hover:bg-bone-06 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
             >
               {status === "submitting" ? contactCopy.submitting : contactCopy.submit}
             </button>

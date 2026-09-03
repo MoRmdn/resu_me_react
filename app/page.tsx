@@ -11,8 +11,12 @@ import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { RevealRoot } from "@/components/motion/RevealRoot";
 
 /**
- * Backgrounds alternate ink-900 / ink-800 down the page so sections separate
- * without rules between them.
+ * Plane rhythm — DESIGN-SYSTEM v2 §3.1.
+ *
+ * The hero is held at the top; every plane after it is opaque and carries a
+ * rising z-index, so the page slides over the hero rather than pushing it away.
+ * Two backgrounds only, alternating. The overlaps (-1px at the marquee seam,
+ * -40px at Projects and Contact) are the values the artboard actually draws.
  */
 export default function Home() {
   return (

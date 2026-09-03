@@ -30,12 +30,8 @@ export const socials = [
 ] as const;
 
 /**
- * Hero metrics.
- *
- * REVIEW: `appsLiveOnBothStores` (10) is larger than the five publicly listed
- * apps the CV names. It presumably counts white-label and unlisted work — but
- * it is the one unverifiable number on an otherwise precise page. Lower it to 5
- * if it cannot be substantiated.
+ * Hero metrics. Confirmed 2026-09: the apps figure counts unlisted and
+ * client-account releases as well as the five publicly listed titles.
  */
 export const metrics = {
   yearsExperience: 5,
@@ -55,6 +51,26 @@ export const navSections = [
 export const education = [
   "B.Sc. Bioinformatics — Mansoura University, 2021 (final-year project graded A+)",
   "Google Flutter Developer Certification — Udemy, 2022",
+  "Learn JavaScript · Learn React — Scrimba, 2026",
   "Android Basics Nanodegree — Udacity, 2020",
   "Arabic (native) · English (professional working proficiency)",
 ] as const;
+
+/**
+ * In progress, and labelled as such — never listed beside the completed
+ * certifications above.
+ */
+export const learningNow = {
+  period: "September 2026",
+  completed: [
+    { title: "Learn JavaScript", provider: "Scrimba" },
+    { title: "Learn React", provider: "Scrimba" },
+  ],
+  inProgress: [{ title: "Next.js fundamentals", provider: "in progress" }],
+  built: {
+    label: "Built with it",
+    title: "JS Quest",
+    note: "100-question JavaScript course, live",
+    href: "https://js-basics-quiz.vercel.app/dashboard",
+  },
+} as const;

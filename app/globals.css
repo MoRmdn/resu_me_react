@@ -211,13 +211,17 @@
    Film grain — 3% over the whole page, specced in DESIGN-SYSTEM.md §"Texture"
    and never implemented in Flutter. Pure CSS, no image request.
 --------------------------------------------------------------------------- */
+/* DESIGN-SYSTEM v2 §4: one fixed 180px fractal-noise tile at 3%, above the
+   section backgrounds and BELOW body text and the nav pill, so type stays
+   crisp. Static — never animated, unaffected by reduced motion. */
 .grain {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 30;
   pointer-events: none;
   opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -429,5 +433,162 @@
   .draw-path {
     animation: none;
     stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   v2.0 — plane rhythm, the career band, Skills plates, the spatial card open.
+   design/DESIGN-SYSTEM.md §3.1, §5.1 and §6.1 are the authority.
+--------------------------------------------------------------------------- */
+
+/* Career band columns grow from the baseline as the band enters view.
+   Reduced motion: rendered at final height (see the global block above, which
+   collapses the duration). */
+@keyframes band-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.band-bar {
+  transform-origin: 50% 100%;
+  animation: band-grow 0.62s var(--ease-slow) both;
+  animation-delay: var(--band-delay, 0s);
+}
+
+/* Skills plates slide in from their stagger side, alternating. */
+@keyframes plate-in-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-28px, 0, 0);
+  }
+}
+@keyframes plate-in-right {
+  from {
+    opacity: 0;
+    transform: translate3d(28px, 0, 0);
+  }
+}
+
+.plate {
+  animation: plate-in-left 0.32s var(--ease-base) both;
+  animation-delay: var(--plate-delay, 0s);
+}
+.plate:nth-child(even) {
+  animation-name: plate-in-right;
+  /* The stagger is a desktop gesture. At 375px an 88px indent eats a quarter
+     of the plate, so it only applies once there is room for it. */
+  margin-left: var(--plate-stagger, 0);
+}
+
+@media (min-width: 900px) {
+  .plate:nth-child(even) {
+    margin-left: var(--plate-stagger, 88px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band-bar,
+  .plate {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* The AYCO plane's dashed border draws once as the card lands. `stroke` on an
+   SVG rect rather than a CSS border, because a border cannot be drawn. */
+@keyframes perimeter-draw {
+  from {
+    stroke-dashoffset: var(--perimeter, 2400);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.perimeter {
+  animation: perimeter-draw 0.62s var(--ease-slow) 0.12s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perimeter {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The signature moment — a project card opens where it sits.
+
+   §6.1: reveals are transform + opacity only, never layout. The artboard
+   animates `margin-left` and caps the panel at `max-height: 420px`; both are
+   canvas shortcuts. translateX keeps it off the layout thread, and
+   grid-template-rows animates to the content's real height without clipping a
+   long description.
+--------------------------------------------------------------------------- */
+.proj-card {
+  transform: translate3d(var(--proj-indent, 0), 0, 0) scale(1);
+  transform-origin: center left;
+  transition:
+    transform 320ms var(--ease-base),
+    opacity 320ms var(--ease-base),
+    box-shadow 320ms var(--ease-base),
+    border-color 180ms var(--ease-fast),
+    background-color 180ms var(--ease-fast);
+}
+
+.proj-card[data-open="true"] {
+  transform: translate3d(0, 0, 0) scale(1.012);
+}
+
+/* The page recedes so one plane can come forward. */
+.proj-card[data-dimmed="true"] {
+  opacity: 0.38;
+  transform: translate3d(var(--proj-indent, 0), 0, 0) scale(0.985);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-card {
+    transition: none;
+  }
+  .proj-card[data-open="true"] {
+    transform: translate3d(0, 0, 0);
+  }
+  /* Siblings stay at 100% — dimming four cards with no tween just flickers. */
+  .proj-card[data-dimmed="true"] {
+    opacity: 1;
+    transform: translate3d(var(--proj-indent, 0), 0, 0);
+  }
+}
+
+@media (max-width: 899px) {
+  /* Mobile drops the indent and the scale; only colour and shadow move. */
+  .proj-card,
+  .proj-card[data-open="true"],
+  .proj-card[data-dimmed="true"] {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Plane rhythm — DESIGN-SYSTEM v2 §3.1.
+
+   The hero is held at the top and the page slides over it: every plane after
+   it is opaque and carries a higher z-index, so the hero stays pinned behind
+   rather than scrolling away. Reduced motion releases it to normal flow.
+--------------------------------------------------------------------------- */
+.hero-held {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-held {
+    position: relative;
   }
 }

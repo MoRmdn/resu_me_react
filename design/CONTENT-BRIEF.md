@@ -21,8 +21,19 @@ nothing here is a placeholder.
 
 - B.Sc. Bioinformatics — Mansoura University, 2021 (final-year project graded A+)
 - Google Flutter Developer Certification — Udemy, 2022
+- Learn JavaScript · Learn React — Scrimba, 2026
 - Android Basics Nanodegree — Udacity, 2020
 - Arabic (native) · English (professional working proficiency)
+
+### Currently — September 2026
+
+Rendered as its own block in About, deliberately separate from the completed
+credentials above so an in-progress course is never mistaken for a finished one.
+
+- **Completed:** Learn JavaScript — Scrimba
+- **Completed:** Learn React — Scrimba
+- **In progress:** Next.js fundamentals
+- **Built with it:** JS Quest — 100-question JavaScript course, live (https://js-basics-quiz.vercel.app/dashboard)
 
 ---
 
@@ -58,6 +69,8 @@ Headline (3 lines): Bioinformatics / degree, mobile / obsession.
 My final-year project was mobile data analysis and visualisation; that's where the habit started. Since then I've led products from an empty `main.dart` to the App Store: a driving-school platform in Morocco, a medical social network in Libya, an AI matchmaking product in Saudi Arabia, a multi-vendor marketplace in Türkiye, and a field-service reporting system built solo end to end. Different domains, same discipline — Bloc or Cubit for anything with real business logic, clean architecture so the next developer isn't cursing my name, and unit and widget tests where they earn their keep.
 
 I like the unglamorous wins: cutting data load times by 20%, shaving 10% off a bundle, upgrading a legacy app to null safety before it became someone's emergency.
+
+This year I took the same habits to the web — React, then Next.js — and built JS Quest to prove it rather than claim it: a hundred-question JavaScript course where the answers live in Postgres behind row-level security, because a quiz you can beat by reading the network tab teaches nothing.
 
 Metric grid (4 cells, first is copper):
 
@@ -163,7 +176,7 @@ Delivered a multi-platform application with integrated analytics, reported to ha
 
 ## Projects — eyebrow `03 / Projects`, headline "Live on both stores."
 
-6 projects. The first is the flagship and is the only one with a real screenshot.
+7 projects. The first is the flagship and is the only one with a real screenshot.
 
 ### 01. Arcit-AI  — FLAGSHIP
 
@@ -201,7 +214,28 @@ Detail bullets (currently truncated to 2 on the card — a detail view could sho
 
 Needs a deliberate treatment reading "Private client · no public listing" — not an empty slot where the store buttons would be.
 
-### 03. Mutabbib
+### 03. JS Quest
+
+*Education · Web*
+
+**Card line:** A guided JavaScript-fundamentals course: 100 questions, five unlocking chapters, and answers the browser never sees before you have earned them.
+
+**Long form:** JS Quest walks a learner through 100 JavaScript-fundamentals questions in a fixed order, grouped into five chapters that unlock one at a time. Every answer is written to Postgres the moment it is given, so closing the tab and coming back resumes exactly where you left off. The interesting part is the security model: the correct answer and its explanation never reach the browser until after your answer is committed, so the quiz cannot be beaten by reading the network tab.
+
+**Outcome:** 100 questions · 10 categories · shipped in two days
+
+*Tech:* React 19 · Vite · React Router · Supabase · PostgreSQL · Vitest
+
+Detail bullets (currently truncated to 2 on the card — a detail view could show all):
+
+- Withheld every correct answer server-side: the questions table has row-level security with no select policy, and the client reads through a security-definer function that returns the prompt and options but not the answer or explanation — those come back only after the answer row is committed.
+- Recomputed scoring in SQL rather than trusting the client, with the 70% pass mark enforced in the database; the browser's copy is display-only.
+- Made answer submission idempotent and replay-safe — a duplicate submission returns the existing row instead of double-counting, and out-of-order answers are rejected.
+- Enforced integrity in the schema, not the UI: a partial unique index allows one in-progress attempt per user, and check constraints keep an attempt's score, pass flag and completion time consistent with its status.
+
+Links: 
+
+### 04. Mutabbib
 
 *Healthcare · Libya*
 
@@ -215,7 +249,7 @@ Needs a deliberate treatment reading "Private client · no public listing" — n
 
 Links: App Store · Google Play
 
-### 04. Lpermis
+### 05. Lpermis
 
 *Education · Morocco*
 
@@ -229,7 +263,7 @@ Links: App Store · Google Play
 
 Links: App Store · Google Play
 
-### 05. Lpermis Pro
+### 06. Lpermis Pro
 
 *Education · Morocco*
 
@@ -243,7 +277,7 @@ Links: App Store · Google Play
 
 Links: App Store · Google Play
 
-### 06. Saber Yamen
+### 07. Saber Yamen
 
 *E-commerce · Türkiye*
 
@@ -263,11 +297,11 @@ Links: App Store · Google Play
 
 Depth where it matters — Dart, Flutter, state management and payments — and enough breadth to talk to backend, data and design without a translator.
 
-6 groups, 47 capabilities. Group sizes are uneven — 5, 5, 9, 11, 7, 10 — so any layout that assumes equal cells will break.
+6 groups, 56 capabilities. Group sizes are uneven — 5, 5, 9, 11, 7, 10 — so any layout that assumes equal cells will break.
 
-**Languages & frameworks**  ← the one highlighted group (5)
+**Languages & frameworks**  ← the one highlighted group (8)
 
-Dart · Flutter · Python · HTML · CSS
+Dart · Flutter · JavaScript · React · Next.js · Python · HTML · CSS
 
 **State management** (5)
 
@@ -277,17 +311,17 @@ Bloc · Cubit · GetX · Provider · Riverpod
 
 Android + iOS cross-platform · Offline-first synchronisation · On-device PDF generation · Barcode & QR scanning · Localisation & RTL (Arabic) · Google ML Kit · Google Maps · Socket.IO · Pusher
 
-**Back end & cloud** (11)
+**Back end & cloud** (14)
 
-Firebase Auth · Cloud Firestore · Cloud Storage · Cloud Functions · Remote Config · Crashlytics · Analytics · REST · GraphQL · SQLite · Hive
+Firebase Auth · Cloud Firestore · Cloud Storage · Cloud Functions · Remote Config · Crashlytics · Analytics · Supabase · PostgreSQL · Row-Level Security · REST · GraphQL · SQLite · Hive
 
 **Payments** (7)
 
 Stripe · PayPal · Moyasar · Fawry · FlutterWave · PayU · PayStack
 
-**Architecture, process & testing** (10)
+**Architecture, process & testing** (13)
 
-Clean Architecture · Feature-first architecture · SOLID · OOP · Firestore Security Rules · Responsive design · Agile SDLC · GitFlow · Unit testing · Widget testing
+Clean Architecture · Feature-first architecture · SOLID · OOP · Firestore Security Rules · Responsive design · Agile SDLC · GitFlow · Unit testing · Widget testing · Vite · Vitest · React Testing Library
 
 ---
 

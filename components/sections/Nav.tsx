@@ -12,6 +12,26 @@ const LINKS = navSections.filter((s) => s.id !== "contact");
 export function Nav() {
   const active = useScrollSpy(SECTION_IDS);
   const [open, setOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+
+  /**
+   * The hero CTA and this button are both solid copper, and DESIGN-SYSTEM v2
+   * §1.3 allows exactly one Tier 1 fill per viewport. So while the hero is on
+   * screen this renders ghost, and it takes the copper once the hero's own CTA
+   * has scrolled away. The two are never lit at the same time.
+   */
+  useEffect(() => {
+    const hero = document.getElementById("top");
+    if (!hero) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting),
+      // Fires once the hero is more than half gone.
+      { threshold: 0.5 },
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   // The sheet is modal: lock the page behind it and close on Escape.
   useEffect(() => {
@@ -65,7 +85,13 @@ export function Nav() {
             ))}
             <a
               href="#contact"
-              className="ml-2 inline-flex h-10 items-center rounded-pill bg-copper px-5 text-[0.84375rem] font-semibold text-ink-900 transition-colors duration-fast ease-fast hover:bg-copper-bright"
+              className={cn(
+                "ml-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold",
+                "transition-[background-color,border-color,color,transform] duration-fast ease-fast hover:-translate-y-0.5",
+                pastHero
+                  ? "bg-copper text-ink-900 hover:bg-copper-bright"
+                  : "border border-line-strong text-bone hover:border-copper hover:bg-bone-06",
+              )}
             >
               Hire me
             </a>

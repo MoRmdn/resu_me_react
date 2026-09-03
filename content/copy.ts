@@ -10,7 +10,11 @@ export const hero = {
   status: "Open to work",
   place: `${site.location} · ${site.timezone}`,
   headline: ["Flutter apps", "that actually", "ship."],
-  /** The final word of the headline carries the single copper accent. */
+  /**
+   * v1 accented the final word in copper. DESIGN-SYSTEM v2 §1.3 spends the
+   * hero viewport's one Tier 1 on the CTA instead, so this is retained for
+   * data fidelity and deliberately NOT rendered.
+   */
   headlineAccentIndex: 2,
   intro: `I'm ${site.name} — a mobile developer with ${metrics.yearsExperience} years spent building cross-platform products for teams in ${metrics.countries} countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.`,
   primaryCta: { label: "See the work", href: "#projects" },
@@ -32,6 +36,7 @@ export const about = {
   body: [
     "My final-year project was mobile data analysis and visualisation; that's where the habit started. Since then I've led products from an empty `main.dart` to the App Store: a driving-school platform in Morocco, a medical social network in Libya, an AI matchmaking product in Saudi Arabia, a multi-vendor marketplace in Türkiye, and a field-service reporting system built solo end to end. Different domains, same discipline — Bloc or Cubit for anything with real business logic, clean architecture so the next developer isn't cursing my name, and unit and widget tests where they earn their keep.",
     "I like the unglamorous wins: cutting data load times by 20%, shaving 10% off a bundle, upgrading a legacy app to null safety before it became someone's emergency.",
+    "This year I took the same habits to the web — React, then Next.js — and built JS Quest to prove it rather than claim it: a hundred-question JavaScript course where the answers live in Postgres behind row-level security, because a quiz you can beat by reading the network tab teaches nothing.",
   ],
   stats: [
     { value: "20%", label: "Faster data load, Eleven Stars" },
@@ -41,11 +46,21 @@ export const about = {
   ],
 };
 
+export const learning = {
+  eyebrow: "Currently",
+  completedLabel: "Completed",
+  inProgressLabel: "In progress",
+  builtLabel: "Built with it",
+};
+
 export const experienceCopy = {
   eyebrow: "02 / Experience",
   headline: "Seven teams, six countries.",
   hint: "tap a row to expand",
   currentBadge: "CURRENT",
+  bandAxisNote: "DURATION \u00b7 CLICK A BAR",
+  bandCaption:
+    "Four of these ran at once through 2024 \u2014 most of them remote and part-time.",
 };
 
 export const projectsCopy = {
@@ -55,6 +70,10 @@ export const projectsCopy = {
   privateLabel: "Private client · no public listing",
   appStoreLabel: "App Store",
   playStoreLabel: "Google Play",
+  websiteLabel: "Visit site",
+  sourceLabel: "Source",
+  openLabel: "Open",
+  closeLabel: "Close",
 };
 
 export const skillsCopy = {

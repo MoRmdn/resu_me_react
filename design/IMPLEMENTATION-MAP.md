@@ -53,20 +53,35 @@ underline, the accordion node border, and the project card index — and where
 they render as text the element is `aria-hidden`, so "decorative" is enforced
 rather than asserted.
 
-**Unresolved: the one-copper-accent rule.** `DESIGN-SYSTEM.md` says "one copper
-accent per viewport", and also specifies copper-filled primary buttons *and*
-copper metric numbers. Those cannot all hold. The hero currently shows four
-copper elements (the headline word "ship.", the primary CTA, the nav "Hire me"
-pill, and the first track-record metric). The Flutter original had the same
-contradiction. **This is for the redesign pass to settle** — do not silently
-pick a rule here.
+**Settled: the accent rule is tiered (DESIGN-SYSTEM v2 §1.3).** Tier 1 is a
+solid copper fill — max one per viewport, always the primary action. Tier 2 is
+full-chroma copper text or stroke — max one, and never beside a Tier 1. Tier 3
+is wash, hairlines and copper at ≤38%, unlimited, because that is material
+rather than accent. The logo's copper half and the scroll-progress bar are
+chrome and exempt.
+
+Applied in pixels, not just prose — the artboard resolves the rule in a panel
+but still draws three Tier 1 fills in the hero:
+
+- The hero headline no longer accents its final word. `headlineAccentIndex`
+  stays in `content/copy.ts` for data fidelity and is not rendered.
+- All three track-record metrics are bone. Live values are jade — jade is the
+  status hue and is exempt from the count.
+- The nav "Hire me" renders **ghost while the hero is on screen** and takes the
+  copper fill only once the hero's own CTA has scrolled away, so the two are
+  never lit together (`components/sections/Nav.tsx`).
+- Contact spends its Tier 1 on the copper email button, so the form's submit is
+  a ghost button.
+- Experience spends its one full-chroma copper on the open row's node; the row
+  label and the active band label are bone.
+- The AYCO card carries zero copper at any tier. Copper marks the reachable.
 
 **Built, that the spec listed as missing:** the 3% film grain overlay
 (`.grain`, pure CSS, no image request); the logo draw-on (`MoRmdnMarkDraw`,
 `pathLength="100"` + `stroke-dashoffset`, hero only, once); `prefers-reduced-motion`
 throughout; and the focus ring (the `glow` token) on `:focus-visible`.
 
-## Motion inventory
+## Motion inventory (v2.0)
 
 | Behaviour | Where | Mechanism | Reduced-motion fallback |
 |---|---|---|---|
@@ -80,10 +95,18 @@ throughout; and the focus ring (the `glow` token) on `:focus-visible`.
 | Count-up | `CountUp` | rAF, easeOutQuart, once in view | final value rendered |
 | Card / button lift | Tailwind | `transition-transform` | duration collapsed to 0 |
 | Status dot | `.pulse-dot` | CSS keyframes | duration collapsed to 0 |
+| Held hero | `.hero-held` | `position: sticky`, planes slide over | released to normal flow |
+| Career band grow | `.band-bar` | `scaleY` from the baseline, 40ms stagger | final height, no grow |
+| Skills plate slide | `.plate` | `translateX`, alternating side | in place |
+| AYCO perimeter draw | `.perimeter` | SVG `stroke-dashoffset` | fully drawn from first paint |
+| **Project card opens spatially** | `.proj-card` | `translateX` + `scale` + `grid-template-rows`, siblings to .38 | instant at final size, siblings stay 100% |
 
 **No animation library.** Motion (framer-motion) was used during the build and
 then removed: it was 183 KB raw for effects that CSS and three small rAF helpers
 cover. Think hard before adding one back.
+
+**The cursor glow is gone** (DESIGN-SYSTEM v2 §6, "Cut in v2.0") — it decorated
+rather than explained, and competed with the film grain for the same job.
 
 ## Layout invariants
 
@@ -100,3 +123,39 @@ assert, no ticker guards.
 - **Collapsed accordion panels stay rendered** and take `inert`. Conditional
   rendering would strip the achievement bullets out of the page source, which
   is the one thing this rebuild exists to prevent.
+
+
+## Where this build departs from the artboard, and why
+
+The artboard (`Portfolio Redesign.dc.html` in the v2.0 handoff) is the
+implementation target. Four deliberate departures:
+
+1. **The career band shows real concurrency.** The artboard laid seven roles
+   side by side against a `2021 → NOW` axis, but its months sum to 110 against
+   ~65 months of actual elapsed time — four engagements ran concurrently through
+   2024 and most were part-time. As drawn it inflated the career by 1.7× and
+   read concurrent contracts as consecutive ones. `lib/careerLanes.ts` packs
+   bars from the ISO `start`/`end` in `content/experience.ts` into four lanes on
+   a true axis, so the overlap is visible. `content/experience.ts` also carries
+   an `engagement` field the artboard never rendered; the row panel renders it.
+2. **`grid-template-rows: 0fr → 1fr`, not `max-height`.** The artboard capped
+   panels at 420–560px, which clips. JS Quest's open panel measures 705px.
+3. **`translateX`, not `margin-left`.** The artboard animates a layout property,
+   against its own "transform + opacity only" rule.
+4. **`--bone-52`, not the artboard's literal `.45`.** The artboard writes
+   `rgba(242,238,231,.45)` on information-carrying text; that measures 4.04:1
+   and fails the 4.5:1 the design system itself requires. Treat every artboard
+   `.45` on text as nominal.
+
+Two smaller ones: the film grain is `position: fixed` **below** the nav per §4,
+not the artboard's `z-index:60` above it (an artefact of it being
+`position:absolute` inside a bounded canvas frame); and the Skills stagger only
+applies from 900px up, because an 88px indent eats a quarter of a 375px screen.
+
+**`support.js` from the handoff is not ported.** It is generated canvas runtime
+— React 18 + Babel from unpkg, an expression parser, and the shim that turns
+`style-hover=` attributes into real CSS. It contains no portfolio content.
+
+**The handoff's `DESIGN-SYSTEM.md` and `LOGO.md` still cite Flutter paths**
+(`lib/utils/app_colors.dart`, `lib/widgets/…`, `Curves.easeOutExpo`). Read those
+as historical; this file is the React mapping.

@@ -1,16 +1,21 @@
 import type { SkillGroup } from "./types";
 
 /**
- * Six groups, extended from the CV's TECHNICAL SKILLS section: the Firebase
+ * Six groups — the Skills section is composed as six numbered plates (01-06)
+ * staggered on a 7/5 split, so new capabilities fold into an existing group
+ * rather than adding a seventh.
+ *
+ * Extended from the CV's TECHNICAL SKILLS section: the Firebase
  * back-end surface, offline-first sync, on-device PDF, barcode/QR, RTL
  * localisation and feature-first architecture were all missing.
  *
- * "Moyasar" was previously misspelled "Moyaser".
+ * "Moyasar" was previously misspelled "Moyaser". September 2026 added the
+ * front-end and Supabase capabilities, all exercised in JS Quest.
  */
 export const skillGroups: SkillGroup[] = [
   {
     label: "Languages & frameworks",
-    items: ["Dart", "Flutter", "Python", "HTML", "CSS"],
+    items: ["Dart", "Flutter", "JavaScript", "React", "Next.js", "Python", "HTML", "CSS"],
     highlighted: true,
   },
   {
@@ -41,6 +46,9 @@ export const skillGroups: SkillGroup[] = [
       "Remote Config",
       "Crashlytics",
       "Analytics",
+      "Supabase",
+      "PostgreSQL",
+      "Row-Level Security",
       "REST",
       "GraphQL",
       "SQLite",
@@ -64,6 +72,9 @@ export const skillGroups: SkillGroup[] = [
       "GitFlow",
       "Unit testing",
       "Widget testing",
+      "Vite",
+      "Vitest",
+      "React Testing Library",
     ],
   },
 ];
