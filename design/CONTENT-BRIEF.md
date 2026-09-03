@@ -13,7 +13,7 @@ nothing here is a placeholder.
 - **Location:** Mansoura, Egypt (UTC+3)
 - **Email:** mormdn@outlook.com · **Phone:** +20 128 110 0168
 - **Résumé:** /Mohamed_Ramadan_CV.pdf
-- **Links:** GitHub → MoRmdn (https://github.com/MoRmdn) · LinkedIn → Eng. M.Ramadan (https://linkedin.com/in/mormdn)
+- **Links:** GitHub → MoRmdn (https://github.com/MoRmdn) · LinkedIn → Eng. M.Ramadan (https://linkedin.com/in/mormdn) · X → @MoRmdn (https://x.com/MoRmdn)
 - **Headline numbers:** 5 years · 10 apps on both stores · 7 teams · 6 countries
 - **Nav:** About · Experience · Projects · Skills · Contact
 
@@ -394,7 +394,7 @@ Full-time, contract or a second pair of hands on a release that's slipping — r
   4. **Freelancer** — MoRmdn · Project bids — https://www.freelancer.com/u/MoRmdn
   5. **Fiverr** — mormdn · Fixed-scope packages — https://www.fiverr.com/mormdn
   6. **Khamsat** — m0rmdn · Arabic-language clients — https://khamsat.com/user/m0rmdn
-- Profile links (not hiring channels): GitHub → MoRmdn · LinkedIn → Eng. M.Ramadan
+- Profile links (not hiring channels): GitHub → MoRmdn · LinkedIn → Eng. M.Ramadan · X → @MoRmdn
 - Availability block: label `AVAILABILITY`, jade dot, "Taking new work · Mansoura / remote"
 
 There is no contact form. It used to write to Firebase Realtime Database;

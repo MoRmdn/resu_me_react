@@ -77,10 +77,16 @@ export const channels = [
   },
 ] as const;
 
-/** Profiles rather than hiring channels — kept out of the Contact grid. */
+/**
+ * Profiles rather than hiring channels — kept out of the Contact grid, but they
+ * matter more than their placement suggests: these are the pages that already
+ * rank for "mormdn", and every one of them is a `sameAs` entry telling a search
+ * engine that they and this site are the same person.
+ */
 export const socials = [
   { label: "GitHub", handle: "MoRmdn", url: "https://github.com/MoRmdn" },
   { label: "LinkedIn", handle: "Eng. M.Ramadan", url: "https://linkedin.com/in/mormdn" },
+  { label: "X", handle: "@MoRmdn", url: "https://x.com/MoRmdn" },
 ] as const;
 
 /**
