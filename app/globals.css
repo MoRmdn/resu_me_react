@@ -389,8 +389,12 @@
 /* ---------------------------------------------------------------------------
    Accordion. grid-template-rows 0fr -> 1fr animates to the content's real
    height with no measurement and no JS.
+
+   NOT called `.collapse`: Tailwind ships a `collapse` utility that sets
+   `visibility: collapse`, which silently hid every expanded panel while the
+   content stayed in the DOM at full height.
 --------------------------------------------------------------------------- */
-.collapse {
+.disclosure {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -399,12 +403,12 @@
     opacity 0.2s var(--ease-fast);
 }
 
-.collapse > * {
+.disclosure > * {
   overflow: hidden;
   min-height: 0;
 }
 
-.collapse[data-open="true"] {
+.disclosure[data-open="true"] {
   grid-template-rows: 1fr;
   opacity: 1;
 }

@@ -21,15 +21,24 @@ export function Nav() {
    * has scrolled away. The two are never lit at the same time.
    */
   useEffect(() => {
-    const hero = document.getElementById("top");
-    if (!hero) return;
+    const sentinel = document.getElementById("hero-end");
+    if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => setPastHero(!entry.isIntersecting),
-      // Fires once the hero is more than half gone.
-      { threshold: 0.5 },
+      {
+        // Top margin shrinks the root by the nav's height, so the swap lands as
+        // the hero's bottom edge passes under the pill. The huge bottom margin
+        // is what makes it reliable: it means the sentinel counts as
+        // intersecting anywhere below the nav, so the only transition is the
+        // one at the nav line. Without it, an instant jump (a deep link, scroll
+        // restoration) carries the sentinel through the root between samples
+        // and no callback fires at all.
+        rootMargin: "-88px 0px 100000px 0px",
+        threshold: 0,
+      },
     );
-    observer.observe(hero);
+    observer.observe(sentinel);
     return () => observer.disconnect();
   }, []);
 

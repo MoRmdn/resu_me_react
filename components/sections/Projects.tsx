@@ -125,7 +125,7 @@ function Flagship({ project }: { project: Project }) {
  * and 0.985 so the page recedes and one plane comes forward.
  *
  * The transform and the panel height are both driven from CSS (`.proj-card`,
- * `.collapse`), which is what lets a second click hand state over mid-flight
+ * `.disclosure`), which is what lets a second click hand state over mid-flight
  * without snapping.
  */
 function ProjectRow({
@@ -188,7 +188,7 @@ function ProjectRow({
         </button>
       </h3>
 
-      <div id={panelId} className="collapse" data-open={isOpen} inert={!isOpen}>
+      <div id={panelId} className="disclosure" data-open={isOpen} inert={!isOpen}>
         <div>
           <div className="grid gap-8 px-7 pb-8 md:px-9 lg:grid-cols-[7fr_5fr] lg:gap-14">
             <div>

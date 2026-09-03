@@ -110,7 +110,7 @@ export function Experience() {
                   </button>
                 </h3>
 
-                <div id={panelId} className="collapse" data-open={isOpen} inert={!isOpen}>
+                <div id={panelId} className="disclosure" data-open={isOpen} inert={!isOpen}>
                   <div>
                     <div className="grid gap-x-6 pb-8 md:grid-cols-[32px_1fr] md:px-2">
                       <div aria-hidden className="hidden md:block" />

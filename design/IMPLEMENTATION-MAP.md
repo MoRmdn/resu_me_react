@@ -90,7 +90,7 @@ throughout; and the focus ring (the `glow` token) on `:focus-visible`.
 | Scroll reveal | `.reveal` + `RevealRoot` | CSS transition, one shared IntersectionObserver | visible, no transition |
 | Scroll progress | `.scroll-progress` | `animation-timeline: scroll()`, rAF fallback | listener not installed |
 | Marquee | `.marquee-track` | CSS `translate3d(-50%)`, duplicated track | stops, becomes scrollable |
-| Accordion | `.collapse` | `grid-template-rows: 0fr → 1fr` | instant |
+| Accordion | `.disclosure` | `grid-template-rows: 0fr → 1fr` | instant |
 | Cursor glow | `CursorGlow` | rAF lerp writing a transform | not installed |
 | Count-up | `CountUp` | rAF, easeOutQuart, once in view | final value rendered |
 | Card / button lift | Tailwind | `transition-transform` | duration collapsed to 0 |

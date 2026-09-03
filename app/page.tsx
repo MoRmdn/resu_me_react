@@ -13,10 +13,14 @@ import { RevealRoot } from "@/components/motion/RevealRoot";
 /**
  * Plane rhythm — DESIGN-SYSTEM v2 §3.1.
  *
- * The hero is held at the top; every plane after it is opaque and carries a
- * rising z-index, so the page slides over the hero rather than pushing it away.
- * Two backgrounds only, alternating. The overlaps (-1px at the marquee seam,
- * -40px at Projects and Contact) are the values the artboard actually draws.
+ * The hero is held at the top and the page slides over it. Everything after the
+ * hero lives in one opaque sheet: the planes alternate two backgrounds and
+ * overlap (-1px at the marquee seam, -40px at Projects and Contact) or open a
+ * 112px gap, and the sheet's own ground is what shows through those gaps.
+ *
+ * The sheet is load-bearing. Without it the gaps are transparent and the held
+ * hero shows through them mid-page, which looks like a rendering fault. The
+ * artboard needs no equivalent because its hero is a static block.
  */
 export default function Home() {
   return (
@@ -26,12 +30,19 @@ export default function Home() {
       <Nav />
       <main id="main">
         <Hero />
-        <TechStrip />
-        <About />
-        <Experience />
-        <Projects />
-        <Skills />
-        <Contact />
+        <div className="relative z-10 bg-ink-900">
+          {/* The nav watches this to know when the hero's CTA has gone, so the
+              hero button and the nav button are never both copper (§1.3). It
+              sits here rather than inside the Hero because the hero is sticky —
+              anything inside it stays pinned and never crosses the nav line. */}
+          <div id="hero-end" aria-hidden className="h-px w-px" />
+          <TechStrip />
+          <About />
+          <Experience />
+          <Projects />
+          <Skills />
+          <Contact />
+        </div>
       </main>
       <Footer />
     </>
