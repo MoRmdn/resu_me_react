@@ -86,6 +86,20 @@ export const metadata: Metadata = {
     apple: "/icons/Icon-180.png",
   },
   robots: { index: true, follow: true },
+
+  /**
+   * Google Search Console ownership.
+   *
+   * m0rmdn.web.app cannot use a Search Console "Domain" property: that requires
+   * a DNS record on the domain you own, and `web.app` is Google's, not ours. So
+   * it is a "URL prefix" property, verified by this meta tag.
+   *
+   * Set GOOGLE_SITE_VERIFICATION in .env (and as a GitHub secret for CI) to the
+   * token Search Console gives you. Left unset, the tag is simply omitted.
+   */
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
