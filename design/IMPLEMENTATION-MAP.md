@@ -176,3 +176,51 @@ applies from 900px up, because an 88px indent eats a quarter of a 375px screen.
 **The handoff's `DESIGN-SYSTEM.md` and `LOGO.md` still cite Flutter paths**
 (`lib/utils/app_colors.dart`, `lib/widgets/…`, `Curves.easeOutExpo`). Read those
 as historical; this file is the React mapping.
+
+
+## Project imagery (v2.2, §5.2)
+
+Masters live in `assets/projects/` as WebP capped at 1200px — committed, so the
+repo survives the source folders being cleaned, at about a twentieth of their
+weight. `npm run ingest` rebuilds them from the handoff and
+`~/Downloads/apps-screens`; `npm run images` generates AVIF + WebP display
+variants into `public/images/projects/<slug>/`.
+
+`npm run images` also writes `content/media-manifest.json`, and `ProjectImage`
+reads its srcset widths from there rather than from a hardcoded list. That is
+load-bearing: Saber Yamen and O'Permis are only 288px wide, so they cannot emit
+a 480 or 560 variant, and a srcset naming a file that was never written renders
+as a broken image.
+
+Five plates, all obeying one rule — **no supplied asset ever touches the page
+background directly**:
+
+| Plate | Fit | Used by |
+|---|---|---|
+| Icon tile | 96px ink-600 tile, source inset at 64px | every project with an icon |
+| Device | intrinsic height, bezel drawn by the frame | AYCO, MisMar, Arcit-AI, FreeDoc |
+| Field | `cover` | Saber Yamen |
+| Promo | `contain`, never cropped | Lpermis, Lpermis Pro, Mutabbib, Dental Dinar, O'Permis |
+| Icon-only | — | none currently |
+
+`bezel: false` on MisMar because the supplied mockup already carries its own
+device frame; drawing a second one around it looks like a mistake.
+
+The promos keep their baked Arabic headlines. They are evidence of shipping
+RTL products for Arabic-speaking markets, which is a differentiator, and Plate
+04 exists precisely so another designer's composition is shown whole.
+
+### Asset provenance, and a trap
+
+Three icons **changed identity under stable filenames** between the v2.1 and
+v2.2 handoffs: the old `lpermis-icon.png` was a steering wheel (now parked as
+`_superseded-steering-icon.png`) and the old `mutabbib-icon.png` was the blue
+ECG "FD" mark. Ingest from the v2.2 export only.
+
+That "FD" mark, which the handoff lists as unidentified, is **FreeDoc** —
+matched against `~/Downloads/apps-screens/freeDoc/play_store_512.png`.
+
+**FreeDoc ships icon-and-one-screen.** Most of its captures are QA builds
+carrying Lorem Ipsum, a Google Maps error banner, or the Android notification
+shade. Only the language-settings screen is product UI, and it happens to show
+the Arabic/French/English switch. Vet any replacement the same way.

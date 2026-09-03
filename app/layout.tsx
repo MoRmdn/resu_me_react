@@ -138,16 +138,22 @@ function jsonLd() {
   };
 
   const apps = projects
-    .filter((p) => p.bundleId)
+    .filter((p) => !p.links.website)
     .map((p) => ({
       "@type": "MobileApplication",
       "@id": `${site.url}/#${p.slug}`,
       name: p.title,
-      identifier: p.bundleId,
       description: p.description,
       applicationCategory: p.category,
       operatingSystem: "Android, iOS",
       author: { "@id": personId },
+      // Omitted rather than emitted empty: an app with no confirmed identifier
+      // or store listing should carry neither key. An empty `identifier` is
+      // worse than an absent one.
+      ...(p.bundleId ? { identifier: p.bundleId } : {}),
+      ...(p.media?.icon
+        ? { image: `${site.url}/images/projects/${p.media.icon.file}/${p.media.icon.file}-128.webp` }
+        : {}),
       ...(p.links.playStore || p.links.appStore
         ? { installUrl: [p.links.playStore, p.links.appStore].filter(Boolean) }
         : {}),

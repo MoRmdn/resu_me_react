@@ -176,7 +176,7 @@ Delivered a multi-platform application with integrated analytics, reported to ha
 
 ## Projects — eyebrow `03 / Projects`, headline "Live on both stores."
 
-7 projects. The first is the flagship and is the only one with a real screenshot.
+11 projects. The first is the flagship and is the only one with a real screenshot.
 
 ### 01. Arcit-AI  — FLAGSHIP
 
@@ -290,6 +290,62 @@ Links: App Store · Google Play
 *Tech:* Flutter · GetX · E-commerce APIs · Payment Gateway · Multi-vendor
 
 Links: App Store · Google Play
+
+### 08. MisMar | مسمار
+
+*Automotive service · Egypt*
+
+**Card line:** Car maintenance and repair for Egyptian drivers: book a service, follow the vehicle through inspection and repair, and get it delivered back.
+
+**Long form:** MisMar takes a car through a seven-stage service flow — request, collection, inspection and diagnosis, quote and approval, repair, quality check, delivery — with the owner tracking each stage from their phone. Services split into mobile maintenance, faults and repairs, accident work, car care, service packages and inspections, and the whole product is Arabic-first with a right-to-left layout.
+
+**Outcome:** Current role — production codebase, iOS and Android
+
+*Tech:* Flutter · Provider · Riverpod · Bloc · REST · GraphQL
+
+Links: 
+
+### 09. Dental Dinar
+
+*Healthcare · Türkiye*
+
+**Card line:** Arabic-first oral-health companion: a personal care plan, daily brushing reminders, and points for keeping to them.
+
+**Long form:** Dental Dinar turns a dental care plan into a daily habit loop. Patients get a personalised plan, daily tips, and timed brushing reminders that award points for each completed session, alongside a product area and their own profile. Built Arabic-first with a right-to-left layout throughout, including the reminder scheduling and the rewards screens.
+
+**Outcome:** Built at Eleven Stars on Cubit
+
+*Tech:* Flutter · Cubit · Real-time scheduling · Payment Integration · RTL / Arabic
+
+Links: 
+
+### 10. FreeDoc
+
+*Healthcare · Algeria*
+
+**Card line:** Doctor and patient booking for Algeria, in Arabic, French and English.
+
+**Long form:** FreeDoc splits at the door: you enter as a doctor or as a patient, and the app builds a different product around each. Patients browse doctor profiles with biography, specialism, address and live availability, book an appointment, and get a push notification when a doctor confirms or cancels. The whole interface ships in Arabic, French and English, switchable at runtime.
+
+**Outcome:** Trilingual — Arabic, French and English
+
+*Tech:* Flutter · REST · Push notifications · Google Maps · Localisation (AR/FR/EN)
+
+Links: 
+
+### 11. O'Permis
+
+*Education · Morocco*
+
+**Card line:** Driving-licence booking for Morocco: find a school, reserve a session, and track the paperwork.
+
+**Long form:** O'Permis connects learner drivers with Moroccan driving schools. Learners browse schools, see session times and prices in dirhams, reserve a slot, and track the documents their licence application needs — national ID copy, photographs — as a checklist. Arabic-first with a right-to-left layout.
+
+**Outcome:** Driving-school booking with document tracking
+
+*Tech:* Flutter · Booking system · Payment Integration · RTL / Arabic
+
+Links: 
 
 ---
 

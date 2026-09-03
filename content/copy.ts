@@ -78,6 +78,8 @@ export const projectsCopy = {
   openLabel: "Open",
   closeLabel: "Close",
   bundleIdLabel: "Application ID",
+  plateLabel: "Plate",
+  socialLabel: "Store & social artwork",
 };
 
 export const skillsCopy = {

@@ -1,0 +1,88 @@
+{
+  "arcit-ai-icon": [
+    64,
+    128
+  ],
+  "arcit-ai-shot": [
+    240,
+    480
+  ],
+  "arcit-ai-social-1": [
+    300,
+    600
+  ],
+  "arcit-ai-social-2": [
+    300,
+    600
+  ],
+  "ayco-icon": [
+    64,
+    128
+  ],
+  "ayco-shot": [
+    240,
+    480
+  ],
+  "dental-dinar-icon": [
+    64,
+    128
+  ],
+  "dental-dinar-promo": [
+    280,
+    560
+  ],
+  "freedoc-icon": [
+    64,
+    128
+  ],
+  "freedoc-shot": [
+    240,
+    480
+  ],
+  "lpermis-icon": [
+    64,
+    128
+  ],
+  "lpermis-pro-icon": [
+    64,
+    128
+  ],
+  "lpermis-pro-promo": [
+    280,
+    560
+  ],
+  "lpermis-promo": [
+    280,
+    560
+  ],
+  "mismar-icon": [
+    64,
+    128
+  ],
+  "mismar-shot": [
+    240,
+    480
+  ],
+  "mutabbib-icon": [
+    64,
+    128
+  ],
+  "mutabbib-promo": [
+    280,
+    560
+  ],
+  "opermis-icon": [
+    64,
+    128
+  ],
+  "opermis-promo": [
+    280
+  ],
+  "saber-yamen-icon": [
+    64,
+    128
+  ],
+  "saber-yamen-shot": [
+    240
+  ]
+}
