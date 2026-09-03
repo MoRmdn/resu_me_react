@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "images": "node scripts/optimize-images.mjs",
-    "og": "node scripts/generate-og.mjs"
+    "og": "node scripts/generate-og.mjs",
+    "brief": "tsc content/*.ts scripts/content-brief.ts --outDir .brief --module commonjs --target es2022 --moduleResolution node --skipLibCheck && node .brief/scripts/content-brief.js && rm -rf .brief"
   },
   "dependencies": {
     "firebase": "^12.18.0",
