@@ -115,21 +115,24 @@ export function CareerBand({
         })}
       </div>
 
-      {/* The axis hairline the bars sit on. */}
-      <div className="relative mt-0 border-t border-line pt-2.5">
-        {ticks.map((t) => (
-          <span
-            key={t.year}
-            aria-hidden
-            className="eyebrow absolute top-2.5 -translate-x-1/2 text-bone-52"
-            style={{ left: `${t.at * 100}%` }}
-          >
-            {t.year}
-          </span>
-        ))}
-        <span className="eyebrow block text-right text-bone-52">
+      {/* The axis hairline the bars sit on. Ticks get their own row so the
+          last year cannot collide with the note. */}
+      <div className="border-t border-line pt-2.5">
+        <div className="relative h-4">
+          {ticks.map((t) => (
+            <span
+              key={t.year}
+              aria-hidden
+              className="eyebrow absolute -translate-x-1/2 text-bone-52"
+              style={{ left: `${t.at * 100}%` }}
+            >
+              {t.year}
+            </span>
+          ))}
+        </div>
+        <p className="eyebrow mt-1 text-right text-bone-52">
           {experienceCopy.bandAxisNote}
-        </span>
+        </p>
       </div>
 
       <p className="mt-6 max-w-[52ch] text-caption text-bone-52">
