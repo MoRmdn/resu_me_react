@@ -8,22 +8,16 @@ export const dynamic = "force-static";
 /**
  * One page, so one entry. It exists so Search Console has something to submit
  * and a crawl has a declared entry point — neither of which the site had.
- */
-/**
- * When the page's content last actually changed.
  *
- * Deliberately a constant, not `new Date()`. Generating it at build time stamps
- * "just now" on every deploy, including ones that only touch config — and a
- * lastmod that always says today is a lastmod Google learns to ignore. Bump
- * this when the content genuinely changes.
+ * `lastModified` comes from `site.contentLastChanged` rather than a constant
+ * kept here, so it cannot drift from the `dateModified` the structured data in
+ * app/layout.tsx publishes for the same page.
  */
-const CONTENT_LAST_CHANGED = "2026-09-03";
-
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: `${site.url}/`,
-      lastModified: new Date(CONTENT_LAST_CHANGED),
+      lastModified: new Date(site.contentLastChanged),
       changeFrequency: "monthly",
       priority: 1,
     },

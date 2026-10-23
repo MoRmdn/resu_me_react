@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, JetBrains_Mono } from "next/font/google";
 import { site, contact, socials, channels, publisherNamespace } from "@/content/site";
 import { skillGroups } from "@/content/skills";
+import { experiences } from "@/content/experience";
 import { projects } from "@/content/projects";
 import "./globals.css";
 
@@ -24,13 +25,34 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+/**
+ * A project title split into the names someone would search for. Titles are
+ * display strings: "MisMar | مسمار" is bilingual (the part after the pipe is a
+ * translation), "AYCO — Maintenance Reports" carries a subtitle. The bare name
+ * leads; the full title and any translation are aliases.
+ */
+function projectNames(title: string) {
+  const [primary, ...translations] = title.split("|").map((part) => part.trim());
+  const name = primary.split(" — ")[0].trim();
+  const alternateName = [...(name !== primary ? [primary] : []), ...translations];
+  return { name, alternateName };
+}
+
+const keywordProjects = projects.filter((p) => !p.hideFromKeywords);
+const appNames = keywordProjects.map((p) => projectNames(p.title).name);
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.name} — ${site.title}`,
     template: `%s — ${site.name}`,
   },
-  description: site.description,
+  /**
+   * The search snippet names every app, so a query for one of them can match
+   * this page's description and not only a heading buried mid-page. Share
+   * cards keep the short version below — they have no room for the list.
+   */
+  description: `${site.description} Apps: ${appNames.join(", ")}.`,
   applicationName: `${site.name} Portfolio`,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
@@ -49,6 +71,11 @@ export const metadata: Metadata = {
     site.name,
     site.shortName,
     publisherNamespace,
+    // App names and their aliases ("مسمار"), so a name search resolves too.
+    ...keywordProjects.flatMap((p) => {
+      const { name, alternateName } = projectNames(p.title);
+      return [name, ...alternateName];
+    }),
     // Application ids, so an identifier search resolves to their author.
     ...projects.map((p) => p.bundleId).filter((id): id is string => Boolean(id)),
     ...channels.map((c) => `${site.shortName} ${c.label}`),
@@ -90,9 +117,9 @@ export const metadata: Metadata = {
   /**
    * Google Search Console ownership.
    *
-   * m0rmdn.web.app cannot use a Search Console "Domain" property: that requires
-   * a DNS record on the domain you own, and `web.app` is Google's, not ours. So
-   * it is a "URL prefix" property, verified by this meta tag.
+   * mormdn.com can use a Search Console "Domain" property, verified with a DNS
+   * TXT record. This meta tag remains useful if a separate "URL prefix"
+   * property is configured as well.
    *
    * Set GOOGLE_SITE_VERIFICATION in .env (and as a GitHub secret for CI) to the
    * token Search Console gives you. Left unset, the tag is simply omitted.
@@ -123,6 +150,21 @@ export const viewport: Viewport = {
  */
 function jsonLd() {
   const personId = `${site.url}/#person`;
+  const profileId = `${site.url}/#profile`;
+
+  /**
+   * The current employer, taken from the same array the Experience section
+   * renders. Only the current one: `worksFor` is present tense, and the earlier
+   * roles are already on the page as prose.
+   *
+   * `company` carries the bilingual display string ("MisMar | مسمار"), so the
+   * part before the pipe is the name and anything after it is an alias.
+   */
+  const currentRole = experiences.find((e) => e.isCurrent);
+  const [employerName, ...employerAliases] = (currentRole?.company ?? "")
+    .split("|")
+    .map((part) => part.trim())
+    .filter(Boolean);
 
   const person = {
     "@type": "Person",
@@ -144,6 +186,36 @@ function jsonLd() {
       url.startsWith("http"),
     ),
     knowsAbout: [...skillGroups.flatMap((g) => g.items), publisherNamespace],
+    // The page this entity is described by, closing the loop with
+    // ProfilePage.mainEntity below.
+    mainEntityOfPage: { "@id": profileId },
+    /**
+     * `jobTitle` is a bare string. `hasOccupation` is the typed property, and
+     * it is the one that carries where the work happens and what it involves.
+     */
+    hasOccupation: {
+      "@type": "Occupation",
+      name: site.title,
+      occupationLocation: {
+        "@type": "City",
+        name: "Mansoura",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Mansoura",
+          addressCountry: "EG",
+        },
+      },
+      skills: skillGroups.flatMap((g) => g.items),
+    },
+    ...(employerName
+      ? {
+          worksFor: {
+            "@type": "Organization",
+            name: employerName,
+            ...(employerAliases.length ? { alternateName: employerAliases } : {}),
+          },
+        }
+      : {}),
     alumniOf: { "@type": "CollegeOrUniversity", name: "Mansoura University" },
     knowsLanguage: [
       { "@type": "Language", name: "Arabic" },
@@ -151,12 +223,29 @@ function jsonLd() {
     ],
   };
 
+  /**
+   * Name, aliases and every public listing of a project. `sameAs` on the app
+   * ties this entity to the store page Google already knows, which is what lets
+   * a search for the app surface its author.
+   */
+  const projectIdentity = (p: (typeof projects)[number]) => {
+    const { name, alternateName } = projectNames(p.title);
+    const listings = [p.links.playStore, p.links.appStore, p.links.github].filter(
+      (url): url is string => Boolean(url),
+    );
+    return {
+      name,
+      ...(alternateName.length ? { alternateName } : {}),
+      ...(listings.length ? { sameAs: listings } : {}),
+    };
+  };
+
   const apps = projects
     .filter((p) => !p.links.website)
     .map((p) => ({
       "@type": "MobileApplication",
       "@id": `${site.url}/#${p.slug}`,
-      name: p.title,
+      ...projectIdentity(p),
       description: p.description,
       applicationCategory: p.category,
       operatingSystem: "Android, iOS",
@@ -178,7 +267,7 @@ function jsonLd() {
     .map((p) => ({
       "@type": "WebApplication",
       "@id": `${site.url}/#${p.slug}`,
-      name: p.title,
+      ...projectIdentity(p),
       description: p.description,
       applicationCategory: p.category,
       url: p.links.website,
@@ -199,12 +288,22 @@ function jsonLd() {
       },
       {
         "@type": "ProfilePage",
-        "@id": `${site.url}/#profile`,
+        "@id": profileId,
         url: site.url,
         name: `${site.name} — ${site.title}`,
         isPartOf: { "@id": `${site.url}/#website` },
+        /**
+         * Same constant the sitemap's lastmod comes from, so the two cannot
+         * disagree about when this page last changed — and normalised the same
+         * way. A bare "2026-09-03" is a valid schema.org Date but Google's
+         * structured-data parser rejects it for `dateModified` with "Invalid
+         * datetime value"; it wants a full ISO 8601 instant.
+         */
+        dateModified: new Date(site.contentLastChanged).toISOString(),
         about: { "@id": personId },
         mainEntity: { "@id": personId },
+        // The apps are described on this page too, not only by their author.
+        mentions: projects.map((p) => ({ "@id": `${site.url}/#${p.slug}` })),
       },
       ...apps,
       ...webApps,

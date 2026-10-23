@@ -7,11 +7,23 @@ export const site = {
   subtitle: "Cross-Platform Mobile Applications",
   location: "Mansoura, Egypt",
   timezone: "UTC+3",
-  url: "https://m0rmdn.web.app",
+  url: "https://mormdn.com",
   description:
     "Mohamed Ramadan — Flutter developer in Mansoura, Egypt. Five years building cross-platform mobile apps for teams in six countries. Bloc, GetX, Cubit, Firebase, clean architecture.",
   designCodename: "Obsidian & Copper",
   designVersion: "v2.0",
+
+  /**
+   * When the page's content last actually changed. Feeds both the sitemap's
+   * `lastmod` and the `dateModified` in the structured data, which is the whole
+   * reason it lives here rather than in either file.
+   *
+   * Deliberately a constant, not `new Date()`. Generating it at build time
+   * stamps "just now" on every deploy, including ones that only touch config —
+   * and a lastmod that always says today is a lastmod Google learns to ignore.
+   * Bump this when the content genuinely changes.
+   */
+  contentLastChanged: "2026-09-03",
 } as const;
 
 export const contact = {

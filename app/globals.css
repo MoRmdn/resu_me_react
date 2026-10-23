@@ -359,6 +359,38 @@
   }
 }
 
+/*
+ * The hero headline, and only the hero headline.
+ *
+ * It is the largest text on the page, so it is the LCP element. `rise-in`
+ * starts at `opacity: 0` with `both` fill, which means a `.rise` headline is
+ * fully transparent for the whole of its delay — and Chrome will not accept a
+ * transparent element as an LCP candidate. Every load paid that delay before
+ * Largest Contentful Paint could even be recorded.
+ *
+ * Same movement, no opacity and no delay: the words are on screen in the first
+ * frame and rise into place from there. The staggered fade stays on everything
+ * around it, which is where the choreography actually reads.
+ */
+@keyframes rise-in-opaque {
+  from {
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.rise-lcp {
+  animation: rise-in-opaque 0.72s var(--ease-slow) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-lcp {
+    animation: none;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Scroll progress. Uses a scroll-driven animation where the browser supports
    one (it then runs off the main thread entirely); otherwise ScrollProgress.tsx

@@ -1,7 +1,8 @@
 # resu_me (React) — Mohamed Ramadan's portfolio
 
 A single-page Next.js portfolio, statically exported and deployed to Firebase
-Hosting (project `m0rmdn`). One scrolling page, seven sections.
+Hosting (project `m0rmdn`), live at **https://mormdn.com**. One scrolling page,
+seven sections.
 
 This replaces a Flutter Web app that still lives at `/Users/dark/Dev/resu_me`.
 The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
@@ -140,6 +141,29 @@ pane is collapsed — verify structurally (`getBoundingClientRect`,
 `next/image` optimisation (`images.unoptimized` is set, and
 `scripts/optimize-images.mjs` generates the variants ahead of time).
 
+**Do not add a catch-all rewrite to `firebase.json`.** A
+`{"source": "**", "destination": "/index.html"}` rewrite makes every URL on the
+site return `200` with the homepage, which hands a crawler an unbounded space
+of duplicate pages. With no rewrite, Hosting serves `out/404.html` with a real
+`404`. The site is one static page with in-page anchors and no client router,
+so nothing needs the rewrite.
+
+**`**/*.html` header rules do not match `/`.** Firebase matches the *request*
+path, not the file it resolves to, and `cleanUrls` means the homepage is
+requested as `/`. The `must-revalidate` rule therefore names `/` and `/404`
+explicitly. Add any new page to that list or it ships with a one-hour cache.
+
+**Next's RSC payloads are public.** `/__next._full.txt` and friends are the
+whole page again as plain text at their own URLs. `firebase.json` sends them
+`X-Robots-Tag: noindex`. It is deliberately not a `robots.txt` `Disallow` — a
+disallowed URL is never fetched, so the directive would never be read.
+
+**The hero headline is the LCP element.** It uses `.rise-lcp`, not `.rise`:
+`rise-in` starts at `opacity: 0` with `both` fill, and Chrome will not accept a
+transparent element as an LCP candidate, so a `.rise` headline delays LCP by
+its own `--rise-delay` on every load. `rise-lcp` keeps the movement and drops
+the fade. Do not "unify" it back into `.rise`.
+
 ---
 
 ## Open items
@@ -147,8 +171,19 @@ pane is collapsed — verify structurally (`getBoundingClientRect`,
 - **`views/total` is still world-writable** — anyone can set it to any number.
   Embarrassing rather than dangerous. Fix with App Check (reCAPTCHA v3) required
   in the rules; a static export has no server route to hide behind.
-- **The site is not deployed.** The repo is local-only with no remote, and
-  `m0rmdn.web.app` still serves the old Flutter build.
+- **`m0rmdn.web.app` is a duplicate host.** It serves the identical build at
+  `200` alongside `mormdn.com` (same etag). Firebase Hosting has no
+  host-conditional redirect for its own `.web.app` address, so there is no
+  `301` to give it and Search Console's Change of Address tool does not apply.
+  Both hosts serve `rel="canonical"` pointing at `mormdn.com`; that is the
+  whole consolidation mechanism. Do not "fix" this with a JS redirect.
+- **`www.mormdn.com` does not resolve.** Console + registrar work; steps are in
+  `README.md` under "Custom domain".
+- **The `Person` has no `image`.** The only candidates under `public/` are
+  project art and the text-composition `og.png`, and pointing `image` at that
+  is worse than omitting it. A real portrait is the one remaining
+  structured-data gap that feeds a knowledge panel.
+- The repo is local-only with no remote, so the CI workflow has never run.
 - Light ("Bone") theme is specced in `design/DESIGN-SYSTEM.md` §1.2, not built.
 - Only Arcit-AI has a screenshot. Drop a PNG at
   `public/images/<slug>-src.png`, run `npm run images`, and set `image` on that

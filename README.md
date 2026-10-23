@@ -2,7 +2,7 @@
 
 Single-page portfolio. Next.js 16, statically exported, hosted on Firebase.
 
-**Live:** [m0rmdn.web.app](https://m0rmdn.web.app)
+**Live:** [mormdn.com](https://mormdn.com)
 
 Flutter developer in Mansoura. Five years of cross-platform apps. The page is
 one scroll: Hero, About, Experience, Projects, Skills, Contact.
@@ -139,11 +139,56 @@ Local:
 ```bash
 npm run build
 npx firebase hosting:channel:deploy preview --project m0rmdn   # throwaway URL
-npx firebase deploy --only hosting --project m0rmdn            # https://m0rmdn.web.app
+npx firebase deploy --only hosting --project m0rmdn            # https://mormdn.com
 ```
 
 A preview channel does not update production. Use the second command for
-[m0rmdn.web.app](https://m0rmdn.web.app).
+[mormdn.com](https://mormdn.com). Firebase's `m0rmdn.web.app` address remains
+available as a hosting fallback.
+
+### Custom domain
+
+The canonical production URL is `https://mormdn.com`. The Firebase project ID
+remains `m0rmdn`; changing it would create a different backend rather than
+change the site's public address.
+
+The apex is live. The DNS zone currently holds:
+
+| Host | Type | Value | Status |
+|---|---|---|---|
+| `@` | `A` | `199.36.158.100` | live |
+| `@` | `TXT` | `hosting-site=m0rmdn` | live |
+| `www` | — | — | **not configured** |
+
+Remove the registrar's parking `A` records before adding the Firebase `A`
+record. Firebase provisions and renews the TLS certificate after DNS propagates.
+
+**`www.mormdn.com` does not resolve yet.** To add it: Firebase console →
+Hosting → site `m0rmdn` → *Add custom domain* → `www.mormdn.com` → **Redirect
+to an existing URL** → `mormdn.com`, permanent (301). Add whichever record the
+console then issues — take it from the console rather than assuming a `CNAME`,
+because the redirect flow does not always issue the same record type as a
+served domain. Update the table above once it is in place, and confirm with:
+
+```bash
+curl -sSI https://www.mormdn.com/   # expect 301 → https://mormdn.com/
+```
+
+### Search Console
+
+`mormdn.com` supports a **Domain** property, verified by a DNS `TXT` record.
+**Add** the `google-site-verification=…` record alongside the existing
+`hosting-site=m0rmdn` one — several `TXT` records can coexist at `@`, and
+replacing the Firebase record breaks hosting.
+
+`GOOGLE_SITE_VERIFICATION` in `.env` covers a separate URL-prefix property via
+the meta tag in `app/layout.tsx`; the two are independent.
+
+The old `m0rmdn.web.app` address still serves the same build at `200`. Search
+Console's Change of Address tool cannot be used for it: that tool requires the
+old site to `301` to the new one, and Firebase Hosting has no host-conditional
+redirect for its own `.web.app` domain. Consolidation happens through the
+`rel="canonical"` pointing at `mormdn.com`, which both hosts serve.
 
 CI (`.github/workflows/firebase-deploy.yml`):
 

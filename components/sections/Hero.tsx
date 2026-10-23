@@ -45,8 +45,10 @@ export function Hero() {
           </div>
 
           <h1 className="text-[clamp(2.75rem,7.5vw,6.75rem)] leading-[0.9] font-semibold tracking-[-0.04em] text-balance">
+            {/* `rise-lcp`, not `rise`: this is the LCP element and must paint
+                on the first frame. See app/globals.css. */}
             {hero.headline.map((line) => (
-              <span key={line} className="rise block" style={rise(1)}>
+              <span key={line} className="rise-lcp block">
                 {line}
               </span>
             ))}

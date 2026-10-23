@@ -4,8 +4,9 @@ import type { Project } from "./types";
  * Arcit-AI leads as the flagship (it is the only one with a screenshot).
  *
  * Three link patterns live here and the UI has to handle all three: app-store
- * pairs, a live web app with source (JS Quest), and AYCO's deliberate absence
- * of any link at all.
+ * pairs, a live web app with source (JS Quest), and no link at all — AYCO by
+ * design, Arcit-AI since it was pulled from both stores (it says so in its
+ * `linkStatus`).
  */
 export const projects: Project[] = [
   {
@@ -21,10 +22,8 @@ export const projects: Project[] = [
     country: "Saudi Arabia",
     category: "Social Networking",
     achievement: "AI-driven features with 15% user engagement increase",
-    links: {
-      appStore: "https://apps.apple.com/eg/app/arcit-ai/id6503910700",
-      playStore: "https://play.google.com/store/apps/details?id=com.mormdn.arcitAI",
-    },
+    links: {},
+    linkStatus: "No longer on the stores",
     image: {
       slug: "arcit-ai",
       width: 1320,
@@ -113,7 +112,7 @@ export const projects: Project[] = [
   {
     slug: "mutabbib",
     bundleId: "com.mormdn.mutabbib",
-    title: "Mutabbib",
+    title: "Mutabbib | مطبب",
     description:
       "Distinctive medical social network connecting users with hospitals, clinics, and doctors.",
     longDescription:
@@ -209,23 +208,24 @@ export const projects: Project[] = [
     category: "E-commerce",
     achievement: "20% faster data load through optimised state management",
     links: {
-      appStore: "https://apps.apple.com/gb/app/saber/id6467415590",
+      appStore: "https://apps.apple.com/eg/app/saber/id6759740355",
       playStore: "https://play.google.com/store/apps/details?id=com.elevenstars.saber",
     },
     media: {
       icon: { file: "saber-yamen-icon" },
-      plate: "field",
+      plate: "promo",
       asset: {
-        file: "saber-yamen-shot",
+        file: "saber-yamen-promo",
         width: 288,
         height: 512,
-        alt: "Saber Yamen launch screen",
+        alt: "Saber Yamen store promo — marketplace listings for cars and property with an Arabic headline",
       },
     },
   },
   {
     slug: "mismar",
     title: "MisMar | مسمار",
+    hideFromKeywords: true,
     description:
       "Car maintenance and repair for Egyptian drivers: book a service, follow the vehicle through inspection and repair, and get it delivered back.",
     longDescription:
@@ -269,9 +269,9 @@ export const projects: Project[] = [
       plate: "promo",
       asset: {
         file: "dental-dinar-promo",
-        width: 1042,
-        height: 2134,
-        alt: "Dental Dinar store promo — sign-in screen with an Arabic headline",
+        width: 1200,
+        height: 2601,
+        alt: "Dental Dinar store promo — home screen with daily care tips and an Arabic headline",
       },
     },
   },
@@ -296,7 +296,7 @@ export const projects: Project[] = [
         file: "freedoc-shot",
         width: 1080,
         height: 2280,
-        alt: "FreeDoc language settings offering Arabic, French and English",
+        alt: "FreeDoc patient home screen — doctor search and specialist categories",
         bezel: true,
       },
     },
@@ -322,7 +322,7 @@ export const projects: Project[] = [
         file: "opermis-promo",
         width: 288,
         height: 512,
-        alt: "O'Permis store promo — session booking screen with an Arabic headline",
+        alt: "O'Permis store promo — new-session booking screen with school, date and time slots",
       },
     },
   },

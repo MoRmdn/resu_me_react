@@ -15,7 +15,20 @@
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
       },
       {
-        "//": "HTML must revalidate or a deploy never reaches anyone.",
+        "//": "Next's RSC payloads (/__next._full.txt and friends) are the whole page again as plain text. Left alone a crawler indexes them as a duplicate of the homepage. noindex rather than a robots.txt Disallow: a disallowed URL is never fetched, so the directive would never be read.",
+        "source": "/__next*",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "//": "HTML must revalidate or a deploy never reaches anyone. `**/*.html` matches the request path, not the file served, so with cleanUrls the only two pages on the site need naming explicitly.",
+        "source": "/",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      },
+      {
+        "source": "/404",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      },
+      {
         "source": "**/*.html",
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
       },
@@ -31,8 +44,7 @@
           }
         ]
       }
-    ],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+    ]
   },
   "database": {
     "rules": "database.rules.json"

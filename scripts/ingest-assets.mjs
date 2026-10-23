@@ -36,18 +36,18 @@ const SOURCES = [
   [`${HANDOFF}/arcit-ai-shot.webp`, "arcit-ai-shot"],
   // The only FreeDoc capture that is product UI rather than a QA screenshot:
   // the rest carry Lorem Ipsum, a Google Maps error, or the notification shade.
-  [`${SCREENS}/freeDoc/image_original (1).png`, "freedoc-shot"],
+  // Patient home screen: product UI with no Lorem Ipsum or QA artefacts.
+  [`${SCREENS}/freeDoc/image_original (10).png`, "freedoc-shot"],
 
   // Store promos — brand field, device and a baked headline, composed by the
   // client's designer. Shown whole, never cropped.
   [`${HANDOFF}/lpermis-promo.png`, "lpermis-promo"],
   [`${HANDOFF}/lpermis-pro-promo.png`, "lpermis-pro-promo"],
   [`${HANDOFF}/mutabbib-promo.png`, "mutabbib-promo"],
-  [`${SCREENS}/dental/01.png`, "dental-dinar-promo"],
-  [`${SCREENS}/O'Permis/unnamed (2).png`, "opermis-promo"],
+  [`${SCREENS}/dental/Iphone/02.png`, "dental-dinar-promo"],
+  [`${SCREENS}/O'Permis/unnamed (3).png`, "opermis-promo"],
+  [`${SCREENS}/saber/unnamed (4).jpg`, "saber-yamen-promo"],
 
-  // Field plate — its own brand ground, goes full bleed.
-  [`${HANDOFF}/saber-yamen-shot.jpg`, "saber-yamen-shot"],
 
   // 1:1 social posts — a separate register from the tall promos.
   [`${HANDOFF}/arcit-ai-promo-1.jpg`, "arcit-ai-social-1"],

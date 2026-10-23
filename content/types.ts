@@ -40,6 +40,11 @@ export type Project = {
   isPrivate?: boolean;
   /** Extra detail bullets, shown only where the layout has room. */
   highlights?: string[];
+  /**
+   * Keep the name out of the meta keywords and the description's app list.
+   * The project still renders and stays in the structured data.
+   */
+  hideFromKeywords?: boolean;
 };
 
 export type Experience = {
