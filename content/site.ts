@@ -23,7 +23,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-09-03",
+  contentLastChanged: "2026-10-23",
 } as const;
 
 export const contact = {
@@ -129,7 +129,6 @@ export const navSections = [
 
 export const education = [
   "B.Sc. Bioinformatics — Mansoura University, 2021 (final-year project graded A+)",
-  "Google Flutter Developer Certification — Udemy, 2022",
   "Learn JavaScript · Learn React — Scrimba, 2026",
   "Android Basics Nanodegree — Udacity, 2020",
   "Arabic (native) · English (professional working proficiency)",

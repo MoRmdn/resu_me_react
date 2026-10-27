@@ -14,15 +14,16 @@ export const experiences: Experience[] = [
     slug: "mismar",
     company: "MisMar | مسمار",
     position: "Flutter Developer",
-    location: "Egypt",
-    country: "Egypt",
+    location: "Saudi Arabia (Remote)",
+    country: "Saudi Arabia",
     startDate: "January 2025",
     endDate: "Present",
     start: "2025-01",
     end: null,
     isCurrent: true,
+    engagement: "Remote, contract, full-time",
     description:
-      "Develop and maintain cross-platform iOS and Android applications in Flutter, with responsibility for performance, scalability, and maintainability of the production codebase.",
+      "Develop and maintain MisMar, an Arabic-first vehicle maintenance and repair platform for drivers in Egypt, on iOS and Android, with responsibility for the performance, scalability, and maintainability of the production codebase.",
     achievements: [
       "Implement state management across Provider, Riverpod, and Bloc according to the complexity and data flow of each feature.",
       "Connect applications to back-end services through RESTful APIs and GraphQL.",
@@ -35,7 +36,7 @@ export const experiences: Experience[] = [
   {
     slug: "demeter",
     company: "Demeter",
-    position: "Medior Flutter Developer",
+    position: "Mid-Level Flutter Developer",
     location: "Morocco (Remote)",
     country: "Morocco",
     startDate: "March 2023",
@@ -43,7 +44,7 @@ export const experiences: Experience[] = [
     start: "2023-03",
     end: "2025-01",
     isCurrent: false,
-    engagement: "Remote, full-time",
+    engagement: "Remote, contract, full-time",
     description:
       "Led the development of Lpermis from initial architecture to release, using GetX for state management across a driving-theory testing and appointment-booking product.",
     achievements: [
@@ -56,7 +57,7 @@ export const experiences: Experience[] = [
   {
     slug: "ebdda",
     company: "Ebdda LTD",
-    position: "Medior Flutter Developer",
+    position: "Mid-Level Flutter Developer",
     location: "Libya (Remote)",
     country: "Libya",
     startDate: "January 2024",
@@ -64,11 +65,11 @@ export const experiences: Experience[] = [
     start: "2024-01",
     end: "2026-01",
     isCurrent: false,
-    engagement: "Remote, part-time",
+    engagement: "Remote, contract, part-time (concurrent)",
     description:
       "Developed Mutabbib, a healthcare application, using Bloc to manage complex user flows, real-time data synchronisation, and secure storage aligned to healthcare data requirements.",
     achievements: [
-      "Built real-time notification and scheduling features for patient-provider interaction, reported to have increased appointment bookings by 25 percent.",
+      "Built real-time notification and scheduling features for patient-provider interaction, increasing appointment bookings by 25%.",
       "Coordinated with back-end developers on API integration to meet performance and security requirements.",
     ],
     technologies: ["Flutter", "Bloc", "Real-time Sync", "Healthcare APIs", "Security"],
@@ -76,7 +77,7 @@ export const experiences: Experience[] = [
   {
     slug: "arcit-ai",
     company: "Arcit-AI",
-    position: "Medior Flutter Developer",
+    position: "Mid-Level Flutter Developer",
     location: "Saudi Arabia (Remote)",
     country: "Saudi Arabia",
     startDate: "December 2023",
@@ -84,25 +85,19 @@ export const experiences: Experience[] = [
     start: "2023-12",
     end: "2024-12",
     isCurrent: false,
-    engagement: "Remote, part-time",
+    engagement: "Remote, part-time (concurrent)",
     description:
-      "Developed the Arcit-AI application on Bloc, implementing AI-driven predictive analytics and data-visualisation features supporting user decision-making.",
+      "Developed the Arcit-AI application on Bloc: a social networking platform matching service providers with clients in the architecture and home-improvement sector, with AI-driven tools for matchmaking and task automation.",
     achievements: [
       "Worked with data science and back-end teams on AI model integration and real-time data delivery.",
-      "Designed and optimised the data-interaction interface, reported to have improved user retention and engagement by 15 percent.",
+      "Designed and optimised the data-interaction interface, improving user retention and engagement by 15%.",
     ],
-    technologies: [
-      "Flutter",
-      "Bloc",
-      "AI Integration",
-      "Data Visualization",
-      "Predictive Analytics",
-    ],
+    technologies: ["Flutter", "Bloc", "AI Integration", "Matchmaking", "Firebase"],
   },
   {
     slug: "eleven-stars",
     company: "Eleven Stars",
-    position: "Medior Flutter Developer",
+    position: "Mid-Level Flutter Developer",
     location: "Türkiye (Remote)",
     country: "Türkiye",
     startDate: "March 2023",
@@ -110,12 +105,12 @@ export const experiences: Experience[] = [
     start: "2023-03",
     end: "2024-02",
     isCurrent: false,
-    engagement: "Remote, part-time",
+    engagement: "Remote, part-time (concurrent)",
     description:
       "Built Saber Yamen, a multi-vendor e-commerce platform, from scratch on GetX, covering navigation and data flow across the full purchase journey.",
     achievements: [
-      "Developed Dental Diner on Cubit, covering real-time appointment scheduling, patient data synchronisation, and payment integration.",
-      "Optimised state management to reduce data load times by 20 percent for both client and administrator users.",
+      "Developed Dental Dinar on Cubit, covering real-time appointment scheduling, patient data synchronisation, and payment integration.",
+      "Optimised state management to reduce data load times by 20% for both client and administrator users.",
     ],
     technologies: ["Flutter", "GetX", "Cubit", "E-commerce", "Payment Integration"],
   },
@@ -123,8 +118,8 @@ export const experiences: Experience[] = [
     slug: "bracket-media",
     company: "Bracket Media Ltd",
     position: "Junior Flutter Developer",
-    location: "England (Remote)",
-    country: "England",
+    location: "United Kingdom (Remote)",
+    country: "United Kingdom",
     startDate: "May 2022",
     endDate: "January 2023",
     start: "2022-05",
@@ -132,7 +127,7 @@ export const experiences: Experience[] = [
     isCurrent: false,
     engagement: "Remote",
     description:
-      "Led the migration of the company's primary application to Null Safety, and redesigned major UI components, reported to have increased user satisfaction and engagement by 15 percent.",
+      "Led the migration of the company's primary application to Null Safety, and redesigned major UI components, increasing user satisfaction and engagement by 15%.",
     achievements: [
       "Future-proofed a legacy codebase by completing the Null Safety migration ahead of it becoming an emergency.",
       "Redesigned major UI components and shipped new features alongside comprehensive bug fixes.",
@@ -150,15 +145,16 @@ export const experiences: Experience[] = [
     start: "2021-04",
     end: "2022-05",
     isCurrent: false,
+    engagement: "Full-time",
     description:
-      "Delivered a multi-platform application with integrated analytics, reported to have improved user retention by 12 percent.",
+      "Delivered a multi-platform application with integrated analytics, improving user retention by 12%.",
     achievements: [
-      "Reduced application size by 10 percent by removing unused packages and optimising assets.",
+      "Reduced application size by 20% by removing unused packages and optimising assets.",
       "Extended the interface to full-screen tablet layouts for iPad compatibility.",
     ],
     technologies: ["Flutter", "Analytics", "Performance Optimization", "Cross-platform"],
   },
 ];
 
-/** Roles before the "medior" run — some layouts fold these into a quieter group. */
+/** Roles before the mid-level run — some layouts fold these into a quieter group. */
 export const earlierExperienceSlugs = ["bracket-media", "cyparta"];
