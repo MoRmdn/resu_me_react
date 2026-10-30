@@ -39,7 +39,9 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
           NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
-        run: npm run build
+        # One retry: next/font downloads from Google at build time, and Turbopack
+        # occasionally fails on a bad response. A real build error fails twice.
+        run: npm run build || npm run build
 
       - uses: actions/upload-artifact@v4
         with:
