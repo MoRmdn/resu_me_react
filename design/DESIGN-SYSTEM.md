@@ -281,6 +281,19 @@ A client's words, attributed to the marketplace that collected them.
 - Hover: lift 4px, border warms to the brand at 45%, a 2px hairline wipes in from
   the left, stars fill and pop in 50ms sequence. Only that card's row pauses.
 
+### Client map
+Fiverr's "World Domination" panel, for all five marketplaces at once.
+
+- Land is `--ink-600`. Client countries are copper at 16–38%, log-scaled so one
+  large market cannot wash out the rest. That keeps the whole map Tier 3.
+- Mansoura is the `--jade` pin. It is a status, not an accent, and every line
+  starts there.
+- The percentage is countries out of 195, in `--bone`. Filtering by site recounts
+  it, so the Fiverr view matches Fiverr's own figure.
+- Everything on the map is also in the ranked list, which is what keyboards,
+  screen readers and crawlers use. Hovering either one lights both.
+- Clients with no public country stay off the map and are stated in a note.
+
 ---
 
 ## 6. Motion & animation
@@ -348,6 +361,10 @@ scrollable strip.
 | Reviews | Row pauses | Hover, or the Pause button | Instant play-state change | Button hidden |
 | Reviews | Card lifts, hairline wipes, stars pop in sequence | Hover | 320ms · `m-base` | Colour only |
 | Reviews | Platform counts roll up | Ledger enters viewport | 900ms · easeOutQuart | Final values immediately |
+| Reviews | Map intro: pin lands, lines leave nearest-first at 70ms apart, each country fills as its line arrives | Block enters viewport | 620ms · `m-slow` per line | Finished map on first paint |
+| Reviews | Filter by site: countries, lines and bars cross-fade, percentage recounts | Chip click | 320ms · `m-base` | Colour only; final value |
+| Reviews | Country, line and list row light together, tooltip appears | Hover, focus or tap | 180ms · `m-fast` | Colour only |
+| Reviews | Jade ring pulses on Mansoura | Continuous | 2.4s | Ring static |
 | Contact | Field border → copper | Focus | 180ms · `m-fast` | Instant |
 | Contact | Error drops in 6px + fades, border → `--rose` | Failed validation, submit or blur | 180ms · `m-fast` | Appears in place |
 | Contact | Social rows nudge 10px right | Hover | 180ms · `m-fast` | Background tint only |

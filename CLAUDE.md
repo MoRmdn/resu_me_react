@@ -29,6 +29,7 @@ npm run dev
 | `npm run lint` | eslint |
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
 | `npm run og` | regenerate `public/og.png` |
+| `npm run map` | redraw the client map from `content/clients.json` |
 | `npm run export:reviews` | build, then package the review cards into `exports/review-cards/` (gitignored) |
 
 Deploy:
@@ -47,7 +48,7 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 
 Server components by default. `"use client"` only where something genuinely
 needs the browser: `Nav`, `Hero`, `Experience`, `Contact`, `Footer`, the motion
-primitives, and the two small Reviews toggles. No state library, no router — it is one page.
+primitives, the two small Reviews toggles, and `ClientMapExplorer`. No state library, no router — it is one page.
 
 ```
 app/
@@ -69,7 +70,8 @@ scripts/              image + OG generation, run by hand
 **All copy lives in `content/`, never inline in a component.** `site.ts`
 (identity, links, metrics), `projects.ts`, `experience.ts`, `skills.ts`,
 `copy.ts` (section prose), `types.ts`, `reviews.ts` + `reviews.json` (client
-reviews) and `platform-marks.json` (marketplace logos).
+reviews), `platform-marks.json` (marketplace logos), `clients.ts` + `clients.json`
+(clients by country) and `world-map.json` (generated, do not edit).
 
 Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
 `content/` — not the components.
@@ -177,7 +179,26 @@ programming services, and a quote that appears on two platforms is used once.
 no reviews on the profile while the gigs are paused; the signed-in owner can
 read them on the gig page (`/mormdn/fix-flutter-app-source-code`). Upwork
 truncates quotes behind "See more" and Freelancer lists the last four only in a
-modal. To refresh them, drive a signed-in browser.
+modal. Khamsat lists every service, paused ones included, only on
+`/user/m0rmdn/reviews`, not on the services page, and it answers scripted
+requests with a block, so it needs a browser too. To refresh them, drive a
+signed-in browser.
+
+**Client counts come from a person reading profiles, not an API.** Khamsat and
+Mostaql show a buyer's country on their profile, and Upwork in a job's "About the
+client" panel. Mostaql hides most client profiles, so `unplaced` in
+`content/clients.json` exists: those clients count towards the total and stay off
+the map. Never guess a country to fill it.
+
+**The land is an image on purpose.** `public/images/world-land.svg` is 50 KB of
+path data; inline it would ship twice, in the HTML and again in the RSC payload.
+Only the client countries are inline, and they are rendered by the server
+component `ClientMap`, so no geometry reaches the client bundle. If you add a
+country, run `npm run map` or it has no shape.
+
+**The map's finished state is the base style.** Its intro is an animation keyed
+off Reveal's `data-visible`, not a hidden start state, so a missed observer or
+reduced motion shows a complete map rather than an empty one.
 
 **`.review-card` is deliberately not Tailwind.** Everything between the
 `review-cards:start` and `:end` markers in `globals.css` is lifted into the
@@ -206,7 +227,6 @@ the cards: the second copy would still need to swallow them.
   project art and the text-composition `og.png`, and pointing `image` at that
   is worse than omitting it. A real portrait is the one remaining
   structured-data gap that feeds a knowledge panel.
-- The repo is local-only with no remote, so the CI workflow has never run.
 - Light ("Bone") theme is specced in `design/DESIGN-SYSTEM.md` §1.2, not built.
 - Only Arcit-AI has a screenshot. Drop a PNG at
   `public/images/<slug>-src.png`, run `npm run images`, and set `image` on that

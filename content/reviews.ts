@@ -78,7 +78,7 @@ export const reviewPlatforms: ReviewPlatform[] = [
     id: "khamsat",
     label: "Khamsat",
     url: "https://khamsat.com/user/m0rmdn/reviews",
-    count: 75,
+    count: 88,
     countLabel: "tech reviews",
   },
 ];
