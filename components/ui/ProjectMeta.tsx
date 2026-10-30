@@ -2,6 +2,8 @@ import { ButtonLink } from "./Button";
 import { QuietTag } from "./Tag";
 import { projectsCopy } from "@/content/copy";
 import type { Project } from "@/content/types";
+import { projectParams, trackAttrs, type TrackAttrs } from "@/lib/analytics/attrs";
+import type { EventParams, ProjectPlacement } from "@/lib/analytics/catalog";
 import { cn } from "@/lib/cn";
 
 /** Numbered detail bullets. The numerals are decoration, so bone-28 is fine. */
@@ -65,7 +67,15 @@ export function ApplicationId({ id, className }: { id: string; className?: strin
  *
  * `buttons` is the featured-panel treatment; a gallery plane keeps text links.
  */
-export function ProjectLinks({ project, buttons }: { project: Project; buttons?: boolean }) {
+export function ProjectLinks({
+  project,
+  placement,
+  buttons,
+}: {
+  project: Project;
+  placement: ProjectPlacement;
+  buttons?: boolean;
+}) {
   const { appStore, playStore, website, github } = project.links;
 
   if (project.isPrivate) {
@@ -83,25 +93,51 @@ export function ProjectLinks({ project, buttons }: { project: Project; buttons?:
     ) : null;
   }
 
-  const Link = buttons ? ExternalButton : ExternalLink;
+  const ListingLink = buttons ? ExternalButton : ExternalLink;
+
+  const listing = (
+    href: string,
+    label: string,
+    link_type: EventParams<"project_link_click">["link_type"],
+  ) => (
+    <ListingLink
+      href={href}
+      label={label}
+      track={trackAttrs("project_link_click", {
+        ...projectParams(project, placement),
+        link_type,
+        link_text: label,
+        link_url: href,
+      })}
+    />
+  );
 
   return (
     <div className={cn("flex flex-wrap", buttons ? "gap-3" : "gap-x-5 gap-y-2")}>
-      {website && <Link href={website} label={projectsCopy.websiteLabel} />}
-      {github && <Link href={github} label={projectsCopy.sourceLabel} />}
-      {appStore && <Link href={appStore} label={projectsCopy.appStoreLabel} />}
-      {playStore && <Link href={playStore} label={projectsCopy.playStoreLabel} />}
+      {website && listing(website, projectsCopy.websiteLabel, "website")}
+      {github && listing(github, projectsCopy.sourceLabel, "source")}
+      {appStore && listing(appStore, projectsCopy.appStoreLabel, "app_store")}
+      {playStore && listing(playStore, projectsCopy.playStoreLabel, "play_store")}
     </div>
   );
 }
 
-function ExternalLink({ href, label }: { href: string; label: string }) {
+function ExternalLink({
+  href,
+  label,
+  track,
+}: {
+  href: string;
+  label: string;
+  track: TrackAttrs;
+}) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer noopener"
       className="inline-flex min-h-11 items-center gap-1.5 text-[0.84375rem] text-bone-70 transition-colors duration-fast ease-fast hover:text-copper"
+      {...track}
     >
       {label} <span aria-hidden>&#8599;</span>
       <span className="sr-only">(opens in a new tab)</span>
@@ -109,9 +145,23 @@ function ExternalLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-function ExternalButton({ href, label }: { href: string; label: string }) {
+function ExternalButton({
+  href,
+  label,
+  track,
+}: {
+  href: string;
+  label: string;
+  track: TrackAttrs;
+}) {
   return (
-    <ButtonLink href={href} variant="ghost" external className="px-5 py-2.5 text-[0.875rem]">
+    <ButtonLink
+      href={href}
+      variant="ghost"
+      external
+      track={track}
+      className="px-5 py-2.5 text-[0.875rem]"
+    >
       {label} <span aria-hidden>&#8599;</span>
       <span className="sr-only">(opens in a new tab)</span>
     </ButtonLink>

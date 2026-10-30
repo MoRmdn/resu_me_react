@@ -12,6 +12,7 @@ import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { featuredProjects, galleryProjects, orderedProjects } from "@/content/projects";
 import { projectsCopy } from "@/content/copy";
 import type { Project } from "@/content/types";
+import { attentionAttrs, projectParams, swipeAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 
 export function Projects() {
@@ -71,6 +72,7 @@ function FeaturedPanel({
   flip: boolean;
 }) {
   const media = project.media;
+  const params = projectParams(project, "featured");
   const plateClass = cn(
     "order-first border-line",
     flip ? "lg:border-r" : "lg:order-none lg:border-l",
@@ -86,6 +88,7 @@ function FeaturedPanel({
           ? "bg-ink-800"
           : "bg-ink-700 elevation-card transition-colors duration-fast ease-fast hover:border-copper/35",
       )}
+      {...attentionAttrs("project", params)}
     >
       {project.isPrivate && (
         <svg aria-hidden className="pointer-events-none absolute inset-0 z-10 size-full" preserveAspectRatio="none">
@@ -147,7 +150,7 @@ function FeaturedPanel({
         {project.bundleId && <ApplicationId id={project.bundleId} />}
 
         <div className="mt-auto pt-2">
-          <ProjectLinks project={project} buttons />
+          <ProjectLinks project={project} placement="featured" buttons />
         </div>
       </div>
 
@@ -155,6 +158,7 @@ function FeaturedPanel({
         <ScreenStrip
           screens={media.screens}
           label={projectsCopy.screensLabel(project.title)}
+          swipe={swipeAttrs(params)}
           className={plateClass}
         />
       ) : (

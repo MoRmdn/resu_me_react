@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { trackAttrs } from "@/lib/analytics/attrs";
 
 /**
  * On a phone there is no room to stack an Arabic review over its translation:
@@ -34,6 +35,9 @@ export function ReviewLanguageToggle({
       aria-pressed={original}
       onClick={() => setOriginal((o) => !o)}
       className="review-lang-toggle inline-flex min-h-11 items-center rounded-md border border-line px-3.5 text-caption text-bone-70 transition-colors duration-fast ease-fast hover:border-line-strong hover:text-bone"
+      {...trackAttrs("review_language_toggle", {
+        language_state: original ? "translation" : "original",
+      })}
     >
       {original ? showTranslationLabel : showOriginalLabel}
     </button>

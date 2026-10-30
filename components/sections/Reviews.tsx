@@ -9,6 +9,7 @@ import { CountUp } from "@/components/motion/CountUp";
 import { MarqueeToggle } from "@/components/motion/MarqueeToggle";
 import { reviewsCopy } from "@/content/copy";
 import { reviewPlatforms, reviews, type Review } from "@/content/reviews";
+import { trackAttrs } from "@/lib/analytics/attrs";
 
 const WALL_ID = "review-wall";
 
@@ -74,6 +75,11 @@ export function Reviews() {
                   rel="noreferrer noopener"
                   // Stretched link: the whole cell is the target.
                   className="mt-2 inline-block text-caption text-bone-52 after:absolute after:inset-0 after:content-['']"
+                  {...trackAttrs("review_platform_click", {
+                    platform_id: platform.id,
+                    platform_label: platform.label,
+                    review_count: platform.count,
+                  })}
                 >
                   {platform.countLabel} · {reviewsCopy.scoreLabel}
                   <span className="sr-only">

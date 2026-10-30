@@ -20,12 +20,16 @@
         "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
       },
       {
-        "//": "HTML must revalidate or a deploy never reaches anyone. `**/*.html` matches the request path, not the file served, so with cleanUrls the only two pages on the site need naming explicitly.",
+        "//": "HTML must revalidate or a deploy never reaches anyone. `**/*.html` matches the request path, not the file served, so with cleanUrls every page on the site needs naming explicitly.",
         "source": "/",
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
       },
       {
         "source": "/404",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      },
+      {
+        "source": "/privacy/",
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
       },
       {

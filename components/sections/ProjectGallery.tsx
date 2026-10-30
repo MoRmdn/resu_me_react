@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/ProjectMeta";
 import { projectsCopy } from "@/content/copy";
 import type { Project } from "@/content/types";
+import { attentionAttrs, projectParams, trackAttrs } from "@/lib/analytics/attrs";
+import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
 
 /** Slightly longer than the 320ms open, so the plane has its final height. */
@@ -56,7 +58,16 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
     <div
       className="grid grid-flow-dense grid-cols-2 gap-x-3.5 lg:grid-cols-4"
       onKeyDown={(e) => {
-        if (e.key === "Escape" && openSlug) close(openSlug);
+        if (e.key !== "Escape" || !openSlug) return;
+        const project = projects.find((p) => p.slug === openSlug);
+        if (project) {
+          track("project_toggle", {
+            ...projectParams(project, "gallery"),
+            toggle_action: "close",
+            toggle_method: "escape",
+          });
+        }
+        close(openSlug);
       }}
     >
       {projects.map((project, i) => (
@@ -94,6 +105,7 @@ function GalleryItem({
 }) {
   const asset = project.media?.asset;
   const icon = project.media?.icon;
+  const params = projectParams(project, "gallery");
 
   return (
     <>
@@ -109,6 +121,7 @@ function GalleryItem({
               ? "border-copper/35 bg-ink-600 shadow-[0_24px_60px_rgb(0_0_0/0.6)]"
               : "border-line bg-ink-700 shadow-[inset_0_1px_0_rgb(255_255_255/0.03)]",
           )}
+          {...attentionAttrs("project", params, { dwell: false })}
         >
           {/* Plate 04 rules for all of them: shown whole, never cropped, and the
               ink either side is correct rather than a gap to close. */}
@@ -170,6 +183,11 @@ function GalleryItem({
                   aria-expanded={isOpen}
                   aria-controls={panelId(project.slug)}
                   className="text-left after:absolute after:inset-0 after:content-['']"
+                  {...trackAttrs("project_toggle", {
+                    ...params,
+                    toggle_action: isOpen ? "close" : "open",
+                    toggle_method: "tile",
+                  })}
                 >
                   {project.title}
                 </button>
@@ -197,6 +215,7 @@ function GalleryItem({
         className="disclosure col-span-full"
         data-open={isOpen}
         inert={!isOpen}
+        {...attentionAttrs("project", params)}
       >
         <div>
           <DetailPlane project={project} onTile={wide} onClose={onClose} />
@@ -224,6 +243,11 @@ function DetailPlane({
           type="button"
           onClick={onClose}
           className="eyebrow inline-flex min-h-11 shrink-0 items-center text-bone-52 transition-colors duration-fast ease-fast hover:text-bone"
+          {...trackAttrs("project_toggle", {
+            ...projectParams(project, "gallery"),
+            toggle_action: "close",
+            toggle_method: "close_button",
+          })}
         >
           {projectsCopy.closeLabel} &uarr;
         </button>
@@ -255,7 +279,7 @@ function DetailPlane({
 
           {project.bundleId && <ApplicationId id={project.bundleId} />}
 
-          <ProjectLinks project={project} />
+          <ProjectLinks project={project} placement="gallery" />
         </div>
       </div>
 

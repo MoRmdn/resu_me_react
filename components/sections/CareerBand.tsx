@@ -4,6 +4,8 @@ import { useMemo, useRef } from "react";
 import { buildCareerLanes } from "@/lib/careerLanes";
 import { experienceCopy } from "@/content/copy";
 import type { Experience } from "@/content/types";
+import { experienceParams, trackAttrs } from "@/lib/analytics/attrs";
+import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
 
 const LANE_H = 26;
@@ -45,6 +47,14 @@ export function CareerBand({
     if (!delta) return;
     e.preventDefault();
     const next = order[(focusIndex + delta + order.length) % order.length];
+    const role = roles.find((r) => r.slug === next);
+    if (role) {
+      track("experience_toggle", {
+        ...experienceParams(role),
+        toggle_action: "open",
+        toggle_method: "arrow_keys",
+      });
+    }
     onSelect(next);
     refs.current[next]?.focus();
   };
@@ -81,6 +91,11 @@ export function CareerBand({
               aria-pressed={active}
               aria-label={`${bar.role.position} at ${bar.role.company}, ${bar.role.startDate} to ${bar.role.endDate}, ${bar.months} months`}
               onClick={() => onSelect(bar.role.slug)}
+              {...trackAttrs("experience_toggle", {
+                ...experienceParams(bar.role),
+                toggle_action: "open",
+                toggle_method: "timeline_bar",
+              })}
               className={cn(
                 "band-bar absolute flex items-center overflow-hidden rounded-t-sm border px-2.5 text-left",
                 "transition-[background-color,border-color] duration-fast ease-fast",

@@ -4,6 +4,9 @@ import { site, contact, socials, channels, publisherNamespace } from "@/content/
 import { skillGroups } from "@/content/skills";
 import { experiences } from "@/content/experience";
 import { projects } from "@/content/projects";
+import { AnalyticsRoot } from "@/components/analytics/AnalyticsRoot";
+import { trackAttrs } from "@/lib/analytics/attrs";
+import { projectNames } from "@/lib/projectNames";
 import "./globals.css";
 
 /**
@@ -37,19 +40,6 @@ const plexArabic = IBM_Plex_Sans_Arabic({
   display: "swap",
   preload: false,
 });
-
-/**
- * A project title split into the names someone would search for. Titles are
- * display strings: "MisMar | مسمار" is bilingual (the part after the pipe is a
- * translation), "AYCO — Maintenance Reports" carries a subtitle. The bare name
- * leads; the full title and any translation are aliases.
- */
-function projectNames(title: string) {
-  const [primary, ...translations] = title.split("|").map((part) => part.trim());
-  const name = primary.split(" — ")[0].trim();
-  const alternateName = [...(name !== primary ? [primary] : []), ...translations];
-  return { name, alternateName };
-}
 
 const keywordProjects = projects.filter((p) => !p.hideFromKeywords);
 const appNames = keywordProjects.map((p) => projectNames(p.title).name);
@@ -341,11 +331,17 @@ export default function RootLayout({
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:rounded-md focus:bg-copper focus:px-4 focus:py-2 focus:font-semibold focus:text-ink-900"
+          {...trackAttrs("nav_link_click", {
+            link_target: "main",
+            link_text: "Skip to content",
+            nav_location: "skip_link",
+          })}
         >
           Skip to content
         </a>
         {children}
         <div className="grain" aria-hidden />
+        <AnalyticsRoot />
       </body>
     </html>
   );

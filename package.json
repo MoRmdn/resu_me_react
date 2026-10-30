@@ -14,7 +14,8 @@
     "map": "node scripts/generate-world-map.mjs",
     "export:reviews": "next build && node scripts/export-review-cards.mjs",
     "brief": "tsc content/*.ts scripts/content-brief.ts --outDir .brief --module commonjs --target es2022 --moduleResolution node --skipLibCheck && node .brief/scripts/content-brief.js && rm -rf .brief",
-    "ingest": "node scripts/ingest-assets.mjs"
+    "ingest": "node scripts/ingest-assets.mjs",
+    "analytics:docs": "node scripts/analytics-docs.mjs"
   },
   "dependencies": {
     "firebase": "^12.18.0",

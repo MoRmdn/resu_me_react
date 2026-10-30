@@ -54,7 +54,7 @@ even though it ships in the client bundle anyway.
 | `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | `m0rmdn.firebaseapp.com` |
 | `NEXT_PUBLIC_FIREBASE_DATABASE_URL` | Realtime Database URL |
 | `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | Storage bucket |
-| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | Analytics (`G-…`) |
+| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | Google Analytics (`G-…`), see [docs/ANALYTICS.md](docs/ANALYTICS.md) |
 
 Access control is `database.rules.json`, not the API key.
 
@@ -66,6 +66,7 @@ Access control is `database.rules.json`, not the API key.
 | `npm run build` | Static export to `out/` |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
+| `npm run analytics:docs` | Regenerate `docs/ANALYTICS-EVENTS.md` (`-- --check` to validate) |
 | `npm run images` | AVIF/WebP from `public/images/*-src.png` |
 | `npm run og` | Regenerate `public/og.png` |
 | `npm run brief` | Print a content dump for review |
@@ -73,7 +74,7 @@ Access control is `database.rules.json`, not the API key.
 Before calling a change done:
 
 ```bash
-npm run typecheck && npm run lint && npm run build
+npm run typecheck && npm run lint && npm run analytics:docs -- --check && npm run build
 ```
 
 ## Editing content

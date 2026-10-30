@@ -3,6 +3,7 @@
 import { MoRmdnMark } from "@/components/brand/MoRmdnMark";
 import { site } from "@/content/site";
 import { footerCopy } from "@/content/copy";
+import { trackAttrs } from "@/lib/analytics/attrs";
 import { useViews } from "@/lib/useViews";
 
 export function Footer() {
@@ -22,12 +23,30 @@ export function Footer() {
           {views !== null && <> &middot; {views.toLocaleString()} views</>}
         </p>
 
-        <a
-          href="#top"
-          className="min-h-11 py-3 transition-colors duration-fast ease-fast hover:text-bone"
-        >
-          {footerCopy.backToTop} &uarr;
-        </a>
+        <div className="flex items-center gap-6">
+          <a
+            href={footerCopy.privacyHref}
+            className="min-h-11 py-3 transition-colors duration-fast ease-fast hover:text-bone"
+            {...trackAttrs("nav_link_click", {
+              link_target: "privacy",
+              link_text: footerCopy.privacyLabel,
+              nav_location: "footer",
+            })}
+          >
+            {footerCopy.privacyLabel}
+          </a>
+          <a
+            href="#top"
+            className="min-h-11 py-3 transition-colors duration-fast ease-fast hover:text-bone"
+            {...trackAttrs("nav_link_click", {
+              link_target: "top",
+              link_text: footerCopy.backToTop,
+              nav_location: "footer",
+            })}
+          >
+            {footerCopy.backToTop} &uarr;
+          </a>
+        </div>
       </div>
     </footer>
   );

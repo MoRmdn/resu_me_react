@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { MoRmdnLockup } from "@/components/brand/MoRmdnLockup";
 import { navSections } from "@/content/site";
+import { trackAttrs } from "@/lib/analytics/attrs";
+import { track } from "@/lib/analytics/gtag";
 import { useScrollSpy } from "@/lib/useScrollSpy";
 import { cn } from "@/lib/cn";
 
@@ -45,7 +47,11 @@ export function Nav() {
   // The sheet is modal: lock the page behind it and close on Escape.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      track("nav_menu_toggle", { menu_action: "close", toggle_method: "escape" });
+      setOpen(false);
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
@@ -66,6 +72,11 @@ export function Nav() {
             href="#top"
             aria-label="Back to top"
             className="inline-flex min-h-11 items-center rounded-sm"
+            {...trackAttrs("nav_link_click", {
+              link_target: "top",
+              link_text: "Logo",
+              nav_location: "header",
+            })}
           >
             <MoRmdnLockup />
           </a>
@@ -80,6 +91,11 @@ export function Nav() {
                   "relative rounded-sm px-3 py-2 text-[0.84375rem] transition-colors duration-fast ease-fast",
                   active === link.id ? "text-bone" : "text-bone-62 hover:text-bone",
                 )}
+                {...trackAttrs("nav_link_click", {
+                  link_target: link.id,
+                  link_text: link.label,
+                  nav_location: "header",
+                })}
               >
                 {link.label}
                 <span
@@ -101,6 +117,7 @@ export function Nav() {
                   ? "bg-copper text-ink-900 hover:bg-copper-bright"
                   : "border border-line-strong text-bone hover:border-copper hover:bg-bone-06",
               )}
+              {...trackAttrs("cta_click", { cta_id: "nav_hire_me", link_text: "Hire me" })}
             >
               Hire me
             </a>
@@ -112,6 +129,7 @@ export function Nav() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             className="inline-flex size-11 items-center justify-center rounded-pill text-bone sm:hidden"
+            {...trackAttrs("nav_menu_toggle", { menu_action: "open", toggle_method: "menu_button" })}
           >
             <span className="sr-only">Open menu</span>
             <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden>
@@ -128,6 +146,7 @@ export function Nav() {
             aria-label="Close menu"
             onClick={() => setOpen(false)}
             className="absolute inset-0 h-full w-full bg-ink-900/70 backdrop-blur-sm"
+            {...trackAttrs("nav_menu_toggle", { menu_action: "close", toggle_method: "backdrop" })}
           />
           <div className="absolute inset-x-0 bottom-0 rounded-t-[20px] border-t border-line bg-ink-700 pt-3 pb-8 motion-safe:animate-[rise-in_0.32s_var(--ease-base)_both]">
             <div className="mx-auto mb-6 h-1 w-9 rounded-pill bg-bone-18" aria-hidden />
@@ -141,6 +160,11 @@ export function Nav() {
                       "flex min-h-12 items-center border-b border-line text-body-l",
                       active === link.id ? "font-semibold text-copper" : "text-bone",
                     )}
+                    {...trackAttrs("nav_link_click", {
+                      link_target: link.id,
+                      link_text: link.label,
+                      nav_location: "mobile_menu",
+                    })}
                   >
                     {link.label}
                   </a>

@@ -6,6 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { CareerBand } from "./CareerBand";
 import { experiences } from "@/content/experience";
 import { experienceCopy } from "@/content/copy";
+import { attentionAttrs, experienceParams, trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 
 /**
@@ -52,6 +53,11 @@ export function Experience() {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     className="group grid w-full grid-cols-[20px_1fr_auto] items-center gap-x-5 py-6 text-left transition-colors duration-fast ease-fast hover:bg-bone/[0.02] md:grid-cols-[32px_1fr_240px_190px_24px] md:gap-x-6 md:px-2"
+                    {...trackAttrs("experience_toggle", {
+                      ...experienceParams(role),
+                      toggle_action: isOpen ? "close" : "open",
+                      toggle_method: "list_row",
+                    })}
                   >
                     <span
                       aria-hidden
@@ -110,7 +116,13 @@ export function Experience() {
                   </button>
                 </h3>
 
-                <div id={panelId} className="disclosure" data-open={isOpen} inert={!isOpen}>
+                <div
+                  id={panelId}
+                  className="disclosure"
+                  data-open={isOpen}
+                  inert={!isOpen}
+                  {...attentionAttrs("experience", experienceParams(role))}
+                >
                   <div>
                     <div className="grid gap-x-6 pb-8 md:grid-cols-[32px_1fr] md:px-2">
                       <div aria-hidden className="hidden md:block" />

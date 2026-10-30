@@ -3,6 +3,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/motion/Reveal";
 import { about, learning } from "@/content/copy";
 import { education, learningNow } from "@/content/site";
+import { trackAttrs } from "@/lib/analytics/attrs";
 
 /**
  * 7/5 split. The right column drops 80px below the left — the deliberate
@@ -116,6 +117,10 @@ export function About() {
                       target="_blank"
                       rel="noreferrer noopener"
                       className="inline-flex min-h-11 items-center text-bone underline decoration-line underline-offset-4 transition-colors duration-fast ease-fast hover:decoration-copper"
+                      {...trackAttrs("about_link_click", {
+                        link_text: learningNow.built.title,
+                        link_url: learningNow.built.href,
+                      })}
                     >
                       {learningNow.built.title} <span aria-hidden>&#8599;</span>
                       <span className="sr-only">(opens in a new tab)</span>

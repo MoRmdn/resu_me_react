@@ -11,11 +11,18 @@ import {
   type ClientFilter,
 } from "@/content/clients";
 import type { PlatformId } from "@/content/reviews";
+import { trackAttrs } from "@/lib/analytics/attrs";
+import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
 
 /** How close to the map's edge a tooltip has to flip to stay on it. */
 const EDGE_X = 130;
 const EDGE_Y = 96;
+
+/** Resting on a country this long means looking at it, not passing over it. */
+const COUNTRY_VIEW_MS = 600;
+/** Each country is reported once a page load, however often it is crossed. */
+const viewedCountries = new Set<string>();
 
 /**
  * The interactive half of the client map: the site filter, the hover, and the
@@ -69,6 +76,22 @@ export function ClientMapExplorer({
       .forEach((el) => el.setAttribute("data-lit", "true"));
   }, [active]);
 
+  useEffect(() => {
+    const country = clientCountries.find((c) => c.id === active);
+    if (!country || viewedCountries.has(country.id)) return;
+
+    const timer = setTimeout(() => {
+      viewedCountries.add(country.id);
+      track("client_map_country_view", {
+        country_id: country.id,
+        country_name: country.name,
+        map_filter: filter,
+        view_trigger: "hover",
+      });
+    }, COUNTRY_VIEW_MS);
+    return () => clearTimeout(timer);
+  }, [active, filter]);
+
   const activeCountry = clientCountries.find((c) => c.id === active);
   const activePosition = active ? positions[active] : undefined;
 
@@ -115,6 +138,7 @@ export function ClientMapExplorer({
                 ? "border-line-strong bg-ink-600 text-bone"
                 : "border-line text-bone-70 hover:border-line-strong hover:text-bone",
             )}
+            {...trackAttrs("client_map_filter", { map_filter: option.id })}
           >
             {option.label}
           </button>
@@ -169,9 +193,18 @@ export function ClientMapExplorer({
               onPointerLeave={() => setActive(null)}
               onFocus={() => setActive(country.id)}
               onBlur={() => setActive(null)}
-              onClick={() => setActive(country.id)}
+              onClick={() => {
+                viewedCountries.add(country.id);
+                setActive(country.id);
+              }}
               className="map-row group flex min-h-11 w-full flex-col justify-center gap-1.5 text-left"
               data-active={active === country.id || undefined}
+              {...trackAttrs("client_map_country_view", {
+                country_id: country.id,
+                country_name: country.name,
+                map_filter: filter,
+                view_trigger: "click",
+              })}
             >
               <span className="flex items-baseline justify-between gap-3 text-caption text-bone-70 transition-colors duration-fast ease-fast group-hover:text-bone">
                 {country.name}
