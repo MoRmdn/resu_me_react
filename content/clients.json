@@ -1,0 +1,25 @@
+{
+  "countries": [
+    { "id": "SA", "iso": "682", "name": "Saudi Arabia", "lon": 46.7, "lat": 24.7, "clients": { "khamsat": 41, "fiverr": 9, "upwork": 3, "freelancer": 2 } },
+    { "id": "EG", "iso": "818", "name": "Egypt", "lon": 31.2, "lat": 30.0, "clients": { "khamsat": 9, "freelancer": 1 } },
+    { "id": "MA", "iso": "504", "name": "Morocco", "lon": -6.8, "lat": 34.0, "clients": { "khamsat": 2, "fiverr": 1, "upwork": 1 } },
+    { "id": "JO", "iso": "400", "name": "Jordan", "lon": 35.9, "lat": 31.9, "clients": { "khamsat": 3, "freelancer": 1 } },
+    { "id": "PS", "iso": "275", "name": "Palestine", "lon": 35.2, "lat": 31.9, "clients": { "khamsat": 3, "upwork": 1 } },
+    { "id": "OM", "iso": "512", "name": "Oman", "lon": 58.4, "lat": 23.6, "clients": { "khamsat": 4 } },
+    { "id": "AE", "iso": "784", "name": "United Arab Emirates", "lon": 54.4, "lat": 24.5, "clients": { "khamsat": 3 } },
+    { "id": "IQ", "iso": "368", "name": "Iraq", "lon": 44.4, "lat": 33.3, "clients": { "khamsat": 2, "mostaql": 1 } },
+    { "id": "SD", "iso": "729", "name": "Sudan", "lon": 32.5, "lat": 15.6, "clients": { "khamsat": 2 } },
+    { "id": "KW", "iso": "414", "name": "Kuwait", "lon": 48.0, "lat": 29.4, "clients": { "khamsat": 2 } },
+    { "id": "TR", "iso": "792", "name": "Türkiye", "lon": 32.9, "lat": 39.9, "clients": { "khamsat": 1 } },
+    { "id": "IN", "iso": "356", "name": "India", "lon": 77.2, "lat": 28.6, "clients": { "khamsat": 1 } },
+    { "id": "SY", "iso": "760", "name": "Syria", "lon": 36.3, "lat": 33.5, "clients": { "khamsat": 1 } },
+    { "id": "GB", "iso": "826", "name": "United Kingdom", "lon": -0.1, "lat": 51.5, "clients": { "fiverr": 1 } },
+    { "id": "DE", "iso": "276", "name": "Germany", "lon": 13.4, "lat": 52.5, "clients": { "fiverr": 1 } },
+    { "id": "RO", "iso": "642", "name": "Romania", "lon": 26.1, "lat": 44.4, "clients": { "fiverr": 1 } },
+    { "id": "PK", "iso": "586", "name": "Pakistan", "lon": 73.0, "lat": 33.7, "clients": { "fiverr": 1 } },
+    { "id": "US", "iso": "840", "name": "United States", "lon": -77.0, "lat": 38.9, "clients": { "fiverr": 1 } },
+    { "id": "FR", "iso": "250", "name": "France", "lon": 2.35, "lat": 48.9, "clients": { "freelancer": 1 } },
+    { "id": "IT", "iso": "380", "name": "Italy", "lon": 12.5, "lat": 41.9, "clients": { "freelancer": 1 } }
+  ],
+  "unplaced": { "khamsat": 1, "freelancer": 1, "mostaql": 3 }
+}

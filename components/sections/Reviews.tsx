@@ -1,3 +1,4 @@
+import { ClientMap } from "@/components/sections/ClientMap";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ReviewCard } from "@/components/ui/ReviewCard";
@@ -137,6 +138,8 @@ export function Reviews() {
           />
         </div>
       </div>
+
+      <ClientMap />
     </Section>
   );
 }

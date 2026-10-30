@@ -4,6 +4,7 @@
  *
  * The hero intro previously said "four years" — the CV says over five.
  */
+import { clientCountries } from "./clients";
 import { reviews, reviewTotal } from "./reviews";
 import { contact, metrics, site } from "./site";
 
@@ -101,6 +102,22 @@ export const reviewsCopy = {
   playLabel: "Play",
   showOriginalLabel: "Show Arabic originals",
   showTranslationLabel: "Show translations",
+};
+
+export const clientMapCopy = {
+  eyebrow: "Where they are",
+  headline: "World domination",
+  blurb:
+    "Every lit country has a client who hired me on one of these five sites. The lines all start in Mansoura, because that's still where the work gets done.",
+  mapLabel: `World map of client locations across ${clientCountries.length} countries. The same figures are in the list that follows.`,
+  filterLabel: "Show clients from",
+  allLabel: "All sites",
+  countriesLabel: (count: number) => (count === 1 ? "country" : "countries"),
+  clientsLabel: (count: number) => (count === 1 ? "client" : "clients"),
+  homeLabel: "Mansoura, Egypt",
+  countedNote: "Counted once per site, so a client on two sites counts twice.",
+  unplacedNote: (count: number) =>
+    `${count} more ${count === 1 ? "client has" : "clients have"} no public country, so ${count === 1 ? "isn't" : "aren't"} on the map.`,
 };
 
 export const contactCopy = {

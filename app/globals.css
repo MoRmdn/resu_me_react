@@ -675,6 +675,244 @@
 }
 /* review-cards:end */
 
+/* ---------------------------------------------------------------------------
+   Client map. The finished map is the base style; the intro is an animation
+   that only runs once Reveal flips data-visible, so with no JS, a missed
+   observer or reduced motion it is simply already drawn.
+
+   Order of events: the pin lands, lines leave it nearest-first, each country
+   fills as its line arrives. --i is that order, from generate-world-map.mjs.
+--------------------------------------------------------------------------- */
+[data-map-filter="all"] .map-country {
+  --w: var(--w-all, 0);
+}
+[data-map-filter="upwork"] .map-country {
+  --w: var(--w-upwork, 0);
+}
+[data-map-filter="fiverr"] .map-country {
+  --w: var(--w-fiverr, 0);
+}
+[data-map-filter="freelancer"] .map-country {
+  --w: var(--w-freelancer, 0);
+}
+[data-map-filter="mostaql"] .map-country {
+  --w: var(--w-mostaql, 0);
+}
+[data-map-filter="khamsat"] .map-country {
+  --w: var(--w-khamsat, 0);
+}
+
+.map-country {
+  fill: var(--color-copper);
+  fill-opacity: var(--w, 0);
+  stroke: var(--color-copper);
+  stroke-opacity: 0.32;
+  stroke-width: 0.5;
+  vector-effect: non-scaling-stroke;
+  transition:
+    fill-opacity 320ms var(--ease-base),
+    stroke-opacity 320ms var(--ease-base);
+}
+
+.map-arc {
+  fill: none;
+  stroke: var(--color-copper);
+  stroke-opacity: 0.38;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  transition:
+    opacity 320ms var(--ease-base),
+    stroke-opacity 180ms var(--ease-fast);
+}
+
+.map-marker {
+  transition: opacity 320ms var(--ease-base);
+}
+
+.map-dot {
+  fill: var(--color-bone);
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 180ms var(--ease-fast);
+}
+
+.map-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+/* A site that has no clients in a country takes its line and marker with it. */
+[data-map-filter="upwork"] [data-platforms]:not([data-platforms~="upwork"]),
+[data-map-filter="fiverr"] [data-platforms]:not([data-platforms~="fiverr"]),
+[data-map-filter="freelancer"] [data-platforms]:not([data-platforms~="freelancer"]),
+[data-map-filter="mostaql"] [data-platforms]:not([data-platforms~="mostaql"]),
+[data-map-filter="khamsat"] [data-platforms]:not([data-platforms~="khamsat"]) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.map-country[data-lit="true"] {
+  fill-opacity: 0.62;
+  stroke-opacity: 1;
+}
+.map-arc[data-lit="true"] {
+  stroke-opacity: 1;
+}
+.map-dot[data-lit="true"] {
+  transform: scale(1.7);
+}
+
+/* Jade: Mansoura is a live status, not an accent. */
+.map-pin__dot {
+  fill: var(--color-jade);
+}
+.map-pin__ring {
+  fill: var(--color-jade);
+  fill-opacity: 0.22;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-pin-ring 2.4s var(--ease-base) infinite;
+}
+
+@keyframes map-pin-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes map-pin-land {
+  from {
+    transform: translate3d(0, -18px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes map-line-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes map-fill-in {
+  from {
+    fill-opacity: 0;
+    stroke-opacity: 0;
+  }
+}
+
+@keyframes map-dot-in {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.reveal[data-visible="true"] .map-pin {
+  animation: map-pin-land 420ms var(--ease-base) both;
+}
+.reveal[data-visible="true"] .map-arc {
+  animation: map-line-draw 620ms var(--ease-slow) both;
+  animation-delay: calc(var(--i) * 70ms + 320ms);
+}
+.reveal[data-visible="true"] .map-country {
+  animation: map-fill-in 320ms var(--ease-base) both;
+  animation-delay: calc(var(--i) * 70ms + 760ms);
+}
+.reveal[data-visible="true"] .map-dot {
+  animation: map-dot-in 320ms var(--ease-base) both;
+  animation-delay: calc(var(--i) * 70ms + 760ms);
+}
+
+.map-tip {
+  position: absolute;
+  z-index: 2;
+  width: max-content;
+  max-width: 240px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-ink-600);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 12px));
+}
+.map-tip[data-x="start"] {
+  transform: translate(0, calc(-100% - 12px));
+}
+.map-tip[data-x="end"] {
+  transform: translate(-100%, calc(-100% - 12px));
+}
+.map-tip[data-y="below"] {
+  transform: translate(-50%, 12px);
+}
+.map-tip[data-x="start"][data-y="below"] {
+  transform: translate(0, 12px);
+}
+.map-tip[data-x="end"][data-y="below"] {
+  transform: translate(-100%, 12px);
+}
+
+/* A phone's map is 150px tall and has no room for a floating label. Pinned
+   under it instead, which is why the inline left and top need overriding. */
+@media (max-width: 679px) {
+  .map-tip,
+  .map-tip[data-x],
+  .map-tip[data-y] {
+    top: 100% !important;
+    right: 0;
+    left: 0 !important;
+    width: auto;
+    max-width: none;
+    margin-top: 8px;
+    transform: none;
+  }
+}
+
+.map-row__bar {
+  display: block;
+  height: 2px;
+  background-color: var(--color-copper);
+  opacity: 0.38;
+  transform: scaleX(var(--bar, 1));
+  transform-origin: left;
+  transition:
+    transform 320ms var(--ease-base),
+    opacity 180ms var(--ease-fast);
+}
+.map-row:hover .map-row__bar,
+.map-row:focus-visible .map-row__bar,
+.map-row[data-active] .map-row__bar {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-pin__ring {
+    animation: none;
+    opacity: 1;
+  }
+  .reveal[data-visible="true"] .map-pin,
+  .reveal[data-visible="true"] .map-arc,
+  .reveal[data-visible="true"] .map-country,
+  .reveal[data-visible="true"] .map-dot {
+    animation: none;
+  }
+}
+
 /* Slow pulse for the "open to work" dot. */
 @keyframes dot-pulse {
   0%,
