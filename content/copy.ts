@@ -139,4 +139,70 @@ export const contactCopy = {
 export const footerCopy = {
   backToTop: "Back to top",
   builtWith: "Built with Next.js",
+  privacyLabel: "Privacy",
+  privacyHref: "/privacy/",
+};
+
+export const consentCopy = {
+  label: "Analytics choice",
+  body: "This site uses Google Analytics to see which work people find interesting. It only sets cookies if you agree.",
+  policyLabel: "Privacy",
+  policyHref: "/privacy/",
+  acceptLabel: "Accept",
+  declineLabel: "Decline",
+  currentLabel: {
+    accepted: "Analytics: accepted",
+    declined: "Analytics: declined",
+    none: "Analytics: no choice made yet",
+  },
+};
+
+export const privacyCopy = {
+  title: "Privacy",
+  description: "What this site measures, what it never collects, and how to turn it off.",
+  eyebrow: "Privacy",
+  headline: "What this site measures",
+  intro:
+    "This is the portfolio of Mohamed Ramadan. It uses Google Analytics to understand how people use the page, mainly which projects hold their attention.",
+  updated: "Last updated 30 October 2026",
+  backLabel: "Back to the portfolio",
+  choiceTitle: "Your choice",
+  choiceBody:
+    "You can change your mind here at any time. Declining stops analytics in this browser and removes its cookies. Visitors in the EU, UK and Switzerland are asked first; until they accept, no analytics cookies are set.",
+  sections: [
+    {
+      title: "What is measured",
+      items: [
+        "Pages opened, the links and buttons clicked, and how far down the page you scroll.",
+        "How long you stop on each project, section and role, and which projects you open.",
+        "Page speed and script errors, so problems can be found and fixed.",
+        "General facts Google Analytics reports: approximate location by city, device type, browser, language and the site that sent you.",
+      ],
+    },
+    {
+      title: "What is never collected",
+      items: [
+        "Your name, email address, phone number or any other detail that identifies you.",
+        "Anything you copy. Only the number of characters is recorded, never the text.",
+        "Advertising data. The site shows no adverts and Google's ad features are turned off.",
+      ],
+    },
+    {
+      title: "Cookies and storage",
+      items: [
+        "Google Analytics sets _ga cookies, which last up to two years, to tell one visit from the next.",
+        "Your choice is kept in this browser's local storage so you are not asked again.",
+        "The visit counter on the page adds one per page load and stores no information about you.",
+      ],
+    },
+    {
+      title: "Where the data goes",
+      items: [
+        "Analytics data is processed by Google under its own privacy terms, and may be processed outside your country.",
+        "It is kept for up to 14 months and is not sold or shared with anyone else.",
+      ],
+    },
+  ],
+  contactTitle: "Questions",
+  contactBody: "To ask about your data, or to have it removed, write to",
 };

@@ -3,6 +3,7 @@
 import { MoRmdnMarkDraw } from "@/components/brand/MoRmdnMarkDraw";
 import { CountUp } from "@/components/motion/CountUp";
 import { hero } from "@/content/copy";
+import { trackAttrs } from "@/lib/analytics/attrs";
 import { useViews } from "@/lib/useViews";
 
 /**
@@ -63,6 +64,10 @@ export function Hero() {
             <a
               href={hero.primaryCta.href}
               className="inline-flex h-12 items-center rounded-md bg-copper px-[22px] text-[0.9375rem] font-medium text-ink-900 transition-[transform,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:bg-copper-bright active:translate-y-0 active:bg-copper-dim"
+              {...trackAttrs("cta_click", {
+                cta_id: "hero_see_work",
+                link_text: hero.primaryCta.label,
+              })}
             >
               {hero.primaryCta.label} &rarr;
             </a>
@@ -71,6 +76,11 @@ export function Hero() {
               target="_blank"
               rel="noreferrer noopener"
               className="inline-flex h-12 items-center rounded-md border border-line px-[22px] text-[0.9375rem] font-medium text-bone transition-[transform,border-color,background-color] duration-fast ease-fast hover:-translate-y-0.5 hover:border-line-strong hover:bg-bone-06 active:translate-y-0"
+              {...trackAttrs("contact_channel_click", {
+                channel_id: "whatsapp",
+                channel_label: hero.secondaryCta.label,
+                channel_placement: "hero",
+              })}
             >
               {hero.secondaryCta.label}
               <span className="sr-only">(opens in a new tab)</span>
@@ -79,6 +89,9 @@ export function Hero() {
               href={hero.resumeCta.href}
               download
               className="eyebrow inline-flex min-h-11 items-center border-b border-copper/38 pb-1 text-bone-70 transition-colors duration-fast ease-fast hover:border-copper hover:text-bone"
+              {...trackAttrs("resume_download", {
+                file_name: hero.resumeCta.href.split("/").pop() ?? hero.resumeCta.href,
+              })}
             >
               {hero.resumeCta.label} &darr;
             </a>

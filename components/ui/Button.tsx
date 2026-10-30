@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { TrackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "ghost";
@@ -21,6 +22,8 @@ export type ButtonProps = {
   variant?: Variant;
   external?: boolean;
   download?: boolean;
+  /** Required: from `trackAttrs`. No control on this site goes untracked. */
+  track: TrackAttrs;
   className?: string;
   children: React.ReactNode;
 };
@@ -30,6 +33,7 @@ export function ButtonLink({
   variant = "primary",
   external,
   download,
+  track,
   className,
   children,
 }: ButtonProps) {
@@ -46,6 +50,7 @@ export function ButtonLink({
         className={classes}
         {...(download ? { download: "" } : {})}
         {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+        {...track}
       >
         {children}
       </a>
@@ -53,7 +58,7 @@ export function ButtonLink({
   }
 
   return (
-    <Link href={href} className={classes}>
+    <Link href={href} className={classes} {...track}>
       {children}
     </Link>
   );

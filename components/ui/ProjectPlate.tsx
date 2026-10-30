@@ -1,5 +1,6 @@
 import { ProjectImage } from "./ProjectImage";
 import { IconTile } from "./IconTile";
+import type { swipeAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 import type { ProjectMedia } from "@/content/types";
 
@@ -105,10 +106,13 @@ export function ProjectPlate({
 export function ScreenStrip({
   screens,
   label,
+  swipe,
   className,
 }: {
   screens: NonNullable<ProjectMedia["screens"]>;
   label: string;
+  /** From `swipeAttrs`, so the first sideways scroll is reported. */
+  swipe?: ReturnType<typeof swipeAttrs>;
   className?: string;
 }) {
   return (
@@ -118,6 +122,7 @@ export function ScreenStrip({
         aria-label={label}
         tabIndex={0}
         className="w-full overflow-x-auto sm:overflow-visible"
+        {...swipe}
       >
         <ul className="flex snap-x snap-mandatory gap-3 p-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8 sm:pt-8 sm:pb-14">
           {screens.map((screen) => (

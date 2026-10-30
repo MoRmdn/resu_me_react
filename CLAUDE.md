@@ -2,7 +2,7 @@
 
 A single-page Next.js portfolio, statically exported and deployed to Firebase
 Hosting (project `m0rmdn`), live at **https://mormdn.com**. One scrolling page,
-eight sections.
+eight sections, plus a `noindex` privacy page that Google Analytics' terms require.
 
 This replaces a Flutter Web app that still lives at `/Users/dark/Dev/resu_me`.
 The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
@@ -27,6 +27,7 @@ npm run dev
 | `npm run build` | static export to `out/` |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | eslint |
+| `npm run analytics:docs` | regenerate `docs/ANALYTICS-EVENTS.md` from the catalog; `-- --check` validates it (CI runs this) |
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
 | `npm run promos` | compose store-style promos into `assets/projects/` (needs Chrome), then run `npm run images` |
 | `npm run og` | regenerate `public/og.png` |
@@ -54,16 +55,20 @@ needs the browser: `Nav`, `Hero`, `Experience`, `ProjectGallery`, `Contact`,
 
 ```
 app/
-├── layout.tsx        fonts, metadata, Open Graph, JSON-LD Person, grain, skip link
+├── layout.tsx        fonts, metadata, Open Graph, JSON-LD Person, grain, skip link, analytics
 ├── page.tsx          section composition
+├── privacy/          the privacy page and the consent control
 └── globals.css       ALL design tokens (@theme) + the animation layer
 components/
+├── analytics/        AnalyticsRoot, ConsentNotice
 ├── brand/            MoRmdnMark, MoRmdnLockup, MoRmdnMarkDraw — SVG, geometry locked
 ├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
 ├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee, MarqueeToggle
 └── sections/         one file per band of the page
 content/              every word and number the site renders
 lib/                  firebase, hooks, cn
+lib/analytics/        the event catalog, the tag, the listeners, the dwell engine
+docs/                 ANALYTICS.md (the rules), ANALYTICS-EVENTS.md (generated)
 scripts/              image + OG generation, run by hand
 ```
 
@@ -97,6 +102,21 @@ they stay out of git so GitHub secret scanning does not flag the API key.
 `output: "export"` inlines `NEXT_PUBLIC_*` at build time, so CI injects the same
 keys from GitHub Actions secrets. Security comes from `database.rules.json`.
 
+### Analytics
+
+Google Analytics 4 through `gtag.js`, not the Firebase SDK. **Every person and agent
+working here must read [docs/ANALYTICS.md](docs/ANALYTICS.md) before adding a link,
+button, event, section or page.** `AGENTS.md` carries the same rules for other tools.
+
+- Every link and button spreads `{...trackAttrs(event, params)}`. ESLint fails one
+  that does not. It is data attributes and one delegated listener, so it works in
+  server components and adds no JavaScript.
+- Every event and parameter is declared in `lib/analytics/catalog.ts` with a full
+  description, and every event has a sentence in `lib/analytics/sentences.ts`.
+- Run `npm run analytics:docs` after changing the catalog. CI fails on stale docs.
+- Never send personal data. Review ids contain first names, so events send a hash.
+- New parameters must be registered in GA, or they do not appear in reports.
+
 ---
 
 ## House rules
@@ -114,8 +134,10 @@ keys from GitHub Actions secrets. Security comes from `database.rules.json`.
 - **Every animation needs a `prefers-reduced-motion` fallback**, and it must
   degrade to the finished state, never a half-played one.
 - Fonts are `next/font` (self-hosted). Do not add a Google Fonts `<link>`.
-- Run `npm run typecheck && npm run lint && npm run build` before calling
-  something done.
+- **Every control is tracked, and nothing bypasses the catalog.** No `gtag()` or
+  `dataLayer` outside `lib/analytics/gtag.ts`. See `docs/ANALYTICS.md`.
+- Run `npm run typecheck && npm run lint && npm run analytics:docs -- --check &&
+  npm run build` before calling something done.
 
 ---
 
@@ -163,8 +185,9 @@ so nothing needs the rewrite.
 
 **`**/*.html` header rules do not match `/`.** Firebase matches the *request*
 path, not the file it resolves to, and `cleanUrls` means the homepage is
-requested as `/`. The `must-revalidate` rule therefore names `/` and `/404`
-explicitly. Add any new page to that list or it ships with a one-hour cache.
+requested as `/`. The `must-revalidate` rule therefore names `/`, `/404` and
+`/privacy/` explicitly. Add any new page to that list or it ships with a one-hour
+cache.
 
 **Next's RSC payloads are public.** `/__next._full.txt` and friends are the
 whole page again as plain text at their own URLs. `firebase.json` sends them

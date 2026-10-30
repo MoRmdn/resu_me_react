@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { trackAttrs } from "@/lib/analytics/attrs";
 
 /**
  * Hover pauses a marquee, but a phone has no hover and a keyboard never lands
@@ -31,6 +32,7 @@ export function MarqueeToggle({
       aria-pressed={paused}
       onClick={() => setPaused((p) => !p)}
       className="marquee-toggle inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-3.5 text-caption text-bone-70 transition-colors duration-fast ease-fast hover:border-line-strong hover:text-bone"
+      {...trackAttrs("review_wall_pause_toggle", { pause_state: paused ? "playing" : "paused" })}
     >
       <span aria-hidden className="text-[0.625rem]">
         {paused ? "▶" : "❚❚"}

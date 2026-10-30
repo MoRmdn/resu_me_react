@@ -6,6 +6,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/motion/Reveal";
 import { contactCopy } from "@/content/copy";
 import { channels, contact, socials } from "@/content/site";
+import { trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 
 /**
@@ -50,6 +51,10 @@ export function Contact() {
                     target="_blank"
                     rel="noreferrer noopener"
                     className="inline-flex min-h-11 items-center gap-2 text-[0.84375rem] text-bone-70 transition-colors duration-fast ease-fast hover:text-bone"
+                    {...trackAttrs("social_profile_click", {
+                      social_label: s.label,
+                      link_url: s.url,
+                    })}
                   >
                     {s.label}
                     <span className="text-bone-52">{s.handle}</span>
@@ -105,6 +110,11 @@ function ChannelCard({ channel }: { channel: Channel }) {
           // Stretched link: the whole cell is the target, so the tap area is
           // the card rather than the label.
           className="eyebrow inline-flex min-h-6 items-center after:absolute after:inset-0 after:content-['']"
+          {...trackAttrs("contact_channel_click", {
+            channel_id: channel.id,
+            channel_label: channel.label,
+            channel_placement: "contact_grid",
+          })}
         >
           <span className={isPrimary ? "text-ink-900" : "text-bone-52"}>{channel.label}</span>
           {isExternal && <span className="sr-only">(opens in a new tab)</span>}
@@ -168,6 +178,7 @@ function CopyAddress({ value }: { value: string }) {
         }
       }}
       className="relative z-10 rounded-sm border border-line px-2 py-1.5 text-[0.6875rem] text-bone-52 transition-colors duration-fast ease-fast hover:border-line-strong hover:text-bone"
+      {...trackAttrs("contact_email_copy", { channel_id: "email" })}
     >
       {copied ? contactCopy.copiedLabel : contactCopy.copyLabel}
       <span role="status" aria-live="polite" className="sr-only">
