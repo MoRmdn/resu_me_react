@@ -264,6 +264,23 @@ For work with no public listing (AYCO). Must read as deliberate, never as a brok
   stated absence looks professional.
 - Zero copper at any tier. No hover warm, no lift.
 
+### Review card
+A client's words, attributed to the marketplace that collected them.
+
+- Surface `--ink-700`, `--r-lg`, `e1`, 24px padding. Three widths: 372 base, 520
+  wide, 720 split. Past 400 characters a translated review goes side by side,
+  because a row stretches to its tallest card.
+- Under 90 characters a quote is set as a 24px pull quote, so it does not strand
+  in an empty card.
+- The platform's logo is identity, like our own mark, and exempt from the accent
+  tiers. Its `--color-brand-*` appears only on that mark and that card's hover.
+  **No copper on a review card at any tier.**
+- Stars are `--bone-70` at rest. Colour never carries the rating alone.
+- Arabic quotes render RTL in IBM Plex Sans Arabic, with a labelled translation.
+  Below `md` only one language shows at a time.
+- Hover: lift 4px, border warms to the brand at 45%, a 2px hairline wipes in from
+  the left, stars fill and pop in 50ms sequence. Only that card's row pauses.
+
 ---
 
 ## 6. Motion & animation
@@ -327,6 +344,10 @@ scrollable strip.
 | Projects | AYCO dashed border draws around the perimeter once | Card enters viewport, +120ms | 620ms · `m-slow` | Fully drawn from first paint |
 | Skills | Plates slide in from their stagger side, 60ms apart | Plate enters viewport | 320ms · `m-base` | Render in place |
 | Skills | Plate hover — border warms, fill → `--ink-600` | Hover | 180ms · `m-fast` | Colour only |
+| Reviews | Two rows drift in opposite directions, 260s and 300s | Autoplay | Linear, infinite | Stops; each row becomes a scroller, duplicate track dropped |
+| Reviews | Row pauses | Hover, or the Pause button | Instant play-state change | Button hidden |
+| Reviews | Card lifts, hairline wipes, stars pop in sequence | Hover | 320ms · `m-base` | Colour only |
+| Reviews | Platform counts roll up | Ledger enters viewport | 900ms · easeOutQuart | Final values immediately |
 | Contact | Field border → copper | Focus | 180ms · `m-fast` | Instant |
 | Contact | Error drops in 6px + fades, border → `--rose` | Failed validation, submit or blur | 180ms · `m-fast` | Appears in place |
 | Contact | Social rows nudge 10px right | Hover | 180ms · `m-fast` | Background tint only |

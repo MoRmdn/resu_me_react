@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "images": "node scripts/optimize-images.mjs",
     "og": "node scripts/generate-og.mjs",
+    "export:reviews": "next build && node scripts/export-review-cards.mjs",
     "brief": "tsc content/*.ts scripts/content-brief.ts --outDir .brief --module commonjs --target es2022 --moduleResolution node --skipLibCheck && node .brief/scripts/content-brief.js && rm -rf .brief",
     "ingest": "node scripts/ingest-assets.mjs"
   },

@@ -1,0 +1,438 @@
+[
+  {
+    "id": "upwork-arcit-ai",
+    "platform": "upwork",
+    "author": "Upwork client",
+    "project": "Arcit-AI Flutter app",
+    "date": "May 2025",
+    "lang": "en",
+    "quote": "Working with Mohamed was a great experience. He’s a dedicated developer who brings both technical skill and professionalism to the table. Our project involved Flutter app development and backend integration, and he handled everything efficiently. He communicated clearly, met all deadlines, and was flexible with changes. I’d definitely recommend him to others in the Upwork community looking for reliable and skilled mobile development support."
+  },
+  {
+    "id": "khamsat-bassam",
+    "platform": "khamsat",
+    "author": "بسام م.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "التطبيق تم رفضه ولم نكن نعرف المشكلة والهندسة الله يبارك له عرف المشكلة علي طول وحلها في نفس اليوم تسلم",
+    "translation": "The app had been rejected and we didn't know what the problem was. The engineer, God bless him, found the problem straight away and fixed it the same day. Thank you."
+  },
+  {
+    "id": "fiverr-nathan-genius",
+    "platform": "fiverr",
+    "author": "nathansheady",
+    "country": "United Kingdom",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "repeat": true,
+    "lang": "en",
+    "quote": "Excellent work as always. Thanks for being so reliable. This guy's a flutter GENIUS!"
+  },
+  {
+    "id": "khamsat-hussain",
+    "platform": "khamsat",
+    "author": "Hussain L.",
+    "project": "Flutter app changes & fixes",
+    "date": "2024",
+    "lang": "ar",
+    "quote": "شكراً لك جداً على مجهوك الجبار، شخص جداً متعاون ومتمكن جداً من عمله ، سألت كذا مبرمج على اللوكيشن وماعرفو يزبطوها ليا وبفضل الله ثم بفضلك زبطتها ليا ، انصح الكل بعدم التردد باشتراء الخدمة من هذا الشخص المحترف",
+    "translation": "Thank you so much for your tremendous effort. A very cooperative person who has truly mastered his work. I asked several programmers about the location feature and they couldn't get it working. Thanks to God and then to you, you got it working for me. I advise everyone not to hesitate to buy from this professional."
+  },
+  {
+    "id": "freelancer-emiliano",
+    "platform": "freelancer",
+    "author": "Emiliano",
+    "country": "Italy",
+    "project": "Update and publish on both stores",
+    "date": "2022",
+    "lang": "en",
+    "quote": "Mohamed is the best freelancer that i found in my last projects. So, He resolve all bugs and problems also if not request in milestone. He is a professional developer."
+  },
+  {
+    "id": "mostaql-dana",
+    "platform": "mostaql",
+    "author": "Dana A.",
+    "project": "Map view and sharing for a trip-planning app",
+    "date": "Feb 2024",
+    "lang": "ar",
+    "quote": "شكرا جزيلا على احترافيتك في العمل وقدرتك على إنجاز المهام المطلوبة بدقة وجودة عالية في الوقت المحدد. تتمتع بخبرة عالية في هذا المجال، مما يساعد على فهم وتنفيذ المطلوب بشكل متميز ودقيق، كما ان التواصل سلس والرد سريع.\nأيضًا لديك قدرة كبيرة في التعامل مع المشكلات التي تظهر بشكل مفاجئ اثناء التنفيذ وإيجاد حلول سريعة وممتازة.\nخبرتك العالية في المجال كان لها اثر كبير في انجاز المطلوب.\nشكرا لك.",
+    "translation": "Thank you very much for your professionalism and your ability to complete the required tasks accurately, at high quality and on time. You have great experience in this field, which helps in understanding and delivering what's needed in an excellent, precise way, and communication is smooth and replies are quick.\nYou also have a strong ability to deal with problems that appear suddenly during the work and to find quick, excellent solutions.\nYour deep experience in the field had a big impact on getting the job done.\nThank you."
+  },
+  {
+    "id": "fiverr-mihai",
+    "platform": "fiverr",
+    "author": "mihaibardasan",
+    "country": "Romania",
+    "project": "Flutter app fixes",
+    "date": "2024",
+    "lang": "en",
+    "quote": "Great experience! Mohamed's professionalism and attention to detail were outstanding, and his code expertise really shone through. Working with him was a breeze—super cooperative and timely. HIGHLY recommend Mohamed for mobile app maintenance! 👍"
+  },
+  {
+    "id": "khamsat-ahmed-a",
+    "platform": "khamsat",
+    "author": "احمد ع.",
+    "project": "Flutter app changes & fixes",
+    "date": "2025",
+    "lang": "ar",
+    "quote": "من المرات القليلة الاقي حد فاهم في شغله وعارف كويس ازاى يوصل المعلومة وبيسمع تفاصيل الطلب بصدر رحب وعنده امانه وضمير، بصراحة انا راضي جداً عن الخدمة وبشكر الباشمهندس محمد علي مجهودة، Highly recommended",
+    "translation": "One of the few times I've found someone who truly knows his work, knows how to explain things, listens to the details of the request with patience, and has honesty and a conscience. Honestly, I'm very satisfied with the service and I thank Eng. Mohamed for his effort. Highly recommended"
+  },
+  {
+    "id": "upwork-lpermis-pro",
+    "platform": "upwork",
+    "author": "Upwork client",
+    "project": "Lpermis Pro",
+    "date": "Apr 2024",
+    "lang": "en",
+    "quote": "It was truly a positive experience working with Mohamed. This wasn't the first time we collaborated, and once again, his communication skills stood out, ensuring we were always on the same page throughout the project. His willingness to help whenever needed, coupled with his collaborative and friendly approach, made him a valuable and enjoyable coworker. It's always a pleasure to work with someone who brings such positivity and professionalism to the team."
+  },
+  {
+    "id": "freelancer-hashim",
+    "platform": "freelancer",
+    "author": "Hashim",
+    "country": "Saudi Arabia",
+    "project": "Ride-hailing app",
+    "date": "2022",
+    "lang": "ar",
+    "quote": "محمد فاهم شغله و مهتم ان البروجكت يطلع بأفضل صورة ممكنة ، مهتم بالتوقيت و برضا العميل ، الحمدلله اني حصلته و تعاملت معاه ، و ان شاءالله راح يتم تكرار التجربه معه ، أنصح جدا بالتعامل معه ماراح يخذلك و حتكون راضي بالنتيجة ❤❤",
+    "translation": "Mohamed knows his work and cares about the project coming out as well as possible. He cares about timing and client satisfaction. Thank God I found him and worked with him, and God willing I'll work with him again. I highly recommend him: he won't let you down and you'll be happy with the result ❤❤"
+  },
+  {
+    "id": "fiverr-nathan-above",
+    "platform": "fiverr",
+    "author": "nathansheady",
+    "country": "United Kingdom",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "repeat": true,
+    "lang": "en",
+    "quote": "Mohamad went above and beyond the ask. Not only did he fix the problem, he also tidied up my code. Highly recommend :)"
+  },
+  {
+    "id": "khamsat-aldwin",
+    "platform": "khamsat",
+    "author": "Aldwin A.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "بسم الله ماشاء الله شخص مبدع ومحترف في عمله وسعدت جدا جدا بالعمل معه ، انجز العمل في اقل من الوقت المطلوب وبكفائه عاليه لدرجه المشاكل تشوفه يحلها بطريق ما تكون اصلا على البال وبطريقه احترافيه انصح بشده التعامل معه بأختصار دكتور محمد شخص فنان بالمجال",
+    "translation": "A creative, professional person, and I was very, very happy working with him. He finished the job in less than the time required and with high efficiency. He solves problems in ways that wouldn't even cross your mind, and professionally. I strongly recommend him. In short, Dr. Mohamed is an artist in this field."
+  },
+  {
+    "id": "freelancer-aymene",
+    "platform": "freelancer",
+    "author": "Aymene",
+    "country": "France",
+    "project": "FreeDoctor",
+    "date": "2022",
+    "lang": "en",
+    "quote": "Thank you Mr Mohamed for your outstanding work, the app is really amazing, easy to use and has everything i need. i'm impressed with the level of your professionalism and i appreciate all the effort you put into creating it. I hightly recommend this person for all your projects"
+  },
+  {
+    "id": "mostaql-mohamed",
+    "platform": "mostaql",
+    "author": "محمد ا.",
+    "project": "App maintenance and bug fixes",
+    "date": "Jan 2024",
+    "lang": "ar",
+    "quote": "اشكرك دكتور محمد على الإنجاز الي عملته\nالشغل نظيف\nوالاستشارات والاقتراحات الي قدمتها كانت في غاية الأهمية\nوكذلك التعديلات كانت اكثر من رائعة\nاشكرك كثيرا",
+    "translation": "Thank you, Dr. Mohamed, for what you accomplished.\nClean work,\nand the advice and suggestions you gave were extremely important,\nand the changes were more than wonderful.\nThank you very much."
+  },
+  {
+    "id": "fiverr-nathan-invaluable",
+    "platform": "fiverr",
+    "author": "nathansheady",
+    "country": "United Kingdom",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "repeat": true,
+    "lang": "en",
+    "quote": "Mohamed has helped with with so many issues I've tried to solve with my app. He's been invaluable. His work is of an excellent quality, and keeps me informed all the time. He well and truly exceeds my expectations and is a credit to the industry."
+  },
+  {
+    "id": "khamsat-mosab",
+    "platform": "khamsat",
+    "author": "Mosab N.",
+    "project": "Flutter app changes & fixes",
+    "date": "2024",
+    "lang": "ar",
+    "quote": "أود أن أشكر المبرمج محمد على عمله الاحترافي وسرعته في إجراء التعديلات المطلوبة على تطبيقي. كان متفهمًا لجميع المتطلبات، والتواصل معه كان سلسًا وفعّالًا. أنصح بشدة بالتعامل معه لأي مشروع برمجي لمن يبحث عن الجودة والاحترافية.",
+    "translation": "I'd like to thank the developer Mohamed for his professional work and his speed in making the changes I needed to my app. He understood every requirement, and communicating with him was smooth and effective. I strongly recommend him for any software project if you're looking for quality and professionalism."
+  },
+  {
+    "id": "upwork-lpermis",
+    "platform": "upwork",
+    "author": "Upwork client",
+    "project": "Lpermis enhancements",
+    "date": "Nov 2023",
+    "lang": "en",
+    "quote": "Mohamed delivered not only the project goals itself, but went above & beyond while communicating with the team, suggesting changes to the functionality that was incorrectly designed, adding nice touches here and there that were not accounted for, but are aesthetically pleasing, as well as was able to work overtime to meet the deadlines and deliver the product in time."
+  },
+  {
+    "id": "khamsat-moneeb",
+    "platform": "khamsat",
+    "author": "Moneeb K.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "والله اول تجربة ليا بخمسات كانت مع الدكتور محمد رمضان والله مش عارف اشكرك ازاي يا دكتور تسليم الطلب كان قبل الموعد اللي اتفقنا عليه بكثيييير وكمان الميزة الحلوة انه بيرد على الرسائل بوقت قصير جداً بصراحة انصح اي حد بيشوف تعليقي يتعامل مع الدكتور محمد",
+    "translation": "My first experience on Khamsat was with Dr. Mohamed Ramadan, and I honestly don't know how to thank you. Delivery came long before the date we agreed on, and the best part is that he answers messages very quickly. Honestly, I advise anyone reading this comment to work with Dr. Mohamed."
+  },
+  {
+    "id": "fiverr-asma",
+    "platform": "fiverr",
+    "author": "asma1m",
+    "country": "Saudi Arabia",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "lang": "en",
+    "quote": "This Flutter developer is highly skilled. He paid attention to my requirements and ensured that the features were implemented effectively. The project was delivered on time, which I greatly appreciated. It was a pleasure to work with him and I am satisfied with the outcome of the app. I would recommend him to anyone searching for high-quality Flutter development work. Thanks!"
+  },
+  {
+    "id": "freelancer-islam-payments",
+    "platform": "freelancer",
+    "author": "Islam",
+    "country": "Egypt",
+    "project": "Payment gateway for a Flutter app",
+    "date": "2023",
+    "repeat": true,
+    "lang": "ar",
+    "quote": "ماشاء الله عليك مهندس محمد، بارك الله بعلمك عنده قوة برمجية ولغة تواصل عالية وروح طيبة أنصح الجميع بالتعامل معه، وإن شاء الله تعالى لدينا مشاريع كثيرة قادمة مع بعض.",
+    "translation": "Well done, Eng. Mohamed, God bless your knowledge. He has real programming strength, excellent communication and a kind spirit. I recommend him to everyone, and God willing we have many more projects coming together."
+  },
+  {
+    "id": "khamsat-hela",
+    "platform": "khamsat",
+    "author": "Hela A.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "en",
+    "quote": "This is my first order with this developer. It was so good. He response in time. He is well experienced person. He suggested to us a lot of new features in our application. I would recommend him to anyone searching for high quality flutter applications . Really appreciating"
+  },
+  {
+    "id": "khamsat-ahmed-e",
+    "platform": "khamsat",
+    "author": "Ahmed E.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "محترم وصبور جدا والميزة الاكبر انه مش بيخبي عنك المعلومة زي كثير من مقدمي الخدمات جزاه الله عني خيرا واكيد مش اخر تعامل",
+    "translation": "Respectful and very patient, and the biggest plus is that he doesn't hide information from you the way many service providers do. May God reward him, and this certainly won't be our last deal."
+  },
+  {
+    "id": "fiverr-belkitya",
+    "platform": "fiverr",
+    "author": "belkitya",
+    "country": "Morocco",
+    "project": "Flutter app fixes",
+    "date": "2024",
+    "repeat": true,
+    "lang": "en",
+    "quote": "the best developer flutter at this time"
+  },
+  {
+    "id": "khamsat-yasser",
+    "platform": "khamsat",
+    "author": "Yasser E.",
+    "project": "Flutter app for Android & iOS",
+    "date": "2025",
+    "lang": "ar",
+    "quote": "كان ليّا الشرف إني أتعامل مع بشمهندس محمد رمضان، مهندس متميز جدًا في شغله، ملتزم بالمواعيد، وخدمته ممتازة من حيث الجودة والاحترافية. كل حاجة تمت زي ما اتفقنا عليها بالضبط، وكان متعاون جدًا وصبور في الرد على كل استفساراتي. أكيد مش هتكون آخر مرة أتعامل معاه، وأنا بأوصي بيه بشدة لأي حد محتاج مهندس شاطر ومضمون. شكرًا يا بشمهندس محمد على مجهودك الرائع!",
+    "translation": "It was an honour to work with Eng. Mohamed Ramadan, a truly outstanding engineer who keeps to deadlines and delivers excellent quality and professionalism. Everything was done exactly as we agreed, and he was very cooperative and patient with all my questions. It certainly won't be the last time, and I strongly recommend him to anyone who needs a capable, dependable engineer. Thank you, Eng. Mohamed, for your wonderful effort!"
+  },
+  {
+    "id": "upwork-graduation",
+    "platform": "upwork",
+    "author": "Upwork client",
+    "project": "Flutter graduation project",
+    "date": "Nov 2023",
+    "lang": "en",
+    "quote": "mohamed was fantastic to work with. Great communicator, took time to understand the project and helped lay out the scope. went above and beyond by implementing a few features that were not in original scope. will use again"
+  },
+  {
+    "id": "khamsat-mohammed-m",
+    "platform": "khamsat",
+    "author": "Mohammed M.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "افضل مبرمج تشتغل معه في مهام برمجية من ناحية التعقيب على الأخطاء و المهنية في التفاوض و التنفيذ شكراً محمد",
+    "translation": "The best programmer to work with on programming tasks, in how he follows up on bugs and in his professionalism in negotiating and delivering. Thank you, Mohamed."
+  },
+  {
+    "id": "freelancer-islam-ios",
+    "platform": "freelancer",
+    "author": "Islam",
+    "country": "Egypt",
+    "project": "Flutter errors on iOS",
+    "date": "2022",
+    "lang": "en",
+    "quote": "Mohamed was very professional and did a great job of our mobile form app. His quality of work exceeded my expectations and was excellent value for money. I will be using Mohamed for future mobile app development."
+  },
+  {
+    "id": "khamsat-asmaa",
+    "platform": "khamsat",
+    "author": "Asmaa M.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "الله يسعده ساعدنا كثير وفهم بالضبط وش نبي وسلمه بالوقت، فنان بالبرمجة ماشاءالله وبرضو شرح لنا الكود",
+    "translation": "God bless him. He helped us a lot, understood exactly what we wanted and delivered on time. An artist at programming, and he explained the code to us too."
+  },
+  {
+    "id": "fiverr-visit",
+    "platform": "fiverr",
+    "author": "visit_",
+    "country": "Saudi Arabia",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "lang": "en",
+    "quote": "He is very cooperative, quick, and understanding. He has completed several projects for me before, and every time I deal with him, he is quick, responsive, and his work is very professional. I thank him very much, and it will not be the last I deal with him."
+  },
+  {
+    "id": "mostaql-hussein",
+    "platform": "mostaql",
+    "author": "حسين ا.",
+    "project": "Flutter real-estate app reskin",
+    "date": "Feb 2024",
+    "lang": "ar",
+    "quote": "ماشاءالله احترافية في العمل واتعامل جميل انصح فيه وبشدة",
+    "translation": "Professional work and a lovely person to deal with. I strongly recommend him."
+  },
+  {
+    "id": "fiverr-reema",
+    "platform": "fiverr",
+    "author": "reema_kk",
+    "country": "Saudi Arabia",
+    "project": "Flutter app fixes",
+    "date": "2024",
+    "lang": "en",
+    "quote": "I had the privilege of working with an exceptional freelancer who impressed me with their meticulous attention to detail and profound code expertise. They exhibited a deep understanding of the project requirements and consistently delivered high-quality work that exceeded my expectations. Their level of cooperation and responsiveness were remarkable, making the collaboration smooth and productive. I highly recommend this freelancer for their exceptional skills and professionalism."
+  },
+  {
+    "id": "khamsat-sara-s",
+    "platform": "khamsat",
+    "author": "Sara S.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "اولا اشكر استاذ محمد على العمل الذي قام به ثانيا انصح وبقوة التعامل معه، سرعة في التجاوب وحرصه على فهمك للمعلومة وسهولة الاكواد وسرعة خيالية في تسليم العمل، للامانه ولا مره تعاملت مع شخص مثل الاستاذ محمد، اذا عندك مشكلة برمجية لا تتعدى استاذ محمد ماشاءالله تبارك الله انسان فااااهم ويوصل المعلومة بكل سهولة والاهم من هذا كله السرعة",
+    "translation": "First, I thank Mr. Mohamed for the work he did. Second, I strongly recommend him: fast to respond, careful that you understand, simple code, and unbelievably fast delivery. Honestly, I've never dealt with anyone like him. If you have a programming problem, don't look past Mr. Mohamed. He really knows his stuff and explains things easily, and above all he's fast."
+  },
+  {
+    "id": "freelancer-islam-repeat",
+    "platform": "freelancer",
+    "author": "Islam",
+    "country": "Egypt",
+    "project": "Mobile app work",
+    "date": "2023",
+    "repeat": true,
+    "lang": "en",
+    "quote": "great job as always and I'm always happy with the work he do. great communication and rapid responses. I always hire Him for all of our programming work"
+  },
+  {
+    "id": "khamsat-saleh",
+    "platform": "khamsat",
+    "author": "صالح ع.",
+    "project": "Flutter app for Android & iOS",
+    "date": "2025",
+    "lang": "ar",
+    "quote": "مبدع، تم التعديل كما هو مطلوب والتزم بالوقت بالإضافة لشرح التعديل بشكل واضح",
+    "translation": "Creative. The change was made exactly as requested, he kept to the time, and he explained the change clearly too."
+  },
+  {
+    "id": "fiverr-boocky",
+    "platform": "fiverr",
+    "author": "boocky47",
+    "country": "Saudi Arabia",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "repeat": true,
+    "lang": "en",
+    "quote": "Mohammad has expectational service , he understood what i needed clearly and delivered it within a couple of hours , Thank you."
+  },
+  {
+    "id": "khamsat-sara-b",
+    "platform": "khamsat",
+    "author": "Sara B.",
+    "project": "Flutter app for Android & iOS",
+    "date": "2024",
+    "lang": "ar",
+    "quote": "خبير في برمجة تطبيقات الفلاتر ، وتعديل الخطاء ،انسان مبدع . شكرا جزيلا",
+    "translation": "An expert in building Flutter apps and fixing bugs, a creative person. Thank you very much."
+  },
+  {
+    "id": "freelancer-moath",
+    "platform": "freelancer",
+    "author": "Moath",
+    "country": "Jordan",
+    "project": "Flutter bug fixes and new features",
+    "date": "2022",
+    "lang": "ar",
+    "quote": "مهندس قمة في الاخلاق والصدق .. تجربة مميزة وناجحة جدا وتسليم في الوقت المناسب .. كل الشكر مهندس محمد",
+    "translation": "An engineer at the peak of good character and honesty. A distinctive, very successful experience with delivery on time. All thanks, Eng. Mohamed."
+  },
+  {
+    "id": "khamsat-reema",
+    "platform": "khamsat",
+    "author": "Reema K.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "ممتاز جدااا عمل اشياء زايدة على شغله انصح به",
+    "translation": "Excellent. He did things beyond what the job asked for. I recommend him."
+  },
+  {
+    "id": "fiverr-utahemba",
+    "platform": "fiverr",
+    "author": "utahemba",
+    "country": "United States",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "repeat": true,
+    "lang": "en",
+    "quote": "Once again, Mohamed delivered great service. I will continue to work with him."
+  },
+  {
+    "id": "khamsat-eslam",
+    "platform": "khamsat",
+    "author": "Eslam E.",
+    "project": "Flutter push notifications",
+    "date": "2022",
+    "lang": "ar",
+    "quote": "شغل ممتاز. وقت قصير لتنفيذ وكفاءة عاليه جداا",
+    "translation": "Excellent work. Short turnaround and very high efficiency."
+  },
+  {
+    "id": "fiverr-ratina",
+    "platform": "fiverr",
+    "author": "ratinaltd",
+    "country": "Saudi Arabia",
+    "project": "Flutter app fixes",
+    "date": "2023",
+    "lang": "en",
+    "quote": "So grateful for the flexibility to revisions. I'm so happy with the end result. Thank you."
+  },
+  {
+    "id": "khamsat-abdelrhman",
+    "platform": "khamsat",
+    "author": "Abdelrhman A.",
+    "project": "Flutter push notifications",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "شريك عمل رائع, شاب خلوق وخبير في مجاله.",
+    "translation": "A wonderful work partner, a well-mannered young man and an expert in his field."
+  },
+  {
+    "id": "khamsat-reem",
+    "platform": "khamsat",
+    "author": "Reem O.",
+    "project": "Flutter app changes & fixes",
+    "date": "2023",
+    "lang": "ar",
+    "quote": "أستاذ محمد غني عن التعريف والشغل معاه سهل جدًا ومريح، بالإضافة إلى سرعة إنجاز المهمة المطلوبة في وقت قصير جدًا، أنصح بالتعامل معاه",
+    "translation": "Mr. Mohamed needs no introduction. Working with him is very easy and comfortable, and he finishes the task in a very short time. I recommend working with him."
+  }
+]

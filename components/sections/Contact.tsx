@@ -19,7 +19,7 @@ import { cn } from "@/lib/cn";
  */
 export function Contact() {
   return (
-    <Section id="contact" tone="ink-900" z={20} offset={-40}>
+    <Section id="contact" tone="ink-800" z={20} offset={-40}>
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
         <div>
           <Reveal>

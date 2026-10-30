@@ -4,6 +4,7 @@
  *
  * The hero intro previously said "four years" — the CV says over five.
  */
+import { reviews, reviewTotal } from "./reviews";
 import { contact, metrics, site } from "./site";
 
 export const hero = {
@@ -89,8 +90,21 @@ export const skillsCopy = {
     "Depth where it matters — Dart, Flutter, state management and payments — and enough breadth to talk to backend, data and design without a translator.",
 };
 
+export const reviewsCopy = {
+  eyebrow: "05 / Reviews",
+  headline: `${reviewTotal} reviews. All five stars.`,
+  blurb:
+    "Every number below is a client who could have said otherwise. The quotes are copied word for word, typos included. Arabic ones keep the original with a translation underneath.",
+  scoreLabel: "5.0",
+  note: `${reviews.length} of them, picked by me. The full lists are one click away on each platform.`,
+  pauseLabel: "Pause",
+  playLabel: "Play",
+  showOriginalLabel: "Show Arabic originals",
+  showTranslationLabel: "Show translations",
+};
+
 export const contactCopy = {
-  eyebrow: "05 / Contact",
+  eyebrow: "06 / Contact",
   headline: ["Got an app", "to build?"],
   blurb:
     "Full-time, contract or a second pair of hands on a release that's slipping — reach me wherever suits you and I'll reply within a day.",

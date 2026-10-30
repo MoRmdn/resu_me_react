@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, JetBrains_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Sans_Arabic, JetBrains_Mono } from "next/font/google";
 import { site, contact, socials, channels, publisherNamespace } from "@/content/site";
 import { skillGroups } from "@/content/skills";
 import { experiences } from "@/content/experience";
@@ -23,6 +23,19 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
   variable: "--font-jetbrains-mono",
   display: "swap",
+});
+
+/**
+ * Only the reviews and a couple of Arabic names need this, none of them above
+ * the fold, so it stays off the preload list. It sits behind Archivo in
+ * `--font-sans` and its unicode-range keeps Latin text from ever fetching it.
+ */
+const plexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "500"],
+  variable: "--font-plex-arabic",
+  display: "swap",
+  preload: false,
 });
 
 /**
@@ -315,7 +328,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      className={`${archivo.variable} ${jetbrainsMono.variable} ${plexArabic.variable}`}
+    >
       <body className="bg-ink-900 text-bone antialiased">
         <script
           type="application/ld+json"
