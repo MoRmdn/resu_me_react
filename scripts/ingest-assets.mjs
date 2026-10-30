@@ -8,7 +8,11 @@
  * weight: nothing renders wider than 840px, so 1200px is already generous
  * headroom.
  *
- *   node scripts/ingest-assets.mjs
+ *   node scripts/ingest-assets.mjs            everything
+ *   node scripts/ingest-assets.mjs -screen-   only the slugs containing that
+ *
+ * The filter exists because the handoff folder has since been cleaned: a full
+ * run needs it back, adding a new source does not.
  */
 import { mkdir } from "node:fs/promises";
 import sharp from "sharp";
@@ -31,7 +35,6 @@ const SOURCES = [
   [`${SCREENS}/O'Permis/unnamed.png`, "opermis-icon"],
 
   // Device captures.
-  [`${HANDOFF}/ayco-shot.png`, "ayco-shot"],
   [`${HANDOFF}/mismar-shot.png`, "mismar-shot"],
   [`${HANDOFF}/arcit-ai-shot.webp`, "arcit-ai-shot"],
   // The only FreeDoc capture that is product UI rather than a QA screenshot:
@@ -49,6 +52,20 @@ const SOURCES = [
   [`${SCREENS}/saber/unnamed (4).jpg`, "saber-yamen-promo"],
 
 
+  // Store listings: three screens per featured project, shown as a set. All of
+  // a set comes from one listing, so the strip stays a uniform set.
+  // Lpermis comes from the O'Permis folder on purpose: that is the blue set on
+  // the live Lpermis listing. The Lpermis/ folder holds the old yellow one.
+  [`${SCREENS}/O'Permis/unnamed (2).png`, "lpermis-screen-1"],
+  [`${SCREENS}/O'Permis/unnamed (4).png`, "lpermis-screen-2"],
+  [`${SCREENS}/O'Permis/unnamed (5).png`, "lpermis-screen-3"],
+  [`${SCREENS}/saber/unnamed.jpg`, "saber-yamen-screen-1"],
+  [`${SCREENS}/saber/unnamed (4).jpg`, "saber-yamen-screen-2"],
+  [`${SCREENS}/saber/unnamed (2).jpg`, "saber-yamen-screen-3"],
+  [`${SCREENS}/mutabbib/AR-1.png`, "mutabbib-screen-1"],
+  [`${SCREENS}/mutabbib/AR-3.png`, "mutabbib-screen-2"],
+  [`${SCREENS}/mutabbib/AR-6.png`, "mutabbib-screen-3"],
+
   // 1:1 social posts — a separate register from the tall promos.
   [`${HANDOFF}/arcit-ai-promo-1.jpg`, "arcit-ai-social-1"],
   [`${HANDOFF}/arcit-ai-promo-2.jpg`, "arcit-ai-social-2"],
@@ -56,8 +73,11 @@ const SOURCES = [
 
 await mkdir("assets/projects", { recursive: true });
 
+const only = process.argv[2];
+const chosen = SOURCES.filter(([, slug]) => !only || slug.includes(only));
+
 let total = 0;
-for (const [src, slug] of SOURCES) {
+for (const [src, slug] of chosen) {
   const out = `assets/projects/${slug}.webp`;
   const meta = await sharp(src).metadata();
   const info = await sharp(src)
@@ -70,4 +90,4 @@ for (const [src, slug] of SOURCES) {
       `${String(info.width).padStart(4)}x${String(info.height).padEnd(4)} ${(info.size / 1024).toFixed(0)}KB`,
   );
 }
-console.log(`\n${SOURCES.length} masters, ${(total / 1024 / 1024).toFixed(2)} MB total`);
+console.log(`\n${chosen.length} masters, ${(total / 1024 / 1024).toFixed(2)} MB total`);

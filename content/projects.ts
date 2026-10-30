@@ -1,8 +1,6 @@
 import type { Project } from "./types";
 
 /**
- * Arcit-AI leads as the flagship (it is the only one with a screenshot).
- *
  * Three link patterns live here and the UI has to handle all three: app-store
  * pairs, a live web app with source (JS Quest), and no link at all — AYCO by
  * design, Arcit-AI since it was pulled from both stores (it says so in its
@@ -67,23 +65,33 @@ export const projects: Project[] = [
     achievement: "Solo build — 227 Dart files, 109 test files, 5 Cloud Functions",
     links: {},
     isPrivate: true,
+    ledger: [
+      { value: "227", label: "Dart files" },
+      { value: "109", label: "Test files" },
+      { value: "5", label: "Cloud Functions" },
+    ],
     highlights: [
       "Made every write offline-safe by racing Firestore writes against a timeout and surfacing the result as queued rather than failed, so technicians can complete visits without connectivity.",
       "Batched up to 100 devices per visit in resumable 25-report transaction chunks to stay within the Firestore transaction limit, with report numbering issued transactionally.",
       "Enforced a three-role permission model — super admin, admin, technician — server-side in Cloud Functions and security rules, and shipped two build flavours bound to separate development and production Firebase projects.",
       "Localised Arabic-first with full RTL: 906 strings across ar/en ARB files, with the layout, PDF and printed forms designed right-to-left.",
     ],
-    flagship: true,
     media: {
       icon: { file: "ayco-icon" },
-      plate: "device",
+      plate: "promo",
       asset: {
-        file: "ayco-shot",
-        width: 1170,
-        height: 2532,
-        alt: "AYCO maintenance-reports home screen, in Arabic",
-        bezel: true,
+        file: "ayco-screen-1",
+        width: 1200,
+        height: 2600,
+        alt: "AYCO store art — home screen, headlined paperless maintenance reports",
       },
+      // Only screens free of client data. Do not add the report or device lists
+      // from the Play listing: they show real hospital names.
+      screens: [
+        { file: "ayco-screen-1", width: 1200, height: 2600, alt: "AYCO store art — home screen, headlined paperless maintenance reports" },
+        { file: "ayco-screen-2", width: 1200, height: 2600, alt: "AYCO store art — batch reports for several devices under one signature" },
+        { file: "ayco-screen-3", width: 1200, height: 2600, alt: "AYCO store art — settings, with Arabic and English and a full right-to-left layout" },
+      ],
     },
   },
   {
@@ -101,6 +109,16 @@ export const projects: Project[] = [
     links: {
       website: "https://js-basics-quiz.vercel.app/dashboard",
       github: "https://github.com/MoRmdn/js-basics-quiz",
+    },
+    media: {
+      icon: { file: "js-quest-icon" },
+      plate: "promo",
+      asset: {
+        file: "js-quest-promo",
+        width: 1200,
+        height: 2600,
+        alt: "JS Quest landing page on a phone, headlined 100 questions and five chapters",
+      },
     },
     highlights: [
       "Withheld every correct answer server-side: the questions table has row-level security with no select policy, and the client reads through a security-definer function that returns the prompt and options but not the answer or explanation \u2014 those come back only after the answer row is committed.",
@@ -136,6 +154,11 @@ export const projects: Project[] = [
         height: 2601,
         alt: "Mutabbib store promo — hospital directory screen with an Arabic headline",
       },
+      screens: [
+        { file: "mutabbib-screen-1", width: 1200, height: 2601, alt: "Mutabbib store screen — home dashboard with the service categories" },
+        { file: "mutabbib-screen-2", width: 1200, height: 2601, alt: "Mutabbib store screen — directory of nearby hospitals" },
+        { file: "mutabbib-screen-3", width: 1200, height: 2601, alt: "Mutabbib store screen — a clinic's weekly doctor schedule" },
+      ],
     },
   },
   {
@@ -164,6 +187,11 @@ export const projects: Project[] = [
         height: 2601,
         alt: "Lpermis store promo — booking screen with an Arabic headline",
       },
+      screens: [
+        { file: "lpermis-screen-1", width: 288, height: 512, alt: "Lpermis store screen — home with lesson booking and the next session" },
+        { file: "lpermis-screen-2", width: 288, height: 512, alt: "Lpermis store screen — practice-exam series, headlined over 800 questions" },
+        { file: "lpermis-screen-3", width: 288, height: 512, alt: "Lpermis store screen — road-sign lessons with progress bars" },
+      ],
     },
   },
   {
@@ -220,6 +248,11 @@ export const projects: Project[] = [
         height: 512,
         alt: "Saber Yamen store promo — marketplace listings for cars and property with an Arabic headline",
       },
+      screens: [
+        { file: "saber-yamen-screen-1", width: 288, height: 512, alt: "Saber store screen — welcome screen on a tilted phone, with a map of Yemen" },
+        { file: "saber-yamen-screen-2", width: 288, height: 512, alt: "Saber store screen — marketplace listings for cars and property" },
+        { file: "saber-yamen-screen-3", width: 288, height: 512, alt: "Saber store screen — multi-currency support for the rial and the US dollar" },
+      ],
     },
   },
   {
@@ -338,17 +371,20 @@ export const projects: Project[] = [
  */
 const ORDER = [
   "ayco",
-  "mismar",
   "lpermis",
-  "lpermis-pro",
-  "mutabbib",
-  "arcit-ai",
   "saber-yamen",
+  "mutabbib",
+  "mismar",
+  "lpermis-pro",
+  "arcit-ai",
   "dental-dinar",
   "freedoc",
   "opermis",
   "js-quest",
 ] as const;
+
+/** The big panels. Everything else goes to the gallery. */
+const FEATURED: readonly string[] = ["ayco", "lpermis", "saber-yamen", "mutabbib"];
 
 export const orderedProjects = ORDER.map((slug) => {
   const project = projects.find((p) => p.slug === slug);
@@ -356,9 +392,10 @@ export const orderedProjects = ORDER.map((slug) => {
   return project;
 });
 
-/** The one that leads in the big panel. */
-export const flagshipProject =
-  orderedProjects.find((p) => p.flagship) ?? orderedProjects[0];
+/** The big panels, in ORDER. */
+export const featuredProjects = orderedProjects.filter((p) => FEATURED.includes(p.slug));
 
-/** Everything else, as expandable rows, in ORDER. */
-export const projectRows = orderedProjects.filter((p) => p !== flagshipProject);
+/** Everything else, as gallery tiles, in ORDER. */
+export const galleryProjects = orderedProjects.filter(
+  (p) => !FEATURED.includes(p.slug),
+);

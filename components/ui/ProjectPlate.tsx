@@ -97,6 +97,52 @@ export function ProjectPlate({
 }
 
 /**
+ * Three store-listing screens, seated whole on a stepped baseline: the offsets
+ * are the layer metaphor, and a hover squares the set up. Below `sm` three
+ * across would be thumbnails, so the set becomes a scroller of its own, which
+ * is why it takes keyboard focus.
+ */
+export function ScreenStrip({
+  screens,
+  label,
+  className,
+}: {
+  screens: NonNullable<ProjectMedia["screens"]>;
+  label: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex items-center bg-ink-800", className)}>
+      <div
+        role="region"
+        aria-label={label}
+        tabIndex={0}
+        className="w-full overflow-x-auto sm:overflow-visible"
+      >
+        <ul className="flex snap-x snap-mandatory gap-3 p-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8 sm:pt-8 sm:pb-14">
+          {screens.map((screen) => (
+            <li
+              key={screen.file}
+              className="screen-strip__item w-[62vw] max-w-[260px] shrink-0 snap-center sm:w-auto sm:max-w-none"
+            >
+              <ProjectImage
+                file={screen.file}
+                widths={[280, 560]}
+                sizes="(min-width: 680px) 210px, 62vw"
+                alt={screen.alt}
+                width={screen.width}
+                height={screen.height}
+                className="block h-auto w-full rounded-md border border-line-strong"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Arcit-AI's two 1:1 posts. A different aspect from the tall store promos, so
  * they get their own two-up strip instead of being forced into that grid —
  * applying the uniform-set rule honestly rather than bending it.
@@ -127,11 +173,3 @@ export function SocialStrip({
     </ul>
   );
 }
-
-/** The caption naming which plate a card uses — part of the v2.2 card anatomy. */
-export const PLATE_CAPTION: Record<ProjectMedia["plate"], string> = {
-  device: "Device · seated whole",
-  field: "Field · brand ground, full bleed",
-  promo: "Promo · contained whole",
-  icon: "Icon · no capture supplied",
-};

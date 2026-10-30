@@ -21,7 +21,8 @@ const OUT = "public/images/projects";
 const ROLES = [
   [/-icon$/, [64, 128]], // 96px tile, source inset at 64px
   [/-shot$/, [240, 480]], // device plate, ~230-240px
-  [/-promo$/, [280, 560]], // promo plate, 240-280px
+  [/-promo$/, [280, 560]], // promo plate, 240-280px, and a gallery tile
+  [/-screen-\d$/, [280, 560]], // store strip, ~210px on a featured panel
   [/-social-\d$/, [300, 600]], // 1:1 strip
 ];
 

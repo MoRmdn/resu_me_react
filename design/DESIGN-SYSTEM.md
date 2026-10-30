@@ -253,6 +253,7 @@ Replaces v1.0's flat hairline table.
 ### Private-project card
 For work with no public listing (AYCO). Must read as deliberate, never as a broken card.
 
+- Shares the featured-panel layout, screens included. What stays its own is below.
 - **Dashed** hairline border, `--ink-800` fill — the border itself says "unlisted".
   Every other card is solid.
 - Store buttons are **replaced, not removed**: a build ledger (files / tests /
@@ -263,6 +264,30 @@ For work with no public listing (AYCO). Must read as deliberate, never as a brok
 - Closes with an explicit line naming the NDA. Unexplained absence looks broken;
   stated absence looks professional.
 - Zero copper at any tier. No hover warm, no lift.
+
+### Featured panel
+The big projects, always open: nothing on them sits behind a click.
+
+- Full width on a 5/7 split, with the art changing sides from one panel to the
+  next. Surface `--ink-700`, `--r-lg`, `e1`. Hover warms the border (Tier 3).
+- Three store-listing screens from one listing, whole, on a stepped baseline
+  (0 / 28 / 14px). Hover squares the set up. Below `sm` the set becomes a
+  scroller of its own, with no stepped baseline.
+- A project with raw captures and no store art goes through `npm run promos`:
+  brand ground, headline, the capture in a drawn device. Headlines come from the
+  project's own listing copy.
+- Outcome reads at `h3`. Links are ghost buttons. No copper at rest: the art is
+  the colour on these panels.
+
+### Project gallery
+Everything that is not a featured panel, as a wall of art.
+
+- Four columns from `lg`, two below. The first tile spans two, which is what
+  fills both grids with seven tiles.
+- Art is shown whole on `--ink-800`, never cropped. A project with no art gets a
+  two-letter mono monogram in `--bone-18`, so the plate reads as set rather than
+  as an image that failed to load.
+- Opens in place. See §6.1.
 
 ### Review card
 A client's words, attributed to the marketplace that collected them.
@@ -316,15 +341,14 @@ opacity only, never height or layout, so any reveal can be interrupted
 mid-flight without reflow. Scroll-linked values are clamped and lerped, never
 driven off raw scroll position.
 
-**The one memorable moment — a project card opens spatially.** Clicking a
-project row does not navigate, modal, or crossfade. In one 320ms `m-base`
-curve the card un-indents to the grid's left edge, scales to 1.012, lifts to
-`e3`, and unfolds its detail plane from zero height, while its four siblings
-drop to 38% opacity and 0.985 scale in the same beat — the page recedes so one
-plane can come forward. Clicking again reverses exactly; clicking a different
-card hands state over mid-flight with no snap. Nothing else on the page
-animates while a card is open. This is the *only* signature moment; the rest of
-the system stays quiet.
+**The one memorable moment — a gallery tile opens spatially.** Clicking a
+tile does not navigate, modal, or crossfade. In one 320ms `m-base` curve the
+tile scales to 1.012, lifts to `e3`, and a detail plane unfolds from zero height
+under its row, while its siblings drop to 38% opacity and 0.985 scale in the
+same beat — the page recedes so one plane can come forward. Clicking again
+reverses exactly; clicking a different tile hands state over mid-flight with no
+snap. Nothing else on the page animates while a tile is open. This is the *only*
+signature moment; the rest of the system stays quiet.
 
 **Global reduced-motion fallback.** One media query zeroes every duration and
 iteration count to 0.001ms; the per-effect fallbacks below then restore end
@@ -353,7 +377,8 @@ scrollable strip.
 | Experience | Active column grows 14px, fills copper-wash | Click / keyboard select | 320ms · `m-base` | No transition |
 | Experience | Row expands, node fills copper, ＋ rotates 45° | Click / Enter | 320ms · `m-base` | Toggles instantly |
 | Projects | Flagship screenshot parallaxes 40px slower than its panel | Scroll in view | Scroll-linked, lerp 0.1 | Static in frame |
-| Projects | **Card opens spatially** (see above) | Click / Enter | 320ms · `m-base` | Instant at final size; siblings 100% |
+| Projects | **Tile opens spatially** (see above) | Click / Enter | 320ms · `m-base` | Instant at final size; siblings 100% |
+| Projects | Store screens square up from their stepped baseline | Panel hover | 320ms · `m-base` | Stay stepped; no movement |
 | Projects | AYCO dashed border draws around the perimeter once | Card enters viewport, +120ms | 620ms · `m-slow` | Fully drawn from first paint |
 | Skills | Plates slide in from their stagger side, 60ms apart | Plate enters viewport | 320ms · `m-base` | Render in place |
 | Skills | Plate hover — border warms, fill → `--ink-600` | Hover | 180ms · `m-fast` | Colour only |

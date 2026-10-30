@@ -1108,7 +1108,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   v2.0 — plane rhythm, the career band, Skills plates, the spatial card open.
+   v2.0 — plane rhythm, the career band, Skills plates, the spatial tile open.
    design/DESIGN-SYSTEM.md §3.1, §5.1 and §6.1 are the authority.
 --------------------------------------------------------------------------- */
 
@@ -1193,24 +1193,36 @@
 }
 
 /* ---------------------------------------------------------------------------
-   The signature moment — a project card opens where it sits.
-
-   §6.1: reveals are transform + opacity only, never layout. The artboard
-   animates `margin-left` and caps the panel at `max-height: 420px`; both are
-   canvas shortcuts. translateX keeps it off the layout thread, and
-   grid-template-rows animates to the content's real height without clipping a
-   long description.
-
-   translateX also moves the right edge, which margin-left never did: a
-   full-column card plus its indent overflows the page below 1400px. The indent
-   is the design, so the width gives instead and an indented card stops at the
-   2rem page gutter. The width is static, so opening is still transform only.
-   100vw counts a classic scrollbar, which only eats into that gutter.
+   A featured panel's store screens sit on a stepped baseline and square up on
+   hover. Only with room for all three: below `sm` the strip is a scroller, and
+   a stepped baseline there just looks misaligned.
 --------------------------------------------------------------------------- */
-.proj-card {
-  width: min(100%, (100vw + 100%) / 2 - 2rem - var(--proj-indent, 0px));
-  transform: translate3d(var(--proj-indent, 0), 0, 0) scale(1);
-  transform-origin: center left;
+.screen-strip__item {
+  transition: transform 320ms var(--ease-base);
+}
+
+@media (min-width: 680px) {
+  .screen-strip__item:nth-child(2) {
+    transform: translate3d(0, 28px, 0);
+  }
+  .screen-strip__item:nth-child(3) {
+    transform: translate3d(0, 14px, 0);
+  }
+  .feature-panel:hover .screen-strip__item {
+    transform: translate3d(0, 14px, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The signature moment — a gallery tile opens where it sits.
+
+   The detail planes are grid items of their own. `grid-auto-flow: dense` lets
+   the tiles backfill the row a closed plane would have broken, so every plane
+   lands directly under its tile's row at any column count, and row-gap has to
+   stay 0: a closed plane is a zero-height row, and a gap would still show. The
+   space between rows is padding on the tile's slot instead.
+--------------------------------------------------------------------------- */
+.gallery-tile {
   transition:
     transform 320ms var(--ease-base),
     opacity 320ms var(--ease-base),
@@ -1219,36 +1231,54 @@
     background-color 180ms var(--ease-fast);
 }
 
-.proj-card[data-open="true"] {
-  transform: translate3d(0, 0, 0) scale(1.012);
+.gallery-tile:hover {
+  transform: translate3d(0, -3px, 0);
+  border-color: rgb(242 118 46 / 0.35);
+}
+
+.gallery-tile[data-open="true"] {
+  transform: scale(1.012);
 }
 
 /* The page recedes so one plane can come forward. */
-.proj-card[data-dimmed="true"] {
+.gallery-tile[data-dimmed="true"] {
   opacity: 0.38;
-  transform: translate3d(var(--proj-indent, 0), 0, 0) scale(0.985);
+  transform: scale(0.985);
+}
+.gallery-tile[data-dimmed="true"]:hover {
+  opacity: 0.7;
+}
+
+.gallery-tile__plus {
+  transition: transform 320ms var(--ease-base);
+}
+.gallery-tile[data-open="true"] .gallery-tile__plus {
+  transform: rotate(45deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .proj-card {
+  .gallery-tile,
+  .gallery-tile__plus,
+  .screen-strip__item {
     transition: none;
   }
-  .proj-card[data-open="true"] {
-    transform: translate3d(0, 0, 0);
+  .gallery-tile:hover,
+  .gallery-tile[data-open="true"] {
+    transform: none;
   }
-  /* Siblings stay at 100% — dimming four cards with no tween just flickers. */
-  .proj-card[data-dimmed="true"] {
+  /* Siblings stay at 100% — dimming six tiles with no tween just flickers. */
+  .gallery-tile[data-dimmed="true"] {
     opacity: 1;
-    transform: translate3d(var(--proj-indent, 0), 0, 0);
+    transform: none;
   }
 }
 
 @media (max-width: 899px) {
-  /* Mobile drops the indent and the scale; only colour and shadow move. */
-  .proj-card,
-  .proj-card[data-open="true"],
-  .proj-card[data-dimmed="true"] {
-    width: auto;
+  /* Mobile drops the scale; only colour and shadow move. */
+  .gallery-tile,
+  .gallery-tile:hover,
+  .gallery-tile[data-open="true"],
+  .gallery-tile[data-dimmed="true"] {
     transform: none;
   }
 }

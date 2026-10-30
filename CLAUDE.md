@@ -28,6 +28,7 @@ npm run dev
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | eslint |
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
+| `npm run promos` | compose store-style promos into `assets/projects/` (needs Chrome), then run `npm run images` |
 | `npm run og` | regenerate `public/og.png` |
 | `npm run map` | redraw the client map from `content/clients.json` |
 | `npm run export:reviews` | build, then package the review cards into `exports/review-cards/` (gitignored) |
@@ -47,8 +48,9 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 ## Architecture
 
 Server components by default. `"use client"` only where something genuinely
-needs the browser: `Nav`, `Hero`, `Experience`, `Contact`, `Footer`, the motion
-primitives, the two small Reviews toggles, and `ClientMapExplorer`. No state library, no router — it is one page.
+needs the browser: `Nav`, `Hero`, `Experience`, `ProjectGallery`, `Contact`,
+`Footer`, the motion primitives, the two small Reviews toggles, and
+`ClientMapExplorer`. No state library, no router — it is one page.
 
 ```
 app/
@@ -131,6 +133,13 @@ achievement bullet in the served HTML. They carry `inert` when closed so they
 leave the tab order and the accessibility tree. Do not swap this for
 conditional rendering — it would strip the content from the page source.
 
+**The gallery's `row-gap` must stay 0.** Each detail plane is a grid item of its
+own, and `grid-flow-dense` lets the tiles backfill the row it would have broken.
+A closed plane is a zero-height row, so any row gap would show as a stack of
+empty gaps. The space between rows is `pb-3.5` on the tile's slot. The first tile
+spans two columns, which only fills the grid at seven tiles: move the span if the
+count changes.
+
 **Never drive state from pointer-move.** `CursorGlow` writes a transform inside
 a rAF loop and holds zero React state. A `setState` per pointer move would
 re-render the page on every mouse twitch.
@@ -189,6 +198,21 @@ Mostaql show a buyer's country on their profile, and Upwork in a job's "About th
 client" panel. Mostaql hides most client profiles, so `unplaced` in
 `content/clients.json` exists: those clients count towards the total and stay off
 the map. Never guess a country to fill it.
+
+**`npm run images` rewrites every variant.** The output bytes differ from the
+committed files, so running it to add one image dirties all of them. Commit the
+new folders and `git checkout -- public/images/projects` the rest.
+
+**`apps-screens/Lpermis/` is the old yellow listing.** The blue set on the live
+Lpermis listing is in `apps-screens/O'Permis/`. Check the store page before
+trusting a folder name.
+
+**AYCO's Play listing is invite-only and carries client data.** It 404s for
+everyone but invited accounts, so do not link it until it is public: then add
+`playStore`, `bundleId` and drop `isPrivate`. Its report and device-list
+screenshots show real hospital names, so only the home, batch and settings
+screens are used. Every screenshot there also has the dev-flavour ribbon, which
+`scripts/make-promos.mjs` covers with a drawn status bar.
 
 **The land is an image on purpose.** `public/images/world-land.svg` is 50 KB of
 path data; inline it would ship twice, in the HTML and again in the RSC payload.
