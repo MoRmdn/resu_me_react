@@ -158,7 +158,9 @@ implementation target. Four deliberate departures:
 2. **`grid-template-rows: 0fr → 1fr`, not `max-height`.** The artboard capped
    panels at 420–560px, which clips. JS Quest's open panel measures 705px.
 3. **`translateX`, not `margin-left`.** The artboard animates a layout property,
-   against its own "transform + opacity only" rule.
+   against its own "transform + opacity only" rule. A transform does not shrink
+   the card the way the margin did, so an indented `.proj-card` trims its width
+   to stay inside the page gutter, and keeps that width when it opens.
 4. **`--bone-52`, not the artboard's literal `.45`.** The artboard writes
    `rgba(242,238,231,.45)` on information-carrying text; that measures 4.04:1
    and fails the 4.5:1 the design system itself requires. Treat every artboard

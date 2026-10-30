@@ -962,8 +962,15 @@
    canvas shortcuts. translateX keeps it off the layout thread, and
    grid-template-rows animates to the content's real height without clipping a
    long description.
+
+   translateX also moves the right edge, which margin-left never did: a
+   full-column card plus its indent overflows the page below 1400px. The indent
+   is the design, so the width gives instead and an indented card stops at the
+   2rem page gutter. The width is static, so opening is still transform only.
+   100vw counts a classic scrollbar, which only eats into that gutter.
 --------------------------------------------------------------------------- */
 .proj-card {
+  width: min(100%, (100vw + 100%) / 2 - 2rem - var(--proj-indent, 0px));
   transform: translate3d(var(--proj-indent, 0), 0, 0) scale(1);
   transform-origin: center left;
   transition:
@@ -1003,6 +1010,7 @@
   .proj-card,
   .proj-card[data-open="true"],
   .proj-card[data-dimmed="true"] {
+    width: auto;
     transform: none;
   }
 }
