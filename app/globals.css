@@ -45,8 +45,17 @@
   --color-rose: #ff6b6b; /* error */
   --color-amber: #f59e0b; /* warning */
 
+  /* -- Marketplaces: identity, like the logo, so exempt from the accent tiers.
+     Only ever on a platform's own mark and the card that quotes it. -------- */
+  --color-brand-upwork: #14a800;
+  --color-brand-fiverr: #1dbf73;
+  --color-brand-freelancer: #29b2fe;
+  --color-brand-mostaql: #2f9be0;
+  --color-brand-khamsat: #fdb128;
+
   /* -- Type -------------------------------------------------------------- */
-  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    var(--font-archivo), var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 
   --text-display-xl: clamp(3.25rem, 8.5vw, 7.25rem); /* 52 → 116 */
@@ -277,6 +286,394 @@
     overflow-x: auto;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Review cards. Plain classes rather than utilities: the whole block between
+   the markers is lifted into the bundle by scripts/export-review-cards.mjs, so
+   it can only depend on tokens and the marquee above.
+
+   The marquee is the one continuous motion here; everything else answers to a
+   hover. Reduced motion stops the rows and drops the duplicate track, and the
+   hover keeps its colour but loses the lift and the star sequence.
+--------------------------------------------------------------------------- */
+/* review-cards:start */
+[data-platform="upwork"] {
+  --review-brand: var(--color-brand-upwork);
+}
+[data-platform="fiverr"] {
+  --review-brand: var(--color-brand-fiverr);
+}
+[data-platform="freelancer"] {
+  --review-brand: var(--color-brand-freelancer);
+}
+[data-platform="mostaql"] {
+  --review-brand: var(--color-brand-mostaql);
+}
+[data-platform="khamsat"] {
+  --review-brand: var(--color-brand-khamsat);
+}
+
+/* The site gets these from Tailwind's reset; a card elsewhere may not. */
+.review-card,
+.review-card * {
+  box-sizing: border-box;
+}
+.review-card p {
+  margin: 0;
+}
+
+.review-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(84vw, 372px);
+  height: 100%;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-ink-700);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.03);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  transition:
+    transform 320ms var(--ease-base),
+    border-color 180ms var(--ease-fast),
+    box-shadow 320ms var(--ease-base);
+}
+
+.review-card[data-layout="wide"] {
+  width: min(84vw, 520px);
+}
+.review-card[data-layout="split"] {
+  width: min(84vw, 720px);
+}
+
+/* A hairline that wipes in from the left, in the platform's colour. */
+.review-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background-color: var(--review-brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms var(--ease-base);
+}
+
+.review-card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: color-mix(in srgb, var(--review-brand) 45%, transparent);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+}
+.review-card:hover::before {
+  transform: scaleX(1);
+}
+
+.review-card__glyph {
+  position: absolute;
+  right: 18px;
+  bottom: 44px;
+  font-size: 9rem;
+  font-weight: 600;
+  line-height: 0.6;
+  color: var(--color-bone-06);
+  pointer-events: none;
+  transition: transform 320ms var(--ease-base);
+}
+.review-card:hover .review-card__glyph {
+  transform: translate3d(0, -6px, 0);
+}
+
+.review-card__top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 24px;
+}
+
+.review-card__mark {
+  flex-shrink: 0;
+  color: var(--review-brand);
+}
+
+.review-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-bone-70);
+}
+
+.review-card__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--color-bone-70);
+  transition: color 180ms var(--ease-fast);
+}
+.review-card__stars svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+.review-card:hover .review-card__stars {
+  color: var(--review-brand);
+}
+.review-card:hover .review-card__stars svg {
+  animation: review-star-pop 320ms var(--ease-base) both;
+  animation-delay: calc(var(--star) * 50ms);
+}
+
+@keyframes review-star-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.32) rotate(-8deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.review-card__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.review-card[data-layout="split"] .review-card__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.review-card__quote {
+  margin: 0;
+  font-size: 0.96875rem;
+  line-height: 1.65;
+  white-space: pre-line;
+  color: var(--color-bone);
+}
+.review-card__quote:lang(ar) {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+/* A two-line quote in a tall row would otherwise strand in empty card. */
+.review-card[data-layout="short"] .review-card__quote {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.review-card__translation {
+  padding-top: 12px;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  color: var(--color-bone-62);
+}
+.review-card[data-layout="split"] .review-card__translation {
+  padding-top: 0;
+  padding-left: 24px;
+  border-top: 0;
+  border-left: 1px solid var(--color-line);
+}
+
+.review-card__translation .review-card__label {
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bone-52);
+}
+
+.review-card__foot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-line);
+}
+
+.review-card__author {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.review-card__repeat {
+  padding: 2px 7px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-bone-62);
+}
+
+.review-card__foot .review-card__meta {
+  margin-top: 2px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-bone-52);
+}
+
+.review-card__source {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bone-52);
+}
+
+/* The wall. Both copies carry a trailing gap so -50% lands exactly on the seam. */
+.review-wall {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-row {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  padding-block: 8px;
+}
+
+/* Edges fade into the plane so cards do not clip mid-word. */
+.review-row::before,
+.review-row::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  z-index: 1;
+  width: 72px;
+  pointer-events: none;
+}
+.review-row::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-ink-900), transparent);
+}
+.review-row::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-ink-900), transparent);
+}
+
+.review-row[data-direction="reverse"] .marquee-track {
+  animation-direction: reverse;
+}
+
+[data-marquee-paused="true"] .marquee-track {
+  animation-play-state: paused;
+}
+
+.review-list {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0 16px 0 0;
+  list-style: none;
+}
+
+.review-slot {
+  display: flex;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-list[aria-hidden] {
+    display: none;
+  }
+  .review-row {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+  .review-slot {
+    scroll-snap-align: center;
+  }
+  .review-card:hover {
+    transform: none;
+  }
+  .review-card:hover .review-card__glyph {
+    transform: none;
+  }
+  .review-card:hover .review-card__stars svg {
+    animation: none;
+  }
+  .marquee-toggle {
+    display: none;
+  }
+}
+
+@media (scripting: none) {
+  .marquee-toggle {
+    display: none;
+  }
+}
+
+/* Two columns need room; below this the translation goes back underneath. */
+@media (max-width: 899px) {
+  .review-card[data-layout="split"] .review-card__body {
+    display: flex;
+    gap: 14px;
+  }
+  .review-card[data-layout="split"] .review-card__translation {
+    padding-top: 12px;
+    padding-left: 0;
+    border-top: 1px solid var(--color-line);
+    border-left: 0;
+  }
+}
+
+/* One language at a time on small screens, or a single long review makes the
+   row 860px tall. Opt-in by attribute, so a card used on its own is unaffected,
+   and scripting-gated, so without the toggle both languages stay readable. */
+@media (max-width: 899px) and (scripting: enabled) {
+  [data-review-lang="translation"] .review-card__quote:lang(ar),
+  [data-review-lang="original"] .review-card__translation {
+    display: none;
+  }
+  [data-review-lang="translation"] .review-card__translation,
+  [data-review-lang="translation"] .review-card[data-layout="split"] .review-card__translation {
+    padding-top: 0;
+    border-top: 0;
+  }
+  [data-review-lang="translation"] .review-card__translation {
+    font-size: 0.96875rem;
+    color: var(--color-bone);
+  }
+}
+
+@media (min-width: 900px) {
+  .review-lang-toggle {
+    display: none;
+  }
+}
+
+@media (scripting: none) {
+  .review-lang-toggle {
+    display: none;
+  }
+}
+/* review-cards:end */
 
 /* Slow pulse for the "open to work" dot. */
 @keyframes dot-pulse {
@@ -565,8 +962,15 @@
    canvas shortcuts. translateX keeps it off the layout thread, and
    grid-template-rows animates to the content's real height without clipping a
    long description.
+
+   translateX also moves the right edge, which margin-left never did: a
+   full-column card plus its indent overflows the page below 1400px. The indent
+   is the design, so the width gives instead and an indented card stops at the
+   2rem page gutter. The width is static, so opening is still transform only.
+   100vw counts a classic scrollbar, which only eats into that gutter.
 --------------------------------------------------------------------------- */
 .proj-card {
+  width: min(100%, (100vw + 100%) / 2 - 2rem - var(--proj-indent, 0px));
   transform: translate3d(var(--proj-indent, 0), 0, 0) scale(1);
   transform-origin: center left;
   transition:
@@ -606,6 +1010,7 @@
   .proj-card,
   .proj-card[data-open="true"],
   .proj-card[data-dimmed="true"] {
+    width: auto;
     transform: none;
   }
 }

@@ -2,7 +2,7 @@
 
 A single-page Next.js portfolio, statically exported and deployed to Firebase
 Hosting (project `m0rmdn`), live at **https://mormdn.com**. One scrolling page,
-seven sections.
+eight sections.
 
 This replaces a Flutter Web app that still lives at `/Users/dark/Dev/resu_me`.
 The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
@@ -29,6 +29,7 @@ npm run dev
 | `npm run lint` | eslint |
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
 | `npm run og` | regenerate `public/og.png` |
+| `npm run export:reviews` | build, then package the review cards into `exports/review-cards/` (gitignored) |
 
 Deploy:
 
@@ -45,8 +46,8 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 ## Architecture
 
 Server components by default. `"use client"` only where something genuinely
-needs the browser: `Nav`, `Hero`, `Experience`, `Contact`, `Footer`, and the
-motion primitives. No state library, no router — it is one page.
+needs the browser: `Nav`, `Hero`, `Experience`, `Contact`, `Footer`, the motion
+primitives, and the two small Reviews toggles. No state library, no router — it is one page.
 
 ```
 app/
@@ -55,8 +56,8 @@ app/
 └── globals.css       ALL design tokens (@theme) + the animation layer
 components/
 ├── brand/            MoRmdnMark, MoRmdnLockup, MoRmdnMarkDraw — SVG, geometry locked
-├── ui/               Section, Eyebrow, Button, Tag
-├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee
+├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
+├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee, MarqueeToggle
 └── sections/         one file per band of the page
 content/              every word and number the site renders
 lib/                  firebase, hooks, cn
@@ -67,7 +68,8 @@ scripts/              image + OG generation, run by hand
 
 **All copy lives in `content/`, never inline in a component.** `site.ts`
 (identity, links, metrics), `projects.ts`, `experience.ts`, `skills.ts`,
-`copy.ts` (section prose), `types.ts`.
+`copy.ts` (section prose), `types.ts`, `reviews.ts` + `reviews.json` (client
+reviews) and `platform-marks.json` (marketplace logos).
 
 Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
 `content/` — not the components.
@@ -165,6 +167,27 @@ its own `--rise-delay` on every load. `rise-lcp` keeps the movement and drops
 the fade. Do not "unify" it back into `.rise`.
 
 ---
+
+**Review quotes are verbatim.** `content/reviews.json` is copied word for word
+from the marketplaces, typos included. Fix nothing. An Arabic review keeps the
+original and carries a labelled `translation`. Khamsat is limited to the
+programming services, and a quote that appears on two platforms is used once.
+
+**Marketplace review pages hide their content from a quick scrape.** Fiverr shows
+no reviews on the profile while the gigs are paused; the signed-in owner can
+read them on the gig page (`/mormdn/fix-flutter-app-source-code`). Upwork
+truncates quotes behind "See more" and Freelancer lists the last four only in a
+modal. To refresh them, drive a signed-in browser.
+
+**`.review-card` is deliberately not Tailwind.** Everything between the
+`review-cards:start` and `:end` markers in `globals.css` is lifted into the
+export, so it can use tokens and the marquee but no utilities. The export reads
+the card markup out of `out/index.html`, so it needs a build first.
+
+**The review wall duplicates its track.** Only the first `<ul>` in a row is
+content. The second is `aria-hidden` + `inert`, exists only to make the loop
+seamless, and is dropped under reduced motion. Keep focusable elements out of
+the cards: the second copy would still need to swallow them.
 
 ## Open items
 
