@@ -116,7 +116,8 @@ throughout; and the focus ring (the `glow` token) on `:focus-visible`.
 | Career band grow | `.band-bar` | `scaleY` from the baseline, 40ms stagger | final height, no grow |
 | Skills plate slide | `.plate` | `translateX`, alternating side | in place |
 | AYCO perimeter draw | `.perimeter` | SVG `stroke-dashoffset` | fully drawn from first paint |
-| **Project card opens spatially** | `.proj-card` | `translateX` + `scale` + `grid-template-rows`, siblings to .38 | instant at final size, siblings stay 100% |
+| Store screens square up | `.screen-strip__item` | `translateY` from a stepped baseline, on panel hover | stay stepped, no movement |
+| **Gallery tile opens spatially** | `.gallery-tile` | `scale` + `grid-template-rows`, siblings to .38 | instant at final size, siblings stay 100% |
 
 **No animation library.** Motion (framer-motion) was used during the build and
 then removed: it was 183 KB raw for effects that CSS and three small rAF helpers
@@ -157,10 +158,10 @@ implementation target. Four deliberate departures:
    an `engagement` field the artboard never rendered; the row panel renders it.
 2. **`grid-template-rows: 0fr → 1fr`, not `max-height`.** The artboard capped
    panels at 420–560px, which clips. JS Quest's open panel measures 705px.
-3. **`translateX`, not `margin-left`.** The artboard animates a layout property,
-   against its own "transform + opacity only" rule. A transform does not shrink
-   the card the way the margin did, so an indented `.proj-card` trims its width
-   to stay inside the page gutter, and keeps that width when it opens.
+3. **No indented rows.** The artboard stacked every project as an alternating
+   indented row. That section reached 7,000px with most of the work hidden, so
+   four projects are now always-open panels and the rest are a gallery. The
+   artboard's opening gesture moved to the gallery tile, minus the un-indent.
 4. **`--bone-52`, not the artboard's literal `.45`.** The artboard writes
    `rgba(242,238,231,.45)` on information-carrying text; that measures 4.04:1
    and fails the 4.5:1 the design system itself requires. Treat every artboard

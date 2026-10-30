@@ -71,17 +71,20 @@ export const experienceCopy = {
 export const projectsCopy = {
   eyebrow: "03 / Projects",
   headline: "Live on both stores.",
-  flagshipLabel: "Flagship",
   privateLabel: "Private client · no public listing",
   appStoreLabel: "App Store",
   playStoreLabel: "Google Play",
   websiteLabel: "Visit site",
   sourceLabel: "Source",
-  openLabel: "Open",
   closeLabel: "Close",
   bundleIdLabel: "Application ID",
-  plateLabel: "Plate",
+  outcomeLabel: "Outcome",
+  builtWithLabel: "Built with",
   socialLabel: "Store & social artwork",
+  screensLabel: (title: string) => `${title} store screens`,
+  galleryEyebrow: "Gallery",
+  galleryHeadline: "The rest of the shelf.",
+  galleryNote: (count: number) => `${count} more · tap a tile to open`,
 };
 
 export const skillsCopy = {

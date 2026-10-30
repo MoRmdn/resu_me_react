@@ -12,7 +12,7 @@ export type Project = {
   title: string;
   /** One-line summary used on cards. */
   description: string;
-  /** Full paragraph used in the expanded / flagship treatment. */
+  /** Full paragraph used on a featured panel and in a gallery plane. */
   longDescription: string;
   technologies: string[];
   tags: string[];
@@ -32,8 +32,11 @@ export type Project = {
   image?: { slug: string; width: number; height: number; alt: string };
   /** Supplied brand assets and how they are plated. See ProjectMedia. */
   media?: ProjectMedia;
-  /** Leads the section in the big panel. Exactly one project carries it. */
-  flagship?: boolean;
+  /**
+   * Replaces the store links on a private card, so absence of links reads as
+   * depth rather than a gap. DESIGN-SYSTEM §5.1.
+   */
+  ledger?: { value: string; label: string }[];
   /** Shown where store links would be, when there are none. */
   linkStatus?: string;
   /** Private client delivery: no public listing, gets its own card treatment. */
@@ -107,6 +110,12 @@ export type ProjectMedia = {
      */
     bezel?: boolean;
   };
+  /**
+   * Store-listing screens from one listing, shown whole as a set on a featured
+   * panel. Featured panels use these in place of `asset`, which stays so the
+   * project can move to the gallery by editing one list.
+   */
+  screens?: { file: string; width: number; height: number; alt: string }[];
   /** 1:1 posts. A different aspect, so they get their own strip. */
   social?: { file: string; width: number; height: number; alt: string }[];
 };

@@ -19,9 +19,17 @@
     64,
     128
   ],
-  "ayco-shot": [
-    240,
-    480
+  "ayco-screen-1": [
+    280,
+    560
+  ],
+  "ayco-screen-2": [
+    280,
+    560
+  ],
+  "ayco-screen-3": [
+    280,
+    560
   ],
   "dental-dinar-icon": [
     64,
@@ -39,6 +47,14 @@
     240,
     480
   ],
+  "js-quest-icon": [
+    64,
+    128
+  ],
+  "js-quest-promo": [
+    280,
+    560
+  ],
   "lpermis-icon": [
     64,
     128
@@ -54,6 +70,15 @@
   "lpermis-promo": [
     280,
     560
+  ],
+  "lpermis-screen-1": [
+    280
+  ],
+  "lpermis-screen-2": [
+    280
+  ],
+  "lpermis-screen-3": [
+    280
   ],
   "mismar-icon": [
     64,
@@ -71,6 +96,18 @@
     280,
     560
   ],
+  "mutabbib-screen-1": [
+    280,
+    560
+  ],
+  "mutabbib-screen-2": [
+    280,
+    560
+  ],
+  "mutabbib-screen-3": [
+    280,
+    560
+  ],
   "opermis-icon": [
     64,
     128
@@ -83,6 +120,15 @@
     128
   ],
   "saber-yamen-promo": [
+    280
+  ],
+  "saber-yamen-screen-1": [
+    280
+  ],
+  "saber-yamen-screen-2": [
+    280
+  ],
+  "saber-yamen-screen-3": [
     280
   ]
 }
