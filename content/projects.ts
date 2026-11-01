@@ -324,13 +324,12 @@ export const projects: Project[] = [
     linkStatus: "Store links to follow",
     media: {
       icon: { file: "freedoc-icon" },
-      plate: "device",
+      plate: "promo",
       asset: {
-        file: "freedoc-shot",
-        width: 1080,
-        height: 2280,
-        alt: "FreeDoc patient home screen — doctor search and specialist categories",
-        bezel: true,
+        file: "freedoc-promo",
+        width: 1200,
+        height: 2600,
+        alt: "FreeDoc store promo — patient home screen with doctor search and specialist categories, under an Arabic headline",
       },
     },
   },

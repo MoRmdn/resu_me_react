@@ -258,21 +258,26 @@ For work with no public listing (AYCO). Must read as deliberate, never as a brok
   Every other card is solid.
 - Store buttons are **replaced, not removed**: a build ledger (files / tests /
   functions) occupies the slot the links hold on every other card.
-- Always expanded — no Open affordance, since there is nothing behind it.
-- The longest card in the section, not the thinnest: absence of links must read
-  as depth, not gap.
+- Closed by default like every featured panel. Its highlights are the depth, so
+  absence of links must read as more behind the click, not less.
 - Closes with an explicit line naming the NDA. Unexplained absence looks broken;
   stated absence looks professional.
 - Zero copper at any tier. No hover warm, no lift.
 
 ### Featured panel
-The big projects, always open: nothing on them sits behind a click.
+The big projects, closed to a face by default so the section can be scanned.
+The face is the pitch: art, name, one line, outcome, store links. The long story,
+highlights, stack and application ID unfold under it.
 
-- Full width on a 5/7 split, with the art changing sides from one panel to the
-  next. Surface `--ink-700`, `--r-lg`, `e1`. Hover warms the border (Tier 3).
+- Full width on a 5/7 split from `md`, with the art changing sides from one panel
+  to the next. Surface `--ink-700`, `--r-lg`, `e1`. Hover warms the border
+  (Tier 3), and it stays warm while open.
+- The whole face opens it, store links excepted. Panels open independently and
+  nothing recedes: §6.1's dimming belongs to the gallery alone.
+- Closed details stay in the DOM, `inert`, so the copy is in the served HTML.
 - Three store-listing screens from one listing, whole, on a stepped baseline
-  (0 / 28 / 14px). Hover squares the set up. Below `sm` the set becomes a
-  scroller of its own, with no stepped baseline.
+  (0 / 28 / 14px), capped at 560px across. Hover squares the set up. Below `sm`
+  the set becomes a scroller of its own, with no stepped baseline.
 - A project with raw captures and no store art goes through `npm run promos`:
   brand ground, headline, the capture in a drawn device. Headlines come from the
   project's own listing copy.
@@ -283,7 +288,8 @@ The big projects, always open: nothing on them sits behind a click.
 Everything that is not a featured panel, as a wall of art.
 
 - Four columns from `lg`, two below. The first tile spans two, which is what
-  fills both grids with seven tiles.
+  fills both grids with seven tiles. Plates are 5:6, or 4:3 between `sm` and `lg`,
+  where two columns would otherwise make them taller than the screen.
 - Art is shown whole on `--ink-800`, never cropped. A project with no art gets a
   two-letter mono monogram in `--bone-18`, so the plate reads as set rather than
   as an image that failed to load.

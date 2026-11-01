@@ -8,6 +8,7 @@
  * only: nothing here reaches the site.
  *
  *   npm run promos && npm run images
+ *   npm run promos -- freedoc             only the outputs containing that
  *
  * The status bar and home band are drawn over the capture on purpose. They
  * replace the phone's own, which is how AYCO's dev-flavour ribbon, the camera
@@ -49,6 +50,15 @@ const BRANDS = {
     screenBg: "#f6f5ff",
     statusInk: "#17134a",
   },
+  freedoc: {
+    ground: "linear-gradient(170deg, #3414d0 0%, #1e009e 46%, #0d0348 100%)",
+    ink: "#ffffff",
+    soft: "#c9c4ff",
+    font: "Cairo",
+    mark: "freedoc-mark.webp",
+    screenBg: "#ffffff",
+    statusInk: "#1e009e",
+  },
 };
 
 const PROMOS = [
@@ -84,6 +94,18 @@ const PROMOS = [
     sub: "Answers the browser never sees until you earn them.",
     screen: "js-quest-landing.webp",
     url: "js-basics-quiz.vercel.app",
+  },
+  {
+    out: "freedoc-promo",
+    brand: "freedoc",
+    dir: "rtl",
+    headline: "ابحث عن طبيبك واحجز موعدك",
+    sub: "بالعربية والفرنسية والإنجليزية",
+    // The patient home screen, the only capture that is clean product UI: the
+    // rest carry Lorem Ipsum, a Google Maps error or the notification shade.
+    // Cropped to the app's own content, so it starts under the drawn status bar.
+    screen: "freedoc-home.webp",
+    appTop: 118,
   },
 ];
 
@@ -134,7 +156,7 @@ function promoHtml(promo) {
     box-shadow: 0 0 0 3px rgb(255 255 255 / .16), 0 44px 90px rgb(0 0 0 / .45); }
   .screen { position: relative; width: 100%; height: 100%; overflow: hidden;
     border-radius: 88px; background: ${b.screenBg}; }
-  .screen .app { display: block; width: 100%; }
+  .screen .app { display: block; width: 100%; margin-top: ${promo.appTop ?? 0}px; }
   .screen .page { display: block; width: 100%; margin-top: 208px; }
   .status { position: absolute; inset: 0 0 auto; height: 118px; display: flex; direction: ltr;
     align-items: center; justify-content: space-between; padding: 26px 60px 0;
@@ -195,11 +217,14 @@ async function render(html, width, height, out) {
   await rm(dir, { recursive: true, force: true });
 }
 
-for (const promo of PROMOS) {
+const only = process.argv[2];
+const chosen = (list) => list.filter(({ out }) => !only || out.includes(only));
+
+for (const promo of chosen(PROMOS)) {
   await render(promoHtml(promo), 1200, 2600, promo.out);
 }
 
-for (const icon of ICONS) {
+for (const icon of chosen(ICONS)) {
   const html = `<!doctype html><link rel="stylesheet" href="${FONTS}">
     <style>*{margin:0}html,body{overflow:hidden}</style>${icon.html}`;
   await render(html, icon.size, icon.size, icon.out);

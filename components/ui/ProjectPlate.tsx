@@ -124,16 +124,16 @@ export function ScreenStrip({
         className="w-full overflow-x-auto sm:overflow-visible"
         {...swipe}
       >
-        <ul className="flex snap-x snap-mandatory gap-3 p-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8 sm:pt-8 sm:pb-14">
+        <ul className="flex snap-x snap-mandatory gap-3 p-5 sm:mx-auto sm:grid sm:max-w-[560px] sm:grid-cols-3 sm:gap-4 sm:px-8 sm:pt-8 sm:pb-14">
           {screens.map((screen) => (
             <li
               key={screen.file}
-              className="screen-strip__item w-[62vw] max-w-[260px] shrink-0 snap-center sm:w-auto sm:max-w-none"
+              className="screen-strip__item w-[38vw] max-w-[170px] shrink-0 snap-center sm:w-auto sm:max-w-none"
             >
               <ProjectImage
                 file={screen.file}
                 widths={[280, 560]}
-                sizes="(min-width: 680px) 210px, 62vw"
+                sizes="(min-width: 680px) 160px, 38vw"
                 alt={screen.alt}
                 width={screen.width}
                 height={screen.height}

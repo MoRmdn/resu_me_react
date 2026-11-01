@@ -168,6 +168,7 @@ export const PARAMS = {
     type: "string",
     values: [
       "tile",
+      "panel",
       "close_button",
       "escape",
       "list_row",
@@ -441,8 +442,8 @@ export const EVENTS = {
   },
   project_toggle: {
     group: "Projects",
-    description: "A deliberate request for more detail about a gallery project.",
-    trigger: "A gallery tile's detail plane opening or closing.",
+    description: "A deliberate request for more detail about a project.",
+    trigger: "A featured panel's details or a gallery tile's detail plane opening or closing.",
     params: [...PROJECT, "toggle_action", "toggle_method"],
   },
   project_link_click: {

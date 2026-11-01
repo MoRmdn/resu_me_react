@@ -51,7 +51,7 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 ## Architecture
 
 Server components by default. `"use client"` only where something genuinely
-needs the browser: `Nav`, `Hero`, `Experience`, `ProjectGallery`, `Contact`,
+needs the browser: `Nav`, `Hero`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
 `Footer`, the motion primitives, the two small Reviews toggles, and
 `ClientMapExplorer`. No state library, no router — it is one page.
 

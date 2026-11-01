@@ -1080,6 +1080,14 @@
   opacity: 1;
 }
 
+/* With scripting off nothing can open a panel, so they all stand open. */
+@media (scripting: none) {
+  .disclosure {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Logo draw-on. Paths carry pathLength="100", so the dash maths is unit-free.
    LOGO.md allows this once, in the hero — never on every load elsewhere.
@@ -1182,6 +1190,8 @@
 }
 
 .perimeter {
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
   animation: perimeter-draw 0.62s var(--ease-slow) 0.12s both;
 }
 
@@ -1252,7 +1262,8 @@
 .gallery-tile__plus {
   transition: transform 320ms var(--ease-base);
 }
-.gallery-tile[data-open="true"] .gallery-tile__plus {
+.gallery-tile[data-open="true"] .gallery-tile__plus,
+.feature-panel[data-open="true"] .gallery-tile__plus {
   transform: rotate(45deg);
 }
 

@@ -37,10 +37,6 @@ const SOURCES = [
   // Device captures.
   [`${HANDOFF}/mismar-shot.png`, "mismar-shot"],
   [`${HANDOFF}/arcit-ai-shot.webp`, "arcit-ai-shot"],
-  // The only FreeDoc capture that is product UI rather than a QA screenshot:
-  // the rest carry Lorem Ipsum, a Google Maps error, or the notification shade.
-  // Patient home screen: product UI with no Lorem Ipsum or QA artefacts.
-  [`${SCREENS}/freeDoc/image_original (10).png`, "freedoc-shot"],
 
   // Store promos — brand field, device and a baked headline, composed by the
   // client's designer. Shown whole, never cropped.
