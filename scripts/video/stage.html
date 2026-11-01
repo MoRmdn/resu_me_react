@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&family=JetBrains+Mono:wght@400;500&display=block">
+<style>
+  :root {
+    --ink-900: #0a0a0c; --ink-700: #16161b; --bone: #f2eee7; --copper: #ff8a45;
+    --bone-78: rgb(242 238 231 / .78); --bone-62: rgb(242 238 231 / .62);
+    --line: rgb(242 238 231 / .12);
+    --gutter: 96px; --card: 780px; --quote: 44px; --quote-ar: 40px; --small: 28px;
+    --meta: 21px; --title: 124px; --display: 100px; --sub: 36px;
+  }
+  body.portrait {
+    --gutter: 64px; --card: 952px; --quote: 58px; --quote-ar: 52px; --small: 36px;
+    --meta: 26px; --title: 150px; --display: 130px; --sub: 42px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { overflow: hidden; background: var(--ink-900); }
+  body { position: relative; color: var(--bone); font-family: Archivo, sans-serif; }
+  canvas { position: absolute; inset: 0; display: block; }
+  .layer { position: absolute; opacity: 0; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+
+  .eyebrow { font: 500 var(--meta)/1 "JetBrains Mono", monospace; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--bone-62); }
+
+  #brand { display: flex; align-items: center; gap: .5em; right: var(--gutter); top: 60px;
+    font: 500 26px/1 "JetBrains Mono", monospace; color: var(--bone-78); }
+  body.portrait #brand { right: auto; left: var(--gutter); top: 156px; font-size: 32px; }
+
+  #intro { left: var(--gutter); top: 340px; }
+  body.portrait #intro { top: 360px; }
+  #intro h1 { margin-top: 28px; font-size: var(--title); line-height: 1; font-weight: 600;
+    letter-spacing: -.035em; white-space: nowrap; }
+  #intro p { margin-top: 28px; font-size: var(--sub); font-weight: 500; letter-spacing: -.01em;
+    color: var(--bone-78); }
+
+  .card { left: var(--gutter); width: var(--card); padding: 40px 44px 36px;
+    border: 1px solid var(--line); border-radius: 14px; background: var(--ink-700);
+    overflow: hidden; }
+  body.portrait .card { padding: 48px 56px 44px; }
+  .card__wipe { position: absolute; inset: 0 0 auto; height: 3px; background: var(--brand);
+    transform-origin: left; }
+  .card__glyph { position: absolute; right: 30px; bottom: 56px; font-size: 280px; font-weight: 600;
+    line-height: .6; color: rgb(242 238 231 / .05); }
+  .card__top { position: relative; display: flex; align-items: center; justify-content: space-between; }
+  .card__mark { color: var(--brand); height: 34px; display: flex; align-items: center; }
+  .card__mark svg { height: 100%; width: auto; display: block; fill: currentColor; }
+  .card__rating { display: flex; align-items: center; gap: 12px;
+    font: 500 var(--meta)/1 "JetBrains Mono", monospace; color: var(--bone-78); }
+  .card__stars { display: flex; gap: 4px; color: var(--brand); }
+  .card__stars svg { width: 24px; height: 24px; display: block; fill: currentColor; }
+  .card__quote { position: relative; margin-top: 34px; font-size: var(--quote); line-height: 1.28;
+    font-weight: 500; letter-spacing: -.015em; white-space: pre-line; }
+  .card__quote.is-long { font-size: calc(var(--quote) * .84); line-height: 1.32; }
+  .card__quote[lang="ar"] { font-family: "IBM Plex Sans Arabic", sans-serif;
+    font-size: var(--quote-ar); line-height: 1.6; letter-spacing: 0; }
+  .card__label { position: relative; margin-top: 26px; font: 500 var(--meta)/1 "JetBrains Mono", monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--bone-62); }
+  .card__translation { position: relative; margin-top: 14px; font-size: var(--small); line-height: 1.4;
+    color: var(--bone-78); }
+  .card__foot { position: relative; margin-top: 34px; padding-top: 22px;
+    border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .card__author { font-size: 28px; font-weight: 600; display: flex; align-items: center; gap: 14px; }
+  body.portrait .card__author { font-size: 34px; }
+  .card__repeat { font: 500 17px/1 "JetBrains Mono", monospace; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-900); background: var(--brand);
+    padding: 7px 10px; border-radius: 5px; }
+  body.portrait .card__repeat { font-size: 21px; }
+  .card__meta { margin-top: 10px; font: 400 var(--meta)/1.35 "JetBrains Mono", monospace; color: var(--bone-62); }
+
+  .tag { left: var(--gutter); display: flex; align-items: baseline; gap: 12px; white-space: nowrap;
+    font: 500 22px/1 "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase;
+    padding: 10px 14px; background: rgb(10 10 12 / .82); border: 1px solid var(--line); border-radius: 7px; }
+  body.portrait .tag { font-size: 28px; }
+  .tag span { color: var(--copper); letter-spacing: .02em; text-transform: none; }
+
+  #hud { left: var(--gutter); right: var(--gutter); bottom: 96px; display: flex;
+    justify-content: space-between; }
+  body.portrait #hud { bottom: auto; top: 240px; }
+  #hud b { font-weight: 500; color: var(--copper); }
+
+  #finale { left: var(--gutter); top: 196px; }
+  body.portrait #finale { top: 250px; }
+  #finale h1 { margin-top: 26px; font-size: var(--display); line-height: 1; font-weight: 600;
+    letter-spacing: -.035em; white-space: nowrap; }
+  #finale h1 b { font-weight: 600; color: var(--copper); font-variant-numeric: tabular-nums; }
+  #stats { margin-top: 30px; font-size: var(--sub); line-height: 1.3; font-weight: 500;
+    letter-spacing: -.01em; color: var(--bone-78); max-width: 720px; }
+  body.portrait #stats { max-width: 900px; }
+  #cta { margin-top: 44px; }
+  #cta strong { display: block; font-size: 64px; line-height: 1; font-weight: 600; letter-spacing: -.03em; }
+  body.portrait #cta strong { font-size: 76px; }
+  #cta div { margin-top: 26px; display: flex; align-items: center; gap: .5em;
+    font: 500 34px/1 "JetBrains Mono", monospace; color: var(--bone-78); }
+</style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <div id="brand" class="layer"></div>
+  <div id="intro" class="layer">
+    <div class="eyebrow">Mansoura, Egypt</div>
+    <h1>One desk.</h1>
+    <p id="intro-sub">Every line starts here.</p>
+  </div>
+  <div id="cards"></div>
+  <div id="hud" class="layer eyebrow"><span>World domination</span><b id="hud-count"></b></div>
+  <div id="finale" class="layer">
+    <div class="eyebrow">Where they are</div>
+    <h1>World<br>domination <b id="percent"></b></h1>
+    <p id="stats"></p>
+    <div id="cta"><strong id="next"></strong><div id="site"></div></div>
+  </div>
+  <script src="DEPS/d3-array.min.js"></script>
+  <script src="DEPS/d3-geo.min.js"></script>
+  <script src="DEPS/topojson-client.min.js"></script>
+  <script src="data.js"></script>
+  <script src="stage.js"></script>
+</body>
+</html>
