@@ -61,6 +61,53 @@ export function ApplicationId({ id, className }: { id: string; className?: strin
 }
 
 /**
+ * What sits behind a click: the long story beside the build facts, shared by a
+ * gallery plane and a featured panel. `onFace` is for a surface that already
+ * carries the description and the outcome. `children` ends the facts column.
+ */
+export function ProjectDetail({
+  project,
+  onFace,
+  className,
+  children,
+}: {
+  project: Project;
+  onFace?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className={cn("grid gap-x-12 gap-y-8 lg:grid-cols-[7fr_5fr]", className)}>
+      <div>
+        {!onFace && <p className="max-w-[62ch] text-body-l text-bone">{project.description}</p>}
+        <p className={cn("max-w-[62ch] text-body text-bone-70", !onFace && "mt-4")}>
+          {project.longDescription}
+        </p>
+        {project.highlights && <HighlightList highlights={project.highlights} className="mt-6" />}
+      </div>
+
+      <div className="flex flex-col gap-6 border-t border-line pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
+        {!onFace && (
+          <div>
+            <p className="eyebrow text-bone-52">{projectsCopy.outcomeLabel}</p>
+            <p className="mt-2.5 text-body text-bone">{project.achievement}</p>
+          </div>
+        )}
+
+        <div>
+          <p className="eyebrow mb-3 text-bone-52">{projectsCopy.builtWithLabel}</p>
+          <TechList technologies={project.technologies} />
+        </div>
+
+        {project.bundleId && <ApplicationId id={project.bundleId} />}
+
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Four link shapes: a store pair, a live site with source, a private delivery,
  * and "not listed yet". The last two render an explicit status rather than an
  * empty row, so a card with nothing to click still reads as deliberate.

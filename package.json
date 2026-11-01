@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "images": "node scripts/optimize-images.mjs",
     "promos": "node scripts/make-promos.mjs",
+    "banners": "node scripts/make-banners.mjs",
+    "video": "node scripts/make-video.mjs",
     "og": "node scripts/generate-og.mjs",
     "map": "node scripts/generate-world-map.mjs",
     "export:reviews": "next build && node scripts/export-review-cards.mjs",

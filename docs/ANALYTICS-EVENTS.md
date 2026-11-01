@@ -103,9 +103,9 @@ Interest in closed gallery tiles, which share the screen too closely for dwell t
 
 ### `project_toggle`
 
-A deliberate request for more detail about a gallery project.
+A deliberate request for more detail about a project.
 
-- **Fires on:** A gallery tile's detail plane opening or closing.
+- **Fires on:** A featured panel's details or a gallery tile's detail plane opening or closing.
 - **Sentence:** {toggle_action} details for {project_title} via {toggle_method}
 - **Params:** `project_slug`, `project_title`, `project_placement`, `project_category`, `project_country`, `toggle_action`, `toggle_method`
 
@@ -318,7 +318,7 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `project_category` | string |  | The project's market category, such as Healthcare. |
 | `project_country` | string |  | The country the project was built for. |
 | `toggle_action` | string | open, close | Whether a project or experience panel was opened or closed. |
-| `toggle_method` | string | tile, close_button, escape, list_row, timeline_bar, arrow_keys, menu_button, backdrop | The control the visitor used to open or close a panel or the mobile menu. |
+| `toggle_method` | string | tile, panel, close_button, escape, list_row, timeline_bar, arrow_keys, menu_button, backdrop | The control the visitor used to open or close a panel or the mobile menu. |
 | `link_type` | string | website, source, app_store, play_store | Which listing of the project was opened. |
 | `experience_slug` | string |  | The stable identifier of the role, such as mismar. |
 | `experience_company` | string |  | The company of the role, without its translation. |

@@ -1,24 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { IconTile } from "@/components/ui/IconTile";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { SocialStrip } from "@/components/ui/ProjectPlate";
-import {
-  ApplicationId,
-  HighlightList,
-  ProjectLinks,
-  TechList,
-} from "@/components/ui/ProjectMeta";
+import { ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
 import { projectsCopy } from "@/content/copy";
 import type { Project } from "@/content/types";
 import { attentionAttrs, projectParams, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
-
-/** Slightly longer than the 320ms open, so the plane has its final height. */
-const SETTLE_MS = 340;
+import { useKeepInView } from "@/lib/useKeepInView";
 
 const panelId = (slug: string) => `proj-panel-${slug}`;
 const tileId = (slug: string) => `proj-tile-${slug}`;
@@ -37,16 +30,7 @@ const tileId = (slug: string) => `proj-tile-${slug}`;
  */
 export function ProjectGallery({ projects }: { projects: Project[] }) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
-
-  // A tile on the last visible row opens below the fold, which would look like
-  // nothing happened. Waits for the plane to reach its height first.
-  useEffect(() => {
-    if (!openSlug) return;
-    const timer = setTimeout(() => {
-      document.getElementById(panelId(openSlug))?.scrollIntoView({ block: "nearest" });
-    }, SETTLE_MS);
-    return () => clearTimeout(timer);
-  }, [openSlug]);
+  useKeepInView(openSlug && panelId(openSlug));
 
   function close(slug: string) {
     setOpenSlug(null);
@@ -128,7 +112,9 @@ function GalleryItem({
           <div
             className={cn(
               "relative shrink-0 overflow-hidden bg-ink-800",
-              wide ? "w-[44%] border-r border-line" : "aspect-[5/6] border-b border-line",
+              wide
+                ? "w-[44%] border-r border-line"
+                : "aspect-[5/6] border-b border-line sm:aspect-[4/3] lg:aspect-[5/6]",
             )}
           >
             {asset ? (
@@ -253,35 +239,9 @@ function DetailPlane({
         </button>
       </div>
 
-      <div className="mt-4 grid gap-x-12 gap-y-8 lg:grid-cols-[7fr_5fr]">
-        <div>
-          {!onTile && <p className="max-w-[62ch] text-body-l text-bone">{project.description}</p>}
-          <p className={cn("max-w-[62ch] text-body text-bone-70", !onTile && "mt-4")}>
-            {project.longDescription}
-          </p>
-          {project.highlights && (
-            <HighlightList highlights={project.highlights} className="mt-6" />
-          )}
-        </div>
-
-        <div className="flex flex-col gap-6 border-t border-line pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
-          {!onTile && (
-            <div>
-              <p className="eyebrow text-bone-52">{projectsCopy.outcomeLabel}</p>
-              <p className="mt-2.5 text-body text-bone">{project.achievement}</p>
-            </div>
-          )}
-
-          <div>
-            <p className="eyebrow mb-3 text-bone-52">{projectsCopy.builtWithLabel}</p>
-            <TechList technologies={project.technologies} />
-          </div>
-
-          {project.bundleId && <ApplicationId id={project.bundleId} />}
-
-          <ProjectLinks project={project} placement="gallery" />
-        </div>
-      </div>
+      <ProjectDetail project={project} onFace={onTile} className="mt-4">
+        <ProjectLinks project={project} placement="gallery" />
+      </ProjectDetail>
 
       {project.media?.social && (
         <div className="mt-8 border-t border-line pt-6">

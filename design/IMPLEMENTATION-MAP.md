@@ -160,7 +160,9 @@ implementation target. Four deliberate departures:
    panels at 420–560px, which clips. JS Quest's open panel measures 705px.
 3. **No indented rows.** The artboard stacked every project as an alternating
    indented row. That section reached 7,000px with most of the work hidden, so
-   four projects are now always-open panels and the rest are a gallery. The
+   four projects are full-width panels and the rest are a gallery. The panels
+   were always open at first, which took the section past 8,000px, so they now
+   close to a face that keeps the art, pitch, outcome and links in view. The
    artboard's opening gesture moved to the gallery tile, minus the un-indent.
 4. **`--bone-52`, not the artboard's literal `.45`.** The artboard writes
    `rgba(242,238,231,.45)` on information-carrying text; that measures 4.04:1

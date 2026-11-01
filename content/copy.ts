@@ -77,6 +77,7 @@ export const projectsCopy = {
   websiteLabel: "Visit site",
   sourceLabel: "Source",
   closeLabel: "Close",
+  detailsLabel: "Details",
   bundleIdLabel: "Application ID",
   outcomeLabel: "Outcome",
   builtWithLabel: "Built with",

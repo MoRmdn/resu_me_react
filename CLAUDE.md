@@ -30,6 +30,8 @@ npm run dev
 | `npm run analytics:docs` | regenerate `docs/ANALYTICS-EVENTS.md` from the catalog; `-- --check` validates it (CI runs this) |
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
 | `npm run promos` | compose store-style promos into `assets/projects/` (needs Chrome), then run `npm run images` |
+| `npm run banners` | compose the LinkedIn, Facebook and X banners into `exports/social-banners/` (gitignored, needs Chrome) |
+| `npm run video` | render the reviews and client map film into `exports/video/` (gitignored, needs Chrome and Xcode command line tools) |
 | `npm run og` | regenerate `public/og.png` |
 | `npm run map` | redraw the client map from `content/clients.json` |
 | `npm run export:reviews` | build, then package the review cards into `exports/review-cards/` (gitignored) |
@@ -49,7 +51,7 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 ## Architecture
 
 Server components by default. `"use client"` only where something genuinely
-needs the browser: `Nav`, `Hero`, `Experience`, `ProjectGallery`, `Contact`,
+needs the browser: `Nav`, `Hero`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
 `Footer`, the motion primitives, the two small Reviews toggles, and
 `ClientMapExplorer`. No state library, no router — it is one page.
 
