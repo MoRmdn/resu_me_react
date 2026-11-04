@@ -2,8 +2,8 @@
 
 The description for every profile that points at this site, in one place so they
 say the same thing. Every fact in it should trace to `content/`, and all but one
-do: "in seven different markets" in the LinkedIn About is his own claim, not yet
-backed by a project or role on the site. When a project, client count, role or
+do: "in seven different markets" in the LinkedIn About is not yet backed by a
+project or role on the site. When a project, client count, role or
 skill changes in `content/`, change it here too, then paste it into the platform.
 
 The LinkedIn About is the master. The others are cut from it to fit each
