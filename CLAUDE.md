@@ -31,6 +31,7 @@ npm run dev
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
 | `npm run promos` | compose store-style promos into `assets/projects/` (needs Chrome), then run `npm run images` |
 | `npm run banners` | compose the LinkedIn, Facebook and X banners into `exports/social-banners/` (gitignored, needs Chrome) |
+| `npm run banners:linkedin` | twelve alternative LinkedIn banners, six on the client numbers and six on the map, plus a contact sheet, into `exports/social-banners/linkedin/` (gitignored, needs Chrome) |
 | `npm run video` | render the reviews and client map film into `exports/video/` (gitignored, needs Chrome and Xcode command line tools) |
 | `npm run og` | regenerate `public/og.png` |
 | `npm run map` | redraw the client map from `content/clients.json` |

@@ -11,6 +11,7 @@
     "images": "node scripts/optimize-images.mjs",
     "promos": "node scripts/make-promos.mjs",
     "banners": "node scripts/make-banners.mjs",
+    "banners:linkedin": "node scripts/make-linkedin-banners.mjs",
     "video": "node scripts/make-video.mjs",
     "og": "node scripts/generate-og.mjs",
     "map": "node scripts/generate-world-map.mjs",

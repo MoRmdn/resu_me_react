@@ -13,45 +13,36 @@
  *
  *   npm run banners
  */
-import { execFileSync } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 import { geoGraticule, geoOrthographic, geoPath, geoRotation } from "d3-geo";
-import sharp from "sharp";
 import { feature, merge } from "topojson-client";
+import {
+  ANTARCTICA,
+  BONE,
+  COPPER,
+  COPPER_BRIGHT,
+  FONTS,
+  GRAIN,
+  HOME,
+  INK_600,
+  INK_800,
+  INK_900,
+  JADE,
+  MARK,
+  WORLD_COUNTRIES,
+  countOf,
+  loadClients,
+  round,
+  shoot,
+} from "./banners/kit.mjs";
 
-const CHROME =
-  process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const OUT = path.resolve("exports/social-banners");
-const FONTS =
-  "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=JetBrains+Mono:wght@400;500&display=block";
 
-const INK_900 = "#0A0A0C";
-const INK_800 = "#101013";
-const INK_600 = "#1E1E24";
-const BONE = "#F2EEE7";
-const COPPER = "#F2762E";
-const COPPER_BRIGHT = "#FF8A45";
-const JADE = "#3FD8C0";
-
-/** Mansoura. Lines start here. Same point as scripts/generate-world-map.mjs. */
-const HOME = [31.38, 31.04];
-const WORLD_COUNTRIES = 195;
-const ANTARCTICA = "010";
-const SCALE = 2;
-
-const { countries } = JSON.parse(await readFile("content/clients.json", "utf8"));
+const { countries, total: clientTotal, most, lit, percent } = await loadClients();
 const topology = JSON.parse(await readFile("node_modules/world-atlas/countries-50m.json", "utf8"));
 const geometries = topology.objects.countries.geometries.filter((g) => g.id !== ANTARCTICA);
 const land = merge(topology, geometries);
-
-const countOf = (country) => Object.values(country.clients).reduce((a, b) => a + b, 0);
-const clientTotal = countries.reduce((sum, country) => sum + countOf(country), 0);
-const most = Math.max(...countries.map(countOf));
-const lit = countries.length;
-const percent = Math.round((lit / WORLD_COUNTRIES) * 100);
 
 /**
  * `view` is the point of the planet facing the camera, plus a roll. `ring.start`
@@ -98,15 +89,6 @@ function etaYear() {
   const yearsSoFar = 5;
   return new Date().getFullYear() + Math.ceil((WORLD_COUNTRIES - lit) / (lit / yearsSoFar));
 }
-
-const round = (n) => Math.round(n * 10) / 10;
-
-/** The composed M, geometry locked. See design/LOGO.md. */
-const MARK = (size) => `<svg width="${size}" height="${size}" viewBox="0 0 48 48" fill="none"
-  stroke-width="4.4" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M6 39 L17 9 L24 26 L31 9 L42 39" stroke="${BONE}"/>
-  <path d="M24 26 L31 9 L42 39" stroke="${COPPER}"/>
-</svg>`;
 
 const toXyz = ([lon, lat]) => {
   const l = (lon * Math.PI) / 180;
@@ -346,44 +328,19 @@ function html(banner) {
     <p>${banner.sub}</p>
   </div>
   <div class="brand">${MARK(brand.size * 1.35)}mormdn.com</div>
-  <svg class="grain" width="${width}" height="${height}">
-    <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/></filter>
-    <rect width="100%" height="100%" filter="url(#g)"/>
-  </svg>
+  ${GRAIN(width, height)}
 </body></html>`;
 }
 
 async function render(banner) {
-  const dir = await mkdtemp(path.join(tmpdir(), "banner-"));
-  const page = path.join(dir, "page.html");
-  const shot = path.join(dir, "shot.png");
-  await writeFile(page, html(banner));
-
-  execFileSync(
-    CHROME,
-    [
-      "--headless=new",
-      "--disable-gpu",
-      "--hide-scrollbars",
-      "--no-first-run",
-      `--user-data-dir=${path.join(dir, "profile")}`,
-      `--force-device-scale-factor=${SCALE}`,
-      `--window-size=${banner.width},${banner.height}`,
-      "--virtual-time-budget=6000",
-      `--screenshot=${shot}`,
-      pathToFileURL(page).href,
-    ],
-    { stdio: "ignore" },
-  );
-
-  const info = await sharp(shot)
-    .resize(banner.width, banner.height, { kernel: "lanczos3" })
-    .png({ compressionLevel: 9 })
-    .toFile(path.join(OUT, `${banner.out}.png`));
+  const info = await shoot(html(banner), {
+    width: banner.width,
+    height: banner.height,
+    file: path.join(OUT, `${banner.out}.png`),
+  });
   console.log(
     `${banner.out.padEnd(18)} ${info.width}x${info.height} ${(info.size / 1024).toFixed(0)}KB`,
   );
-  await rm(dir, { recursive: true, force: true });
 }
 
 await mkdir(OUT, { recursive: true });
