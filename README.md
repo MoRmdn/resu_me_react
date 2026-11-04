@@ -4,8 +4,8 @@ Single-page portfolio. Next.js 16, statically exported, hosted on Firebase.
 
 **Live:** [mormdn.com](https://mormdn.com)
 
-Flutter developer in Mansoura. Five years of cross-platform apps. The page is
-one scroll: Hero, About, Experience, Projects, Skills, Contact.
+Software engineer in Mansoura, building mobile apps in Flutter and React Native.
+Five years of cross-platform apps. The page is one scroll: Hero, About, Experience, Projects, Skills, Contact.
 
 ## Why React
 

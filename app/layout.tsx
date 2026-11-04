@@ -61,6 +61,8 @@ export const metadata: Metadata = {
   creator: site.name,
   keywords: [
     "Flutter developer",
+    "React Native developer",
+    "Software engineer",
     "Mobile developer",
     "Cross-platform",
     "Dart",

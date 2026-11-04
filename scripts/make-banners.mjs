@@ -33,6 +33,7 @@ import {
   WORLD_COUNTRIES,
   countOf,
   loadClients,
+  loadTitle,
   round,
   shoot,
 } from "./banners/kit.mjs";
@@ -40,6 +41,7 @@ import {
 const OUT = path.resolve("exports/social-banners");
 
 const { countries, total: clientTotal, most, lit, percent } = await loadClients();
+const title = await loadTitle();
 const topology = JSON.parse(await readFile("node_modules/world-atlas/countries-50m.json", "utf8"));
 const geometries = topology.objects.countries.geometries.filter((g) => g.id !== ANTARCTICA);
 const land = merge(topology, geometries);
@@ -57,7 +59,7 @@ const BANNERS = [
     ring: { start: -30, label: 19 },
     text: { left: 404, top: 58, headline: 70, sub: 25, eyebrow: 17, gap: 14 },
     brand: { right: 136, top: 26, size: 24 },
-    eyebrow: "Flutter Developer · Mansoura, Egypt",
+    eyebrow: title,
     sub: `${lit} of ${WORLD_COUNTRIES} countries lit. Yours could be ${lit + 1}.`,
   },
   {
@@ -79,7 +81,7 @@ const BANNERS = [
     ring: { start: -30, label: 24 },
     text: { left: 110, top: 262, headline: 100, sub: 33, eyebrow: 21, gap: 22 },
     brand: { left: 110, top: 594, size: 24 },
-    eyebrow: "Flutter Developer · Mansoura, Egypt",
+    eyebrow: title,
     sub: `${clientTotal} clients. ${lit} countries. One desk.`,
   },
 ];

@@ -1,8 +1,8 @@
 /**
  * Twelve LinkedIn banner styles to choose from: six built on the client numbers
  * and six on the client map. Every figure comes from content/ (clients.json for
- * the clients and countries, site.ts for the years, reviews.ts for the review
- * count), so a new client moves every banner: `npm run banners:linkedin`.
+ * the clients and countries, site.ts for the title and years, reviews.ts for the
+ * review count), so a new client moves every banner: `npm run banners:linkedin`.
  *
  * LinkedIn's profile photo covers the bottom-left of the banner (PHOTO below), so
  * every style keeps its words right of x = 404, the same line the existing
@@ -51,8 +51,10 @@ import {
   bone,
   countOf,
   loadClients,
+  loadTitle,
   round,
   shoot,
+  tsNumbers,
 } from "./banners/kit.mjs";
 
 const W = 1584;
@@ -82,16 +84,9 @@ const spell = (n) => WORDS[n] ?? String(n);
 const fmt = (n) => n.toLocaleString("en-US");
 const capital = (s) => s[0].toUpperCase() + s.slice(1);
 
-/** A number from a TypeScript content file, which a plain .mjs cannot import. */
-async function tsNumbers(file, key) {
-  const source = await readFile(file, "utf8");
-  const found = [...source.matchAll(new RegExp(`\\b${key}:\\s*(\\d+)`, "g"))].map((m) => +m[1]);
-  if (!found.length) throw new Error(`No ${key} in ${file}`);
-  return found;
-}
-
 const { countries, unplaced, unplacedTotal, total, lit, most, percent } = await loadClients();
 const [years] = await tsNumbers("content/site.ts", "yearsExperience");
+const title = await loadTitle();
 const reviewCounts = await tsNumbers("content/reviews.ts", "count");
 if (reviewCounts.length !== Object.keys(LABELS).length) {
   throw new Error(`Expected one review count per platform in content/reviews.ts`);
@@ -236,7 +231,7 @@ function numbersHeadline() {
     body: `
       <div class="watermark">${MARK_MONO(560, BONE)}</div>
       <div class="copy">
-        <div class="eyebrow">Flutter developer · Mansoura, Egypt</div>
+        <div class="eyebrow">${title}</div>
         <div class="row">
           <div class="big tabular">${total}</div>
           <div class="label">
@@ -276,7 +271,7 @@ function numbersLedger() {
         color: ${bone(0.7)}; }
     `,
     body: `
-      <div class="copy"><div class="eyebrow">Track record · Mohamed Ramadan, Flutter developer</div></div>
+      <div class="copy"><div class="eyebrow">Track record · ${title}</div></div>
       <div class="grid">
         ${cells
           .map(
@@ -437,10 +432,11 @@ function numbersTerminal() {
   const top = ranked[0];
   return page({
     css: `
-      .copy { top: 56px; width: 450px; }
+      .copy { top: 56px; width: 500px; }
+      .copy .eyebrow { white-space: nowrap; }
       h1 { margin-top: 18px; font-size: 62px; }
       .copy .sub { margin-top: 18px; }
-      .term { position: absolute; left: 892px; right: 64px; top: 40px; bottom: 50px;
+      .term { position: absolute; left: 924px; right: 64px; top: 40px; bottom: 50px;
         background: ${INK_800}; border: 1px solid ${bone(0.1)}; border-radius: 16px; }
       .term::before { content: ""; position: absolute; inset: 0; transform: translate(12px, 12px);
         border: 1px solid ${bone(0.1)}; border-radius: 16px; z-index: -1; }
@@ -461,7 +457,7 @@ function numbersTerminal() {
     `,
     body: `
       <div class="copy">
-        <div class="eyebrow">Flutter developer · Mansoura, Egypt</div>
+        <div class="eyebrow">${title}</div>
         <h1>Shipped for<br><b class="tabular">${total}</b> clients.</h1>
         <p class="sub">In ${lit} countries, on ${spell(platforms.length)} marketplaces,<br>from one desk in Mansoura.</p>
       </div>

@@ -18,7 +18,7 @@ export const hero = {
    * data fidelity and deliberately NOT rendered.
    */
   headlineAccentIndex: 2,
-  intro: `I'm ${site.name} — a mobile developer with ${metrics.yearsExperience} years spent building cross-platform products for teams in ${metrics.countries} countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.`,
+  intro: `I'm ${site.name} — a software engineer with ${metrics.yearsExperience} years spent building cross-platform mobile products for teams in ${metrics.countries} countries, in Flutter first and now React Native too. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.`,
   primaryCta: { label: "See the work", href: "#projects" },
   // WhatsApp is the stated first-choice channel, so it takes the hero's
   // secondary action. The email address still appears in Contact, the footer

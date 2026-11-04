@@ -53,6 +53,25 @@ export const GRAIN = (width, height) => `<svg class="grain" width="${width}" hei
 
 export const round = (n) => Math.round(n * 10) / 10;
 
+/** Numbers from a TypeScript content file, which a plain .mjs cannot import. */
+export async function tsNumbers(file, key) {
+  const source = await readFile(file, "utf8");
+  const found = [...source.matchAll(new RegExp(`\\b${key}:\\s*(\\d+)`, "g"))].map((m) => +m[1]);
+  if (!found.length) throw new Error(`No ${key} in ${file}`);
+  return found;
+}
+
+/** The first string literal under `key` in a TypeScript content file. */
+export async function tsString(file, key) {
+  const source = await readFile(file, "utf8");
+  const found = source.match(new RegExp(`\\b${key}:\\s*"([^"]+)"`));
+  if (!found) throw new Error(`No ${key} in ${file}`);
+  return found[1];
+}
+
+/** The job title the site uses, from content/site.ts. */
+export const loadTitle = () => tsString("content/site.ts", "title");
+
 export const countOf = (country) => Object.values(country.clients).reduce((a, b) => a + b, 0);
 
 /**

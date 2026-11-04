@@ -10,12 +10,13 @@ import type { SkillGroup } from "./types";
  * localisation and feature-first architecture were all missing.
  *
  * "Moyasar" was previously misspelled "Moyaser". September 2026 added the
- * front-end and Supabase capabilities, all exercised in JS Quest.
+ * front-end and Supabase capabilities, all exercised in JS Quest. November
+ * 2026 added React Native, which the CV does not list yet.
  */
 export const skillGroups: SkillGroup[] = [
   {
     label: "Languages & frameworks",
-    items: ["Dart", "Flutter", "JavaScript", "React", "Next.js", "Python", "HTML", "CSS"],
+    items: ["Dart", "Flutter", "React Native", "JavaScript", "React", "Next.js", "Python", "HTML", "CSS"],
     highlighted: true,
   },
   {
@@ -83,6 +84,7 @@ export const skillGroups: SkillGroup[] = [
 export const marqueeItems = [
   "Dart",
   "Flutter",
+  "React Native",
   "Bloc",
   "GetX",
   "Riverpod",
