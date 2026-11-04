@@ -86,6 +86,10 @@ reviews), `platform-marks.json` (marketplace logos), `clients.ts` + `clients.jso
 Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
 `content/` — not the components.
 
+The LinkedIn, marketplace, GitHub and X profile descriptions live in
+[docs/PROFILES.md](docs/PROFILES.md). They restate `content/`, so a change to a
+project, role, skill or client count belongs there too.
+
 ### Firebase
 
 Realtime Database, one live path:
