@@ -1,10 +1,11 @@
-import { about, contactCopy, hero, llmsCopy } from "@/content/copy";
+import { about, contactCopy, hero, llmsCopy, servicesCopy } from "@/content/copy";
 import { clientCountries, unplacedClients } from "@/content/clients";
 import { experiences } from "@/content/experience";
 import { projects } from "@/content/projects";
 import { reviewPlatforms, reviewTotal } from "@/content/reviews";
 import { channels, contact, education, site, socials } from "@/content/site";
 import { skillGroups } from "@/content/skills";
+import { faqs, services } from "@/content/services";
 
 // `output: "export"` refuses to build a route handler that has not
 // declared itself static, so llms.txt needs this explicitly.
@@ -46,6 +47,12 @@ export function GET() {
       .map((c) => `- [${c.label}](${c.url}): ${c.note}`),
     "",
   );
+
+  add(`## ${llmsCopy.servicesHeading}`, "", servicesCopy.blurb, "");
+  for (const sv of services) add(`### ${sv.title}`, "", sv.body, "", sv.proof, "");
+
+  add(`## ${llmsCopy.faqHeading}`, "");
+  for (const f of faqs) add(`### ${f.question}`, "", f.answer, "");
 
   add(`## ${llmsCopy.experienceHeading}`, "");
   for (const e of experiences) {

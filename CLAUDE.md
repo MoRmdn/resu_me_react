@@ -2,7 +2,7 @@
 
 A single-page Next.js portfolio, statically exported and deployed to Firebase
 Hosting (project `m0rmdn`), live at **https://mormdn.com**. One scrolling page,
-eight sections, plus a `noindex` privacy page that Google Analytics' terms require.
+nine sections, plus a `noindex` privacy page that Google Analytics' terms require.
 
 This replaces a Flutter Web app that still lives at `/Users/dark/Dev/resu_me`.
 The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
@@ -51,7 +51,7 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 ## Architecture
 
 Server components by default. `"use client"` only where something genuinely
-needs the browser: `Nav`, `Hero`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
+needs the browser: `Nav`, `Hero`, `Experience`, `FaqList`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
 `Footer`, the motion primitives, the two small Reviews toggles, and
 `ClientMapExplorer`. No state library, no router — it is one page.
 
@@ -81,7 +81,8 @@ scripts/              image + OG generation, run by hand
 (identity, links, metrics), `projects.ts`, `experience.ts`, `skills.ts`,
 `copy.ts` (section prose), `types.ts`, `reviews.ts` + `reviews.json` (client
 reviews), `platform-marks.json` (marketplace logos), `clients.ts` + `clients.json`
-(clients by country) and `world-map.json` (generated, do not edit).
+(clients by country), `services.ts` (the Services section and its FAQ, which also
+feed `makesOffer`, `FAQPage` and `/llms.txt`) and `world-map.json` (generated, do not edit).
 
 Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
 `content/` — not the components.
@@ -156,7 +157,7 @@ restoration) reveals immediately; and `@media (scripting: none)` shows
 everything when JS is off. Do not "tidy" either away.
 
 **Collapsed accordion panels stay in the DOM.** That is what puts every
-achievement bullet in the served HTML. They carry `inert` when closed so they
+achievement bullet and FAQ answer in the served HTML. They carry `inert` when closed so they
 leave the tab order and the accessibility tree. Do not swap this for
 conditional rendering — it would strip the content from the page source.
 

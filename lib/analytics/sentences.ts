@@ -27,6 +27,7 @@ export const SENTENCES: Record<EventName, string> = {
   project_screens_swipe: "Swiped the screenshots of {project_title}",
 
   experience_toggle: "{toggle_action} role at {experience_company} via {toggle_method}",
+  faq_toggle: "{toggle_action} the FAQ answer {faq_ref} via {toggle_method}",
   experience_dwell: "Spent {dwell_seconds}s on the role at {experience_company}",
 
   about_link_click: "Opened {link_text} from the About section",

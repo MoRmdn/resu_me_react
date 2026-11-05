@@ -90,7 +90,7 @@ export function Nav() {
                 href={`#${link.id}`}
                 aria-current={active === link.id ? "true" : undefined}
                 className={cn(
-                  "relative rounded-sm px-3 py-2 text-[0.84375rem] transition-colors duration-fast ease-fast",
+                  "relative rounded-sm px-2 py-2 text-[0.84375rem] whitespace-nowrap transition-colors duration-fast ease-fast md:px-3",
                   active === link.id ? "text-bone" : "text-bone-62 hover:text-bone",
                 )}
                 {...trackAttrs("nav_link_click", {
@@ -103,7 +103,7 @@ export function Nav() {
                 <span
                   aria-hidden
                   className={cn(
-                    "absolute inset-x-3 -bottom-0.5 h-px origin-left bg-bone-28",
+                    "absolute inset-x-2 -bottom-0.5 h-px origin-left bg-bone-28 md:inset-x-3",
                     "transition-transform duration-base ease-base",
                     active === link.id ? "scale-x-100" : "scale-x-0",
                   )}
@@ -113,7 +113,7 @@ export function Nav() {
             <a
               href="#contact"
               className={cn(
-                "ml-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold",
+                "ml-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold whitespace-nowrap",
                 "transition-[background-color,border-color,color,transform] duration-fast ease-fast hover:-translate-y-0.5",
                 pastHero && active !== "contact"
                   ? "bg-copper text-ink-900 hover:bg-copper-bright"

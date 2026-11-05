@@ -153,6 +153,16 @@ Shows interest in the live course linked from the About section.
 - **Sentence:** Opened {link_text} from the About section
 - **Params:** `link_text`, `link_url`
 
+## Services
+
+### `faq_toggle`
+
+Shows which questions visitors have before hiring, and so which answers deserve a place higher on the page.
+
+- **Fires on:** An FAQ question in the Services section being clicked to open or close its answer.
+- **Sentence:** {toggle_action} the FAQ answer {faq_ref} via {toggle_method}
+- **Params:** `faq_ref`, `toggle_action`, `toggle_method`
+
 ## Reviews
 
 ### `review_platform_click`
@@ -296,7 +306,7 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | Parameter | Type | Values | Description |
 |---|---|---|---|
 | `event_description` | string |  | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
-| `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
+| `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy. |
 | `link_target` | string |  | The in-page section or page a navigation link goes to, such as projects. |
 | `link_text` | string |  | The visible label of the link or button that was clicked. |
 | `link_url` | string |  | The full address of the external page the visitor was sent to. |
@@ -317,11 +327,12 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `project_placement` | string | featured, gallery | Where the project sits on the page: a full featured panel or a gallery tile. |
 | `project_category` | string |  | The project's market category, such as Healthcare. |
 | `project_country` | string |  | The country the project was built for. |
-| `toggle_action` | string | open, close | Whether a project or experience panel was opened or closed. |
+| `toggle_action` | string | open, close | Whether a project panel, an experience panel or an FAQ answer was opened or closed. |
 | `toggle_method` | string | tile, panel, close_button, escape, list_row, timeline_bar, arrow_keys, menu_button, backdrop | The control the visitor used to open or close a panel or the mobile menu. |
 | `link_type` | string | website, source, app_store, play_store | Which listing of the project was opened. |
 | `experience_slug` | string |  | The stable identifier of the role, such as mismar. |
 | `experience_company` | string |  | The company of the role, without its translation. |
+| `faq_ref` | string |  | A short fixed id for one question in the Services FAQ, such as back-end or arabic-rtl. Shows which doubts visitors have before they get in touch. |
 | `review_ref` | string |  | An opaque hash of the review's id. The id contains the reviewer's first name, so it is never sent itself. |
 | `platform_id` | string |  | The marketplace the review or review score came from, such as upwork. |
 | `platform_label` | string |  | The display name of the marketplace, such as Upwork. |
@@ -358,7 +369,7 @@ reports until they are registered, and registering is not retroactive.
 | Dimension name | Event parameter | Description |
 |---|---|---|
 | Event description | `event_description` | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
-| Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
+| Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy. |
 | Link target | `link_target` | The in-page section or page a navigation link goes to, such as projects. |
 | Navigation location | `nav_location` | Which navigation surface held the link that was clicked. |
 | Menu action | `menu_action` | Whether the mobile menu was opened or closed. |
@@ -375,11 +386,12 @@ reports until they are registered, and registering is not retroactive.
 | Project placement | `project_placement` | Where the project sits on the page: a full featured panel or a gallery tile. |
 | Project category | `project_category` | The project's market category, such as Healthcare. |
 | Project country | `project_country` | The country the project was built for. |
-| Toggle action | `toggle_action` | Whether a project or experience panel was opened or closed. |
+| Toggle action | `toggle_action` | Whether a project panel, an experience panel or an FAQ answer was opened or closed. |
 | Toggle method | `toggle_method` | The control the visitor used to open or close a panel or the mobile menu. |
 | Project link type | `link_type` | Which listing of the project was opened. |
 | Experience slug | `experience_slug` | The stable identifier of the role, such as mismar. |
 | Experience company | `experience_company` | The company of the role, without its translation. |
+| FAQ question | `faq_ref` | A short fixed id for one question in the Services FAQ, such as back-end or arabic-rtl. Shows which doubts visitors have before they get in touch. |
 | Review reference | `review_ref` | An opaque hash of the review's id. The id contains the reviewer's first name, so it is never sent itself. |
 | Review platform | `platform_id` | The marketplace the review or review score came from, such as upwork. |
 | Review platform name | `platform_label` | The display name of the marketplace, such as Upwork. |

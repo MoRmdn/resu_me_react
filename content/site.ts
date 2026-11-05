@@ -125,6 +125,7 @@ export const navSections = [
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "reviews", label: "Reviews" },
+  { id: "services", label: "Services" },
   { id: "contact", label: "Contact" },
 ] as const;
 

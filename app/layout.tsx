@@ -7,6 +7,7 @@ import { projects } from "@/content/projects";
 import { AnalyticsRoot } from "@/components/analytics/AnalyticsRoot";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { projectNames } from "@/lib/projectNames";
+import { faqs, services } from "@/content/services";
 import "./globals.css";
 
 /**
@@ -224,6 +225,20 @@ function jsonLd() {
       { "@type": "Language", name: "Arabic" },
       { "@type": "Language", name: "English" },
     ],
+    /**
+     * The Services section, as offers. No price: the page states none, and
+     * structured data must describe what a visitor can see.
+     */
+    makesOffer: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        "@id": `${site.url}/#service-${s.slug}`,
+        name: s.title,
+        description: s.body,
+        provider: { "@id": personId },
+      },
+    })),
   };
 
   /**
@@ -307,6 +322,23 @@ function jsonLd() {
         mainEntity: { "@id": personId },
         // The apps are described on this page too, not only by their author.
         mentions: projects.map((p) => ({ "@id": `${site.url}/#${p.slug}` })),
+      },
+      /**
+       * The questions in the Services section, which are always open on the
+       * page. Google shows FAQ rich results only for government and health sites
+       * now, so this is for parsers and AI answers, not for a search snippet.
+       */
+      {
+        "@type": "FAQPage",
+        "@id": `${site.url}/#faq`,
+        url: `${site.url}/#services`,
+        isPartOf: { "@id": `${site.url}/#website` },
+        about: { "@id": personId },
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
       },
       ...apps,
       ...webApps,

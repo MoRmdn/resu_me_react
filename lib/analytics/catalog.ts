@@ -36,7 +36,7 @@ export const PARAMS = {
   section_id: {
     label: "Section",
     description:
-      "The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy.",
+      "The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy.",
     type: "string",
   },
 
@@ -158,7 +158,7 @@ export const PARAMS = {
   },
   toggle_action: {
     label: "Toggle action",
-    description: "Whether a project or experience panel was opened or closed.",
+    description: "Whether a project panel, an experience panel or an FAQ answer was opened or closed.",
     type: "string",
     values: ["open", "close"],
   },
@@ -198,6 +198,12 @@ export const PARAMS = {
   },
 
   // Reviews.
+  faq_ref: {
+    label: "FAQ question",
+    description:
+      "A short fixed id for one question in the Services FAQ, such as back-end or arabic-rtl. Shows which doubts visitors have before they get in touch.",
+    type: "string",
+  },
   review_ref: {
     label: "Review reference",
     description:
@@ -477,6 +483,13 @@ export const EVENTS = {
     description: "Shows interest in the live course linked from the About section.",
     trigger: "A click on the link under Built with it.",
     params: ["link_text", "link_url"],
+  },
+
+  faq_toggle: {
+    group: "Services",
+    description: "Shows which questions visitors have before hiring, and so which answers deserve a place higher on the page.",
+    trigger: "An FAQ question in the Services section being clicked to open or close its answer.",
+    params: ["faq_ref", "toggle_action", "toggle_method"],
   },
 
   review_platform_click: {

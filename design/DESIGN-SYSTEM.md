@@ -327,6 +327,23 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
 
 ---
 
+### Services
+Between Reviews and Contact, on `--ink-800`; Contact moves to `--ink-900` so the
+planes still alternate.
+
+- Header on the 7/5 split, as Skills.
+- Four service cards in a 2-column grid, 10px gaps: index numeral in 40px mono at
+  `--bone-10` (decorative), title in `h3`, body, then a hairline and one mono
+  caption line of evidence taken from elsewhere on the page.
+- FAQ below on a 5/7 split: eyebrow and `h1` on the left, a hairline-divided list
+  of questions in `h3` on the right, each with the Experience `+` that turns to
+  `×`. Answers start collapsed and open independently. Closed answers stay in the
+  DOM, `inert`, so every answer is still in the served HTML.
+- **No copper at any tier above 3.** The Contact plane that follows holds the
+  Tier 1, and the two share a viewport.
+
+---
+
 ## 6. Motion & animation
 
 **Principles:** motion explains layout, never decorates. One thing moves at a time. Everything is interruptible.

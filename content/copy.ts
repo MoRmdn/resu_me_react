@@ -124,8 +124,17 @@ export const clientMapCopy = {
     `${count} more ${count === 1 ? "client has" : "clients have"} no public country, so ${count === 1 ? "isn't" : "aren't"} on the map.`,
 };
 
+export const servicesCopy = {
+  eyebrow: "06 / Services",
+  headline: "What you can hire me for.",
+  blurb:
+    "Four kinds of work, each one backed by something further up this page. If yours is not on the list, ask anyway.",
+  faqEyebrow: "Before you ask",
+  faqHeadline: "Questions clients ask first.",
+};
+
 export const contactCopy = {
-  eyebrow: "06 / Contact",
+  eyebrow: "07 / Contact",
   headline: ["Got an app", "to build?"],
   blurb:
     "Full-time, contract or a second pair of hands on a release that's slipping — reach me wherever suits you and I'll reply within a day.",
@@ -216,6 +225,8 @@ export const llmsCopy = {
   contactHeading: "Hire or contact",
   emailLabel: "Email",
   phoneLabel: "Phone",
+  servicesHeading: "Services",
+  faqHeading: "Frequently asked questions",
   experienceHeading: "Experience",
   projectsHeading: "Projects",
   applicationIdLabel: "Application ID",
