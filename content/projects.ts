@@ -95,6 +95,45 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "saad",
+    title: "SAAD | صاد",
+    description:
+      "English-vocabulary app that teaches from real songs, movies and interviews, with a personal word bank and Arabic-first RTL.",
+    longDescription:
+      "SAAD turns real content into a vocabulary course. Learners open a song, a movie clip or an interview, see how many of its words are new to them, and sort each one into New, Learning or Known. Everything they choose to learn lands in a searchable word bank, with translations, spoken pronunciation and short tests to move words from Learning to Known. The app runs in Arabic or English with a full right-to-left layout and light and dark themes, and sells monthly and yearly plans on top of a free tier. Built solo end to end, from the Flutter client to the release pipeline.",
+    technologies: ["Flutter", "Provider", "GetIt", "Dio", "Firebase", "RTL / Arabic"],
+    tags: ["Education", "Language Learning", "Vocabulary", "RTL"],
+    country: "Egypt",
+    category: "Education",
+    achievement: "Solo build — 498 Dart files, 78 test files, 430 strings in Arabic and English",
+    links: {
+      appStore: "https://apps.apple.com/eg/app/saad/id1628542366",
+    },
+    media: {
+      icon: { file: "saad-icon" },
+      plate: "promo",
+      asset: {
+        file: "saad-promo",
+        width: 1200,
+        height: 2133,
+        alt: "SAAD store promo — welcome screen on a tilted phone, headlined learn English the fun way",
+      },
+      // Home and reading screens are left out: they show photos of public figures.
+      screens: [
+        { file: "saad-screen-1", width: 1200, height: 2133, alt: "SAAD store screen — words from a resource sorted into New, Learning and Known" },
+        { file: "saad-screen-2", width: 1200, height: 2133, alt: "SAAD store screen — My Words Bank, a searchable grid of the words being learned" },
+        { file: "saad-screen-3", width: 1200, height: 2133, alt: "SAAD store screen — monthly and yearly plans with a free tier" },
+      ],
+    },
+    highlights: [
+      "Rebuilt the codebase as one feature-first architecture with enforced dependency direction: a custom architecture-check script fails the build when presentation reaches into data, domain imports Flutter, or a feature crosses another feature's boundary.",
+      "Moved every dependency to constructor injection with GetIt confined to a single composition root, and scoped each feature's view model to its route so it is disposed with its owner.",
+      "Replaced untyped route arguments with immutable typed payloads and a central route generator and auth guard that preserves a protected destination through sign-in and cancellation.",
+      "Localised Arabic-first with full RTL: 430 strings in matching Arabic and English ARB files, plus dark mode, both verified on every changed screen.",
+      "Kept the backend contract frozen through the refactor: routes, API paths, JSON keys and persisted preference keys unchanged, with 78 test files covering success, failure and disposal behaviour.",
+    ],
+  },
+  {
     slug: "js-quest",
     title: "JS Quest",
     description:
@@ -368,6 +407,7 @@ export const projects: Project[] = [
  */
 const ORDER = [
   "ayco",
+  "saad",
   "lpermis",
   "saber-yamen",
   "mutabbib",
@@ -381,7 +421,7 @@ const ORDER = [
 ] as const;
 
 /** The big panels. Everything else goes to the gallery. */
-const FEATURED: readonly string[] = ["ayco", "lpermis", "saber-yamen", "mutabbib"];
+const FEATURED: readonly string[] = ["ayco", "saad", "lpermis", "saber-yamen", "mutabbib"];
 
 export const orderedProjects = ORDER.map((slug) => {
   const project = projects.find((p) => p.slug === slug);
