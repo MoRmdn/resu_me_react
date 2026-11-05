@@ -33,6 +33,7 @@ const SOURCES = [
   [`${HANDOFF}/dental-diner-icon.png`, "dental-dinar-icon"],
   [`${SCREENS}/freeDoc/play_store_512.png`, "freedoc-icon"],
   [`${SCREENS}/O'Permis/unnamed.png`, "opermis-icon"],
+  [`${SCREENS}/saad/play-store/app_icon_512.png`, "saad-icon"],
 
   // Device captures.
   [`${HANDOFF}/mismar-shot.png`, "mismar-shot"],
@@ -46,6 +47,7 @@ const SOURCES = [
   [`${SCREENS}/dental/Iphone/02.png`, "dental-dinar-promo"],
   [`${SCREENS}/O'Permis/unnamed (3).png`, "opermis-promo"],
   [`${SCREENS}/saber/unnamed (4).jpg`, "saber-yamen-promo"],
+  [`${SCREENS}/saad/portfolio/en/01.png`, "saad-promo"],
 
 
   // Store listings: three screens per featured project, shown as a set. All of
@@ -58,6 +60,11 @@ const SOURCES = [
   [`${SCREENS}/saber/unnamed.jpg`, "saber-yamen-screen-1"],
   [`${SCREENS}/saber/unnamed (4).jpg`, "saber-yamen-screen-2"],
   [`${SCREENS}/saber/unnamed (2).jpg`, "saber-yamen-screen-3"],
+  // SAAD: the Home and reading screens are left out on purpose — they show photos
+  // of public figures from the app's content library.
+  [`${SCREENS}/saad/portfolio/en/04.png`, "saad-screen-1"],
+  [`${SCREENS}/saad/portfolio/en/05.png`, "saad-screen-2"],
+  [`${SCREENS}/saad/portfolio/en/06.png`, "saad-screen-3"],
   [`${SCREENS}/mutabbib/AR-1.png`, "mutabbib-screen-1"],
   [`${SCREENS}/mutabbib/AR-3.png`, "mutabbib-screen-2"],
   [`${SCREENS}/mutabbib/AR-6.png`, "mutabbib-screen-3"],
