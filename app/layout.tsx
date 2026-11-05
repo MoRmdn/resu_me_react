@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Sans_Arabic, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { site, contact, socials, channels, publisherNamespace } from "@/content/site";
 import { skillGroups } from "@/content/skills";
 import { experiences } from "@/content/experience";
@@ -13,17 +13,28 @@ import "./globals.css";
  * Fonts are self-hosted by next/font rather than pulled from the Google Fonts
  * CDN with a <link>, as the Flutter app did. That removes a render-blocking
  * third-party round trip and the layout shift that came with it.
+ *
+ * The files are committed under `app/fonts/` (Google Fonts subsets, OFL)
+ * rather than fetched by `next/font/google` at build time. Google sometimes
+ * answers with `/l/font?kit=…&skey=…` URLs, and Turbopack's font loader splits
+ * that `&` into extra query entries and fails the whole build. Local files make
+ * the build independent of whatever Google serves that day.
+ *
+ * Archivo and JetBrains Mono are variable fonts, so one file covers every
+ * weight. Only the Latin subset ships; `content/` uses nothing outside it.
+ * Values must be literals (next/font reads them at compile time), which is why
+ * the Arabic unicode-range is written out in place.
  */
-const archivo = Archivo({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const archivo = localFont({
+  src: "./fonts/archivo-latin-var.woff2",
+  weight: "400 700",
   variable: "--font-archivo",
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const jetbrainsMono = localFont({
+  src: "./fonts/jetbrains-mono-latin-var.woff2",
+  weight: "400 500",
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
@@ -33,12 +44,21 @@ const jetbrainsMono = JetBrains_Mono({
  * the fold, so it stays off the preload list. It sits behind Archivo in
  * `--font-sans` and its unicode-range keeps Latin text from ever fetching it.
  */
-const plexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ["arabic"],
-  weight: ["400", "500"],
+const plexArabic = localFont({
+  src: [
+    { path: "./fonts/plex-sans-arabic-400-arabic.woff2", weight: "400" },
+    { path: "./fonts/plex-sans-arabic-500-arabic.woff2", weight: "500" },
+  ],
   variable: "--font-plex-arabic",
   display: "swap",
   preload: false,
+  declarations: [
+    {
+      prop: "unicode-range",
+      value:
+        "U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC",
+    },
+  ],
 });
 
 const keywordProjects = projects.filter((p) => !p.hideFromKeywords);
