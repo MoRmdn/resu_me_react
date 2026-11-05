@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept 5 · Map hub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* The client map is the home page. Every country with a client, a team or an app opens its own panel. */
+  .top { position: fixed; inset: 0 0 auto; z-index: 10; padding: 26px 36px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; }
+  .top > * { pointer-events: auto; }
+  .brand { display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 17px; }
+  .title { margin-top: 30px; }
+  .title h1 { margin-top: 14px; font-size: 54px; line-height: .94; letter-spacing: -.045em; font-weight: 600; }
+  .title p { margin-top: 14px; color: var(--bone-70); font-size: 15px; max-width: 36ch; line-height: 1.5; }
+  .totals { display: flex; gap: 30px; text-align: right; }
+  .totals b { display: block; font-size: 30px; font-weight: 600; letter-spacing: -.04em; }
+  .totals span { font-size: 12px; color: var(--bone-62); }
+
+  .stage { position: fixed; inset: 0 0 0 0; display: grid; place-items: center; transition: right .55s var(--ease), padding .55s var(--ease); padding: 250px 30px 56px; }
+  body.open .stage { padding-top: 170px; }
+  body.open .stage { right: 420px; }
+  .stage svg { width: 100%; max-height: 100%; }
+  .map-country { fill: var(--copper); fill-opacity: var(--w); stroke: var(--copper-bright); stroke-opacity: .4; stroke-width: .5; cursor: pointer; transition: fill-opacity .3s, opacity .3s; }
+  .map-extra { fill: url(#hatch); fill-opacity: 1; stroke: var(--copper-bright); stroke-opacity: .6; stroke-dasharray: 2 2; }
+  .map-country:hover, .map-country.sel { fill-opacity: .95; }
+  body.open .map-country:not(.sel) { opacity: .35; }
+  .map-arc { fill: none; stroke: var(--copper-bright); stroke-opacity: .6; stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: draw 1.4s var(--ease) forwards; animation-delay: calc(.4s + var(--i) * 70ms); pointer-events: none; transition: stroke-opacity .3s, stroke-width .3s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  body.open .map-arc { stroke-opacity: .12; }
+  body.open .map-arc.sel { stroke-opacity: 1; stroke-width: 2; }
+  .map-dot { fill: var(--bone); pointer-events: none; }
+
+  .tip { position: fixed; z-index: 20; pointer-events: none; padding: 8px 12px; border-radius: 10px; background: var(--ink-700); border: 1px solid var(--line-strong);
+    font-size: 13px; opacity: 0; translate: -50% calc(-100% - 12px); transition: opacity .15s; white-space: nowrap; }
+  .tip b { font-weight: 600; }
+  .tip span { color: var(--bone-62); }
+  .legend { position: fixed; left: 36px; bottom: 26px; display: flex; gap: 20px; font-size: 12px; color: var(--bone-62); }
+  .legend span { display: flex; align-items: center; gap: 8px; }
+  .legend i { width: 14px; height: 10px; border-radius: 2px; background: var(--copper); opacity: .7; }
+  .legend i.h { background: repeating-linear-gradient(45deg, var(--copper-bright) 0 1.5px, transparent 1.5px 4px); border: 1px dashed var(--copper-bright); opacity: 1; }
+
+  .panel { position: fixed; inset: 0 0 0 auto; width: 420px; z-index: 30; background: var(--ink-800); border-left: 1px solid var(--line);
+    translate: 100% 0; transition: translate .55s var(--ease); overflow-y: auto; padding: 30px 30px 40px; }
+  body.open .panel { translate: 0 0; }
+  .panel .close { position: absolute; top: 24px; right: 24px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; font-size: 18px; }
+  .panel h2 { margin-top: 14px; font-size: 40px; line-height: 1; letter-spacing: -.04em; font-weight: 600; }
+  .panel .big { margin-top: 20px; display: flex; align-items: baseline; gap: 10px; }
+  .panel .big b { font-size: 64px; font-weight: 600; letter-spacing: -.05em; line-height: .9; }
+  .panel .big span { color: var(--bone-62); }
+  .panel h3 { margin: 28px 0 12px; }
+  .bars { display: grid; gap: 10px; }
+  .bars div { display: grid; grid-template-columns: 90px 1fr 30px; gap: 12px; align-items: center; font-size: 13px; color: var(--bone-78); }
+  .bars i { height: 6px; border-radius: 3px; background: var(--copper); width: calc(var(--p) * 100%); scale: 0 1; transform-origin: left; animation: grow .6s var(--ease) forwards .2s; }
+  @keyframes grow { to { scale: 1 1; } }
+  .apps { display: grid; gap: 10px; }
+  .apps div { display: grid; grid-template-columns: 46px 1fr; gap: 12px; align-items: center; padding: 10px; border-radius: 12px; border: 1px solid var(--line); }
+  .apps img { width: 46px; height: 46px; border-radius: 11px; }
+  .apps b { font-weight: 600; font-size: 14.5px; }
+  .apps small { display: block; margin-top: 3px; font-size: 11.5px; color: var(--bone-62); }
+  .said { padding: 14px; border-radius: 12px; border: 1px solid var(--line); margin-bottom: 10px; }
+  .said p { margin-top: 8px; font-size: 13.5px; line-height: 1.5; }
+  .said small { display: block; margin-top: 8px; font-size: 11.5px; color: var(--bone-62); }
+  .empty { font-size: 13px; color: var(--bone-52); }
+  .fade > * { opacity: 0; translate: 0 10px; animation: rise .45s var(--ease) forwards; }
+  .fade > *:nth-child(2) { animation-delay: .05s } .fade > *:nth-child(3) { animation-delay: .1s } .fade > *:nth-child(4) { animation-delay: .15s }
+  .fade > *:nth-child(5) { animation-delay: .2s } .fade > *:nth-child(6) { animation-delay: .25s } .fade > *:nth-child(n+7) { animation-delay: .3s }
+  @keyframes rise { to { opacity: 1; translate: 0 0; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div><span class="brand" id="brand"></span>
+    <div class="title"><p class="eyebrow">Concept 5 · Map hub</p><h1>Explore my work<br>by country.</h1><p>Click a country to see the clients, apps, teams and reviews from there.</p></div></div>
+  <div class="totals" id="totals"></div>
+</header>
+<div class="stage" id="stage"></div>
+<div class="legend"><span><i></i>Clients</span><span><i class="h"></i>Teams and apps only</span><span style="color:var(--jade)">● Mansoura</span></div>
+<aside class="panel" id="panel"></aside>
+<div class="tip" id="tip"></div>
+
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script>
+  const T = D.totals;
+  document.getElementById("brand").innerHTML = `${MARK(24)} MoRmdn`;
+  document.getElementById("totals").innerHTML = [[T.clients, "clients"], [T.countries, "countries"], [T.reviews, "5★ reviews"]]
+    .map(([n, l]) => `<div><b class="tabular">${n}</b><span>${l}</span></div>`).join("");
+
+  const stage = document.getElementById("stage");
+  stage.innerHTML = worldSvg({ extra: ["LY", "DZ"] });
+  stage.querySelector("svg").insertAdjacentHTML("afterbegin", `<defs><pattern id="hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="#FF8A45" stroke-width="1.4" stroke-opacity=".8"/></pattern></defs>`);
+
+  const nameOf = (id) => (D.clients.find((c) => c.id === id) || window.EXTRA_SHAPES[id] || {}).name;
+  const clientsOf = (id) => D.clients.find((c) => c.id === id);
+
+  function panelHtml(id) {
+    const name = nameOf(id);
+    const c = clientsOf(id);
+    const apps = D.projects.filter((p) => p.country === name);
+    const teams = D.experience.filter((e) => e.country === name);
+    const said = D.reviews.filter((r) => r.country === name && r.lang === "en").slice(0, 3);
+    const most = c ? Math.max(...Object.values(c.clients)) : 1;
+    return `<div class="fade">
+      <p class="eyebrow">${id === "EG" ? "Home · Mansoura" : "Country"}</p>
+      <h2>${esc(name)}</h2>
+      ${c ? `<div class="big"><b class="tabular">${c.total}</b><span>${c.total === 1 ? "client" : "clients"}</span></div>
+        <h3 class="eyebrow">By marketplace</h3>
+        <div class="bars">${Object.entries(c.clients).sort((a, b) => b[1] - a[1]).map(([pid, n]) => `<div><span>${platformLabel(pid)}</span><i style="--p:${(n / most).toFixed(2)}"></i><span class="mono tabular">${n}</span></div>`).join("")}</div>`
+        : `<p class="empty" style="margin-top:14px">No marketplace clients here yet — the work came through a team.</p>`}
+      ${apps.length ? `<h3 class="eyebrow">Built for ${esc(name)}</h3><div class="apps">${apps.map((p) => `<div><img src="${img(p.icon, 128)}" alt=""><span><b>${esc(projectName(p))}</b><small>${esc(p.category)}</small></span></div>`).join("")}</div>` : ""}
+      ${teams.length ? `<h3 class="eyebrow">Teams</h3><div class="apps">${teams.map((e) => `<div style="grid-template-columns:1fr"><span><b>${esc(e.company.split("|")[0].trim())}</b><small>${esc(e.position)} · ${esc(e.startDate)} — ${esc(e.endDate)}</small></span></div>`).join("")}</div>` : ""}
+      ${said.length ? `<h3 class="eyebrow">What they said</h3>${said.map((r) => `<div class="said">${stars()}<p>${esc(r.quote)}</p><small>${esc(r.author)} · ${platformLabel(r.platform)}</small></div>`).join("")}` : ""}
+    </div>`;
+  }
+
+  const panel = document.getElementById("panel");
+  function select(id) {
+    document.body.classList.add("open");
+    document.querySelectorAll(".sel").forEach((el) => el.classList.remove("sel"));
+    document.querySelectorAll(`[data-id="${id}"]`).forEach((el) => el.classList.add("sel"));
+    panel.innerHTML = `<button class="close" data-close aria-label="Close">×</button>${panelHtml(id)}`;
+    panel.scrollTop = 0;
+  }
+  function close() { document.body.classList.remove("open"); document.querySelectorAll(".sel").forEach((el) => el.classList.remove("sel")); }
+
+  const tip = document.getElementById("tip");
+  stage.addEventListener("pointermove", (e) => {
+    const el = e.target.closest(".map-country");
+    if (!el) return (tip.style.opacity = 0);
+    const c = clientsOf(el.dataset.id);
+    tip.innerHTML = `<b>${esc(nameOf(el.dataset.id))}</b> <span>· ${c ? c.total + (c.total === 1 ? " client" : " clients") : "teams and apps"}</span>`;
+    Object.assign(tip.style, { left: e.clientX + "px", top: e.clientY + "px", opacity: 1 });
+  });
+  stage.addEventListener("pointerleave", () => (tip.style.opacity = 0));
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-close]")) return close();
+    const el = e.target.closest(".map-country");
+    if (el) select(el.dataset.id);
+  });
+  addEventListener("keydown", (e) => e.key === "Escape" && close());
+
+  badge("Concept 5 of 5 · Map hub");
+</script>
+</body>
+</html>

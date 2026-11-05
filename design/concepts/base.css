@@ -1,0 +1,67 @@
+/*
+ * Shared ground for the layout concepts in design/concepts/. Tokens mirror
+ * app/globals.css (Obsidian & Copper). These pages are references for a
+ * redesign, not production code: fonts load from Google Fonts here only.
+ */
+:root {
+  --ink-900: #0a0a0c;
+  --ink-800: #101013;
+  --ink-700: #16161b;
+  --ink-600: #1e1e24;
+  --bone: #f2eee7;
+  --bone-78: rgb(242 238 231 / 0.78);
+  --bone-70: rgb(242 238 231 / 0.7);
+  --bone-62: rgb(242 238 231 / 0.62);
+  --bone-52: rgb(242 238 231 / 0.52);
+  --bone-38: rgb(242 238 231 / 0.38);
+  --bone-18: rgb(242 238 231 / 0.18);
+  --line: rgb(242 238 231 / 0.1);
+  --line-strong: rgb(242 238 231 / 0.2);
+  --copper: #f2762e;
+  --copper-bright: #ff8a45;
+  --copper-wash: rgb(242 118 46 / 0.12);
+  --jade: #3fd8c0;
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --sans: "Archivo", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --arabic: "IBM Plex Sans Arabic", "Archivo", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--ink-900); color: var(--bone); }
+body { font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow: hidden; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+[dir="rtl"], .ar { font-family: var(--arabic); }
+
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--bone-62); }
+.mono { font-family: var(--mono); }
+.tabular { font-variant-numeric: tabular-nums; }
+.muted { color: var(--bone-70); }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 10px;
+  border: 1px solid var(--line-strong); font-weight: 500; font-size: 15px; transition: border-color 0.2s, background 0.2s; }
+.btn:hover { border-color: var(--bone-38); }
+.btn-copper { background: var(--copper); border-color: var(--copper); color: var(--ink-900); }
+.btn-copper:hover { background: var(--copper-bright); border-color: var(--copper-bright); }
+
+.chip { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px;
+  border: 1px solid var(--line); font: 500 11px/1 var(--mono); letter-spacing: 0.06em; color: var(--bone-70); }
+.status { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 12px; border-radius: 999px;
+  border: 1px solid rgb(63 216 192 / 0.35); color: var(--jade); font: 500 11px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
+.status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--jade); box-shadow: 0 0 0 4px rgb(63 216 192 / 0.15); }
+
+.plane { background: var(--ink-800); border: 1px solid var(--line); border-radius: 16px; }
+.stars { display: inline-flex; gap: 2px; color: var(--copper); }
+
+/* The concept's name, for the recordings. */
+.concept-badge { position: fixed; right: 16px; bottom: 14px; z-index: 100; font: 500 11px/1 var(--mono);
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-52); pointer-events: none; }
+
+.grain { position: fixed; inset: 0; pointer-events: none; z-index: 90; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}

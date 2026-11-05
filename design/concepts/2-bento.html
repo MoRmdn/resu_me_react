@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept 2 · Bento dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* One screen, no scroll: every section is a tile, and a tile opens into a full sheet. */
+  .grid { height: 100vh; padding: 20px; display: grid; gap: 12px;
+    grid-template-columns: 1.15fr 1fr .95fr .95fr; grid-template-rows: 1fr 1fr .9fr;
+    grid-template-areas: "intro intro map map" "intro intro nums work" "reviews reviews exp work"; }
+  .tile { position: relative; overflow: hidden; border-radius: 20px; background: var(--ink-800); border: 1px solid var(--line);
+    padding: 22px; text-align: left; transition: border-color .25s, translate .25s var(--ease), box-shadow .25s var(--ease);
+    opacity: 0; translate: 0 14px; animation: in .6s var(--ease) forwards; animation-delay: calc(var(--i) * 70ms); }
+  @keyframes in { to { opacity: 1; translate: 0 0; } }
+  .tile.open-able { cursor: pointer; }
+  .tile.open-able:hover { border-color: var(--line-strong); translate: -3px -3px; box-shadow: 6px 6px 0 -1px var(--ink-900), 6px 6px 0 0 var(--line); }
+  .tile .corner { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line);
+    display: grid; place-items: center; color: var(--bone-62); font-size: 14px; transition: color .2s, border-color .2s; }
+  .tile:hover .corner { color: var(--bone); border-color: var(--bone-38); }
+
+  .intro { grid-area: intro; display: flex; flex-direction: column; justify-content: space-between; background: var(--ink-900); }
+  .intro .top { display: flex; justify-content: space-between; align-items: center; }
+  .intro .brand { display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 17px; }
+  .intro h1 { font-size: 76px; line-height: .9; letter-spacing: -.045em; font-weight: 600; }
+  .intro p { margin-top: 18px; max-width: 46ch; color: var(--bone-70); font-size: 15.5px; line-height: 1.6; }
+  .intro .ctas { margin-top: 22px; display: flex; gap: 10px; }
+
+  .map { grid-area: map; padding: 0; }
+  .map .label { position: absolute; left: 22px; top: 20px; z-index: 2; }
+  .map .label b { display: block; margin-top: 8px; font-size: 26px; font-weight: 600; letter-spacing: -.03em; }
+  .map svg { position: absolute; inset: 6px -40px -30px 90px; width: calc(100% - 50px); height: auto; }
+  .map-country { fill: var(--copper); fill-opacity: var(--w); stroke: var(--copper-bright); stroke-opacity: .35; stroke-width: .5; }
+  .map-arc { fill: none; stroke: var(--copper-bright); stroke-opacity: .7; stroke-width: 1.1; stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: draw 1.4s var(--ease) forwards; animation-delay: calc(.5s + var(--i) * 60ms); }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .map-dot { fill: var(--bone); }
+
+  .nums { grid-area: nums; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 10px; align-content: center; }
+  .nums b { display: block; font-size: 38px; font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+  .nums span { font-size: 12px; color: var(--bone-62); }
+
+  .work { grid-area: work; display: flex; flex-direction: column; }
+  .work .shots { position: relative; flex: 1; margin: 14px -22px 0; }
+  .work .shots img { position: absolute; left: 50%; top: 0; height: 100%; width: auto; translate: -50% 0; border-radius: 14px;
+    opacity: 0; scale: .96; transition: opacity .6s, scale .6s var(--ease); }
+  .work .shots img.on { opacity: 1; scale: 1; }
+  .work .caption { margin-top: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+  .work .caption b { font-weight: 600; }
+  .work .caption span { font-size: 12px; color: var(--bone-62); }
+
+  .reviews { grid-area: reviews; display: flex; flex-direction: column; justify-content: space-between; }
+  .reviews blockquote { font-size: 21px; line-height: 1.35; letter-spacing: -.01em; max-width: 54ch; transition: opacity .4s; }
+  .reviews footer { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--bone-62); }
+  .reviews .src { display: flex; gap: 14px; align-items: center; color: var(--bone-62); }
+
+  .exp { grid-area: exp; }
+  .exp ol { list-style: none; margin-top: 16px; display: grid; gap: 9px; }
+  .exp li { display: flex; justify-content: space-between; font-size: 13px; }
+  .exp li span { color: var(--bone-62); font: 400 11px/1.4 var(--mono); }
+
+  /* The sheet grows out of the tile that opened it. */
+  .sheet { position: fixed; z-index: 50; border-radius: 20px; background: var(--ink-800); border: 1px solid var(--line-strong);
+    overflow: hidden; transition: left .5s var(--ease), top .5s var(--ease), width .5s var(--ease), height .5s var(--ease), border-radius .5s; }
+  .sheet .inner { position: absolute; inset: 0; padding: 34px 40px; overflow-y: auto; opacity: 0; transition: opacity .3s .2s; }
+  .sheet.open .inner { opacity: 1; }
+  .sheet .close { position: absolute; top: 22px; right: 22px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; font-size: 18px; }
+  .scrim { position: fixed; inset: 0; z-index: 40; background: rgb(10 10 12 / .7); opacity: 0; pointer-events: none; transition: opacity .4s; }
+  .scrim.on { opacity: 1; pointer-events: auto; }
+  .sheet h2 { font-size: 46px; font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+  .apps { margin-top: 26px; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+  .app { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--ink-700); }
+  .app .art { height: 230px; display: grid; place-items: center; background: var(--ink-600); }
+  .app .art img { height: 210px; width: auto; border-radius: 10px; }
+  .app .meta { padding: 10px 12px 12px; }
+  .app b { font-weight: 600; font-size: 14px; }
+  .app small { display: block; margin-top: 3px; font-size: 11px; color: var(--bone-62); }
+  .bigmap { display: grid; grid-template-columns: 1fr 300px; gap: 30px; margin-top: 18px; align-items: start; }
+  .bigmap svg { width: 100%; height: auto; }
+  .countries { list-style: none; display: grid; gap: 4px; }
+  .countries li { font-size: 12px !important; }
+  .countries li { display: grid; grid-template-columns: 1fr auto; gap: 4px; font-size: 13px; }
+  .countries li i { grid-column: 1 / -1; height: 3px; border-radius: 2px; background: var(--copper); opacity: .55; width: calc(var(--p) * 100%); }
+  .masonry { margin-top: 24px; columns: 3 280px; column-gap: 14px; }
+  .masonry article { break-inside: avoid; margin-bottom: 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--ink-700); }
+  .masonry p { margin-top: 10px; font-size: 14px; line-height: 1.5; }
+  .masonry small { display: block; margin-top: 10px; font-size: 11.5px; color: var(--bone-62); }
+  .timeline { margin-top: 24px; display: grid; gap: 0; }
+  .timeline div { display: grid; grid-template-columns: 220px 1fr 200px; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .timeline b { font-weight: 600; }
+  .timeline span { color: var(--bone-62); font: 400 12px/1.6 var(--mono); }
+</style>
+</head>
+<body>
+<main class="grid" id="grid"></main>
+<div class="scrim" id="scrim"></div>
+
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script>
+  const T = D.totals;
+  const shots = ["lpermis", "saber-yamen", "mutabbib", "freedoc", "mismar"].map((s) => D.projects.find((p) => p.slug === s));
+  const quotes = shortReviews(160);
+
+  document.getElementById("grid").innerHTML = `
+    <section class="tile intro" style="--i:0">
+      <div class="top"><span class="brand">${MARK(26)}MoRmdn</span><span class="status">Open to work</span></div>
+      <div>
+        <p class="eyebrow">Concept 2 · Bento dashboard</p>
+        <h1 style="margin-top:16px">${D.hero.headline.join("<br>")}</h1>
+        <p>Flutter and React Native, five years, ${D.metrics.teams} teams. Everything on one screen — open any tile for the whole story.</p>
+        <div class="ctas"><a class="btn btn-copper" href="${D.contact.whatsapp}">Hire me on WhatsApp</a><a class="btn" href="#">Download CV</a></div>
+      </div>
+    </section>
+    <button class="tile map open-able" data-open="map" style="--i:1">
+      <span class="label"><span class="eyebrow">Clients</span><b>${T.countries} countries</b></span>
+      ${worldSvg()}<span class="corner">↗</span>
+    </button>
+    <button class="tile nums open-able" data-open="map" style="--i:2">
+      <div><b class="tabular">${T.clients}</b><span>clients</span></div>
+      <div><b class="tabular">${T.reviews}</b><span>5★ reviews</span></div>
+      <div><b class="tabular">${D.metrics.yearsExperience}+</b><span>years</span></div>
+      <div><b class="tabular">${D.projects.length}</b><span>apps shipped</span></div>
+    </button>
+    <button class="tile work open-able" data-open="work" style="--i:3">
+      <span class="eyebrow">Work</span><span class="corner">↗</span>
+      <div class="shots" id="shots">${shots.map((p, i) => `<img class="${i ? "" : "on"}" src="${img(p.asset, 560)}" alt="">`).join("")}</div>
+      <div class="caption"><b id="shot-name">${esc(projectName(shots[0]))}</b><span id="shot-meta">${esc(shots[0].country)}</span></div>
+    </button>
+    <button class="tile reviews open-able" data-open="reviews" style="--i:4">
+      <div style="display:flex;justify-content:space-between"><span>${stars()}</span><span class="corner" style="position:static">↗</span></div>
+      <blockquote id="quote">“${esc(quotes[0].quote)}”</blockquote>
+      <footer><span id="quote-by">${esc(quotes[0].author)} · ${platformLabel(quotes[0].platform)}</span>
+        <span class="src">${D.platforms.map((p) => mark(p.id, 13)).join("")}</span></footer>
+    </button>
+    <button class="tile exp open-able" data-open="exp" style="--i:5">
+      <span class="eyebrow">Experience</span><span class="corner">↗</span>
+      <ol>${D.experience.slice(0, 5).map((e) => `<li><b>${esc(e.company.split("|")[0].trim())}</b><span>${esc(e.startDate.slice(-4))}</span></li>`).join("")}</ol>
+    </button>`;
+
+  // The work tile cycles its screenshots; the review tile cycles its quotes.
+  let s = 0, q = 0;
+  setInterval(() => {
+    const imgs = document.querySelectorAll("#shots img");
+    imgs[s].classList.remove("on"); s = (s + 1) % imgs.length; imgs[s].classList.add("on");
+    document.getElementById("shot-name").textContent = projectName(shots[s]);
+    document.getElementById("shot-meta").textContent = shots[s].country;
+  }, 1800);
+  setInterval(() => {
+    const el = document.getElementById("quote");
+    el.style.opacity = 0;
+    setTimeout(() => {
+      q = (q + 1) % quotes.length;
+      el.textContent = `“${quotes[q].quote}”`;
+      document.getElementById("quote-by").textContent = `${quotes[q].author} · ${platformLabel(quotes[q].platform)}`;
+      el.style.opacity = 1;
+    }, 400);
+  }, 3200);
+
+  const SHEETS = {
+    work: () => `<p class="eyebrow">Work</p><h2>${D.projects.length} apps, shipped.</h2>
+      <div class="apps">${D.projects.filter((p) => p.asset).map((p) => `<div class="app"><div class="art"><img src="${img(p.asset, 280)}" alt=""></div>
+        <div class="meta"><b>${esc(projectName(p))}</b><small>${esc(p.category)} · ${esc(p.country)}</small></div></div>`).join("")}</div>`,
+    map: () => {
+      const most = D.clients[0].total;
+      return `<p class="eyebrow">Clients</p><h2>${T.clients} clients in ${T.countries} countries.</h2>
+      <div class="bigmap">${worldSvg()}<ol class="countries">${[...D.clients].sort((a, b) => b.total - a.total).map((c) =>
+        `<li style="--p:${(c.total / most).toFixed(2)}"><span>${esc(c.name)}</span><span class="mono tabular">${c.total}</span><i></i></li>`).join("")}</ol></div>`;
+    },
+    reviews: () => `<p class="eyebrow">Reviews</p><h2>${T.reviews} reviews. All five stars.</h2>
+      <div class="masonry">${shortReviews(320).slice(0, 15).map((r) => `<article>${stars()}<p>${esc(r.quote)}</p><small>${esc(r.author)} · ${platformLabel(r.platform)}</small></article>`).join("")}</div>`,
+    exp: () => `<p class="eyebrow">Experience</p><h2>Seven teams, six countries.</h2>
+      <div class="timeline">${D.experience.map((e) => `<div><span>${esc(e.startDate)} — ${esc(e.endDate)}</span><b>${esc(e.position)}<br><span>${esc(e.company)}</span></b><span>${esc(e.country)}</span></div>`).join("")}</div>`,
+  };
+
+  const scrim = document.getElementById("scrim");
+  let sheet = null, from = null;
+
+  function open(kind, tile) {
+    from = tile.getBoundingClientRect();
+    sheet = document.createElement("section");
+    sheet.className = "sheet";
+    Object.assign(sheet.style, { left: from.left + "px", top: from.top + "px", width: from.width + "px", height: from.height + "px" });
+    sheet.innerHTML = `<button class="close" data-close aria-label="Close">×</button><div class="inner">${SHEETS[kind]()}</div>`;
+    document.body.append(sheet);
+    scrim.classList.add("on");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      Object.assign(sheet.style, { left: "20px", top: "20px", width: innerWidth - 40 + "px", height: innerHeight - 40 + "px" });
+      sheet.classList.add("open");
+    }));
+  }
+
+  function close() {
+    if (!sheet) return;
+    const s = sheet; sheet = null;
+    s.classList.remove("open");
+    Object.assign(s.style, { left: from.left + "px", top: from.top + "px", width: from.width + "px", height: from.height + "px" });
+    scrim.classList.remove("on");
+    setTimeout(() => s.remove(), 500);
+  }
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-close]") || e.target === scrim) return close();
+    const tile = e.target.closest("[data-open]");
+    if (tile && !sheet) open(tile.dataset.open, tile);
+  });
+  addEventListener("keydown", (e) => e.key === "Escape" && close());
+
+  badge("Concept 2 of 5 · Bento dashboard");
+</script>
+</body>
+</html>

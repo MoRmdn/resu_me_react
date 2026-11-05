@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Concept 4 · Stories</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* Stories: the portfolio as seven full-screen cards that advance on their own. Tap right for next, left for back, hold to pause. */
+  body { display: grid; place-items: center; }
+  .story { position: relative; width: min(100vw, 430px); height: min(100vh, 900px); background: var(--ink-900); overflow: hidden; user-select: none; }
+  @media (min-width: 700px) { .story { border-radius: 28px; border: 1px solid var(--line-strong); height: min(92vh, 860px); } }
+
+  .bars { position: absolute; inset: 12px 12px auto; z-index: 10; display: grid; grid-auto-flow: column; gap: 4px; }
+  .bars i { height: 2.5px; border-radius: 2px; background: var(--bone-18); overflow: hidden; }
+  .bars i b { display: block; height: 100%; background: var(--bone); width: 0; }
+  .who { position: absolute; inset: 26px 16px auto; z-index: 10; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .who .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--ink-700); border: 1px solid var(--line-strong); display: grid; place-items: center; }
+  .who b { font-weight: 600; }
+  .who span { color: var(--bone-52); font-size: 12.5px; }
+  .who .x { margin-left: auto; font-size: 22px; color: var(--bone-78); }
+
+  .slide { position: absolute; inset: 0; padding: 92px 26px 110px; display: flex; flex-direction: column; justify-content: center; opacity: 0; transition: opacity .35s; }
+  .slide.on { opacity: 1; }
+  .glow { position: absolute; inset: auto -30% -20% -30%; height: 60%; background: radial-gradient(closest-side, rgb(242 118 46 / .14), transparent); pointer-events: none; }
+  .r { opacity: 0; translate: 0 18px; }
+  .slide.on .r { animation: rise .6s var(--ease) forwards; animation-delay: calc(.1s + var(--d, 0) * 120ms); }
+  @keyframes rise { to { opacity: 1; translate: 0 0; } }
+
+  .s-hello h1 { font-size: 46px; line-height: .96; letter-spacing: -.04em; font-weight: 600; margin-top: 26px; }
+  .s-hello p { margin-top: 16px; font-size: 18px; line-height: 1.45; color: var(--bone-70); }
+  .s-hello p.eyebrow { font-size: 11px; line-height: 1; color: var(--bone-52); }
+  .concept-badge { bottom: 4px; }
+  .huge { font-size: 132px; line-height: .85; letter-spacing: -.06em; font-weight: 600; }
+  .s-nums .label { font-size: 28px; font-weight: 600; letter-spacing: -.03em; margin-top: 8px; }
+  .s-nums ul { list-style: none; margin-top: 34px; display: grid; gap: 12px; }
+  .s-nums li { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid var(--line); font-size: 15px; color: var(--bone-70); }
+  .s-nums li b { font-size: 26px; color: var(--bone); font-weight: 600; letter-spacing: -.03em; }
+
+  .s-app { justify-content: flex-start; }
+  .s-app .shot { margin: 6px auto 0; height: 460px; width: auto; border-radius: 18px; border: 1px solid var(--line); }
+  .s-app h2 { margin-top: 22px; font-size: 32px; line-height: 1; letter-spacing: -.035em; font-weight: 600; }
+  .s-app p { margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--bone-70); }
+  .s-app .tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .s-quote blockquote { font-size: 27px; line-height: 1.25; letter-spacing: -.02em; font-weight: 500; margin-top: 22px; }
+  .s-quote footer { margin-top: 22px; display: flex; align-items: center; gap: 10px; color: var(--bone-62); font-size: 14px; }
+
+  .s-map h2 { font-size: 40px; line-height: .98; letter-spacing: -.04em; font-weight: 600; }
+  .s-map svg { width: 175%; margin: 26px 0 0 -48%; height: auto; }
+  .map-country { fill: var(--copper); fill-opacity: var(--w); stroke: var(--copper-bright); stroke-opacity: .35; stroke-width: .5; }
+  .map-arc { fill: none; stroke: var(--copper-bright); stroke-opacity: .8; stroke-width: 1.3; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .slide.on .map-arc { animation: draw 1.2s var(--ease) forwards; animation-delay: calc(.3s + var(--i) * 60ms); }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .map-dot { fill: var(--bone); }
+
+  .s-cta h2 { font-size: 54px; line-height: .92; letter-spacing: -.045em; font-weight: 600; }
+  .s-cta .btns { margin-top: 30px; display: grid; gap: 10px; }
+  .s-cta .btn { height: 54px; justify-content: center; font-size: 16px; }
+
+  .reply { position: absolute; inset: auto 16px 22px; z-index: 10; display: flex; gap: 10px; align-items: center; }
+  .reply span { flex: 1; height: 46px; border-radius: 999px; border: 1px solid var(--line-strong); display: flex; align-items: center; padding: 0 18px; color: var(--bone-62); font-size: 14px; }
+  .reply b { height: 46px; padding: 0 18px; border-radius: 999px; background: var(--bone); color: var(--ink-900); display: grid; place-items: center; font-weight: 600; font-size: 14px; }
+  .tap { position: absolute; top: 70px; bottom: 90px; z-index: 5; }
+  .tap.l { left: 0; width: 35%; } .tap.r { right: 0; width: 65%; }
+</style>
+</head>
+<body>
+<div class="story" id="story">
+  <div class="bars" id="bars"></div>
+  <div class="who"><span class="avatar" id="avatar"></span><div><b>mormdn</b> <span>· Mansoura</span></div><span class="x">×</span></div>
+  <div id="slides"></div>
+  <button class="tap l" id="tapL" aria-label="Previous"></button>
+  <button class="tap r" id="tapR" aria-label="Next"></button>
+  <div class="reply"><span>Reply to Mohamed…</span><b>WhatsApp</b></div>
+</div>
+
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script>
+  const T = D.totals;
+  const DURATION = +(new URLSearchParams(location.search).get("d") || 3600);
+  const ayco = D.projects.find((p) => p.slug === "ayco");
+  const lpermis = D.projects.find((p) => p.slug === "lpermis");
+  const q = shortReviews(150).find((r) => /genius|reliable/i.test(r.quote)) || shortReviews(150)[0];
+  document.getElementById("avatar").innerHTML = MARK(18);
+
+  const SLIDES = [
+    `<section class="slide s-hello"><div class="glow"></div><span class="r">${MARK(54)}</span>
+      <h1 class="r" style="--d:1">Hi, I'm Mohamed.</h1>
+      <p class="r" style="--d:2">I build Flutter and React Native apps that ship — and keep working when the network doesn't.</p>
+      <p class="r eyebrow" style="--d:3;margin-top:26px">Concept 4 · Stories · tap to continue</p></section>`,
+    `<section class="slide s-nums"><div class="huge tabular r" data-count="${T.clients}">0</div><div class="label r" style="--d:1">clients, on five marketplaces.</div>
+      <ul><li class="r" style="--d:2">Countries<b>${T.countries}</b></li><li class="r" style="--d:3">Five-star reviews<b>${T.reviews}</b></li><li class="r" style="--d:4">Years shipping<b>${D.metrics.yearsExperience}+</b></li></ul></section>`,
+    `<section class="slide s-app"><img class="shot r" src="${img(ayco.asset, 560)}" alt="">
+      <h2 class="r" style="--d:1">Works with no signal.</h2>
+      <p class="r" style="--d:2">AYCO: field-service reports for medical-equipment engineers. Writes queue offline and sync later.</p>
+      <div class="tags r" style="--d:3"><span class="chip">Offline-first</span><span class="chip">Arabic RTL</span><span class="chip">On-device PDF</span></div></section>`,
+    `<section class="slide s-app"><img class="shot r" src="${img(lpermis.asset, 560)}" alt="">
+      <h2 class="r" style="--d:1">${esc(projectName(lpermis))}, Morocco.</h2>
+      <p class="r" style="--d:2">${esc(lpermis.description)}</p>
+      <div class="tags r" style="--d:3"><span class="chip"> App Store</span><span class="chip">▶ Google Play</span></div></section>`,
+    `<section class="slide s-quote"><span class="r">${stars()}</span><blockquote class="r" style="--d:1">“${esc(q.quote)}”</blockquote>
+      <footer class="r" style="--d:2">${mark(q.platform, 15)} ${esc(q.author)}</footer></section>`,
+    `<section class="slide s-map"><h2 class="r">Clients in<br>${T.countries} countries.</h2><div class="r" style="--d:1">${worldSvg()}</div>
+      <p class="r muted" style="--d:2;margin-top:10px">Every line starts in Mansoura.</p></section>`,
+    `<section class="slide s-cta"><div class="glow"></div><p class="eyebrow r">Your turn</p><h2 class="r" style="--d:1;margin-top:16px">Got an app<br>to build?</h2>
+      <div class="btns"><a class="btn btn-copper r" style="--d:2" href="${D.contact.whatsapp}">Message on WhatsApp</a><a class="btn r" style="--d:3" href="#">See the full portfolio</a></div></section>`,
+  ];
+
+  document.getElementById("slides").innerHTML = SLIDES.join("");
+  document.getElementById("bars").innerHTML = SLIDES.map(() => "<i><b></b></i>").join("");
+  const slides = [...document.querySelectorAll(".slide")];
+  const fills = [...document.querySelectorAll(".bars b")];
+
+  let at = 0, started = 0, elapsed = 0, paused = false;
+  function show(i) {
+    at = (i + slides.length) % slides.length;
+    slides.forEach((s, j) => s.classList.toggle("on", j === at));
+    fills.forEach((f, j) => (f.style.width = j < at ? "100%" : "0%"));
+    elapsed = 0; started = performance.now();
+    const count = slides[at].querySelector("[data-count]");
+    if (count) {
+      const to = +count.dataset.count, t0 = performance.now();
+      const step = (t) => { const k = Math.min(1, (t - t0) / 1100); count.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    }
+  }
+  function tick(now) {
+    if (!paused) {
+      const t = elapsed + (now - started);
+      fills[at].style.width = Math.min(100, (t / DURATION) * 100) + "%";
+      if (t >= DURATION) show(at + 1);
+    }
+    requestAnimationFrame(tick);
+  }
+  document.getElementById("tapR").onclick = () => show(at + 1);
+  document.getElementById("tapL").onclick = () => show(at - 1);
+  const story = document.getElementById("story");
+  story.addEventListener("pointerdown", () => { paused = true; elapsed += performance.now() - started; });
+  story.addEventListener("pointerup", () => { paused = false; started = performance.now(); });
+  show(0); requestAnimationFrame(tick);
+
+  badge("Concept 4 of 5 · Stories");
+</script>
+</body>
+</html>
