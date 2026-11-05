@@ -6,8 +6,9 @@ import type { Experience } from "./types";
  * Two corrections against the Flutter original:
  *   - Ebdda LTD ran to January 2026 and is no longer current; it was flagged
  *     isCurrent with an open "Present" end date.
- *   - MisMar bullets pick up REST/GraphQL, Adobe XD, testing and Git practice
- *     from the CV.
+ *
+ * The MisMar entry describes NAAS, the B2B web platform that is the actual
+ * day-to-day work there. The driver app was a short stint and gets one clause.
  */
 export const experiences: Experience[] = [
   {
@@ -23,15 +24,15 @@ export const experiences: Experience[] = [
     isCurrent: true,
     engagement: "Remote, contract, full-time",
     description:
-      "Develop and maintain MisMar, an Arabic-first vehicle maintenance and repair platform for drivers in Egypt, on iOS and Android, with responsibility for the performance, scalability, and maintainability of the production codebase.",
+      "Core contributor to NAAS, MisMar's B2B Flutter Web platform for fleet repair and car insurance claims, which connects insurers, fleet owners, workshops and parts vendors in one workflow. Earlier, a short stint on the MisMar driver app for iOS and Android.",
     achievements: [
-      "Implement state management across Provider, Riverpod, and Bloc according to the complexity and data flow of each feature.",
-      "Connect applications to back-end services through RESTful APIs and GraphQL.",
-      "Integrate Google ML Kit and AI-driven features into production mobile applications.",
-      "Translate Figma and Adobe XD designs into responsive interfaces across phone and tablet form factors.",
-      "Write unit and widget tests, and manage source control in Git using branch strategies and pull-request review.",
+      "Build features for a production Flutter Web app used by insurance companies, corporate fleets, workshops and parts vendors.",
+      "Build the claims, quotations, orders, invoices and salvage-order modules on Clean Architecture, with separate data, domain and presentation layers.",
+      "Implement role-based access across 20+ user roles, from company, workshop and vendor accounts to admins, branch managers and read-only viewers.",
+      "Deliver Arabic and English throughout, including right-to-left layouts.",
+      "Ship configurable workflows, Firebase push notifications, in-app chat and reminders, covered by unit and widget tests.",
     ],
-    technologies: ["Flutter", "Provider", "Riverpod", "Bloc", "Google ML Kit", "GraphQL"],
+    technologies: ["Flutter Web", "Provider", "GetIt", "GoRouter", "Dio", "Firebase"],
   },
   {
     slug: "demeter",
