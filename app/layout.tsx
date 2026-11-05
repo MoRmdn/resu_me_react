@@ -80,6 +80,7 @@ export const metadata: Metadata = {
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
   keywords: [
+    "Software engineer",
     "Flutter developer",
     "Mobile developer",
     "Cross-platform",

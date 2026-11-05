@@ -3,13 +3,13 @@
 export const site = {
   name: "Mohamed Ramadan",
   shortName: "MoRmdn",
-  title: "Flutter Developer",
-  subtitle: "Cross-Platform Mobile Applications",
+  title: "Software Engineer",
+  subtitle: "Cross-Platform Mobile and Web Applications",
   location: "Mansoura, Egypt",
   timezone: "UTC+3",
   url: "https://mormdn.com",
   description:
-    "Mohamed Ramadan — Flutter developer in Mansoura, Egypt. Five years building cross-platform mobile apps for teams in six countries. Bloc, GetX, Cubit, Firebase, clean architecture.",
+    "Mohamed Ramadan — software engineer in Mansoura, Egypt. Five years building cross-platform mobile and web apps in Flutter for teams in six countries. Bloc, GetX, Cubit, Firebase, clean architecture.",
   designCodename: "Obsidian & Copper",
   designVersion: "v2.0",
 
@@ -23,7 +23,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-10-30",
+  contentLastChanged: "2026-11-05",
 } as const;
 
 export const contact = {
