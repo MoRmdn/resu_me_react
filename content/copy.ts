@@ -207,3 +207,31 @@ export const privacyCopy = {
   contactTitle: "Questions",
   contactBody: "To ask about your data, or to have it removed, write to",
 };
+
+/**
+ * Headings and connective sentences for /llms.txt. The facts themselves come
+ * from the same content files the page renders, so the two cannot disagree.
+ */
+export const llmsCopy = {
+  contactHeading: "Hire or contact",
+  emailLabel: "Email",
+  phoneLabel: "Phone",
+  experienceHeading: "Experience",
+  projectsHeading: "Projects",
+  applicationIdLabel: "Application ID",
+  outcomeLabel: "Outcome",
+  skillsHeading: "Skills",
+  reviewsHeading: "Client reviews",
+  reviewsSummary: (total: number, platforms: number) =>
+    `${total} reviews across ${platforms} freelance marketplaces, every one of them five stars. The quotes on the page are copied word for word from these profiles.`,
+  clientsSummary: (clients: number, countries: number, names: string) =>
+    `${clients} freelance clients in ${countries} countries: ${names}. A client who hired on two marketplaces is counted on each.`,
+  educationHeading: "Education",
+  optionalHeading: "Optional",
+  cvLabel: "CV (PDF)",
+  cvNote: "the same history as a downloadable résumé",
+  profileLabel: "Portfolio",
+  profileNote: "the full page this file summarises, with screenshots and the client map",
+  privacyLabel: "Privacy",
+  privacyNote: "what the site measures with Google Analytics",
+};
