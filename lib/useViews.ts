@@ -26,11 +26,14 @@ async function ensureSubscription() {
   if (unsubscribe || subscribing) return;
   subscribing = true;
 
-  const [db, { onValue, ref }] = await Promise.all([getDb(), getRtdb()]);
+  // getDb() first: it waits for idle, and importing the module alongside it
+  // would evaluate the SDK early anyway.
+  const db = await getDb();
   if (!db) {
     subscribing = false;
     return;
   }
+  const { onValue, ref } = await getRtdb();
 
   // Everyone may have unmounted while the SDK was loading.
   if (listeners.size === 0) {
@@ -54,11 +57,9 @@ async function incrementOnce() {
   if (hasIncremented) return;
   hasIncremented = true;
 
-  const [db, { ref, runTransaction, serverTimestamp, set }] = await Promise.all([
-    getDb(),
-    getRtdb(),
-  ]);
+  const db = await getDb();
   if (!db) return;
+  const { ref, runTransaction, serverTimestamp, set } = await getRtdb();
 
   try {
     await runTransaction(ref(db, DB_PATHS.viewsTotal), (current) =>

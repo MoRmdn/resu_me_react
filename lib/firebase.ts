@@ -6,7 +6,7 @@ import type { Database } from "firebase/database";
  * Firebase is loaded dynamically, never at module scope.
  *
  * The SDK is ~350KB of the bundle and nothing on the page needs it to render —
- * the view counter and the contact form are both post-hydration concerns. A
+ * the view counter is a post-load concern. A
  * static `import` pulled it onto the critical path and roughly tripled the
  * first-load payload, which would have thrown away most of the reason for
  * leaving Flutter Web in the first place.
@@ -26,16 +26,37 @@ export const isFirebaseConfigured = Boolean(config.databaseURL && config.project
 
 let dbPromise: Promise<Database | null> | null = null;
 
+/**
+ * Resolves once the page has loaded and the main thread is idle.
+ *
+ * The counter is the last thing on the page anyone needs, but a hook calls
+ * getDb() from an effect, which is during hydration. Parsing and running the
+ * SDK there is a long task on a slow phone, competing with the first input.
+ */
+function whenIdle(): Promise<void> {
+  return new Promise((resolve) => {
+    const idle = () =>
+      "requestIdleCallback" in window
+        ? window.requestIdleCallback(() => resolve(), { timeout: 4000 })
+        : setTimeout(resolve, 1500);
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+  });
+}
+
 /** Resolves to null when unconfigured or server-side, so callers degrade quietly. */
 export function getDb(): Promise<Database | null> {
   if (typeof window === "undefined" || !isFirebaseConfigured) return Promise.resolve(null);
 
   dbPromise ??= (async () => {
     try {
-      const [{ initializeApp, getApps, getApp }, { getDatabase }] = await Promise.all([
-        import("firebase/app"),
-        import("firebase/database"),
-      ]);
+      await whenIdle();
+      const [{ initializeApp, getApps, getApp }, { getDatabase, forceWebSockets }] =
+        await Promise.all([import("firebase/app"), import("firebase/database")]);
+      // The SDK's long-polling fallback injects a script iframe through
+      // document.write. Every browser this site supports has WebSockets, and a
+      // network that blocks them only costs the visitor the view counter.
+      forceWebSockets();
       const app = getApps().length ? getApp() : initializeApp(config);
       return getDatabase(app);
     } catch {

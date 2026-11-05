@@ -623,9 +623,25 @@
   }
 }
 
+/* Without scripting the loop copy is never built (MarqueeEcho clones it), and
+   nothing could pause the motion anyway, so the row is a scroller as above. */
 @media (scripting: none) {
   .marquee-toggle {
     display: none;
+  }
+  .review-row .marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .review-list[aria-hidden] {
+    display: none;
+  }
+  .review-row {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+  .review-slot {
+    scroll-snap-align: center;
   }
 }
 

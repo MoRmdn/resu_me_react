@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MoRmdnLockup } from "@/components/brand/MoRmdnLockup";
-import { navSections } from "@/content/site";
+import { navSections, site } from "@/content/site";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { useScrollSpy } from "@/lib/useScrollSpy";
@@ -70,7 +70,9 @@ export function Nav() {
         >
           <a
             href="#top"
-            aria-label="Back to top"
+            // The accessible name has to contain the visible wordmark (WCAG
+            // 2.5.3, label in name), or "click MoRmdn" fails for voice control.
+            aria-label={`${site.shortName}, back to top`}
             className="inline-flex min-h-11 items-center rounded-sm"
             {...trackAttrs("nav_link_click", {
               link_target: "top",
