@@ -65,7 +65,7 @@ components/
 ├── analytics/        AnalyticsRoot, ConsentNotice
 ├── brand/            MoRmdnMark, MoRmdnLockup, MoRmdnMarkDraw — SVG, geometry locked
 ├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
-├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee, MarqueeToggle
+├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee, MarqueeToggle, MarqueeEcho
 └── sections/         one file per band of the page
 content/              every word and number the site renders
 lib/                  firebase, hooks, cn
@@ -96,7 +96,9 @@ Realtime Database, one live path:
 
 **The SDK is imported dynamically, never at module scope** (`lib/firebase.ts`).
 It is ~350 KB; a static import puts it on the critical path and roughly triples
-first-load JS. If you add a Firebase feature, follow the same pattern.
+first-load JS. If you add a Firebase feature, follow the same pattern. `getDb()` also waits
+for `load` and an idle callback, so the SDK never runs during hydration, and it
+calls `forceWebSockets()`: the long-polling fallback uses `document.write`.
 
 Local config is `.env` (gitignored). Copy `.env.example` and fill it from the
 Firebase console. The web SDK still ships these values in the client bundle;
@@ -254,10 +256,14 @@ reduced motion shows a complete map rather than an empty one.
 export, so it can use tokens and the marquee but no utilities. The export reads
 the card markup out of `out/index.html`, so it needs a build first.
 
-**The review wall duplicates its track.** Only the first `<ul>` in a row is
-content. The second is `aria-hidden` + `inert`, exists only to make the loop
-seamless, and is dropped under reduced motion. Keep focusable elements out of
-the cards: the second copy would still need to swallow them.
+**The review wall duplicates its track, in the browser.** Only the first `<ul>`
+in a row is content. The second is `aria-hidden` + `inert`, exists only to make
+the loop seamless, and is built by `MarqueeEcho`, which clones the first after
+mount. The server sends it empty: rendering it there doubled the wall's markup
+and RSC payload and made React hydrate it (about a third of the page's HTML).
+Under reduced motion nothing is cloned, and without scripting the CSS turns the
+row into a scroller. Keep focusable elements out of the cards: the copy would
+still need to swallow them.
 
 ## Open items
 

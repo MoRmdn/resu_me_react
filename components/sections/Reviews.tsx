@@ -7,6 +7,7 @@ import { PlatformMark } from "@/components/brand/PlatformMark";
 import { Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/CountUp";
 import { MarqueeToggle } from "@/components/motion/MarqueeToggle";
+import { MarqueeEcho } from "@/components/motion/MarqueeEcho";
 import { reviewsCopy } from "@/content/copy";
 import { reviewPlatforms, reviews, type Review } from "@/content/reviews";
 import { trackAttrs } from "@/lib/analytics/attrs";
@@ -25,8 +26,9 @@ const rows: { reviews: Review[]; duration: number; reverse?: boolean }[] = [
  *
  * Only the first copy of each track is real content. It is plain server HTML,
  * so every quote is in the page source. The second copy exists to make the loop
- * seamless, so it is `aria-hidden` and `inert`, and it is dropped under reduced
- * motion, where the row becomes a scroller.
+ * seamless, so it is `aria-hidden` and `inert`, and `MarqueeEcho` clones it in
+ * the browser rather than the server sending every card twice. Under reduced
+ * motion, or without scripting, there is no copy and the row is a scroller.
  *
  * No `Review` structured data: Google ignores reviews a person publishes about
  * themselves, and these already live on the platforms that collected them.
@@ -116,13 +118,7 @@ export function Reviews() {
                     </li>
                   ))}
                 </ul>
-                <ul className="review-list" aria-hidden inert>
-                  {row.reviews.map((review) => (
-                    <li key={review.id} className="review-slot">
-                      <ReviewCard review={review} />
-                    </li>
-                  ))}
-                </ul>
+                <MarqueeEcho className="review-list" />
               </div>
             </div>
           ))}

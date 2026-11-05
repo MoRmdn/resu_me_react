@@ -31,12 +31,14 @@ export function Skills() {
           >
             <div className="grid items-start gap-8 lg:grid-cols-[7fr_5fr] lg:gap-12">
               <div className="flex items-start gap-6.5">
+                {/* Decorative index, drawn by CSS from the attribute. As a text
+                    node, bone-10 fails the contrast audit even under
+                    aria-hidden; generated content is not text a reader needs. */}
                 <span
                   aria-hidden
-                  className="hidden shrink-0 font-mono text-[3.5rem] leading-[0.9] text-bone-10 tabular sm:block"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                  data-index={String(i + 1).padStart(2, "0")}
+                  className="hidden shrink-0 font-mono text-[3.5rem] leading-[0.9] text-bone-10 tabular before:content-[attr(data-index)] sm:block"
+                />
                 <div className="flex flex-col gap-2.5 pt-1.5">
                   <h3
                     className={`font-mono text-[clamp(1.125rem,2.2vw,1.625rem)] leading-tight tracking-[-0.01em] ${
