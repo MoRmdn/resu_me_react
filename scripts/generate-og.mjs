@@ -23,7 +23,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <text x="72" y="290" fill="${BONE}" font-family="Archivo, Helvetica, sans-serif"
         font-size="92" font-weight="600" letter-spacing="-3.6">Mohamed Ramadan</text>
   <text x="72" y="372" fill="${BONE}" font-family="Archivo, Helvetica, sans-serif"
-        font-size="44" font-weight="500" letter-spacing="-1.2" opacity="0.7">Flutter Developer</text>
+        font-size="44" font-weight="500" letter-spacing="-1.2" opacity="0.7">Software Engineer</text>
 
   <rect x="72" y="430" width="1056" height="1" fill="${LINE}"/>
 

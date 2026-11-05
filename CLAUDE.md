@@ -138,7 +138,10 @@ button, event, section or page.** `AGENTS.md` carries the same rules for other t
   render as text.
 - **Every animation needs a `prefers-reduced-motion` fallback**, and it must
   degrade to the finished state, never a half-played one.
-- Fonts are `next/font` (self-hosted). Do not add a Google Fonts `<link>`.
+- Fonts are `next/font/local` files committed in `app/fonts/`. Do not add a
+  Google Fonts `<link>`, and do not switch back to `next/font/google`: Google
+  sometimes serves `/l/font?kit=…&skey=…` URLs, which Turbopack cannot parse,
+  and the build fails.
 - **Every control is tracked, and nothing bypasses the catalog.** No `gtag()` or
   `dataLayer` outside `lib/analytics/gtag.ts`. See `docs/ANALYTICS.md`.
 - Run `npm run typecheck && npm run lint && npm run analytics:docs -- --check &&

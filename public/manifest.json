@@ -1,11 +1,11 @@
 {
-    "name": "Mohamed Ramadan — Flutter Developer",
+    "name": "Mohamed Ramadan — Software Engineer",
     "short_name": "MoRmdn",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0A0A0C",
     "theme_color": "#0A0A0C",
-    "description": "Mohamed Ramadan — Flutter developer portfolio. Obsidian & Copper.",
+    "description": "Mohamed Ramadan — software engineer portfolio. Obsidian & Copper.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

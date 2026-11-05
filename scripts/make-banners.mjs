@@ -66,7 +66,7 @@ const BANNERS = [
     ring: { start: -30, label: 19 },
     text: { left: 404, top: 58, headline: 70, sub: 25, eyebrow: 17, gap: 14 },
     brand: { right: 136, top: 26, size: 24 },
-    eyebrow: "Flutter Developer · Mansoura, Egypt",
+    eyebrow: "Software Engineer · Mansoura, Egypt",
     sub: `${lit} of ${WORLD_COUNTRIES} countries lit. Yours could be ${lit + 1}.`,
   },
   {
@@ -88,7 +88,7 @@ const BANNERS = [
     ring: { start: -30, label: 24 },
     text: { left: 110, top: 262, headline: 100, sub: 33, eyebrow: 21, gap: 22 },
     brand: { left: 110, top: 594, size: 24 },
-    eyebrow: "Flutter Developer · Mansoura, Egypt",
+    eyebrow: "Software Engineer · Mansoura, Egypt",
     sub: `${clientTotal} clients. ${lit} countries. One desk.`,
   },
 ];

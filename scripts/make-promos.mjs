@@ -59,6 +59,14 @@ const BRANDS = {
     screenBg: "#ffffff",
     statusInk: "#1e009e",
   },
+  naas: {
+    ground: "linear-gradient(170deg, #e2363b 0%, #b5181e 46%, #4f0709 100%)",
+    ink: "#ffffff",
+    soft: "#ffd3d4",
+    font: "Cairo",
+    screenBg: "#ffffff",
+    statusInk: "#4f0709",
+  },
 };
 
 const PROMOS = [
@@ -106,6 +114,19 @@ const PROMOS = [
     // Cropped to the app's own content, so it starts under the drawn status bar.
     screen: "freedoc-home.webp",
     appTop: 118,
+  },
+  {
+    out: "naas-promo",
+    brand: "naas",
+    dir: "rtl",
+    // A desktop web app, so a browser window rather than a phone, on a shorter
+    // canvas. The capture is the app area only: Chrome's toolbar and the dev URL
+    // are cropped off and the DEVELOPMENT ribbon and avatar painted over.
+    layout: "browser",
+    size: [1200, 1420],
+    headline: "صيانة الأساطيل ومطالبات التأمين",
+    sub: "شركات التأمين والأساطيل والورش والموردين في مسار واحد",
+    screen: "naas-dashboard.webp",
   },
 ];
 
@@ -186,6 +207,39 @@ function promoHtml(promo) {
 </body></html>`;
 }
 
+/**
+ * A desktop capture in a browser window. The window runs off the left and
+ * bottom edges: the app is right-to-left, so its sidebar and headline numbers
+ * sit on the right, and the window shows them at a size a phone frame cannot.
+ */
+function browserHtml(promo) {
+  const b = BRANDS[promo.brand];
+  const [width, height] = promo.size;
+  return `<!doctype html><html dir="${promo.dir}"><head><meta charset="utf-8">
+<link rel="stylesheet" href="${FONTS}">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: ${width}px; height: ${height}px; overflow: hidden; }
+  body { position: relative; background: ${b.ground}; color: ${b.ink};
+    font-family: ${b.font}, sans-serif; text-align: center; }
+  .head { position: absolute; top: 88px; inset-inline: 70px; }
+  h1, p { text-wrap: balance; }
+  h1 { font-size: 84px; line-height: 1.2; font-weight: 800; }
+  p { margin-top: 16px; font-size: 44px; line-height: 1.3; font-weight: 600; color: ${b.soft}; }
+  .window { position: absolute; top: 450px; right: 70px; width: 1500px; direction: ltr;
+    border-radius: 26px 26px 0 0; overflow: hidden; background: ${b.screenBg};
+    box-shadow: 0 0 0 3px rgb(255 255 255 / .18), 0 44px 90px rgb(0 0 0 / .45); }
+  .bar { height: 58px; background: #ececee; border-bottom: 2px solid #dcdcdf; }
+  .window img { display: block; width: 100%; }
+</style></head><body>
+  <div class="head">
+    <h1>${promo.headline}</h1>
+    <p>${promo.sub}</p>
+  </div>
+  <div class="window"><div class="bar"></div><img src="${src(promo.screen)}" alt=""></div>
+</body></html>`;
+}
+
 async function render(html, width, height, out) {
   const dir = await mkdtemp(path.join(tmpdir(), "promo-"));
   const page = path.join(dir, "page.html");
@@ -221,7 +275,9 @@ const only = process.argv[2];
 const chosen = (list) => list.filter(({ out }) => !only || out.includes(only));
 
 for (const promo of chosen(PROMOS)) {
-  await render(promoHtml(promo), 1200, 2600, promo.out);
+  const [width, height] = promo.size ?? [1200, 2600];
+  const html = promo.layout === "browser" ? browserHtml(promo) : promoHtml(promo);
+  await render(html, width, height, promo.out);
 }
 
 for (const icon of chosen(ICONS)) {
