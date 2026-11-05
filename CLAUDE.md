@@ -60,6 +60,7 @@ app/
 ├── layout.tsx        fonts, metadata, Open Graph, JSON-LD Person, grain, skip link, analytics
 ├── page.tsx          section composition
 ├── privacy/          the privacy page and the consent control
+├── llms.txt/         /llms.txt, built from content/ — never hand-edit a copy of it
 └── globals.css       ALL design tokens (@theme) + the animation layer
 components/
 ├── analytics/        AnalyticsRoot, ConsentNotice
