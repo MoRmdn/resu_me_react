@@ -28,6 +28,9 @@ jobs:
       - name: Analytics catalog
         run: npm run analytics:docs -- --check
 
+      - name: Agent instructions
+        run: npm run agents:check
+
       - name: Build
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
