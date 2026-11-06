@@ -1,5 +1,10 @@
 import { PlatformMark } from "@/components/brand/PlatformMark";
-import { platformOf, reviewCardCopy, type Review } from "@/content/reviews";
+import { platformOf, type Review } from "@/content/reviews";
+
+import { reviewUi, reviewMeta } from "@/content/review-copy";
+import { reviewTranslations } from "@/content/reviews-ar";
+import type { Locale } from "@/content/locale";
+import { trackAttrs } from "@/lib/analytics/attrs";
 
 /** Total characters at which a card needs more width than the default. */
 const WIDE_AT = 400;
@@ -9,16 +14,15 @@ const SHORT_BELOW = 90;
 const LINE_BREAK = 60;
 
 /**
- * Cards in a row stretch to the tallest one, so a single long stacked card
- * leaves every neighbour half empty. Long reviews trade height for width: with
- * a translation, the two sit side by side.
+ * Width variants are retained for portable card exports. On the site the
+ * static grid sets the width, and translations use an original-text disclosure.
  */
 function layoutOf(review: Review) {
   const text = review.quote + (review.translation ?? "");
   const length = text.length + (text.split("\n").length - 1) * LINE_BREAK;
   if (length < SHORT_BELOW) return "short";
   if (length < WIDE_AT) return "base";
-  return review.translation ? "split" : "wide";
+  return "wide";
 }
 
 /**
@@ -29,9 +33,16 @@ function layoutOf(review: Review) {
  * The hover (lift, brand hairline, stars filling in sequence) is CSS only: the
  * card is a server component, and thirty of them never need a re-render.
  */
-export function ReviewCard({ review }: { review: Review }) {
+export function ReviewCard({ review, locale = "en" }: { review: Review; locale?: Locale }) {
+  const copy = reviewUi[locale];
+  const translated =
+    review.lang !== locale
+      ? locale === "en"
+        ? review.translation
+        : reviewTranslations[review.id]
+      : undefined;
   const platform = platformOf(review);
-  const meta = [review.country, review.project, review.date].filter(Boolean).join(" · ");
+  const meta = reviewMeta(review, locale);
 
   return (
     <article
@@ -50,7 +61,7 @@ export function ReviewCard({ review }: { review: Review }) {
           label={platform.label}
           className="review-card__mark"
         />
-        <span role="img" aria-label={reviewCardCopy.ratingLabel} className="review-card__rating">
+        <span role="img" aria-label={copy.rating} className="review-card__rating">
           <span aria-hidden className="review-card__stars">
             {[0, 1, 2, 3, 4].map((i) => (
               <svg
@@ -63,24 +74,36 @@ export function ReviewCard({ review }: { review: Review }) {
               </svg>
             ))}
           </span>
-          <span aria-hidden>{reviewCardCopy.ratingValue}</span>
+          <span aria-hidden>{"5.0"}</span>
         </span>
       </header>
 
       <div className="review-card__body">
+        {translated && (
+          <p className="review-card__label">
+            {review.lang === "ar" ? copy.fromArabic : copy.fromEnglish}
+          </p>
+        )}
         <blockquote
-          lang={review.lang}
-          dir={review.lang === "ar" ? "rtl" : "ltr"}
+          lang={translated ? locale : review.lang}
+          dir={(translated ? locale : review.lang) === "ar" ? "rtl" : "ltr"}
           className="review-card__quote"
         >
-          {review.quote}
+          {translated ?? review.quote}
         </blockquote>
-
-        {review.translation && (
-          <div className="review-card__translation">
-            <p className="review-card__label">{reviewCardCopy.translatedLabel}</p>
-            <p>{review.translation}</p>
-          </div>
+        {translated && (
+          <details className="review-original">
+            <summary {...trackAttrs("review_original_toggle", { toggle_action: "open" })}>
+              {copy.original}
+            </summary>
+            <blockquote
+              lang={review.lang}
+              dir={review.lang === "ar" ? "rtl" : "ltr"}
+              className="review-card__quote"
+            >
+              {review.quote}
+            </blockquote>
+          </details>
         )}
       </div>
 
@@ -88,12 +111,12 @@ export function ReviewCard({ review }: { review: Review }) {
         <div>
           <p dir="auto" className="review-card__author">
             {review.author}
-            {review.repeat && <span className="review-card__repeat">{reviewCardCopy.repeatLabel}</span>}
+            {review.repeat && <span className="review-card__repeat">{copy.repeat}</span>}
           </p>
           <p className="review-card__meta">{meta}</p>
         </div>
         <p className="review-card__source">
-          {reviewCardCopy.sourceLabel} {platform.label}
+          {copy.on} {platform.label}
         </p>
       </footer>
     </article>

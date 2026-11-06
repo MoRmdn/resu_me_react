@@ -1,26 +1,32 @@
+import type { LocaleProps } from "@/content/locale";
+import { getCopy } from "@/content/copy-i18n";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { FeaturedPanel } from "@/components/sections/FeaturedPanel";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
-import { featuredProjects, galleryProjects, orderedProjects } from "@/content/projects";
-import { projectsCopy } from "@/content/copy";
+import { getProjects } from "@/content/projects-i18n";
+import { Testimonials } from "./SocialProof";
 
-export function Projects() {
+export function Projects({ locale = "en" }: LocaleProps) {
+  const { projectsCopy } = getCopy(locale);
+  const { featuredProjects, galleryProjects, orderedProjects } = getProjects(locale);
   return (
     <Section id="projects" tone="ink-900" z={16} offset={-40}>
       <Reveal>
         <SectionHeader
           eyebrow={projectsCopy.eyebrow}
           headline={projectsCopy.headline}
-          note={`${orderedProjects.length} shipped`}
-          className="mb-14"
+          note={projectsCopy.countLabel(orderedProjects.length)}
+          className="mb-10"
+          headingClassName="max-w-[800px]"
         />
       </Reveal>
 
+      <Testimonials locale={locale} />
       <div className="flex flex-col gap-3.5">
         {featuredProjects.map((project, i) => (
           <Reveal key={project.slug} delay={i === 0 ? 0.06 : 0}>
-            <FeaturedPanel project={project} index={i + 1} flip={i % 2 === 1} />
+            <FeaturedPanel locale={locale} project={project} index={i + 1} flip={i % 2 === 1} />
           </Reveal>
         ))}
       </div>
@@ -37,7 +43,7 @@ export function Projects() {
         </div>
       </Reveal>
 
-      <ProjectGallery projects={galleryProjects} />
+      <ProjectGallery locale={locale} projects={galleryProjects} />
     </Section>
   );
 }

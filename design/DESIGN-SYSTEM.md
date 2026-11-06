@@ -256,12 +256,11 @@ For work with no public listing (AYCO). Must read as deliberate, never as a brok
 - Shares the featured-panel layout, screens included. What stays its own is below.
 - **Dashed** hairline border, `--ink-800` fill — the border itself says "unlisted".
   Every other card is solid.
-- Store buttons are **replaced, not removed**: a build ledger (files / tests /
-  functions) occupies the slot the links hold on every other card.
+- Store buttons are **replaced, not removed**: a capability ledger (offline visits / Arabic reports /
+  devices per batch) occupies the slot the links hold on every other card.
 - Closed by default like every featured panel. Its highlights are the depth, so
   absence of links must read as more behind the click, not less.
-- Closes with an explicit line naming the NDA. Unexplained absence looks broken;
-  stated absence looks professional.
+- Names private delivery explicitly. Do not claim an NDA without evidence.
 - Zero copper at any tier. No hover warm, no lift.
 
 ### Featured panel
@@ -388,8 +387,7 @@ scrollable strip.
 | Projects | AYCO dashed border draws around the perimeter once | Card enters viewport, +120ms | 620ms · `m-slow` | Fully drawn from first paint |
 | Skills | Plates slide in from their stagger side, 60ms apart | Plate enters viewport | 320ms · `m-base` | Render in place |
 | Skills | Plate hover — border warms, fill → `--ink-600` | Hover | 180ms · `m-fast` | Colour only |
-| Reviews | Two rows drift in opposite directions, 260s and 300s | Autoplay | Linear, infinite | Stops; each row becomes a scroller, duplicate track dropped |
-| Reviews | Row pauses | Hover, or the Pause button | Instant play-state change | Button hidden |
+| Reviews | Static grid, six reviews followed by native disclosure | User opens more reviews | No looping motion | Same static grid |
 | Reviews | Card lifts, hairline wipes, stars pop in sequence | Hover | 320ms · `m-base` | Colour only |
 | Reviews | Platform counts roll up | Ledger enters viewport | 900ms · easeOutQuart | Final values immediately |
 | Reviews | Map intro: pin lands, lines leave nearest-first at 70ms apart, each country fills as its line arrives | Block enters viewport | 620ms · `m-slow` per line | Finished map on first paint |
@@ -458,3 +456,14 @@ Palette, type scale, spacing base, shape tokens, elevation and motion tokens
 unchanged.
 
 **v1.0.** Initial system, implemented in Flutter.
+
+
+### Portfolio enhancement — November 2026
+
+- A compact marketplace summary follows the technology strip; three verbatim testimonials precede the project cards.
+- Featured projects show their outcome and availability on the face, followed by problem, responsibility, decisions and result inside the existing detail plane.
+- Reviews use a static 1/2/3-column grid at phone/768px/1024px widths. Six appear initially; native disclosure contains the remaining server-rendered reviews. No loop or cloned review tracks remain on the site.
+- Reviews show the document language first. Translations are labelled, with originals in an accessible native disclosure; no original is rewritten.
+- Skills retain all content with 18px plate padding, tighter tags and smaller headings below 768px. Desktop plates retain their arrangement.
+- English remains at `/`; Arabic lives at `/ar/`. Arabic uses IBM Plex Sans Arabic, logical layout properties and RTL text. Logos, screenshots and geographic coordinates are not mirrored.
+- Languages share project identifiers, assets, metrics and contact links. Availability labels describe supplied links rather than promising current store availability.

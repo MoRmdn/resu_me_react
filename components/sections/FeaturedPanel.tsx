@@ -4,7 +4,8 @@ import { useState } from "react";
 import { IconTile } from "@/components/ui/IconTile";
 import { ProjectPlate, ScreenStrip } from "@/components/ui/ProjectPlate";
 import { ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
-import { projectsCopy } from "@/content/copy";
+import { getCopy } from "@/content/copy-i18n";
+import type { Locale } from "@/content/locale";
 import type { Project } from "@/content/types";
 import { attentionAttrs, projectParams, swipeAttrs, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
@@ -30,14 +31,17 @@ const toggleId = (slug: string) => `proj-toggle-${slug}`;
  * reachable and nothing here is reachable. A ledger stands in for the outcome.
  */
 export function FeaturedPanel({
+  locale = "en",
   project,
   index,
   flip,
 }: {
+  locale?: Locale;
   project: Project;
   index: number;
   flip: boolean;
 }) {
+  const { projectsCopy } = getCopy(locale);
   const [isOpen, setIsOpen] = useState(false);
   useKeepInView(isOpen ? panelId(project.slug) : null);
 
@@ -46,7 +50,7 @@ export function FeaturedPanel({
   const plateClass = cn(
     // Below `sm` the strip scrolls, so it has to sit above the stretched toggle.
     "relative z-10 order-first border-line sm:z-auto",
-    flip ? "md:border-r" : "md:order-none md:border-l",
+    flip ? "md:border-e" : "md:order-none md:border-s",
   );
 
   function close() {
@@ -74,7 +78,11 @@ export function FeaturedPanel({
       {...attentionAttrs("project", params)}
     >
       {project.isPrivate && (
-        <svg aria-hidden className="pointer-events-none absolute inset-0 z-10 size-full" preserveAspectRatio="none">
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 size-full"
+          preserveAspectRatio="none"
+        >
           <rect
             x="0.5"
             y="0.5"
@@ -109,7 +117,7 @@ export function FeaturedPanel({
                   onClick={() => setIsOpen(!isOpen)}
                   aria-expanded={isOpen}
                   aria-controls={panelId(project.slug)}
-                  className="cursor-pointer text-left after:absolute after:inset-0 after:content-['']"
+                  className="cursor-pointer text-start after:absolute after:inset-0 after:content-['']"
                   {...trackAttrs("project_toggle", {
                     ...params,
                     toggle_action: isOpen ? "close" : "open",
@@ -120,13 +128,15 @@ export function FeaturedPanel({
                 </button>
               </h3>
             </div>
-            <span aria-hidden className="eyebrow ml-auto self-start text-bone-28">
+            <span aria-hidden className="eyebrow ms-auto self-start text-bone-28">
               {String(index).padStart(2, "0")}
             </span>
           </div>
 
           <p className="max-w-[62ch] text-body text-bone">{project.description}</p>
 
+          <p className="eyebrow text-bone-52">{projectsCopy.availability[project.availability]}</p>
+          <p className="text-h3 text-bone">{project.achievement}</p>
           {project.ledger ? (
             <dl className="hairline-grid grid-cols-3 overflow-hidden rounded-md border border-line">
               {project.ledger.map((entry) => (
@@ -139,20 +149,15 @@ export function FeaturedPanel({
                 </div>
               ))}
             </dl>
-          ) : (
-            <div className="border-t border-line pt-4">
-              <p className="eyebrow text-bone-52">{projectsCopy.outcomeLabel}</p>
-              <p className="mt-2 text-h3 text-bone">{project.achievement}</p>
-            </div>
-          )}
+          ) : null}
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-1">
             <div className="relative z-10">
-              <ProjectLinks project={project} placement="featured" buttons />
+              <ProjectLinks locale={locale} project={project} placement="featured" buttons />
             </div>
             <span
               aria-hidden
-              className="eyebrow ml-auto flex items-center gap-3 text-bone-52 transition-colors duration-fast ease-fast group-hover:text-bone"
+              className="eyebrow ms-auto flex items-center gap-3 text-bone-52 transition-colors duration-fast ease-fast group-hover:text-bone"
             >
               {isOpen ? projectsCopy.closeLabel : projectsCopy.detailsLabel}
               <span className="gallery-tile__plus flex size-7 items-center justify-center rounded-sm border border-line bg-ink-700 text-base leading-none tracking-normal">
@@ -174,14 +179,14 @@ export function FeaturedPanel({
         )}
       </div>
 
-      <div
-        id={panelId(project.slug)}
-        className="disclosure"
-        data-open={isOpen}
-        inert={!isOpen}
-      >
+      <div id={panelId(project.slug)} className="disclosure" data-open={isOpen} inert={!isOpen}>
         <div>
-          <ProjectDetail project={project} onFace className="border-t border-line p-6 md:p-8">
+          <ProjectDetail
+            locale={locale}
+            project={project}
+            onFace
+            className="border-t border-line p-6 md:p-8"
+          >
             <button
               type="button"
               onClick={close}

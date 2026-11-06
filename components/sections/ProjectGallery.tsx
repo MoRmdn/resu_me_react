@@ -6,7 +6,8 @@ import { IconTile } from "@/components/ui/IconTile";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { SocialStrip } from "@/components/ui/ProjectPlate";
 import { ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
-import { projectsCopy } from "@/content/copy";
+import { getCopy } from "@/content/copy-i18n";
+import type { Locale, LocaleProps } from "@/content/locale";
 import type { Project } from "@/content/types";
 import { attentionAttrs, projectParams, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
@@ -28,7 +29,7 @@ const tileId = (slug: string) => `proj-tile-${slug}`;
  * the 2- and the 4-column grid exactly. A different count leaves a hole, so
  * move the span if the list changes.
  */
-export function ProjectGallery({ projects }: { projects: Project[] }) {
+export function ProjectGallery({ projects, locale = "en" }: { projects: Project[] } & LocaleProps) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   useKeepInView(openSlug && panelId(openSlug));
 
@@ -56,6 +57,7 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
     >
       {projects.map((project, i) => (
         <GalleryItem
+          locale={locale}
           key={project.slug}
           project={project}
           wide={i === 0}
@@ -71,6 +73,7 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
 }
 
 function GalleryItem({
+  locale = "en",
   project,
   wide,
   delay,
@@ -79,6 +82,7 @@ function GalleryItem({
   onToggle,
   onClose,
 }: {
+  locale?: Locale;
   project: Project;
   wide: boolean;
   delay: number;
@@ -87,6 +91,7 @@ function GalleryItem({
   onToggle: () => void;
   onClose: () => void;
 }) {
+  const { projectsCopy } = getCopy(locale);
   const asset = project.media?.asset;
   const icon = project.media?.icon;
   const params = projectParams(project, "gallery");
@@ -152,12 +157,7 @@ function GalleryItem({
           <div className="flex flex-1 flex-col gap-3 p-4 md:p-5">
             <div className="flex items-center gap-3">
               {icon && (
-                <IconTile
-                  icon={icon}
-                  title={project.title}
-                  size={40}
-                  className="hidden sm:flex"
-                />
+                <IconTile icon={icon} title={project.title} size={40} className="hidden sm:flex" />
               )}
               <h4 className="text-h3">
                 {/* Stretched over the whole tile, so the name of the control is
@@ -168,7 +168,7 @@ function GalleryItem({
                   onClick={onToggle}
                   aria-expanded={isOpen}
                   aria-controls={panelId(project.slug)}
-                  className="text-left after:absolute after:inset-0 after:content-['']"
+                  className="text-start after:absolute after:inset-0 after:content-['']"
                   {...trackAttrs("project_toggle", {
                     ...params,
                     toggle_action: isOpen ? "close" : "open",
@@ -182,6 +182,10 @@ function GalleryItem({
 
             <p className="eyebrow leading-normal text-bone-52">
               {project.category} &middot; {project.country}
+            </p>
+
+            <p className="text-caption text-bone-52">
+              {projectsCopy.availability[project.availability]}
             </p>
 
             {wide && (
@@ -204,7 +208,7 @@ function GalleryItem({
         {...attentionAttrs("project", params)}
       >
         <div>
-          <DetailPlane project={project} onTile={wide} onClose={onClose} />
+          <DetailPlane locale={locale} project={project} onTile={wide} onClose={onClose} />
         </div>
       </div>
     </>
@@ -212,15 +216,18 @@ function GalleryItem({
 }
 
 function DetailPlane({
+  locale = "en",
   project,
   onTile,
   onClose,
 }: {
+  locale?: Locale;
   project: Project;
   /** The wide tile already carries the description and outcome on its face. */
   onTile: boolean;
   onClose: () => void;
 }) {
+  const { projectsCopy } = getCopy(locale);
   return (
     <div className="mb-3.5 rounded-lg border border-line bg-ink-700 p-6 md:p-9">
       <div className="flex items-start justify-between gap-4">
@@ -239,8 +246,8 @@ function DetailPlane({
         </button>
       </div>
 
-      <ProjectDetail project={project} onFace={onTile} className="mt-4">
-        <ProjectLinks project={project} placement="gallery" />
+      <ProjectDetail locale={locale} project={project} onFace={onTile} className="mt-4">
+        <ProjectLinks locale={locale} project={project} placement="gallery" />
       </ProjectDetail>
 
       {project.media?.social && (

@@ -30,8 +30,8 @@ export function projectParams(project: Project, placement: ProjectPlacement): Pr
     project_slug: project.slug,
     project_title: projectNames(project.title).name,
     project_placement: placement,
-    project_category: project.category,
-    project_country: project.country,
+    project_category: project.analyticsLabels?.category ?? project.category,
+    project_country: project.analyticsLabels?.country ?? project.country,
   };
 }
 

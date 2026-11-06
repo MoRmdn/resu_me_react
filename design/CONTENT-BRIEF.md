@@ -9,18 +9,17 @@ nothing here is a placeholder.
 ## Identity
 
 - **Name:** Mohamed Ramadan (short: MoRmdn)
-- **Title:** Flutter Developer — Cross-Platform Mobile Applications
+- **Title:** Software Engineer — Cross-Platform Mobile and Web Applications
 - **Location:** Mansoura, Egypt (UTC+3)
 - **Email:** mormdn@outlook.com · **Phone:** +20 128 110 0168
 - **Résumé:** /Mohamed_Ramadan_CV.pdf
 - **Links:** GitHub → MoRmdn (https://github.com/MoRmdn) · LinkedIn → Eng. M.Ramadan (https://linkedin.com/in/mormdn) · X → @MoRmdn (https://x.com/MoRmdn)
-- **Headline numbers:** 5 years · 10 apps on both stores · 7 teams · 6 countries
-- **Nav:** About · Experience · Projects · Skills · Contact
+- **Headline numbers:** 5 years · 12 selected apps and products · 7 teams · 6 countries
+- **Nav:** About · Experience · Projects · Skills · Reviews · Contact
 
 ### Education & certifications
 
 - B.Sc. Bioinformatics — Mansoura University, 2021 (final-year project graded A+)
-- Google Flutter Developer Certification — Udemy, 2022
 - Learn JavaScript · Learn React — Scrimba, 2026
 - Android Basics Nanodegree — Udacity, 2020
 - Arabic (native) · English (professional working proficiency)
@@ -40,15 +39,15 @@ credentials above so an in-progress course is never mistaken for a finished one.
 ## Hero
 
 - Status chip: **Open to work** · Mansoura, Egypt · UTC+3
-- Headline (3 lines, line 3 carries the copper accent):
+- Headline (the CTA carries the copper accent):
   1. Flutter apps
   2. that actually
-  3. ship.  ← copper
-- Intro: I'm Mohamed Ramadan — a mobile developer with 5 years spent building cross-platform products for teams in 6 countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.
+  3. ship.
+- Intro: I'm Mohamed Ramadan — a software engineer with 5 years spent building cross-platform products, mobile and web, for teams in 6 countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.
 - CTAs: **See the work** (primary) · WhatsApp (ghost) · Download CV (text link)
 - Panel "Track record" — three metrics that count up once in view:
   - **5+** — Years shipping Flutter
-  - **10** — Apps live on both stores
+  - **12** — Selected apps and products
   - **7** — Teams across 6 countries
 - Plus a live "page views" figure streamed from Firebase (real number, changes on every load).
 
@@ -93,21 +92,21 @@ Badge on the current role reads `CURRENT`.
 
 ### 01. Flutter Developer — MisMar | مسمار
 
-`January 2025 — Present` · Egypt · **CURRENT**
+`January 2025 — Present` · Saudi Arabia (Remote) · Remote, contract, full-time · **CURRENT**
 
-Develop and maintain cross-platform iOS and Android applications in Flutter, with responsibility for performance, scalability, and maintainability of the production codebase.
+Core contributor to NAAS, MisMar's B2B Flutter Web platform for fleet repair and car insurance claims, which connects insurers, fleet owners, workshops and parts vendors in one workflow. Earlier, a short stint on the MisMar driver app for iOS and Android.
 
-- Implement state management across Provider, Riverpod, and Bloc according to the complexity and data flow of each feature.
-- Connect applications to back-end services through RESTful APIs and GraphQL.
-- Integrate Google ML Kit and AI-driven features into production mobile applications.
-- Translate Figma and Adobe XD designs into responsive interfaces across phone and tablet form factors.
-- Write unit and widget tests, and manage source control in Git using branch strategies and pull-request review.
+- Build features for a production Flutter Web app used by insurance companies, corporate fleets, workshops and parts vendors.
+- Build the claims, quotations, orders, invoices and salvage-order modules on Clean Architecture, with separate data, domain and presentation layers.
+- Implement role-based access across 20+ user roles, from company, workshop and vendor accounts to admins, branch managers and read-only viewers.
+- Deliver Arabic and English throughout, including right-to-left layouts.
+- Ship configurable workflows, Firebase push notifications, in-app chat and reminders, covered by unit and widget tests.
 
-*Tech:* Flutter · Provider · Riverpod · Bloc · Google ML Kit · GraphQL
+*Tech:* Flutter Web · Provider · GetIt · GoRouter · Dio · Firebase
 
-### 02. Medior Flutter Developer — Demeter
+### 02. Mid-Level Flutter Developer — Demeter
 
-`March 2023 — January 2025` · Morocco (Remote) · Remote, full-time
+`March 2023 — January 2025` · Morocco (Remote) · Remote, contract, full-time
 
 Led the development of Lpermis from initial architecture to release, using GetX for state management across a driving-theory testing and appointment-booking product.
 
@@ -117,44 +116,44 @@ Led the development of Lpermis from initial architecture to release, using GetX 
 
 *Tech:* Flutter · GetX · Cubit · API Integration · Payment Systems
 
-### 03. Medior Flutter Developer — Ebdda LTD
+### 03. Mid-Level Flutter Developer — Ebdda LTD
 
-`January 2024 — January 2026` · Libya (Remote) · Remote, part-time
+`January 2024 — January 2026` · Libya (Remote) · Remote, contract, part-time (concurrent)
 
 Developed Mutabbib, a healthcare application, using Bloc to manage complex user flows, real-time data synchronisation, and secure storage aligned to healthcare data requirements.
 
-- Built real-time notification and scheduling features for patient-provider interaction, reported to have increased appointment bookings by 25 percent.
+- Built real-time notification and scheduling features for patient-provider interaction, increasing appointment bookings by 25%.
 - Coordinated with back-end developers on API integration to meet performance and security requirements.
 
 *Tech:* Flutter · Bloc · Real-time Sync · Healthcare APIs · Security
 
-### 04. Medior Flutter Developer — Arcit-AI
+### 04. Mid-Level Flutter Developer — Arcit-AI
 
-`December 2023 — December 2024` · Saudi Arabia (Remote) · Remote, part-time
+`December 2023 — December 2024` · Saudi Arabia (Remote) · Remote, part-time (concurrent)
 
-Developed the Arcit-AI application on Bloc, implementing AI-driven predictive analytics and data-visualisation features supporting user decision-making.
+Developed the Arcit-AI application on Bloc: a social networking platform matching service providers with clients in the architecture and home-improvement sector, with AI-driven tools for matchmaking and task automation.
 
 - Worked with data science and back-end teams on AI model integration and real-time data delivery.
-- Designed and optimised the data-interaction interface, reported to have improved user retention and engagement by 15 percent.
+- Designed and optimised the data-interaction interface, improving user retention and engagement by 15%.
 
-*Tech:* Flutter · Bloc · AI Integration · Data Visualization · Predictive Analytics
+*Tech:* Flutter · Bloc · AI Integration · Matchmaking · Firebase
 
-### 05. Medior Flutter Developer — Eleven Stars
+### 05. Mid-Level Flutter Developer — Eleven Stars
 
-`March 2023 — February 2024` · Türkiye (Remote) · Remote, part-time
+`March 2023 — February 2024` · Türkiye (Remote) · Remote, part-time (concurrent)
 
 Built Saber Yamen, a multi-vendor e-commerce platform, from scratch on GetX, covering navigation and data flow across the full purchase journey.
 
-- Developed Dental Diner on Cubit, covering real-time appointment scheduling, patient data synchronisation, and payment integration.
-- Optimised state management to reduce data load times by 20 percent for both client and administrator users.
+- Developed Dental Dinar on Cubit, covering real-time appointment scheduling, patient data synchronisation, and payment integration.
+- Optimised state management to reduce data load times by 20% for both client and administrator users.
 
 *Tech:* Flutter · GetX · Cubit · E-commerce · Payment Integration
 
 ### 06. Junior Flutter Developer — Bracket Media Ltd
 
-`May 2022 — January 2023` · England (Remote) · Remote
+`May 2022 — January 2023` · United Kingdom (Remote) · Remote
 
-Led the migration of the company's primary application to Null Safety, and redesigned major UI components, reported to have increased user satisfaction and engagement by 15 percent.
+Led the migration of the company's primary application to Null Safety, and redesigned major UI components, increasing user satisfaction and engagement by 15%.
 
 - Future-proofed a legacy codebase by completing the Null Safety migration ahead of it becoming an emergency.
 - Redesigned major UI components and shipped new features alongside comprehensive bug fixes.
@@ -163,37 +162,22 @@ Led the migration of the company's primary application to Null Safety, and redes
 
 ### 07. Junior Flutter Developer — Cyparta
 
-`April 2021 — May 2022` · Egypt
+`April 2021 — May 2022` · Egypt · Full-time
 
-Delivered a multi-platform application with integrated analytics, reported to have improved user retention by 12 percent.
+Delivered a multi-platform application with integrated analytics, improving user retention by 12%.
 
-- Reduced application size by 10 percent by removing unused packages and optimising assets.
+- Reduced application size by 20% by removing unused packages and optimising assets.
 - Extended the interface to full-screen tablet layouts for iPad compatibility.
 
 *Tech:* Flutter · Analytics · Performance Optimization · Cross-platform
 
 ---
 
-## Projects — eyebrow `03 / Projects`, headline "Live on both stores."
+## Projects — eyebrow `03 / Projects`, headline "Selected apps and products."
 
-11 projects. The first is the flagship and is the only one with a real screenshot.
+12 selected projects. Availability and supported outcomes are stated for each.
 
-### 01. Arcit-AI  — FLAGSHIP
-
-*Social Networking · Saudi Arabia*
-
-**Card line:** Innovative social networking platform connecting service providers with clients in architecture and home improvement sector.
-
-**Long form:** Arcit-AI is a comprehensive social networking platform that revolutionizes the architecture and home improvement industry. It features a smart matchmaking system powered by AI-driven tools, connecting service providers (companies, professionals, suppliers, contractors) with clients seeking architectural and home improvement services.
-
-**Outcome:** AI-driven features with 15% user engagement increase
-
-*Tech:* Flutter · Bloc · AI Integration · Firebase · Google Maps
-
-Links: App Store · Google Play
-Image: `public/images/arcit-ai/` — 1320×2868 portrait phone screenshot.
-
-### 02. AYCO — Maintenance Reports  — PRIVATE CLIENT, NO STORE LINKS
+### 01. AYCO — Maintenance Reports  — LEAD PROJECT  — PRIVATE CLIENT, NO STORE LINKS
 
 *Field Service · Private client*
 
@@ -201,11 +185,19 @@ Image: `public/images/arcit-ai/` — 1320×2868 portrait phone screenshot.
 
 **Long form:** Technicians scan a device serial, auto-fill its registry data, capture technician and client signatures, and issue a numbered Arabic (RTL) PDF report generated on-device, archived to Cloud Storage and reopened from a printed QR code. Built solo end-to-end: Flutter and Provider on the client, Firebase on the back end, offline-first writes, transactional report numbering, batch mode for up to 100 devices per visit, and role-based administration enforced server-side.
 
-**Outcome:** Solo build — 227 Dart files, 109 test files, 5 Cloud Functions
+**Availability:** Private client · no public listing
+**Problem:** Technicians need to complete maintenance visits and issue Arabic reports even when connectivity is unreliable.
+**Responsibility:** Built the Flutter app and Firebase backend solo, from device scanning and signatures to report generation and administration.
+**Decisions:**
+- Treat offline writes as queued rather than failed, so technicians can keep working during a visit.
+- Generate RTL PDFs on-device and allocate report numbers transactionally; process large visits in resumable batches.
+- Enforce the technician, administrator and super-admin permissions in Cloud Functions and security rules.
+**Result:** Offline-ready visits, signed Arabic PDF reports and batches of up to 100 devices.
+**Outcome:** Offline-ready visits, signed Arabic PDF reports and batches of up to 100 devices.
 
 *Tech:* Flutter · Provider · Cloud Firestore · Cloud Functions · Cloud Storage · RTL / Arabic
 
-Detail bullets (currently truncated to 2 on the card — a detail view could show all):
+Supporting technical details:
 
 - Made every write offline-safe by racing Firestore writes against a timeout and surfacing the result as queued rather than failed, so technicians can complete visits without connectivity.
 - Batched up to 100 devices per visit in resumable 25-report transaction chunks to stay within the Firestore transaction limit, with report numbering issued transactionally.
@@ -214,42 +206,37 @@ Detail bullets (currently truncated to 2 on the card — a detail view could sho
 
 Needs a deliberate treatment reading "Private client · no public listing" — not an empty slot where the store buttons would be.
 
-### 03. JS Quest
+### 02. SAAD | صاد
 
-*Education · Web*
+*Education · Egypt*
 
-**Card line:** A guided JavaScript-fundamentals course: 100 questions, five unlocking chapters, and answers the browser never sees before you have earned them.
+**Card line:** English-vocabulary app that teaches from real songs, movies and interviews, with a personal word bank and Arabic-first RTL.
 
-**Long form:** JS Quest walks a learner through 100 JavaScript-fundamentals questions in a fixed order, grouped into five chapters that unlock one at a time. Every answer is written to Postgres the moment it is given, so closing the tab and coming back resumes exactly where you left off. The interesting part is the security model: the correct answer and its explanation never reach the browser until after your answer is committed, so the quiz cannot be beaten by reading the network tab.
+**Long form:** SAAD turns real content into a vocabulary course. Learners open a song, a movie clip or an interview, see how many of its words are new to them, and sort each one into New, Learning or Known. Everything they choose to learn lands in a searchable word bank, with translations, spoken pronunciation and short tests to move words from Learning to Known. The app runs in Arabic or English with a full right-to-left layout and light and dark themes, and sells monthly and yearly plans on top of a free tier. Built solo end to end, from the Flutter client to the release pipeline.
 
-**Outcome:** 100 questions · 10 categories · shipped in two days
+**Availability:** Store links provided
+**Problem:** Learners need a way to turn the vocabulary they encounter in songs, films and interviews into words they can practise and remember.
+**Responsibility:** Built SAAD solo end to end, from the Flutter client to the release pipeline, and rebuilt the codebase around feature boundaries.
+**Decisions:**
+- Keep New, Learning and Known vocabulary states connected to a searchable personal word bank and short tests.
+- Use constructor injection and route-scoped view models to make dependencies and disposal predictable.
+- Enforce architectural boundaries and typed navigation while preserving the existing backend contract.
+**Result:** A bilingual vocabulary-learning workflow with a personal word bank, practice tests and subscription plans.
+**Outcome:** A bilingual vocabulary-learning workflow with a personal word bank, practice tests and subscription plans.
 
-*Tech:* React 19 · Vite · React Router · Supabase · PostgreSQL · Vitest
+*Tech:* Flutter · Provider · GetIt · Dio · Firebase · RTL / Arabic
 
-Detail bullets (currently truncated to 2 on the card — a detail view could show all):
+Supporting technical details:
 
-- Withheld every correct answer server-side: the questions table has row-level security with no select policy, and the client reads through a security-definer function that returns the prompt and options but not the answer or explanation — those come back only after the answer row is committed.
-- Recomputed scoring in SQL rather than trusting the client, with the 70% pass mark enforced in the database; the browser's copy is display-only.
-- Made answer submission idempotent and replay-safe — a duplicate submission returns the existing row instead of double-counting, and out-of-order answers are rejected.
-- Enforced integrity in the schema, not the UI: a partial unique index allows one in-progress attempt per user, and check constraints keep an attempt's score, pass flag and completion time consistent with its status.
+- Rebuilt the codebase as one feature-first architecture with enforced dependency direction: a custom architecture-check script fails the build when presentation reaches into data, domain imports Flutter, or a feature crosses another feature's boundary.
+- Moved every dependency to constructor injection with GetIt confined to a single composition root, and scoped each feature's view model to its route so it is disposed with its owner.
+- Replaced untyped route arguments with immutable typed payloads and a central route generator and auth guard that preserves a protected destination through sign-in and cancellation.
+- Localised Arabic-first with full RTL: 430 strings in matching Arabic and English ARB files, plus dark mode, both verified on every changed screen.
+- Kept the backend contract frozen through the refactor: routes, API paths, JSON keys and persisted preference keys unchanged, with 78 test files covering success, failure and disposal behaviour.
 
-Links: 
+Links: App Store
 
-### 04. Mutabbib
-
-*Healthcare · Libya*
-
-**Card line:** Distinctive medical social network connecting users with hospitals, clinics, and doctors.
-
-**Long form:** Mutabbib is a comprehensive healthcare mobile app that serves as a medical social network. It connects users with hospitals, clinics, and doctors, enabling easy tracking of schedules and availability. The app features real-time notifications, secure data storage compliant with healthcare standards, and seamless appointment booking.
-
-**Outcome:** 25% increase in appointment bookings
-
-*Tech:* Flutter · Bloc · Real-time Sync · Healthcare APIs · Security
-
-Links: App Store · Google Play
-
-### 05. Lpermis
+### 03. Lpermis
 
 *Education · Morocco*
 
@@ -257,27 +244,21 @@ Links: App Store · Google Play
 
 **Long form:** Lpermis is a mobile application designed to test driving knowledge and schedule appointments at various driving schools across Morocco. The app features comprehensive test preparation, real-time appointment booking, and progress tracking for driving education.
 
+**Availability:** Store links provided
+**Problem:** Learner drivers need driving-theory practice and appointment booking in one mobile product.
+**Responsibility:** Led Lpermis from initial architecture to release at Demeter.
+**Decisions:**
+- Use GetX to coordinate the learning and booking flows.
+- Integrate authentication, tracking and payments through external APIs.
+- Work with designers on consistent phone and tablet interfaces.
+**Result:** Delivered a driving-theory and booking product for learners in Morocco.
 **Outcome:** Built from initial architecture through to release
 
 *Tech:* Flutter · GetX · SQLite · Payment Integration · Real-time Booking
 
 Links: App Store · Google Play
 
-### 06. Lpermis Pro
-
-*Education · Morocco*
-
-**Card line:** Advanced school management system for driving schools with comprehensive administrative features.
-
-**Long form:** Lpermis Pro is the companion system for driving schools to manage all lesson bookings with multiple user types and comprehensive administrative features. It includes instructor management, student tracking, payment processing, and detailed analytics.
-
-**Outcome:** Multi-role lesson booking for driving schools
-
-*Tech:* Flutter · Cubit · Multi-user System · Payment Integration · Analytics
-
-Links: App Store · Google Play
-
-### 07. Saber Yamen
+### 04. Saber Yamen
 
 *E-commerce · Türkiye*
 
@@ -285,25 +266,87 @@ Links: App Store · Google Play
 
 **Long form:** Saber Yamen is a comprehensive multi-vendor e-commerce platform built from scratch. It enables vendors to sell both new and used items through an easy-to-use interface. The platform features advanced search capabilities, secure payment processing, and comprehensive vendor management tools.
 
+**Availability:** Store links provided
+**Problem:** A multi-vendor marketplace needs a coherent journey across browsing, product details and purchasing.
+**Responsibility:** Built Saber Yamen from scratch at Eleven Stars, covering navigation and data flow across the purchase journey.
+**Decisions:**
+- Use GetX to manage navigation and shared shopping state.
+- Support Arabic layouts and marketplace listings with multiple currencies.
+- Optimise state management for both client and administrator workflows.
+**Result:** Delivered a multi-vendor shopping experience with Arabic layouts and multi-currency support.
 **Outcome:** 20% faster data load through optimised state management
 
 *Tech:* Flutter · GetX · E-commerce APIs · Payment Gateway · Multi-vendor
 
 Links: App Store · Google Play
 
-### 08. MisMar | مسمار
+### 05. Mutabbib | مطبب
 
-*Automotive service · Egypt*
+*Healthcare · Libya*
 
-**Card line:** Car maintenance and repair for Egyptian drivers: book a service, follow the vehicle through inspection and repair, and get it delivered back.
+**Card line:** Distinctive medical social network connecting users with hospitals, clinics, and doctors.
 
-**Long form:** MisMar takes a car through a seven-stage service flow — request, collection, inspection and diagnosis, quote and approval, repair, quality check, delivery — with the owner tracking each stage from their phone. Services split into mobile maintenance, faults and repairs, accident work, car care, service packages and inspections, and the whole product is Arabic-first with a right-to-left layout.
+**Long form:** Mutabbib is a comprehensive healthcare mobile app that serves as a medical social network. It connects users with hospitals, clinics, and doctors, enabling easy tracking of schedules and availability. The app features real-time notifications, secure data storage compliant with healthcare standards, and seamless appointment booking.
 
-**Outcome:** Current role — production codebase, iOS and Android
+**Availability:** Store links provided
+**Problem:** Patients and providers need coordinated scheduling and timely updates throughout the appointment journey.
+**Responsibility:** Developed Mutabbib at Ebdda LTD and coordinated backend integration with the API team.
+**Decisions:**
+- Use Bloc to manage complex user flows and real-time data synchronisation.
+- Connect scheduling and notifications so appointment changes reach patients and providers.
+- Coordinate secure storage and API integration with backend developers.
+**Result:** Scheduling and notification improvements associated with a reported 25% increase in appointment bookings.
+**Outcome:** 25% increase in appointment bookings
 
-*Tech:* Flutter · Provider · Riverpod · Bloc · REST · GraphQL
+*Tech:* Flutter · Bloc · Real-time Sync · Healthcare APIs · Security
 
-Links: 
+Links: App Store · Google Play
+
+### 06. NAAS | ناس
+
+*Insurance and fleet repair · Saudi Arabia*
+
+**Card line:** B2B web platform for fleet repair and car insurance claims, connecting insurers, fleet owners, workshops and parts vendors in one workflow.
+
+**Long form:** NAAS is MisMar's multi-tenant platform for the whole car repair process: claim registration, workshop assignment, quotations and approvals, through to invoicing and salvage sales. Insurance companies, corporate fleets, workshops and vendors each work in it with their own role-based access, in Arabic or English with right-to-left layouts throughout.
+
+**Availability:** Sign-in only B2B platform
+**Outcome:** Current role — 20+ user roles on one platform
+
+*Tech:* Flutter Web · Provider · GetIt · GoRouter · Dio · Firebase
+
+Links: no public destination supplied.
+
+### 07. Lpermis Pro
+
+*Education · Morocco*
+
+**Card line:** Advanced school management system for driving schools with comprehensive administrative features.
+
+**Long form:** Lpermis Pro is the companion system for driving schools to manage all lesson bookings with multiple user types and comprehensive administrative features. It includes instructor management, student tracking, payment processing, and detailed analytics.
+
+**Availability:** Store links provided
+**Outcome:** Multi-role lesson booking for driving schools
+
+*Tech:* Flutter · Cubit · Multi-user System · Payment Integration · Analytics
+
+Links: App Store · Google Play
+
+### 08. Arcit-AI
+
+*Social Networking · Saudi Arabia*
+
+**Card line:** Innovative social networking platform connecting service providers with clients in architecture and home improvement sector.
+
+**Long form:** Arcit-AI is a comprehensive social networking platform that revolutionizes the architecture and home improvement industry. It features a smart matchmaking system powered by AI-driven tools, connecting service providers (companies, professionals, suppliers, contractors) with clients seeking architectural and home improvement services.
+
+**Availability:** No longer listed on the stores
+**Outcome:** AI-driven features with 15% user engagement increase
+
+*Tech:* Flutter · Bloc · AI Integration · Firebase · Google Maps
+
+Links: no public destination supplied.
+Image: `public/images/arcit-ai/` — 1320×2868 portrait phone screenshot.
 
 ### 09. Dental Dinar
 
@@ -313,11 +356,12 @@ Links:
 
 **Long form:** Dental Dinar turns a dental care plan into a daily habit loop. Patients get a personalised plan, daily tips, and timed brushing reminders that award points for each completed session, alongside a product area and their own profile. Built Arabic-first with a right-to-left layout throughout, including the reminder scheduling and the rewards screens.
 
+**Availability:** Public links unavailable
 **Outcome:** Built at Eleven Stars on Cubit
 
 *Tech:* Flutter · Cubit · Real-time scheduling · Payment Integration · RTL / Arabic
 
-Links: 
+Links: no public destination supplied.
 
 ### 10. FreeDoc
 
@@ -327,11 +371,12 @@ Links:
 
 **Long form:** FreeDoc splits at the door: you enter as a doctor or as a patient, and the app builds a different product around each. Patients browse doctor profiles with biography, specialism, address and live availability, book an appointment, and get a push notification when a doctor confirms or cancels. The whole interface ships in Arabic, French and English, switchable at runtime.
 
+**Availability:** Public links unavailable
 **Outcome:** Trilingual — Arabic, French and English
 
 *Tech:* Flutter · REST · Push notifications · Google Maps · Localisation (AR/FR/EN)
 
-Links: 
+Links: no public destination supplied.
 
 ### 11. O'Permis
 
@@ -341,11 +386,34 @@ Links:
 
 **Long form:** O'Permis connects learner drivers with Moroccan driving schools. Learners browse schools, see session times and prices in dirhams, reserve a slot, and track the documents their licence application needs — national ID copy, photographs — as a checklist. Arabic-first with a right-to-left layout.
 
+**Availability:** Public links unavailable
 **Outcome:** Driving-school booking with document tracking
 
 *Tech:* Flutter · Booking system · Payment Integration · RTL / Arabic
 
-Links: 
+Links: no public destination supplied.
+
+### 12. JS Quest
+
+*Education · Web*
+
+**Card line:** A guided JavaScript-fundamentals course: 100 questions, five unlocking chapters, and answers the browser never sees before you have earned them.
+
+**Long form:** JS Quest walks a learner through 100 JavaScript-fundamentals questions in a fixed order, grouped into five chapters that unlock one at a time. Every answer is written to Postgres the moment it is given, so closing the tab and coming back resumes exactly where you left off. The interesting part is the security model: the correct answer and its explanation never reach the browser until after your answer is committed, so the quiz cannot be beaten by reading the network tab.
+
+**Availability:** Web project
+**Outcome:** 100 questions · 10 categories · shipped in two days
+
+*Tech:* React 19 · Vite · React Router · Supabase · PostgreSQL · Vitest
+
+Supporting technical details:
+
+- Withheld every correct answer server-side: the questions table has row-level security with no select policy, and the client reads through a security-definer function that returns the prompt and options but not the answer or explanation — those come back only after the answer row is committed.
+- Recomputed scoring in SQL rather than trusting the client, with the 70% pass mark enforced in the database; the browser's copy is display-only.
+- Made answer submission idempotent and replay-safe — a duplicate submission returns the existing row instead of double-counting, and out-of-order answers are rejected.
+- Enforced integrity in the schema, not the UI: a partial unique index allows one in-progress attempt per user, and check constraints keep an attempt's score, pass flag and completion time consistent with its status.
+
+Links: Website · Source
 
 ---
 
@@ -381,7 +449,7 @@ Clean Architecture · Feature-first architecture · SOLID · OOP · Firestore Se
 
 ---
 
-## Contact — eyebrow `05 / Contact`
+## Contact — eyebrow `06 / Contact`
 
 Headline: Got an app / to build? (the word "build?" is copper)
 

@@ -689,6 +689,33 @@
     display: none;
   }
 }
+/* Static review grids. Every original stays in the served HTML once per area. */
+.review-grid .review-list, .testimonial-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+}
+.review-grid .review-slot, .testimonial-list > li { min-width: 0; width: auto; }
+.review-grid .review-card { width: 100%; min-width: 0; }
+.review-grid .review-card__body { display: flex; flex-direction: column; gap: 14px; }
+.review-card__label { color: var(--color-bone-52); font-size: 0.75rem; line-height: 1.5; }
+.review-original { border-top: 1px solid var(--color-line); padding-top: 8px; }
+.review-original summary { cursor: pointer; min-height: 44px; padding-block: 12px; color: var(--color-bone-70); font-size: 0.8125rem; }
+.review-original .review-card__quote { font-size: 0.875rem; }
+.reviews-more > .review-list { margin-top: 24px; }
+.reviews-more:not([open]) > .review-list { display: none; }
+.reviews-more .when-open, .reviews-more[open] .when-closed { display: none; }
+.reviews-more[open] .when-open { display: inline; }
+@media (min-width: 768px) {
+  .review-grid .review-list, .testimonial-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .review-grid .review-list, .testimonial-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 /* review-cards:end */
 
 /* ---------------------------------------------------------------------------
@@ -1327,4 +1354,24 @@
   .hero-held {
     position: relative;
   }
+}
+
+
+/* Arabic is a complete document direction, not a transform of the artwork. */
+html[lang="ar"] { --font-sans: var(--font-plex-arabic), var(--font-archivo), sans-serif; }
+html[lang="ar"] body { font-family: var(--font-sans); }
+html[lang="ar"] :is(.eyebrow, .font-mono) { font-family: var(--font-plex-arabic), var(--font-jetbrains-mono), monospace; letter-spacing: 0; }
+html[lang="ar"] :is(h1, h2, h3, h4) { line-height: 1.4; letter-spacing: 0; font-weight: 500; }
+html[lang="ar"] .review-card__quote { line-height: 1.85; }
+html[dir="rtl"] .map-row__bar { transform-origin: right; }
+html[dir="rtl"] .review-card__repeat { margin-left: 0; margin-inline-start: 8px; }
+bdi, code { unicode-bidi: isolate; }
+@media (max-width: 767px) {
+  .skills-section .plate { padding: 18px; margin-inline: 0; }
+  .skills-section .plate > div { gap: 12px; }
+  .skills-section .plate h3 { font-size: 1rem; }
+  .skills-section .plate li { padding: 4px 8px; }
+  .skills-section .plate [data-index] { display: none; }
+  .skills-section > div > .grid { margin-bottom: 28px; gap: 20px; }
+  html[lang="ar"] #top h1 { font-size: 2.5rem; }
 }

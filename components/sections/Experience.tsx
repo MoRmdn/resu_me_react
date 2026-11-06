@@ -1,11 +1,13 @@
 "use client";
+import type { LocaleProps } from "@/content/locale";
+import { getCopy } from "@/content/copy-i18n";
 
 import { useState } from "react";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { CareerBand } from "./CareerBand";
-import { experiences } from "@/content/experience";
-import { experienceCopy } from "@/content/copy";
+import { getExperiences } from "@/content/profile-i18n";
+
 import { attentionAttrs, experienceParams, trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 
@@ -14,7 +16,9 @@ import { cn } from "@/lib/cn";
  * in the served HTML — and carry `inert` when closed so they leave the tab
  * order and the accessibility tree.
  */
-export function Experience() {
+export function Experience({ locale = "en" }: LocaleProps) {
+  const { experienceCopy } = getCopy(locale);
+  const experiences = getExperiences(locale);
   const [openSlug, setOpenSlug] = useState<string | null>(
     experiences.find((e) => e.isCurrent)?.slug ?? null,
   );
@@ -32,6 +36,7 @@ export function Experience() {
 
       <Reveal delay={0.06}>
         <CareerBand
+          locale={locale}
           roles={experiences}
           openSlug={openSlug}
           onSelect={(slug) => setOpenSlug(slug)}
@@ -52,7 +57,7 @@ export function Experience() {
                     onClick={() => setOpenSlug(isOpen ? null : role.slug)}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    className="group grid w-full grid-cols-[20px_1fr_auto] items-center gap-x-5 py-6 text-left transition-colors duration-fast ease-fast hover:bg-bone/[0.02] md:grid-cols-[32px_1fr_240px_190px_24px] md:gap-x-6 md:px-2"
+                    className="group grid w-full grid-cols-[20px_1fr_auto] items-center gap-x-5 py-6 text-start transition-colors duration-fast ease-fast hover:bg-bone/[0.02] md:grid-cols-[32px_1fr_240px_190px_24px] md:gap-x-6 md:px-2"
                     {...trackAttrs("experience_toggle", {
                       ...experienceParams(role),
                       toggle_action: isOpen ? "close" : "open",
@@ -93,11 +98,7 @@ export function Experience() {
                     <span className="hidden font-mono text-[0.78125rem] tracking-[0.06em] text-bone-52 tabular md:block">
                       <time dateTime={role.start}>{role.startDate}</time>
                       {" — "}
-                      {role.end ? (
-                        <time dateTime={role.end}>{role.endDate}</time>
-                      ) : (
-                        role.endDate
-                      )}
+                      {role.end ? <time dateTime={role.end}>{role.endDate}</time> : role.endDate}
                     </span>
 
                     <span className="hidden font-mono text-[0.78125rem] tracking-[0.06em] text-bone-52 md:block">

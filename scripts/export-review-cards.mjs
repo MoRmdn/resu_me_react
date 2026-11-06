@@ -43,7 +43,13 @@ const cardCss = between("/* review-cards:start */", "/* review-cards:end */")
   .trim();
 const marqueeCss = between("@keyframes marquee-scroll", '/* Slow pulse for the "open to work"');
 
-const SKIP = new Set(["--review-brand", "--star", "--font-sans", "--font-mono", "--marquee-duration"]);
+const SKIP = new Set([
+  "--review-brand",
+  "--star",
+  "--font-sans",
+  "--font-mono",
+  "--marquee-duration",
+]);
 const used = new Set(`${cardCss}\n${marqueeCss}`.match(/--[a-z0-9-]+/g));
 const tokens = [...used]
   .filter((name) => !SKIP.has(name))
@@ -66,12 +72,24 @@ ${cardCss}
 `;
 
 /* -- Markup: the real, non-duplicated track of each row. */
-const rows = [...html.matchAll(/<ul class="review-list">([\s\S]*?)<\/ul>/g)].map((m) =>
-  [...m[1].matchAll(/<li class="review-slot">([\s\S]*?)<\/li>/g)].map((c) => c[1]),
+const allCards = [...html.matchAll(/<article class="review-card"[\s\S]*?<\/article>/g)].map(
+  (match) => match[0],
 );
-const cards = rows.flat();
+const unique = new Map();
+for (const card of allCards) {
+  const id = card.match(/data-review="([^"]+)"/)?.[1];
+  if (id)
+    unique.set(
+      id,
+      card.replace('<details class="review-original">', '<details class="review-original" open>'),
+    );
+}
+const cards = reviews.map((review) => unique.get(review.id)).filter(Boolean);
+const rows = [cards.filter((_, i) => i % 2 === 0), cards.filter((_, i) => i % 2 === 1)];
 if (cards.length !== reviews.length) {
-  throw new Error(`Found ${cards.length} cards in out/index.html, expected ${reviews.length}. Build first.`);
+  throw new Error(
+    `Found ${cards.length} cards in out/index.html, expected ${reviews.length}. Build first.`,
+  );
 }
 
 const track = (items) => {
@@ -117,7 +135,11 @@ const portable = (source) =>
   source
     .replaceAll("@/components/brand/PlatformMark", "./PlatformMark")
     .replaceAll("@/content/platform-marks.json", "./platform-marks.json")
-    .replaceAll("@/content/reviews", "./reviews");
+    .replaceAll("@/content/reviews", "./reviews")
+    .replaceAll("@/content/review-copy", "./review-copy")
+    .replaceAll("@/content/locale", "./locale")
+    .replace(/import \{ trackAttrs \} from "@\/lib\/analytics\/attrs";\n/, "")
+    .replace(/ \{\.\.\.trackAttrs\("review_original_toggle", \{ toggle_action: "open" \}\)\}/g, "");
 
 await rm(OUT, { recursive: true, force: true });
 await mkdir(join(OUT, "png"), { recursive: true });
@@ -128,6 +150,9 @@ await writeFile(join(OUT, "review-cards.css"), css);
 await writeFile(join(OUT, "review-cards.html"), page);
 await cp("content/reviews.json", join(OUT, "reviews.json"));
 
+for (const file of ["reviews-ar.ts", "review-copy.ts", "locale.ts"]) {
+  await cp(`content/${file}`, join(OUT, "react", file));
+}
 await cp("content/reviews.json", join(OUT, "react/reviews.json"));
 await cp("content/platform-marks.json", join(OUT, "react/platform-marks.json"));
 await writeFile(join(OUT, "react/review-cards.css"), css);
@@ -209,7 +234,10 @@ async function renderNext(worker) {
       `file://${source}`,
     ]);
     const name = `${String(i + 1).padStart(2, "0")}-${review.id}.png`;
-    await sharp(shot).trim().png({ compressionLevel: 9 }).toFile(join(OUT, "png", name));
+    await sharp(shot)
+      .trim()
+      .png({ compressionLevel: 9 })
+      .toFile(join(OUT, "png", name));
   }
 }
 

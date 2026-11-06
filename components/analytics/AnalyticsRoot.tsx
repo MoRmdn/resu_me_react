@@ -1,5 +1,6 @@
 "use client";
 
+import type { LocaleProps } from "@/content/locale";
 import { useEffect } from "react";
 import { useReportWebVitals } from "next/web-vitals";
 import { ConsentNotice } from "@/components/analytics/ConsentNotice";
@@ -23,7 +24,7 @@ function reportWebVital({ name, value, rating }: WebVital) {
  * Installs analytics. Rendered once, in the root layout, so the privacy page and
  * the 404 are covered as well as the home page.
  */
-export function AnalyticsRoot() {
+export function AnalyticsRoot({ locale = "en" }: LocaleProps) {
   useReportWebVitals(reportWebVital);
 
   useEffect(() => {
@@ -36,5 +37,5 @@ export function AnalyticsRoot() {
     };
   }, []);
 
-  return <ConsentNotice />;
+  return <ConsentNotice locale={locale} />;
 }

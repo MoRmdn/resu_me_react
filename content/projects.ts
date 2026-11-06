@@ -9,6 +9,7 @@ import type { Project } from "./types";
 export const projects: Project[] = [
   {
     slug: "arcit-ai",
+    availability: "discontinued",
     bundleId: "com.mormdn.arcitAI",
     title: "Arcit-AI",
     description:
@@ -39,13 +40,36 @@ export const projects: Project[] = [
         bezel: true,
       },
       social: [
-        { file: "arcit-ai-social-1", width: 800, height: 800, alt: "Arcit-AI social post — request feed" },
-        { file: "arcit-ai-social-2", width: 800, height: 800, alt: "Arcit-AI social post — five app screens with store badges" },
+        {
+          file: "arcit-ai-social-1",
+          width: 800,
+          height: 800,
+          alt: "Arcit-AI social post — request feed",
+        },
+        {
+          file: "arcit-ai-social-2",
+          width: 800,
+          height: 800,
+          alt: "Arcit-AI social post — five app screens with store badges",
+        },
       ],
     },
   },
   {
     slug: "ayco",
+    availability: "private",
+    story: {
+      problem:
+        "Technicians need to complete maintenance visits and issue Arabic reports even when connectivity is unreliable.",
+      responsibility:
+        "Built the Flutter app and Firebase backend solo, from device scanning and signatures to report generation and administration.",
+      decisions: [
+        "Treat offline writes as queued rather than failed, so technicians can keep working during a visit.",
+        "Generate RTL PDFs on-device and allocate report numbers transactionally; process large visits in resumable batches.",
+        "Enforce the technician, administrator and super-admin permissions in Cloud Functions and security rules.",
+      ],
+      result: "Offline-ready visits, signed Arabic PDF reports and batches of up to 100 devices.",
+    },
     title: "AYCO — Maintenance Reports",
     description:
       "Arabic-first field-service reporting app for a medical-equipment maintenance company, built solo end to end.",
@@ -62,13 +86,14 @@ export const projects: Project[] = [
     tags: ["Field Service", "Offline-first", "On-device PDF", "RTL"],
     country: "Private client",
     category: "Field Service",
-    achievement: "Solo build — 227 Dart files, 109 test files, 5 Cloud Functions",
+    achievement:
+      "Offline-ready visits, signed Arabic PDF reports and batches of up to 100 devices.",
     links: {},
     isPrivate: true,
     ledger: [
-      { value: "227", label: "Dart files" },
-      { value: "109", label: "Test files" },
-      { value: "5", label: "Cloud Functions" },
+      { value: "Offline", label: "Visits without connectivity" },
+      { value: "RTL", label: "Signed Arabic PDF reports" },
+      { value: "100", label: "Devices per batch" },
     ],
     highlights: [
       "Made every write offline-safe by racing Firestore writes against a timeout and surfacing the result as queued rather than failed, so technicians can complete visits without connectivity.",
@@ -88,14 +113,43 @@ export const projects: Project[] = [
       // Only screens free of client data. Do not add the report or device lists
       // from the Play listing: they show real hospital names.
       screens: [
-        { file: "ayco-screen-1", width: 1200, height: 2600, alt: "AYCO store art — home screen, headlined paperless maintenance reports" },
-        { file: "ayco-screen-2", width: 1200, height: 2600, alt: "AYCO store art — batch reports for several devices under one signature" },
-        { file: "ayco-screen-3", width: 1200, height: 2600, alt: "AYCO store art — settings, with Arabic and English and a full right-to-left layout" },
+        {
+          file: "ayco-screen-1",
+          width: 1200,
+          height: 2600,
+          alt: "AYCO store art — home screen, headlined paperless maintenance reports",
+        },
+        {
+          file: "ayco-screen-2",
+          width: 1200,
+          height: 2600,
+          alt: "AYCO store art — batch reports for several devices under one signature",
+        },
+        {
+          file: "ayco-screen-3",
+          width: 1200,
+          height: 2600,
+          alt: "AYCO store art — settings, with Arabic and English and a full right-to-left layout",
+        },
       ],
     },
   },
   {
     slug: "saad",
+    availability: "store_links",
+    story: {
+      problem:
+        "Learners need a way to turn the vocabulary they encounter in songs, films and interviews into words they can practise and remember.",
+      responsibility:
+        "Built SAAD solo end to end, from the Flutter client to the release pipeline, and rebuilt the codebase around feature boundaries.",
+      decisions: [
+        "Keep New, Learning and Known vocabulary states connected to a searchable personal word bank and short tests.",
+        "Use constructor injection and route-scoped view models to make dependencies and disposal predictable.",
+        "Enforce architectural boundaries and typed navigation while preserving the existing backend contract.",
+      ],
+      result:
+        "A bilingual vocabulary-learning workflow with a personal word bank, practice tests and subscription plans.",
+    },
     title: "SAAD | صاد",
     description:
       "English-vocabulary app that teaches from real songs, movies and interviews, with a personal word bank and Arabic-first RTL.",
@@ -105,7 +159,8 @@ export const projects: Project[] = [
     tags: ["Education", "Language Learning", "Vocabulary", "RTL"],
     country: "Egypt",
     category: "Education",
-    achievement: "Solo build — 498 Dart files, 78 test files, 430 strings in Arabic and English",
+    achievement:
+      "A bilingual vocabulary-learning workflow with a personal word bank, practice tests and subscription plans.",
     links: {
       appStore: "https://apps.apple.com/eg/app/saad/id1628542366",
     },
@@ -120,9 +175,24 @@ export const projects: Project[] = [
       },
       // Home and reading screens are left out: they show photos of public figures.
       screens: [
-        { file: "saad-screen-1", width: 1200, height: 2133, alt: "SAAD store screen — words from a resource sorted into New, Learning and Known" },
-        { file: "saad-screen-2", width: 1200, height: 2133, alt: "SAAD store screen — My Words Bank, a searchable grid of the words being learned" },
-        { file: "saad-screen-3", width: 1200, height: 2133, alt: "SAAD store screen — monthly and yearly plans with a free tier" },
+        {
+          file: "saad-screen-1",
+          width: 1200,
+          height: 2133,
+          alt: "SAAD store screen — words from a resource sorted into New, Learning and Known",
+        },
+        {
+          file: "saad-screen-2",
+          width: 1200,
+          height: 2133,
+          alt: "SAAD store screen — My Words Bank, a searchable grid of the words being learned",
+        },
+        {
+          file: "saad-screen-3",
+          width: 1200,
+          height: 2133,
+          alt: "SAAD store screen — monthly and yearly plans with a free tier",
+        },
       ],
     },
     highlights: [
@@ -135,6 +205,7 @@ export const projects: Project[] = [
   },
   {
     slug: "js-quest",
+    availability: "web",
     title: "JS Quest",
     description:
       "A guided JavaScript-fundamentals course: 100 questions, five unlocking chapters, and answers the browser never sees before you have earned them.",
@@ -168,6 +239,20 @@ export const projects: Project[] = [
   },
   {
     slug: "mutabbib",
+    availability: "store_links",
+    story: {
+      problem:
+        "Patients and providers need coordinated scheduling and timely updates throughout the appointment journey.",
+      responsibility:
+        "Developed Mutabbib at Ebdda LTD and coordinated backend integration with the API team.",
+      decisions: [
+        "Use Bloc to manage complex user flows and real-time data synchronisation.",
+        "Connect scheduling and notifications so appointment changes reach patients and providers.",
+        "Coordinate secure storage and API integration with backend developers.",
+      ],
+      result:
+        "Scheduling and notification improvements associated with a reported 25% increase in appointment bookings.",
+    },
     bundleId: "com.mormdn.mutabbib",
     title: "Mutabbib | مطبب",
     description:
@@ -180,8 +265,7 @@ export const projects: Project[] = [
     category: "Healthcare",
     achievement: "25% increase in appointment bookings",
     links: {
-      appStore:
-        "https://apps.apple.com/eg/app/mutabbib-%D9%85%D8%B7%D8%A8%D8%A8/id6563148338",
+      appStore: "https://apps.apple.com/eg/app/mutabbib-%D9%85%D8%B7%D8%A8%D8%A8/id6563148338",
       playStore: "https://play.google.com/store/apps/details?id=com.mormdn.mutabbib",
     },
     media: {
@@ -194,14 +278,41 @@ export const projects: Project[] = [
         alt: "Mutabbib store promo — hospital directory screen with an Arabic headline",
       },
       screens: [
-        { file: "mutabbib-screen-1", width: 1200, height: 2601, alt: "Mutabbib store screen — home dashboard with the service categories" },
-        { file: "mutabbib-screen-2", width: 1200, height: 2601, alt: "Mutabbib store screen — directory of nearby hospitals" },
-        { file: "mutabbib-screen-3", width: 1200, height: 2601, alt: "Mutabbib store screen — a clinic's weekly doctor schedule" },
+        {
+          file: "mutabbib-screen-1",
+          width: 1200,
+          height: 2601,
+          alt: "Mutabbib store screen — home dashboard with the service categories",
+        },
+        {
+          file: "mutabbib-screen-2",
+          width: 1200,
+          height: 2601,
+          alt: "Mutabbib store screen — directory of nearby hospitals",
+        },
+        {
+          file: "mutabbib-screen-3",
+          width: 1200,
+          height: 2601,
+          alt: "Mutabbib store screen — a clinic's weekly doctor schedule",
+        },
       ],
     },
   },
   {
     slug: "lpermis",
+    availability: "store_links",
+    story: {
+      problem:
+        "Learner drivers need driving-theory practice and appointment booking in one mobile product.",
+      responsibility: "Led Lpermis from initial architecture to release at Demeter.",
+      decisions: [
+        "Use GetX to coordinate the learning and booking flows.",
+        "Integrate authentication, tracking and payments through external APIs.",
+        "Work with designers on consistent phone and tablet interfaces.",
+      ],
+      result: "Delivered a driving-theory and booking product for learners in Morocco.",
+    },
     bundleId: "com.demetre.code",
     title: "Lpermis",
     description:
@@ -227,14 +338,30 @@ export const projects: Project[] = [
         alt: "Lpermis store promo — booking screen with an Arabic headline",
       },
       screens: [
-        { file: "lpermis-screen-1", width: 288, height: 512, alt: "Lpermis store screen — home with lesson booking and the next session" },
-        { file: "lpermis-screen-2", width: 288, height: 512, alt: "Lpermis store screen — practice-exam series, headlined over 800 questions" },
-        { file: "lpermis-screen-3", width: 288, height: 512, alt: "Lpermis store screen — road-sign lessons with progress bars" },
+        {
+          file: "lpermis-screen-1",
+          width: 288,
+          height: 512,
+          alt: "Lpermis store screen — home with lesson booking and the next session",
+        },
+        {
+          file: "lpermis-screen-2",
+          width: 288,
+          height: 512,
+          alt: "Lpermis store screen — practice-exam series, headlined over 800 questions",
+        },
+        {
+          file: "lpermis-screen-3",
+          width: 288,
+          height: 512,
+          alt: "Lpermis store screen — road-sign lessons with progress bars",
+        },
       ],
     },
   },
   {
     slug: "lpermis-pro",
+    availability: "store_links",
     bundleId: "com.demetre.institution",
     title: "Lpermis Pro",
     description:
@@ -263,6 +390,20 @@ export const projects: Project[] = [
   },
   {
     slug: "saber-yamen",
+    availability: "store_links",
+    story: {
+      problem:
+        "A multi-vendor marketplace needs a coherent journey across browsing, product details and purchasing.",
+      responsibility:
+        "Built Saber Yamen from scratch at Eleven Stars, covering navigation and data flow across the purchase journey.",
+      decisions: [
+        "Use GetX to manage navigation and shared shopping state.",
+        "Support Arabic layouts and marketplace listings with multiple currencies.",
+        "Optimise state management for both client and administrator workflows.",
+      ],
+      result:
+        "Delivered a multi-vendor shopping experience with Arabic layouts and multi-currency support.",
+    },
     bundleId: "com.elevenstars.saber",
     title: "Saber Yamen",
     description:
@@ -288,14 +429,30 @@ export const projects: Project[] = [
         alt: "Saber Yamen store promo — marketplace listings for cars and property with an Arabic headline",
       },
       screens: [
-        { file: "saber-yamen-screen-1", width: 288, height: 512, alt: "Saber store screen — welcome screen on a tilted phone, with a map of Yemen" },
-        { file: "saber-yamen-screen-2", width: 288, height: 512, alt: "Saber store screen — marketplace listings for cars and property" },
-        { file: "saber-yamen-screen-3", width: 288, height: 512, alt: "Saber store screen — multi-currency support for the rial and the US dollar" },
+        {
+          file: "saber-yamen-screen-1",
+          width: 288,
+          height: 512,
+          alt: "Saber store screen — welcome screen on a tilted phone, with a map of Yemen",
+        },
+        {
+          file: "saber-yamen-screen-2",
+          width: 288,
+          height: 512,
+          alt: "Saber store screen — marketplace listings for cars and property",
+        },
+        {
+          file: "saber-yamen-screen-3",
+          width: 288,
+          height: 512,
+          alt: "Saber store screen — multi-currency support for the rial and the US dollar",
+        },
       ],
     },
   },
   {
     slug: "naas",
+    availability: "sign_in",
     title: "NAAS | ناس",
     hideFromKeywords: true,
     description:
@@ -322,18 +479,25 @@ export const projects: Project[] = [
   },
   {
     slug: "dental-dinar",
+    availability: "unavailable",
     title: "Dental Dinar",
     description:
       "Arabic-first oral-health companion: a personal care plan, daily brushing reminders, and points for keeping to them.",
     longDescription:
       "Dental Dinar turns a dental care plan into a daily habit loop. Patients get a personalised plan, daily tips, and timed brushing reminders that award points for each completed session, alongside a product area and their own profile. Built Arabic-first with a right-to-left layout throughout, including the reminder scheduling and the rewards screens.",
-    technologies: ["Flutter", "Cubit", "Real-time scheduling", "Payment Integration", "RTL / Arabic"],
+    technologies: [
+      "Flutter",
+      "Cubit",
+      "Real-time scheduling",
+      "Payment Integration",
+      "RTL / Arabic",
+    ],
     tags: ["Healthcare", "Habit tracking", "Scheduling", "RTL"],
     country: "Türkiye",
     category: "Healthcare",
     achievement: "Built at Eleven Stars on Cubit",
     links: {},
-    linkStatus: "Store links to follow",
+    linkStatus: "Public links unavailable",
     media: {
       icon: { file: "dental-dinar-icon" },
       plate: "promo",
@@ -347,18 +511,24 @@ export const projects: Project[] = [
   },
   {
     slug: "freedoc",
+    availability: "unavailable",
     title: "FreeDoc",
-    description:
-      "Doctor and patient booking for Algeria, in Arabic, French and English.",
+    description: "Doctor and patient booking for Algeria, in Arabic, French and English.",
     longDescription:
       "FreeDoc splits at the door: you enter as a doctor or as a patient, and the app builds a different product around each. Patients browse doctor profiles with biography, specialism, address and live availability, book an appointment, and get a push notification when a doctor confirms or cancels. The whole interface ships in Arabic, French and English, switchable at runtime.",
-    technologies: ["Flutter", "REST", "Push notifications", "Google Maps", "Localisation (AR/FR/EN)"],
+    technologies: [
+      "Flutter",
+      "REST",
+      "Push notifications",
+      "Google Maps",
+      "Localisation (AR/FR/EN)",
+    ],
     tags: ["Healthcare", "Booking", "Multi-role", "Localisation"],
     country: "Algeria",
     category: "Healthcare",
     achievement: "Trilingual — Arabic, French and English",
     links: {},
-    linkStatus: "Store links to follow",
+    linkStatus: "Public links unavailable",
     media: {
       icon: { file: "freedoc-icon" },
       plate: "promo",
@@ -372,6 +542,7 @@ export const projects: Project[] = [
   },
   {
     slug: "opermis",
+    availability: "unavailable",
     title: "O'Permis",
     description:
       "Driving-licence booking for Morocco: find a school, reserve a session, and track the paperwork.",
@@ -383,7 +554,7 @@ export const projects: Project[] = [
     category: "Education",
     achievement: "Driving-school booking with document tracking",
     links: {},
-    linkStatus: "Store links to follow",
+    linkStatus: "Public links unavailable",
     media: {
       icon: { file: "opermis-icon" },
       plate: "promo",
@@ -433,6 +604,4 @@ export const orderedProjects = ORDER.map((slug) => {
 export const featuredProjects = orderedProjects.filter((p) => FEATURED.includes(p.slug));
 
 /** Everything else, as gallery tiles, in ORDER. */
-export const galleryProjects = orderedProjects.filter(
-  (p) => !FEATURED.includes(p.slug),
-);
+export const galleryProjects = orderedProjects.filter((p) => !FEATURED.includes(p.slug));

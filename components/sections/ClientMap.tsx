@@ -1,7 +1,9 @@
+import type { LocaleProps } from "@/content/locale";
+import { getCopy } from "@/content/copy-i18n";
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { ClientMapExplorer } from "@/components/sections/ClientMapExplorer";
-import { clientMapCopy } from "@/content/copy";
+
 import { clientCountries, clientsIn, type ClientFilter } from "@/content/clients";
 import { reviewPlatforms } from "@/content/reviews";
 import worldMap from "@/content/world-map.json";
@@ -36,7 +38,8 @@ function weights(country: (typeof clientCountries)[number]) {
  * the nearest country outward. The finished map is the base style, so with no
  * JS or reduced motion it is simply already there.
  */
-export function ClientMap() {
+export function ClientMap({ locale = "en" }: LocaleProps) {
+  const { clientMapCopy } = getCopy(locale);
   const shapes = worldMap.countries.flatMap((shape) => {
     const country = clientCountries.find((c) => c.id === shape.id);
     return country ? [{ ...shape, country }] : [];
@@ -48,6 +51,7 @@ export function ClientMap() {
   return (
     <Reveal className="mt-24 md:mt-32">
       <ClientMapExplorer
+        locale={locale}
         height={worldMap.height}
         width={worldMap.width}
         platforms={reviewPlatforms.map(({ id, label }) => ({ id, label }))}

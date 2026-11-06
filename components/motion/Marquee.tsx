@@ -8,10 +8,12 @@ import { cn } from "@/lib/cn";
  * reduced motion it stops and becomes a horizontally scrollable list.
  */
 export function Marquee({
+  label,
   items,
   duration = 42,
   className,
 }: {
+  label: string;
   items: readonly string[];
   duration?: number;
   className?: string;
@@ -24,7 +26,9 @@ export function Marquee({
       style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}
     >
       {/* Screen readers get the list once, not the duplicated track. */}
-      <span className="sr-only">Technologies: {items.join(", ")}</span>
+      <span className="sr-only">
+        {label}: {items.join(", ")}
+      </span>
 
       <div className="marquee-track" aria-hidden>
         {run.map((item, i) => (

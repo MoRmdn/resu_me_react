@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CountUp } from "@/components/motion/CountUp";
-import { clientMapCopy } from "@/content/copy";
+import { getCopy } from "@/content/copy-i18n";
+import { countryName } from "@/content/countries-i18n";
+import type { Locale } from "@/content/locale";
 import {
   clientCountries,
   clientsIn,
@@ -34,18 +36,22 @@ const viewedCountries = new Set<string>();
  * attribute on the root that the CSS answers.
  */
 export function ClientMapExplorer({
+  locale = "en",
   width,
   height,
   platforms,
   positions,
   children,
 }: {
+  locale?: Locale;
   width: number;
   height: number;
   platforms: { id: PlatformId; label: string }[];
   positions: Record<string, number[]>;
   children: React.ReactNode;
 }) {
+  const { clientMapCopy } = getCopy(locale);
+  const regionName = (id: string, fallback: string) => countryName(id, fallback, locale);
   const root = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<ClientFilter>("all");
   const [active, setActive] = useState<string | null>(null);
@@ -112,7 +118,12 @@ export function ClientMapExplorer({
           <p className="eyebrow text-bone-52">{clientMapCopy.eyebrow}</p>
           <h3 className="mt-5 flex flex-wrap items-baseline gap-x-4 text-h1">
             {clientMapCopy.headline}
-            <CountUp key={filter} value={dominationOf(rows.length)} suffix="%" className="tabular" />
+            <CountUp
+              key={filter}
+              value={dominationOf(rows.length)}
+              suffix="%"
+              className="tabular"
+            />
           </h3>
         </div>
         <p className="max-w-[46ch] text-body text-bone-70">{clientMapCopy.blurb}</p>
@@ -143,17 +154,13 @@ export function ClientMapExplorer({
             {option.label}
           </button>
         ))}
-        <p aria-live="polite" className="ml-auto text-caption text-bone-52">
-          <span className="tabular">{rows.length}</span>{" "}
-          {clientMapCopy.countriesLabel(rows.length)} ·{" "}
-          <span className="tabular">{placed}</span> {clientMapCopy.clientsLabel(placed)}
+        <p aria-live="polite" className="ms-auto text-caption text-bone-52">
+          <span className="tabular">{rows.length}</span> {clientMapCopy.countriesLabel(rows.length)}{" "}
+          · <span className="tabular">{placed}</span> {clientMapCopy.clientsLabel(placed)}
         </p>
       </div>
 
-      <div
-        className="relative mt-8"
-        style={{ aspectRatio: `${width} / ${height}` }}
-      >
+      <div className="relative mt-8" style={{ aspectRatio: `${width} / ${height}` }}>
         {children}
 
         {activeCountry && activePosition && (
@@ -173,7 +180,9 @@ export function ClientMapExplorer({
               top: `${(activePosition[1] / height) * 100}%`,
             }}
           >
-            <p className="text-[0.875rem] font-semibold text-bone">{activeCountry.name}</p>
+            <p className="text-[0.875rem] font-semibold text-bone">
+              {regionName(activeCountry.id, activeCountry.name)}
+            </p>
             <p className="mt-1 text-[0.75rem] text-bone-62">
               {platforms
                 .filter((p) => activeCountry.clients[p.id])
@@ -197,7 +206,7 @@ export function ClientMapExplorer({
                 viewedCountries.add(country.id);
                 setActive(country.id);
               }}
-              className="map-row group flex min-h-11 w-full flex-col justify-center gap-1.5 text-left"
+              className="map-row group flex min-h-11 w-full flex-col justify-center gap-1.5 text-start"
               data-active={active === country.id || undefined}
               {...trackAttrs("client_map_country_view", {
                 country_id: country.id,
@@ -207,7 +216,7 @@ export function ClientMapExplorer({
               })}
             >
               <span className="flex items-baseline justify-between gap-3 text-caption text-bone-70 transition-colors duration-fast ease-fast group-hover:text-bone">
-                {country.name}
+                {regionName(country.id, country.name)}
                 <span className="tabular font-mono text-[0.75rem] text-bone">{clients}</span>
               </span>
               <span

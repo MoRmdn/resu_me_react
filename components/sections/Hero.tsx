@@ -1,8 +1,10 @@
 "use client";
+import type { LocaleProps } from "@/content/locale";
+import { getCopy, ui } from "@/content/copy-i18n";
 
 import { MoRmdnMarkDraw } from "@/components/brand/MoRmdnMarkDraw";
 import { CountUp } from "@/components/motion/CountUp";
-import { hero } from "@/content/copy";
+
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { useViews } from "@/lib/useViews";
 
@@ -15,11 +17,12 @@ import { useViews } from "@/lib/useViews";
  * all three track-record metrics are bone, not copper — live values are jade,
  * because jade is the status hue and is exempt from the accent count.
  */
-export function Hero() {
+export function Hero({ locale = "en" }: LocaleProps) {
+  const { hero } = getCopy(locale);
+  const copy = ui[locale];
   const views = useViews({ increment: true });
 
-  const rise = (i: number) =>
-    ({ "--rise-delay": `${0.15 + i * 0.08}s` }) as React.CSSProperties;
+  const rise = (i: number) => ({ "--rise-delay": `${0.15 + i * 0.08}s` }) as React.CSSProperties;
 
   return (
     <section
@@ -83,7 +86,7 @@ export function Hero() {
               })}
             >
               {hero.secondaryCta.label}
-              <span className="sr-only">(opens in a new tab)</span>
+              <span className="sr-only">{copy.external}</span>
             </a>
             <a
               href={hero.resumeCta.href}
@@ -138,8 +141,7 @@ export function Hero() {
         aria-hidden
         className="absolute inset-x-0 bottom-0 h-px"
         style={{
-          background:
-            "linear-gradient(90deg, rgb(242 118 46 / 0.14), transparent 62%)",
+          background: "linear-gradient(90deg, rgb(242 118 46 / 0.14), transparent 62%)",
         }}
       />
     </section>

@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
 import { ConsentControl } from "@/components/analytics/ConsentNotice";
 import { Footer } from "@/components/sections/Footer";
 import { Section } from "@/components/ui/Section";
-import { privacyCopy } from "@/content/copy";
+import { getCopy } from "@/content/copy-i18n";
+import type { LocaleProps } from "@/content/locale";
+import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
 import { contact } from "@/content/site";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
@@ -12,21 +13,14 @@ import { trackAttrs } from "@/lib/analytics/attrs";
  * page. The links here are plain anchors on purpose: a full page load is what
  * starts a fresh count of sections, projects and scroll depth for the next page.
  */
-export const metadata: Metadata = {
-  title: privacyCopy.title,
-  description: privacyCopy.description,
-  alternates: { canonical: "/privacy/" },
-  robots: { index: false, follow: true },
-};
-
-export default function Privacy() {
+export default function PrivacyPage({ locale = "en" }: LocaleProps) {
+  const { privacyCopy } = getCopy(locale);
   return (
     <>
       <main id="main">
         <Section id="privacy" tone="ink-900" border={false} innerClassName="max-w-[760px]">
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- a full load resets the per-load analytics state. */}
           <a
-            href="/"
+            href={locale === "ar" ? "/ar/" : "/"}
             className="eyebrow inline-flex min-h-11 items-center text-bone-52 transition-colors duration-fast ease-fast hover:text-bone"
             {...trackAttrs("nav_link_click", {
               link_target: "home",
@@ -37,6 +31,9 @@ export default function Privacy() {
             &larr; {privacyCopy.backLabel}
           </a>
 
+          <div className="mt-4">
+            <LanguageSwitch locale={locale} privacy />
+          </div>
           <p className="eyebrow mt-10 text-bone-52">{privacyCopy.eyebrow}</p>
           <h1 className="mt-6 text-display-l text-balance">{privacyCopy.headline}</h1>
           <p className="mt-7 text-body-l text-bone-70">{privacyCopy.intro}</p>
@@ -45,7 +42,7 @@ export default function Privacy() {
           <div className="mt-12 rounded-lg border border-line bg-ink-700 p-7 elevation-card">
             <h2 className="text-h3">{privacyCopy.choiceTitle}</h2>
             <p className="mt-3 mb-6 text-body text-bone-70">{privacyCopy.choiceBody}</p>
-            <ConsentControl />
+            <ConsentControl locale={locale} />
           </div>
 
           {privacyCopy.sections.map((section) => (
@@ -74,14 +71,14 @@ export default function Privacy() {
                   nav_location: "privacy_page",
                 })}
               >
-                {contact.email}
+                <bdi dir="ltr">{contact.email}</bdi>
               </a>
               .
             </p>
           </section>
         </Section>
       </main>
-      <Footer />
+      <Footer locale={locale} />
     </>
   );
 }

@@ -52,21 +52,22 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 
 Server components by default. `"use client"` only where something genuinely
 needs the browser: `Nav`, `Hero`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
-`Footer`, the motion primitives, the two small Reviews toggles, and
+`Footer`, the motion primitives, the consent and language controls, and
 `ClientMapExplorer`. No state library, no router — it is one page.
 
 ```
 app/
-├── layout.tsx        fonts, metadata, Open Graph, JSON-LD Person, grain, skip link, analytics
-├── page.tsx          section composition
-├── privacy/          the privacy page and the consent control
+├── (english)/       English root layout, home and privacy routes
+├── (arabic)/        Arabic root layout, /ar/ and /ar/privacy/
+│                    shared composition: components/PortfolioPage.tsx
+│                    shared document: components/DocumentShell.tsx
 ├── llms.txt/         /llms.txt, built from content/ — never hand-edit a copy of it
 └── globals.css       ALL design tokens (@theme) + the animation layer
 components/
 ├── analytics/        AnalyticsRoot, ConsentNotice
 ├── brand/            MoRmdnMark, MoRmdnLockup, MoRmdnMarkDraw — SVG, geometry locked
 ├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
-├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee, MarqueeToggle, MarqueeEcho
+├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee
 └── sections/         one file per band of the page
 content/              every word and number the site renders
 lib/                  firebase, hooks, cn
@@ -260,14 +261,14 @@ reduced motion shows a complete map rather than an empty one.
 export, so it can use tokens and the marquee but no utilities. The export reads
 the card markup out of `out/index.html`, so it needs a build first.
 
-**The review wall duplicates its track, in the browser.** Only the first `<ul>`
-in a row is content. The second is `aria-hidden` + `inert`, exists only to make
-the loop seamless, and is built by `MarqueeEcho`, which clones the first after
-mount. The server sends it empty: rendering it there doubled the wall's markup
-and RSC payload and made React hydrate it (about a third of the page's HTML).
-Under reduced motion nothing is cloned, and without scripting the CSS turns the
-row into a scroller. Keep focusable elements out of the cards: the copy would
-still need to swallow them.
+**Reviews use a static grid.** Six selected reviews appear first; the rest stay in
+server-rendered HTML inside a native disclosure. Translations are labelled and
+originals remain accessible. Earlier testimonials reuse three reviews; the export
+deduplicates by review ID. Do not reintroduce cloned review tracks.
+
+**Locale is explicit.** English is `/`, Arabic is `/ar/`, with matching privacy
+pages. Root layouts render `lang` and `dir` before JavaScript. Copy lives under
+`content/`; project IDs, links, assets and analytics identity are shared.
 
 ## Open items
 

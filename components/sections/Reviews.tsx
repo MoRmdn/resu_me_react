@@ -2,38 +2,19 @@ import { ClientMap } from "@/components/sections/ClientMap";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ReviewCard } from "@/components/ui/ReviewCard";
-import { ReviewLanguageToggle } from "@/components/ui/ReviewLanguageToggle";
 import { PlatformMark } from "@/components/brand/PlatformMark";
 import { Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/CountUp";
-import { MarqueeToggle } from "@/components/motion/MarqueeToggle";
-import { MarqueeEcho } from "@/components/motion/MarqueeEcho";
-import { reviewsCopy } from "@/content/copy";
-import { reviewPlatforms, reviews, type Review } from "@/content/reviews";
+import { getCopy, ui } from "@/content/copy-i18n";
+import type { LocaleProps } from "@/content/locale";
+import { reviewPlatforms, reviews, initialReviewIds, selectedReviews } from "@/content/reviews";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
-const WALL_ID = "review-wall";
-
-/** Alternating, so neither row ends up with one platform's reviews. */
-const rows: { reviews: Review[]; duration: number; reverse?: boolean }[] = [
-  { reviews: reviews.filter((_, i) => i % 2 === 0), duration: 260 },
-  { reviews: reviews.filter((_, i) => i % 2 === 1), duration: 300, reverse: true },
-];
-
-/**
- * Two rows of review cards drifting in opposite directions, under a ledger of
- * the score on each platform.
- *
- * Only the first copy of each track is real content. It is plain server HTML,
- * so every quote is in the page source. The second copy exists to make the loop
- * seamless, so it is `aria-hidden` and `inert`, and `MarqueeEcho` clones it in
- * the browser rather than the server sending every card twice. Under reduced
- * motion, or without scripting, there is no copy and the row is a scroller.
- *
- * No `Review` structured data: Google ignores reviews a person publishes about
- * themselves, and these already live on the platforms that collected them.
- */
-export function Reviews() {
+export function Reviews({ locale = "en" }: LocaleProps) {
+  const { reviewsCopy } = getCopy(locale);
+  const copy = ui[locale];
+  const initial = selectedReviews(initialReviewIds);
+  const remaining = reviews.filter((r) => !initialReviewIds.includes(r.id));
   return (
     <Section id="reviews" tone="ink-900" z={19} offset={-40} className="overflow-x-clip">
       <div className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-20">
@@ -83,10 +64,15 @@ export function Reviews() {
                     review_count: platform.count,
                   })}
                 >
-                  {platform.countLabel} · {reviewsCopy.scoreLabel}
+                  {locale === "ar"
+                    ? platform.id === "upwork"
+                      ? copy.completedJobs
+                      : copy.reviews
+                    : platform.countLabel}{" "}
+                  · {reviewsCopy.scoreLabel}
                   <span className="sr-only">
                     {" "}
-                    on {platform.label} (opens in a new tab)
+                    {copy.on} {platform.label} {copy.external}
                   </span>
                 </a>
               </div>
@@ -95,53 +81,34 @@ export function Reviews() {
         </ul>
       </Reveal>
 
-      <Reveal delay={0.08}>
-        {/* Full-bleed out of the content column. The Section clips the
-            horizontal overflow that 100vw leaves behind a scrollbar. */}
-        <div
-          id={WALL_ID}
-          data-review-lang="translation"
-          className="review-wall relative left-1/2 mt-14 w-screen -translate-x-1/2"
-        >
-          {rows.map((row, i) => (
-            <div
-              key={i}
-              className="marquee review-row"
-              data-direction={row.reverse ? "reverse" : undefined}
-              style={{ "--marquee-duration": `${row.duration}s` } as React.CSSProperties}
-            >
-              <div className="marquee-track">
-                <ul className="review-list">
-                  {row.reviews.map((review) => (
-                    <li key={review.id} className="review-slot">
-                      <ReviewCard review={review} />
-                    </li>
-                  ))}
-                </ul>
-                <MarqueeEcho className="review-list" />
-              </div>
-            </div>
+      <div id="review-wall" className="review-grid mt-10">
+        <ul className="review-list">
+          {initial.map((review) => (
+            <li key={review.id} className="review-slot">
+              <ReviewCard review={review} locale={locale} />
+            </li>
           ))}
-        </div>
-      </Reveal>
-
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-        <p className="text-caption text-bone-52">{reviewsCopy.note}</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <ReviewLanguageToggle
-            target={WALL_ID}
-            showOriginalLabel={reviewsCopy.showOriginalLabel}
-            showTranslationLabel={reviewsCopy.showTranslationLabel}
-          />
-          <MarqueeToggle
-            target={WALL_ID}
-            pauseLabel={reviewsCopy.pauseLabel}
-            playLabel={reviewsCopy.playLabel}
-          />
-        </div>
+        </ul>
+        <details className="reviews-more mt-6">
+          <summary
+            className="inline-flex min-h-11 cursor-pointer items-center rounded-md border border-line px-5 text-caption text-bone"
+            {...trackAttrs("reviews_expand", { toggle_action: "open" })}
+          >
+            <span className="when-closed">{copy.moreReviews}</span>
+            <span className="when-open">{copy.fewerReviews}</span>
+          </summary>
+          <ul className="review-list">
+            {remaining.map((review) => (
+              <li key={review.id} className="review-slot">
+                <ReviewCard review={review} locale={locale} />
+              </li>
+            ))}
+          </ul>
+        </details>
       </div>
+      <p className="mt-6 text-caption text-bone-52">{reviewsCopy.note}</p>
 
-      <ClientMap />
+      <ClientMap locale={locale} />
     </Section>
   );
 }

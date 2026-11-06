@@ -96,3 +96,18 @@ export const reviewCardCopy = {
   repeatLabel: "Repeat client",
   sourceLabel: "on",
 };
+
+export const testimonialIds = ["upwork-lpermis", "khamsat-bassam", "fiverr-nathan-invaluable"];
+export const initialReviewIds = [
+  ...testimonialIds,
+  "fiverr-mihai",
+  "freelancer-emiliano",
+  "mostaql-dana",
+];
+export function selectedReviews(ids: readonly string[]) {
+  return ids.map((id) => {
+    const review = reviews.find((r) => r.id === id);
+    if (!review) throw new Error(`Missing curated review: ${id}`);
+    return review;
+  });
+}

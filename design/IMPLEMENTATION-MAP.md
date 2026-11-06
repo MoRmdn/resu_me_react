@@ -229,3 +229,10 @@ matched against `~/Downloads/apps-screens/freeDoc/play_store_512.png`.
 carrying Lorem Ipsum, a Google Maps error banner, or the Android notification
 shade. Only the language-settings screen is product UI, and it happens to show
 the Arabic/French/English switch. Vet any replacement the same way.
+
+
+## Bilingual portfolio (November 2026)
+
+The English and Arabic route groups each own a root layout. `components/DocumentShell.tsx` supplies fonts, metadata, JSON-LD and analytics; `PortfolioPage` and `PrivacyPage` share the actual page composition. Content dictionaries under `content/*-i18n.ts` supply translated presentation data, while source identifiers and URLs remain shared.
+
+`SocialProof` supplies the early summary and the curated testimonials. `Reviews` renders the canonical static review grid and native disclosure; review exports deduplicate by the stable review ID. `ReviewCard` retains the verbatim source quote behind a labelled translation. Mobile Skills compact below 768px without removing capabilities.

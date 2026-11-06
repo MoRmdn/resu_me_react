@@ -2,7 +2,8 @@
 
 import { useMemo, useRef } from "react";
 import { buildCareerLanes } from "@/lib/careerLanes";
-import { experienceCopy } from "@/content/copy";
+import { getCopy, ui } from "@/content/copy-i18n";
+import type { Locale } from "@/content/locale";
 import type { Experience } from "@/content/types";
 import { experienceParams, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
@@ -24,14 +25,18 @@ const LANE_GAP = 6;
  * of them has a full-height equivalent control in the row list below.
  */
 export function CareerBand({
+  locale = "en",
   roles,
   openSlug,
   onSelect,
 }: {
+  locale?: Locale;
   roles: readonly Experience[];
   openSlug: string | null;
   onSelect: (slug: string) => void;
 }) {
+  const { experienceCopy } = getCopy(locale);
+  const copy = ui[locale];
   const { bars, laneCount, ticks } = useMemo(() => buildCareerLanes(roles), [roles]);
   const refs = useRef<Record<string, HTMLButtonElement | null>>({});
 
@@ -63,7 +68,8 @@ export function CareerBand({
     <div className="mb-12">
       <div
         role="group"
-        aria-label="Career timeline — select a role"
+        aria-label={copy.timeline}
+        dir="ltr"
         onKeyDown={onKeyDown}
         className="relative"
         style={{ height: laneCount * LANE_H + (laneCount - 1) * LANE_GAP }}
@@ -89,7 +95,7 @@ export function CareerBand({
               type="button"
               tabIndex={i === 0 || active ? 0 : -1}
               aria-pressed={active}
-              aria-label={`${bar.role.position} at ${bar.role.company}, ${bar.role.startDate} to ${bar.role.endDate}, ${bar.months} months`}
+              aria-label={`${bar.role.position} ${copy.at} ${bar.role.company}, ${bar.role.startDate} ${copy.to} ${bar.role.endDate}, ${bar.months} ${copy.months}`}
               onClick={() => onSelect(bar.role.slug)}
               {...trackAttrs("experience_toggle", {
                 ...experienceParams(bar.role),
@@ -97,7 +103,7 @@ export function CareerBand({
                 toggle_method: "timeline_bar",
               })}
               className={cn(
-                "band-bar absolute flex items-center overflow-hidden rounded-t-sm border px-2.5 text-left",
+                "band-bar absolute flex items-center overflow-hidden rounded-t-sm border px-2.5 text-start",
                 "transition-[background-color,border-color] duration-fast ease-fast",
                 active
                   ? "border-copper/35 bg-copper/12"
@@ -145,14 +151,10 @@ export function CareerBand({
             </span>
           ))}
         </div>
-        <p className="eyebrow mt-1 text-right text-bone-52">
-          {experienceCopy.bandAxisNote}
-        </p>
+        <p className="eyebrow mt-1 text-end text-bone-52">{experienceCopy.bandAxisNote}</p>
       </div>
 
-      <p className="mt-6 max-w-[52ch] text-caption text-bone-52">
-        {experienceCopy.bandCaption}
-      </p>
+      <p className="mt-6 max-w-[52ch] text-caption text-bone-52">{experienceCopy.bandCaption}</p>
     </div>
   );
 }
