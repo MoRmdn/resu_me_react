@@ -40,3 +40,35 @@ flagged the speciality, job title and skills fields as empty because the page ha
 not finished loading). Reload, wait about six seconds, confirm `speciality_id`,
 `job_title` and `skills` are populated, then set `brief` and click "حفظ". Verify
 by fetching `/u/MoRmdn` and looking for a heading from the new text.
+
+## Portfolio, 2026-11-07
+
+**The portfolio is capped (10 items on the current plan).** At the cap, `/portfolio/create`
+redirects back with "لقد تجاوزت الحد الأقصى لعدد الأعمال المسموح بها" and a paid plan upgrade
+is the only way to add more. The user chose to delete two items instead:
+
+- **Deleted: Cavour** (a salon-booking template listing, not on mormdn.com) and **Aera** (the
+  Flutter e-commerce item). Both are saved locally in `~/Downloads/apps-screens/cavour/` and
+  `aera/` with their images and descriptions.
+- That left 8 items; the aim was to add NAAS and SAAD (10). Still missing from Mostaql: SAAD, JS
+  Quest, NAAS, O'Permis. With a 10 cap, only two of the four fit.
+
+### The add-work form (`https://mostaql.com/portfolio/create`)
+
+- Fields: `title`, thumbnail upload, `details`, extra files (up to 20), `url` (preview link,
+  optional), `completed_date` (dd/mm/yyyy), `skills` (optional), and a **required rights tick-box**
+  ("I confirm I made this work myself and have the right to publish it"). That tick-box is the
+  user's statement: do not tick it for them. An automated attempt was blocked.
+- Two real `input[type=file]` exist (`find` returns two refs). The **second one (images only) is
+  the thumbnail**; the first takes any file type. `file_upload` works on them.
+- Title and description: native value setter plus `input`/`change`. Titles follow "Name - Arabic
+  descriptor". No links in the description.
+- **Skills** is a selectize list loaded from a fixed set; it has "برمجة أندرويد" (225),
+  "أندرويد ستوديو" (735), "جافا سكريبت" (461), "HTML", "PHP" and design/marketing skills, but
+  nothing for Flutter, Firebase or web apps, so NAAS was left without skills.
+- Delete: on the item page, "حذف العمل", then the same button in the confirmation dialog.
+
+### State at the end of the session
+
+The NAAS form was left filled in Brave (thumbnail `07-naas.png`, Arabic title and description,
+completion date 07/11/2026), waiting for the user to tick the rights box and press "أضف العمل".
