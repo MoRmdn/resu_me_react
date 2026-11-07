@@ -19,7 +19,7 @@
 
 ## Profile text, last synced to the site 2026-11-07
 
-- **Occupation title:** "Software Engineer". Fiverr rejects `·`, `&`, `-` and
+- **Occupation title:** "Software Engineer Cross Platform Mobile and Web Applications" (the site title, punctuation dropped). Fiverr rejects `·`, `&`, `-` and
   `,` in it ("Tagline can only contain letters, numbers, spaces, and basic
   punctuation"), so a longer tagline did not save.
 - **About** (600-character limit, now 560): software engineer, 5+ years, Flutter,
