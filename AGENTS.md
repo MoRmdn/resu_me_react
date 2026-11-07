@@ -96,6 +96,7 @@ content/              every word and number the site renders
 lib/                  firebase, hooks, cn
 lib/analytics/        the event catalog, the tag, the listeners, the dwell engine
 docs/                 ANALYTICS.md (the rules), ANALYTICS-EVENTS.md (generated)
+                      marketplaces/ one file per marketplace: what the site shows, where it lives, how to refresh
 scripts/              image + OG generation, run by hand
 ```
 
@@ -295,6 +296,12 @@ Mostaql show a buyer's country on their profile, and Upwork in a job's "About th
 client" panel. Mostaql hides most client profiles, so `unplaced` in
 `content/clients.json` exists: those clients count towards the total and stay off
 the map. Never guess a country to fill it.
+
+Each marketplace has its own file in `docs/marketplaces/` (start at its README):
+the current numbers, the four places that change together, how to read the
+profile, and what went wrong before. Update the file in the same change as the
+numbers. When the site and a profile disagree, ask which is current before
+editing either.
 
 **`npm run images` rewrites every variant.** The output bytes differ from the
 committed files, so running it to add one image dirties all of them. Commit the
