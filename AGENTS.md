@@ -90,7 +90,7 @@ components/
 ├── analytics/        AnalyticsRoot, ConsentNotice
 ├── brand/            MoRmdnMark, MoRmdnLockup, MoRmdnMarkDraw — SVG, geometry locked
 ├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
-├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, CursorGlow, Marquee
+├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, Marquee
 └── sections/         one file per band of the page
 content/              every word and number the site renders
 lib/                  firebase, hooks, cn
@@ -195,8 +195,11 @@ restoration) reveals immediately; and `@media (scripting: none)` shows
 everything when JS is off. Do not "tidy" either away.
 
 **Collapsed accordion panels stay in the DOM.** That is what puts every
-achievement bullet in the served HTML. They carry `inert` when closed so they
-leave the tab order and the accessibility tree. Do not swap this for
+achievement bullet in the served HTML. Closed `.disclosure` panels use
+`visibility: hidden` before hydration, then `useHydrated` applies `inert`. The
+server HTML must not emit `inert`: `@media (scripting: none)` opens every panel
+visually, but CSS cannot undo that attribute, so no-JS links would remain
+unfocusable and outside the accessibility tree. Do not swap this for
 conditional rendering — it would strip the content from the page source.
 
 **The gallery's `row-gap` must stay 0.** Each detail plane is a grid item of its
@@ -206,9 +209,14 @@ empty gaps. The space between rows is `pb-3.5` on the tile's slot. The first til
 spans two columns, which only fills the grid at seven tiles: move the span if the
 count changes.
 
-**Never drive state from pointer-move.** `CursorGlow` writes a transform inside
-a rAF loop and holds zero React state. A `setState` per pointer move would
-re-render the page on every mouse twitch.
+**Keep the marquee paint-contained.** Its max-content track translates across
+the viewport; without `.marquee { contain: paint }` and clipping, Chrome can add
+transient horizontal document overflow at tablet widths. Reduced motion changes
+the strip to `overflow-x: auto`; do not remove that intentional scroller.
+
+**Never drive state from pointer-move.** Pointer-follow effects must write a
+transform inside a rAF loop and hold zero React state. A `setState` per pointer
+move would re-render the page on every mouse twitch.
 
 **`IntersectionObserver` and `requestAnimationFrame` are suspended in hidden
 tabs.** Reveals and count-ups will not run until the tab is foregrounded. That
@@ -243,6 +251,28 @@ disallowed URL is never fetched, so the directive would never be read.
 transparent element as an LCP candidate, so a `.rise` headline delays LCP by
 its own `--rise-delay` on every load. `rise-lcp` keeps the movement and drops
 the fade. Do not "unify" it back into `.rise`.
+
+**The held hero takes `min-h`, never a fixed `h`.** `.hero-held` is sticky with
+`items-center` and `overflow-hidden`, so a fixed height centres oversized
+content past both edges and clips it. The Arabic headline runs a line taller
+than the English one, and `md:h-[880px]` pushed its eyebrow badge up behind the
+nav and cut it in half. With `md:min-h-[880px]` the section just grows, and the
+page slides over a taller hero exactly as designed. When the content fills that
+minimum, `md:pt-28` keeps the status row below the fixed nav; `xl:pt-16`
+restores symmetric padding once the layout has room. Arabic desktop hero type
+also has its own `clamp()` and `line-height: 1.15`: the global Arabic heading
+rule is `1.4`, which overrides the hero's Tailwind line-height and makes the
+display excessively tall. The mobile Arabic treatment stays unchanged.
+
+**Scroll-spy observer entries are changes, not a snapshot.** Keep a set of all
+intersecting sections across callbacks and choose from it after both entries
+and exits. Filtering only the current callback loses the section that remained
+visible whenever another section exits, stranding a stale active link.
+
+**`getProfile("ar")` returns fresh arrays on every call.** In a client
+component, memoise the call by locale before its results feed a hook
+dependency list — an unstable `ids` array makes `useScrollSpy` destroy and
+recreate its `IntersectionObserver` on every render.
 
 ---
 
@@ -293,13 +323,24 @@ reduced motion shows a complete map rather than an empty one.
 
 **`.review-card` is deliberately not Tailwind.** Everything between the
 `review-cards:start` and `:end` markers in `globals.css` is lifted into the
-export, so it can use tokens and the marquee but no utilities. The export reads
-the card markup out of `out/index.html`, so it needs a build first.
+export, so it can use tokens but no utilities. Rating stars are CSS clip-paths,
+not repeated inline SVG paths. The standalone export's animated wall layout
+lives in `scripts/export-review-cards.mjs`, not in the production stylesheet;
+the card block itself must remain self-contained. The export reads the card
+markup out of `out/index.html`, so it needs a build first.
+
+**Only fingerprinted assets are immutable.** `/_next/static/**` gets year-long
+immutable caching. Stable public files such as `og.png`, project images, icons
+and `world-land.svg` get `max-age=86400`: never `immutable`, so regeneration and
+deployment replace them within a day, but long enough that a returning visitor
+does not pay a revalidation request per image. Hosting purges its own
+CDN on every deploy, so only browser caches can lag.
 
 **Reviews use a static grid.** Six selected reviews appear first; the rest stay in
 server-rendered HTML inside a native disclosure. Translations are labelled and
-originals remain accessible. Earlier testimonials reuse three reviews; the export
-deduplicates by review ID. Do not reintroduce cloned review tracks.
+originals remain accessible. The six opening Reviews IDs must stay disjoint from
+the three Projects testimonial IDs so the same cards do not greet visitors twice.
+The export still deduplicates by review ID. Do not reintroduce cloned review tracks.
 
 **Locale is explicit.** English is `/`, Arabic is `/ar/`, with matching privacy
 pages. Root layouts render `lang` and `dir` before JavaScript. Copy lives under

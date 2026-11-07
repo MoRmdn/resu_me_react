@@ -98,11 +98,15 @@ export const reviewCardCopy = {
 };
 
 export const testimonialIds = ["upwork-lpermis", "khamsat-bassam", "fiverr-nathan-invaluable"];
+// The opening Reviews grid complements the Projects testimonials rather than
+// showing the same three cards again. Keep these two ID sets disjoint.
 export const initialReviewIds = [
-  ...testimonialIds,
+  "upwork-arcit-ai",
+  "khamsat-hussain",
   "fiverr-mihai",
   "freelancer-emiliano",
   "mostaql-dana",
+  "fiverr-asma",
 ];
 export function selectedReviews(ids: readonly string[]) {
   return ids.map((id) => {

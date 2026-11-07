@@ -43,6 +43,37 @@ const cardCss = between("/* review-cards:start */", "/* review-cards:end */")
   .trim();
 const marqueeCss = between("@keyframes marquee-scroll", '/* Slow pulse for the "open to work"');
 
+// The standalone package deliberately presents the cards as an animated wall.
+// The site no longer does, so these layout rules belong to this exporter rather
+// than the production stylesheet. Card appearance remains lifted verbatim from
+// the marked review-cards block in globals.css.
+const wallCss = `
+.review-wall { display: flex; flex-direction: column; gap: 8px; }
+.review-row { position: relative; flex: none; overflow: hidden; padding-block: 8px; }
+.review-row::before, .review-row::after {
+  content: ""; position: absolute; inset-block: 0; z-index: 1; width: 72px; pointer-events: none;
+}
+.review-row::before { left: 0; background: linear-gradient(to right, var(--color-ink-900), transparent); }
+.review-row::after { right: 0; background: linear-gradient(to left, var(--color-ink-900), transparent); }
+.review-row[data-direction="reverse"] .marquee-track { animation-direction: reverse; }
+[data-marquee-paused="true"] .marquee-track { animation-play-state: paused; }
+.review-list { display: flex; gap: 16px; margin: 0; padding: 0 16px 0 0; list-style: none; }
+.review-slot { display: flex; }
+@media (prefers-reduced-motion: reduce) {
+  .review-list[aria-hidden] { display: none; }
+  .review-row { overflow-x: auto; scroll-snap-type: x proximity; }
+  .review-slot { scroll-snap-align: center; }
+  .marquee-toggle { display: none; }
+}
+@media (scripting: none) {
+  .marquee-toggle { display: none; }
+  .review-row .marquee-track { animation: none; transform: none; }
+  .review-list[aria-hidden] { display: none; }
+  .review-row { overflow-x: auto; scroll-snap-type: x proximity; }
+  .review-slot { scroll-snap-align: center; }
+}
+`;
+
 const SKIP = new Set([
   "--review-brand",
   "--star",
@@ -50,7 +81,7 @@ const SKIP = new Set([
   "--font-mono",
   "--marquee-duration",
 ]);
-const used = new Set(`${cardCss}\n${marqueeCss}`.match(/--[a-z0-9-]+/g));
+const used = new Set(`${cardCss}\n${marqueeCss}\n${wallCss}`.match(/--[a-z0-9-]+/g));
 const tokens = [...used]
   .filter((name) => !SKIP.has(name))
   .map((name) => {
@@ -67,6 +98,8 @@ ${tokens.join("\n")}
 }
 
 ${marqueeCss}
+
+${wallCss}
 
 ${cardCss}
 `;

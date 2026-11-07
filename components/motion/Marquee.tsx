@@ -22,7 +22,10 @@ export function Marquee({
 
   return (
     <div
-      className={cn("marquee group relative overflow-hidden", className)}
+      // Clip and paint-contain the animated track: its transformed visual
+      // overflow must never widen the document. Reduced motion restores
+      // overflow-x: auto in globals.css so the static list remains scrollable.
+      className={cn("marquee group relative overflow-clip", className)}
       style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}
     >
       {/* Screen readers get the list once, not the duplicated track. */}

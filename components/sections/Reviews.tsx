@@ -81,7 +81,7 @@ export function Reviews({ locale = "en" }: LocaleProps) {
         </ul>
       </Reveal>
 
-      <div id="review-wall" className="review-grid mt-10">
+      <div className="review-grid mt-10">
         <ul className="review-list">
           {initial.map((review) => (
             <li key={review.id} className="review-slot">

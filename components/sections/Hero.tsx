@@ -24,10 +24,15 @@ export function Hero({ locale = "en" }: LocaleProps) {
 
   const rise = (i: number) => ({ "--rise-delay": `${0.15 + i * 0.08}s` }) as React.CSSProperties;
 
+  // `min-h`, never a fixed `h`: the section is sticky and `items-center`,
+  // so a fixed height centres oversized content past both edges and
+  // `overflow-hidden` clips it. The extra `md` top padding also keeps the
+  // status row below the fixed nav when taller content fills the hero;
+  // `xl` restores the symmetric padding once the layout has enough room.
   return (
     <section
       id="top"
-      className="hero-held relative isolate flex min-h-[680px] items-center overflow-hidden bg-ink-900 py-32 md:h-[880px] md:py-0"
+      className="hero-held relative isolate flex min-h-[680px] items-center overflow-hidden bg-ink-900 py-32 md:min-h-[880px] md:pt-28 md:pb-16 xl:pt-16"
     >
       {/* The mark appears once at full strength in the nav and once here as an
           oversized watermark at 5.5%. LOGO.md forbids a third placement. */}

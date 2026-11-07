@@ -20,11 +20,30 @@
         ]
       },
       {
-        "source": "**/*.@(avif|webp|png|jpg|svg|woff2)",
+        "//": "Public images and icons keep stable URLs across deploys: og.png and regenerated project art must not stay immutable in browsers or CDN caches. One day is the trade-off: a returning visitor reuses images without a request per file, and a deploy replaces them within a day at most (Hosting purges its own CDN on every deploy). These paths deliberately exclude /_next/static, whose fingerprinted files are covered above.",
+        "source": "/images/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
+            "value": "public, max-age=86400"
+          }
+        ]
+      },
+      {
+        "source": "/icons/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
+      },
+      {
+        "source": "/*.@(avif|webp|png|jpg|svg|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
           }
         ]
       },

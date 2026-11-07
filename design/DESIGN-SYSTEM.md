@@ -1,17 +1,18 @@
 # MoRmdn — Design System v2.0
-Personal brand system for **Mohamed Ramadan**, Flutter Developer — Mansoura, Egypt.
+Personal brand system for **Mohamed Ramadan**, Software Engineer — Mansoura, Egypt.
 Codename: **Obsidian & Copper**.
 
 > Source of truth for this repo's visual language. Implemented in
-> `lib/utils/app_colors.dart` (tokens) and `lib/main.dart` (theme).
-> See `design/IMPLEMENTATION-MAP.md` for the token → Dart mapping.
+> `app/globals.css` (tokens and the animation layer), Tailwind utilities and the
+> React components. Historical Flutter artboards remain design references, not
+> implementation guidance.
 
 > **v2.0 — structural redesign (Sept 2026).** Palette, type, logo and motion
 > tokens are unchanged from v1.0. What changed: the accent rule is now tiered
 > (§1.3), the page is built from overlapping planes rather than stacked
 > sections (§3.1), three new components are specced (§5.1), the motion system
 > is fully specified per section with reduced-motion fallbacks (§6.1), and the
-> film grain is specced for build (§4). Reference artboards:
+> film grain is implemented (§4). Reference artboards:
 > `Portfolio Redesign.dc.html` — 1a desktop 1440, 1b mobile 390,
 > 1c components, 1d interaction, 1e the AYCO private card.
 
@@ -44,7 +45,7 @@ Dark is the primary theme. Light ("Bone") is a supported inverse for print/résu
 | `--line-strong` | `rgba(242,238,231,0.20)` | Hover borders, focus ring base |
 | `--bone` | `#F2EEE7` | Primary text (warm off-white, never pure `#fff`) |
 | `--bone-70` | `rgba(242,238,231,0.70)` | Body text |
-| `--bone-45` | `rgba(242,238,231,0.45)` | Secondary / captions |
+| `--bone-52` | `rgba(242,238,231,0.52)` | Contrast floor for secondary text / captions |
 | `--bone-28` | `rgba(242,238,231,0.28)` | Disabled, decorative numerals |
 | `--copper` | `#F2762E` | **Primary accent** — links, active state, key numbers |
 | `--copper-dim` | `#C25A1E` | Pressed accent |
@@ -64,7 +65,8 @@ Dark is the primary theme. Light ("Bone") is a supported inverse for print/résu
 | `--line` | `rgba(19,19,22,0.12)` |
 | `--copper` | `#D95A15` (darkened for AA on bone) |
 
-> Not yet implemented in the Flutter app — dark only. See "Not yet built" below.
+> Light-theme tokens remain a design specification; the Next.js site currently
+> ships dark only. See "Implementation status" below.
 
 ### 1.3 Rules
 
@@ -97,16 +99,16 @@ Consequences, applied across both artboards:
 
 ## 2. Typography
 
-Families (both Google Fonts):
+Families:
 
 - **Display / UI:** `Archivo` — 400 / 500 / 600 / 700. Wide-set grotesk with real personality at large sizes.
 - **Mono / labels:** `JetBrains Mono` — 400 / 500. Used for eyebrows, indices, metadata, code.
-- Arabic fallback: `IBM Plex Sans Arabic`.
+- **Arabic:** `IBM Plex Sans Arabic` — 400 / 500, with its own heading rhythm and RTL layout.
 
-> **Loading:** fonts come from a `<link>` in `web/index.html`, *not* the
-> `google_fonts` package (it does not compile on this Flutter SDK — see
-> `CLAUDE.md` § Known constraints). Dart-side, reference them by the exact
-> family names `'Archivo'` and `'JetBrains Mono'`.
+> **Loading:** variable font files are committed under `app/fonts/` and loaded
+> with `next/font/local` in `components/DocumentShell.tsx`. Do not add a Google
+> Fonts `<link>` or switch to `next/font/google`; self-hosting keeps the export
+> reproducible and avoids a render-blocking third-party request.
 
 ### 2.1 Scale (desktop → mobile)
 
@@ -118,10 +120,10 @@ Families (both Google Fonts):
 | `h2` | 30 / 1.15 → 24 | 600 | −0.02em | Card titles |
 | `h3` | 21 / 1.25 → 19 | 600 | −0.01em | |
 | `body-l` | 18 / 1.6 → 17 | 400 | 0 | Intro paragraphs, max 62ch |
-| `body` | 15.5 / 1.65 | 400 | 0 | Default |
+| `body` | 16 / 1.65 | 400 | 0 | Default |
 | `caption` | 13 / 1.5 | 400 | 0 | Secondary |
 | `eyebrow` | 11 / 1 | 500 mono | **0.18em**, uppercase | Section labels, `01 / ABOUT` |
-| `metric` | 46 / 1 | 600 | −0.03em | Stat numbers, copper |
+| `metric` | 46 / 1 | 600 | −0.03em | Stat numbers, bone |
 
 > Implementation note: the app renders the hero at 84px desktop / 46px mobile
 > rather than the 116px spec ceiling, to keep three lines on one screen at
@@ -130,7 +132,7 @@ Families (both Google Fonts):
 ### 2.2 Rules
 - Headings are tight (−0.02 to −0.04em) and never centred except on the hero.
 - Measure caps at **62ch** for body, 46ch for intros.
-- Numbers in metadata always mono, tabular figures (`FontFeature.tabularFigures()`).
+- Numbers in metadata always use mono, tabular figures (`font-variant-numeric: tabular-nums`).
 
 ---
 
@@ -140,7 +142,7 @@ Families (both Google Fonts):
 
 - **Grid:** 12 columns, 24px gutter, max content width **1240px**, page padding 32px desktop / 20px mobile.
 - **Section rhythm:** 128px vertical padding desktop, 76px mobile.
-- **Breakpoints:** the app uses `sm 680 · md 900` (`AppConstants.mobileBreakpoint` / `tabletBreakpoint`); design reference used `sm 480 · md 768 · lg 1024 · xl 1440`.
+- **Breakpoints:** the Tailwind tokens are `sm 680 · md 900 · lg 1040 · xl 1240`; the Arabic desktop hero also has a targeted adjustment from 768px.
 - Asymmetry is the signature: content sits on a 7/5 or 8/4 split, not centred boxes.
 
 ### 3.1 Plane rhythm (v2.0)
@@ -177,7 +179,7 @@ the same layer metaphor the brand is built on.
 - `e3` — overlay/menu: `0 24px 60px rgba(0,0,0,0.6)`
 - `glow` — accent focus: `0 0 0 1px --copper, 0 0 40px rgba(242,118,46,0.18)`
 
-### Film grain (specced v2.0)
+### Film grain
 
 A single tiled fractal-noise layer across the page keeps the dark from
 flattening. Exact spec:
@@ -211,7 +213,7 @@ Surface `--ink-700`, `--r-lg`, `e1`, 28px padding. Hover: `e2` + border warms to
 Fixed pill bar, 58px tall, `rgba(22,22,27,0.72)` + `backdrop-filter: blur(20px)`, 1px `--line`, `--r-pill`. A 2px copper scroll-progress line sits at the very top of the viewport.
 
 ### Inputs
-Fill `--ink-600`, 1px `--line`, `--r-md`, 14px padding, 15.5px Archivo. Label above in `eyebrow` mono. Focus: border copper. Error: `--rose` border + 13px message.
+Reserved for future forms: fill `--ink-600`, 1px `--line`, `--r-md`, 14px padding, 16px Archivo. Label above in `eyebrow` mono. Focus: border copper. Error: `--rose` border + 13px message. Contact currently ships no form.
 
 ### Tags / chips
 `--copper-wash` fill, copper label at 11px mono uppercase, `--r-sm`, 5/11 padding.
@@ -221,7 +223,7 @@ Each entry marked by a 8px square node (rotated 45°) that fills copper when the
 
 ### Metric block
 Mono eyebrow above, `metric` number in **`--bone`** (v2.0 — was copper; see
-§1.3 tiers), caption below in `--bone-45`. Always in groups of 3 or 4 with
+§1.3 tiers), caption below in `--bone-52`. Always in groups of 3 or 4 with
 hairline dividers between. Live/streamed values take `--jade`.
 
 ## 5.1 New components (v2.0)
@@ -273,7 +275,9 @@ highlights, stack and application ID unfold under it.
   (Tier 3), and it stays warm while open.
 - The whole face opens it, store links excepted. Panels open independently and
   nothing recedes: §6.1's dimming belongs to the gallery alone.
-- Closed details stay in the DOM, `inert`, so the copy is in the served HTML.
+- Closed details stay in the DOM so the copy is in the served HTML. CSS hides
+  them before hydration, then they become `inert`; without JavaScript every
+  panel stands open and remains keyboard-accessible.
 - Three store-listing screens from one listing, whole, on a stepped baseline
   (0 / 28 / 14px), capped at 560px across. Hover squares the set up. Below `sm`
   the set becomes a scroller of its own, with no stepped baseline.
@@ -297,19 +301,21 @@ Everything that is not a featured panel, as a wall of art.
 ### Review card
 A client's words, attributed to the marketplace that collected them.
 
-- Surface `--ink-700`, `--r-lg`, `e1`, 24px padding. Three widths: 372 base, 520
-  wide, 720 split. Past 400 characters a translated review goes side by side,
-  because a row stretches to its tallest card.
+- Surface `--ink-700`, `--r-lg`, `e1`, 24px padding. Two portable widths: 372 base
+  and 520 wide. The site grid stretches cards to equal columns.
 - Under 90 characters a quote is set as a 24px pull quote, so it does not strand
   in an empty card.
 - The platform's logo is identity, like our own mark, and exempt from the accent
   tiers. Its `--color-brand-*` appears only on that mark and that card's hover.
   **No copper on a review card at any tier.**
-- Stars are `--bone-70` at rest. Colour never carries the rating alone.
-- Arabic quotes render RTL in IBM Plex Sans Arabic, with a labelled translation.
-  Below `md` only one language shows at a time.
+- Five CSS-shaped stars are `--bone-70` at rest. They share one clip-path in the
+  portable stylesheet rather than repeating inline SVG paths. Colour never
+  carries the rating alone: the accessible label and visible `5.0` remain.
+- Arabic quotes render RTL in IBM Plex Sans Arabic. Translations are labelled
+  and the verbatim original lives in a native disclosure at every width.
 - Hover: lift 4px, border warms to the brand at 45%, a 2px hairline wipes in from
-  the left, stars fill and pop in 50ms sequence. Only that card's row pauses.
+  the left, stars fill and pop in 50ms sequence. The site grid has no looping
+  motion; rows pause on hover only in the standalone export's animated wall.
 
 ### Client map
 Fiverr's "World Domination" panel, for all five marketplaces at once.
@@ -330,12 +336,12 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
 
 **Principles:** motion explains layout, never decorates. One thing moves at a time. Everything is interruptible.
 
-| Token | Duration | Curve | Flutter equivalent |
-|---|---|---|---|
-| `m-instant` | 90ms | `cubic-bezier(.4,0,1,1)` | `Curves.easeIn` |
-| `m-fast` | 180ms | `cubic-bezier(.2,0,.2,1)` | `Curves.easeOutCubic` |
-| `m-base` | 320ms | `cubic-bezier(.22,1,.36,1)` | `Curves.easeOutExpo` |
-| `m-slow` | 620ms | `cubic-bezier(.16,1,.3,1)` | `Curves.easeOutQuint` |
+| Token | Duration | Curve |
+|---|---|---|
+| `m-instant` | 90ms | `cubic-bezier(.4,0,1,1)` |
+| `m-fast` | 180ms | `cubic-bezier(.2,0,.2,1)` |
+| `m-base` | 320ms | `cubic-bezier(.22,1,.36,1)` |
+| `m-slow` | 620ms | `cubic-bezier(.16,1,.3,1)` |
 
 ### 6.1 Specification (v2.0)
 
@@ -381,7 +387,6 @@ scrollable strip.
 | Experience | Band columns grow from baseline, 40ms stagger oldest→newest | Band enters viewport | 620ms · `m-slow` | Final height |
 | Experience | Active column grows 14px, fills copper-wash | Click / keyboard select | 320ms · `m-base` | No transition |
 | Experience | Row expands, node fills copper, ＋ rotates 45° | Click / Enter | 320ms · `m-base` | Toggles instantly |
-| Projects | Flagship screenshot parallaxes 40px slower than its panel | Scroll in view | Scroll-linked, lerp 0.1 | Static in frame |
 | Projects | **Tile opens spatially** (see above) | Click / Enter | 320ms · `m-base` | Instant at final size; siblings 100% |
 | Projects | Store screens square up from their stepped baseline | Panel hover | 320ms · `m-base` | Stay stepped; no movement |
 | Projects | AYCO dashed border draws around the perimeter once | Card enters viewport, +120ms | 620ms · `m-slow` | Fully drawn from first paint |
@@ -394,29 +399,30 @@ scrollable strip.
 | Reviews | Filter by site: countries, lines and bars cross-fade, percentage recounts | Chip click | 320ms · `m-base` | Colour only; final value |
 | Reviews | Country, line and list row light together, tooltip appears | Hover, focus or tap | 180ms · `m-fast` | Colour only |
 | Reviews | Jade ring pulses on Mansoura | Continuous | 2.4s | Ring static |
-| Contact | Field border → copper | Focus | 180ms · `m-fast` | Instant |
-| Contact | Error drops in 6px + fades, border → `--rose` | Failed validation, submit or blur | 180ms · `m-fast` | Appears in place |
 | Contact | Social rows nudge 10px right | Hover | 180ms · `m-fast` | Background tint only |
-| Contact | Submit → sending → success label cross-fade, jade confirm drops in | Submit | 180ms · `m-fast` per step | Labels swap instantly |
 | Footer | Back to top | Click | 700ms · easeOutCubic | Instant jump |
 
 **Cut in v2.0:** the cursor-glow field (§6 behaviour 0). It decorated rather
 than explained, and competed with the film grain for the same job.
 
-### Named behaviours (v1.0, as built in Flutter)
-0. **Cursor field** — a 640px copper radial at 16% follows the pointer with
-   0.075 lerp easing; desktop only, fades out when the pointer leaves.
-   `lib/widgets/cursor_glow.dart`. Rebuild-free by construction: the position
-   lives in a `ValueNotifier` passed to the painter as its `repaint`
-   `Listenable`, so a move repaints one `RepaintBoundary` and never calls
-   `setState` — see the warning in §"Not yet built" history and CLAUDE.md.
-1. **Accordion** — 280ms `SizeTransition` + node fills copper, chevron rotates 90°. `lib/widgets/experience_timeline.dart`
-2. **Marquee** — infinite horizontal tech strip, ~34px/s, pauses on hover. Ticker-driven `ScrollController` offset. `lib/widgets/tech_marquee.dart`
-3. **Number roll** — metrics count up once on load, 900ms `easeOutQuart`, mono tabular so width never jitters. `lib/widgets/hero_section.dart`
-4. **Card lift** — 220ms `AnimatedContainer`: `translateY(-3)` + border warms to copper + drop shadow.
-5. **Button lift** — 180ms: `translateY(-2)` + fill brightens to `--copper-bright` `#FF8A45`.
-6. **Scroll progress** — 2px copper bar at viewport top, width tracks scroll fraction.
-7. **Section scroll** — 700ms `easeOutCubic` via `Scrollable.ensureVisible`.
+### Current implementation notes
+0. **Cursor field** — cut. No pointer-follow effect ships; pointer movement must
+   never drive React state if a future effect is reconsidered.
+1. **Accordion** — CSS grid rows animate over 280ms; the node fills copper and
+   the chevron rotates. Closed content remains server-rendered and becomes
+   inert only after hydration.
+2. **Marquee** — CSS translates an exactly doubled max-content track, pauses on
+   hover/focus, and becomes a static horizontal scroller under reduced motion.
+3. **Number roll** — metrics count up once when observed, 900ms, with mono
+   tabular figures so width never jitters.
+4. **Card lift** — 320ms transform plus a brand/copper hairline; reduced motion
+   retains the final visual state without movement.
+5. **Button lift** — 180ms transform and colour change; reduced motion removes
+   the lift.
+6. **Scroll progress** — a 2px copper bar at viewport top, transform updated in
+   a passive, rAF-throttled scroll listener.
+7. **Section scroll** — native smooth anchors with an instant reduced-motion
+   fallback and scroll margins for the fixed nav.
 
 ---
 
@@ -427,22 +433,15 @@ than explained, and competed with the film grain for the same job.
 
 ---
 
-## Not yet built
+## Implementation status
 
-Tracked gaps between this spec and the Next.js implementation:
+The Next.js implementation includes the film grain, global and per-effect
+reduced-motion fallbacks, focus rings, first-load hero logo drawing, career band,
+Skills plates, private-project card and held hero/plane overlap described above.
+The cursor-glow field remains intentionally cut, and Contact uses direct channels
+rather than the old form.
 
-- **Light ("Bone") theme** — tokens specced in §1.2, no implementation.
-- **Film grain overlay** — now fully specced in §4; not yet in the app.
-- **`prefers-reduced-motion`** — the global query plus the 28 per-effect
-  fallbacks in §6.1 are specced; not yet wired.
-- **Focus rings** — the `glow` token is specced but no focus styling exists.
-  The artboards draw a `0 0 0 1px copper, 0 0 0 4px copper-28` ring on the
-  primary button as the reference.
-- **Logo draw-on animation** — LOGO.md specs a 640ms stroke draw; drawn in the
-  artboards, static in the app. Must be gated to first visit only.
-- **Career band, Skills plates, private-project card** — specced in §5.1,
-  drawn in the artboards, not yet built.
-- **Held hero / plane overlap** — §3.1; the app is still a flush vertical stack.
+- **Light ("Bone") theme** — tokens remain specced in §1.2, with no implementation.
 
 ---
 
@@ -460,10 +459,13 @@ unchanged.
 
 ### Portfolio enhancement — November 2026
 
-- A compact marketplace summary follows the technology strip; three verbatim testimonials precede the project cards.
+- A compact marketplace summary follows the technology strip. The first featured
+  project leads with its artwork; three verbatim testimonials follow it as
+  supporting evidence, before the remaining featured projects.
 - Featured projects show their outcome and availability on the face, followed by problem, responsibility, decisions and result inside the existing detail plane.
 - Reviews use a static 1/2/3-column grid at phone/768px/1024px widths. Six appear initially; native disclosure contains the remaining server-rendered reviews. No loop or cloned review tracks remain on the site.
 - Reviews show the document language first. Translations are labelled, with originals in an accessible native disclosure; no original is rewritten.
+- Five rating stars share a portable CSS clip-path rather than repeating inline SVG paths; rating text and reduced-motion behavior remain unchanged.
 - Skills retain all content with 18px plate padding, tighter tags and smaller headings below 768px. Desktop plates retain their arrangement.
 - English remains at `/`; Arabic lives at `/ar/`. Arabic uses IBM Plex Sans Arabic, logical layout properties and RTL text. Logos, screenshots and geographic coordinates are not mirrored.
 - Languages share project identifiers, assets, metrics and contact links. Availability labels describe supplied links rather than promising current store availability.

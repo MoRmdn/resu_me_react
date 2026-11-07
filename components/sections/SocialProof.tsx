@@ -27,7 +27,7 @@ export function SocialProof({ locale = "en" }: LocaleProps) {
 }
 export function Testimonials({ locale = "en" }: LocaleProps) {
   return (
-    <div className="review-grid mb-12">
+    <div className="review-grid my-12 md:my-14">
       <h3 className="eyebrow mb-5 text-bone-52">{ui[locale].testimonials}</h3>
       <ul className="testimonial-list">
         {selectedReviews(testimonialIds).map((review) => (

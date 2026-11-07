@@ -99,19 +99,19 @@ export function ProjectDetail({
         {project.story && (
           <div className="mt-6 space-y-5">
             <div>
-              <h4 className="eyebrow text-bone-52">{projectsCopy.storyLabels.problem}</h4>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.problem}</h4>
               <p className="mt-2 text-body text-bone-70">{project.story.problem}</p>
             </div>
             <div>
-              <h4 className="eyebrow text-bone-52">{projectsCopy.storyLabels.responsibility}</h4>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.responsibility}</h4>
               <p className="mt-2 text-body text-bone-70">{project.story.responsibility}</p>
             </div>
             <div>
-              <h4 className="eyebrow text-bone-52">{projectsCopy.storyLabels.decisions}</h4>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.decisions}</h4>
               <HighlightList highlights={project.story.decisions} className="mt-2" />
             </div>
             <div>
-              <h4 className="eyebrow text-bone-52">{projectsCopy.storyLabels.result}</h4>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.result}</h4>
               <p className="mt-2 text-body text-bone">{project.story.result}</p>
             </div>
           </div>

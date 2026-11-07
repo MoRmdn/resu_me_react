@@ -84,7 +84,7 @@ export function About({ locale = "en" }: LocaleProps) {
 
               <dl className="mt-4 flex flex-col gap-4">
                 <div className="flex gap-4">
-                  <dt className="eyebrow w-24 shrink-0 pt-1 text-bone-52">
+                  <dt className="eyebrow w-32 shrink-0 pt-1 text-bone-52">
                     {learning.completedLabel}
                   </dt>
                   <dd className="text-caption text-bone">
@@ -97,7 +97,7 @@ export function About({ locale = "en" }: LocaleProps) {
                 </div>
 
                 <div className="flex gap-4">
-                  <dt className="eyebrow w-24 shrink-0 pt-1 text-bone-52">
+                  <dt className="eyebrow w-32 shrink-0 pt-1 text-bone-52">
                     {learning.inProgressLabel}
                   </dt>
                   <dd className="text-caption text-bone">
@@ -111,7 +111,7 @@ export function About({ locale = "en" }: LocaleProps) {
                 </div>
 
                 <div className="flex gap-4 border-t border-line pt-4">
-                  <dt className="eyebrow w-24 shrink-0 pt-1 text-bone-52">{learning.builtLabel}</dt>
+                  <dt className="eyebrow w-32 shrink-0 pt-1 text-bone-52">{learning.builtLabel}</dt>
                   <dd className="text-caption">
                     <a
                       href={learningNow.built.href}

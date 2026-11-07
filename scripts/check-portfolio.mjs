@@ -29,11 +29,29 @@ for (const locale of ["en", "ar"]) {
   );
   assert.equal(cards.length, reviews.length, "Canonical reviews appear once, with no clones");
   const initial = wall.match(/<ul class="review-list">([\s\S]*?)<\/ul>/)?.[1];
-  assert.equal(
-    (initial?.match(/class="review-slot"/g) ?? []).length,
-    6,
-    "Six reviews precede the disclosure",
+  const initialIds = [...(initial?.matchAll(/data-review="([^"]+)"/g) ?? [])].map((m) => m[1]);
+  assert.equal(initialIds.length, 6, "Six reviews precede the disclosure");
+
+  const projectSection = html.slice(
+    html.indexOf('<section id="projects"'),
+    html.indexOf('<section id="skills"'),
   );
+  const firstFeatured = projectSection.indexOf('<article id="ayco"');
+  const testimonials = projectSection.indexOf('<ul class="testimonial-list"');
+  const secondFeatured = projectSection.indexOf('<article id="saad"');
+  assert.ok(
+    firstFeatured >= 0 && testimonials > firstFeatured && testimonials < secondFeatured,
+    "Testimonials follow the first featured project",
+  );
+  const testimonialList = projectSection.slice(
+    testimonials,
+    projectSection.indexOf("</ul>", testimonials),
+  );
+  const testimonialIds = [...testimonialList.matchAll(/data-review="([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(testimonialIds.length, 3, "Three project testimonials");
+  for (const id of testimonialIds) {
+    assert.ok(!initialIds.includes(id), `Projects testimonial is not repeated at Reviews start: ${id}`);
+  }
   for (const review of reviews) {
     const card = cards.find((card) => card.includes(`data-review="${review.id}"`));
     assert.ok(card, `Review ${review.id} is server-rendered`);
@@ -41,6 +59,9 @@ for (const locale of ["en", "ar"]) {
       decode(m[1]),
     );
     assert.ok(quotes.includes(review.quote), `Original wording preserved: ${review.id}`);
+  }
+  for (const [tag] of html.matchAll(/<div\b[^>]*class="disclosure[^"]*"[^>]*>/g)) {
+    assert.ok(!/\binert(?:=|\s|>)/.test(tag), `No server-rendered inert: ${tag.slice(0, 100)}`);
   }
   for (const element of html.matchAll(/<(?:a|button|summary)\b[^>]*>/g)) {
     assert.match(element[0], /data-track=/, `Tracked control: ${element[0].slice(0, 80)}`);
@@ -65,7 +86,6 @@ for (const locale of ["en", "ar"]) {
 }
 const english = await readFile("out/index.html", "utf8");
 assert.ok(english.indexOf('id="social-proof"') < english.indexOf('id="about"'));
-assert.ok(english.indexOf('class="testimonial-list"') < english.indexOf('id="ayco"'));
 assert.match(english, /The problem/);
 assert.match(english, /My responsibility/);
 assert.match(english, /Key decisions/);

@@ -4,7 +4,7 @@ import type { LocaleProps } from "@/content/locale";
 import { getProfile } from "@/content/profile-i18n";
 import { ui } from "@/content/copy-i18n";
 import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MoRmdnLockup } from "@/components/brand/MoRmdnLockup";
 import { site } from "@/content/site";
 import { trackAttrs } from "@/lib/analytics/attrs";
@@ -13,9 +13,12 @@ import { useScrollSpy } from "@/lib/useScrollSpy";
 import { cn } from "@/lib/cn";
 
 export function Nav({ locale = "en" }: LocaleProps) {
-  const { navSections } = getProfile(locale);
+  // Memoised by locale: getProfile("ar") builds fresh arrays per call, and an
+  // unstable SECTION_IDS makes useScrollSpy tear down and rebuild its
+  // IntersectionObserver on every scroll-spy state change.
+  const { navSections } = useMemo(() => getProfile(locale), [locale]);
   const copy = ui[locale];
-  const SECTION_IDS = navSections.map((s) => s.id);
+  const SECTION_IDS = useMemo(() => navSections.map((s) => s.id), [navSections]);
   const LINKS = navSections.filter((s) => s.id !== "contact");
   const active = useScrollSpy(SECTION_IDS);
   const menuButton = useRef<HTMLButtonElement>(null);

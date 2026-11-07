@@ -86,7 +86,7 @@
   --text-body-l: clamp(1.0625rem, 1.3vw, 1.125rem); /* 17 → 18 */
   --text-body-l--line-height: 1.6;
 
-  --text-body: 0.96875rem; /* 15.5 */
+  --text-body: 1rem; /* 16 */
   --text-body--line-height: 1.65;
 
   --text-caption: 0.8125rem; /* 13 */
@@ -265,6 +265,12 @@
   }
 }
 
+.marquee {
+  /* A transformed max-content track can otherwise add a few pixels to the
+     document's scroll width even when its parent is clipped. */
+  contain: paint;
+}
+
 .marquee-track {
   display: flex;
   width: max-content;
@@ -289,12 +295,12 @@
 
 /* ---------------------------------------------------------------------------
    Review cards. Plain classes rather than utilities: the whole block between
-   the markers is lifted into the bundle by scripts/export-review-cards.mjs, so
-   it can only depend on tokens and the marquee above.
+   the markers is lifted into the bundle by scripts/export-review-cards.mjs.
+   The exporter supplies the wall/marquee layout used only by its standalone
+   page; the site uses the static grid at the end of this block.
 
-   The marquee is the one continuous motion here; everything else answers to a
-   hover. Reduced motion stops the rows and drops the duplicate track, and the
-   hover keeps its colour but loses the lift and the star sequence.
+   Card hover is CSS only. Reduced motion keeps the colour but loses the lift
+   and the star sequence.
 --------------------------------------------------------------------------- */
 /* review-cards:start */
 [data-platform="upwork"] {
@@ -345,9 +351,6 @@
 
 .review-card[data-layout="wide"] {
   width: min(84vw, 520px);
-}
-.review-card[data-layout="split"] {
-  width: min(84vw, 720px);
 }
 
 /* A hairline that wipes in from the left, in the platform's colour. */
@@ -416,15 +419,30 @@
   color: var(--color-bone-70);
   transition: color 180ms var(--ease-fast);
 }
-.review-card__stars svg {
+.review-card__star {
   display: block;
   width: 14px;
   height: 14px;
+  background: currentColor;
+  /* The original 20×20 star path as ten straight-sided polygon vertices.
+     One CSS shape replaces five inline SVG/path pairs on every card. */
+  clip-path: polygon(
+    50% 8%,
+    63% 34.5%,
+    92% 38.5%,
+    71% 59%,
+    76% 88%,
+    50% 74.5%,
+    24% 88%,
+    29% 59%,
+    8% 38.5%,
+    37% 34.5%
+  );
 }
 .review-card:hover .review-card__stars {
   color: var(--review-brand);
 }
-.review-card:hover .review-card__stars svg {
+.review-card:hover .review-card__star {
   animation: review-star-pop 320ms var(--ease-base) both;
   animation-delay: calc(var(--star) * 50ms);
 }
@@ -447,11 +465,6 @@
   flex-direction: column;
   gap: 14px;
 }
-.review-card[data-layout="split"] .review-card__body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
 
 .review-card__quote {
   margin: 0;
@@ -471,30 +484,6 @@
   font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.02em;
-}
-
-.review-card__translation {
-  padding-top: 12px;
-  border-top: 1px solid var(--color-line);
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  white-space: pre-line;
-  color: var(--color-bone-62);
-}
-.review-card[data-layout="split"] .review-card__translation {
-  padding-top: 0;
-  padding-left: 24px;
-  border-top: 0;
-  border-left: 1px solid var(--color-line);
-}
-
-.review-card__translation .review-card__label {
-  margin-bottom: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-bone-52);
 }
 
 .review-card__foot {
@@ -545,150 +534,18 @@
   color: var(--color-bone-52);
 }
 
-/* The wall. Both copies carry a trailing gap so -50% lands exactly on the seam. */
-.review-wall {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.review-row {
-  position: relative;
-  flex: none;
-  overflow: hidden;
-  padding-block: 8px;
-}
-
-/* Edges fade into the plane so cards do not clip mid-word. */
-.review-row::before,
-.review-row::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  z-index: 1;
-  width: 72px;
-  pointer-events: none;
-}
-.review-row::before {
-  left: 0;
-  background: linear-gradient(to right, var(--color-ink-900), transparent);
-}
-.review-row::after {
-  right: 0;
-  background: linear-gradient(to left, var(--color-ink-900), transparent);
-}
-
-.review-row[data-direction="reverse"] .marquee-track {
-  animation-direction: reverse;
-}
-
-[data-marquee-paused="true"] .marquee-track {
-  animation-play-state: paused;
-}
-
-.review-list {
-  display: flex;
-  gap: 16px;
-  margin: 0;
-  padding: 0 16px 0 0;
-  list-style: none;
-}
-
-.review-slot {
-  display: flex;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .review-list[aria-hidden] {
-    display: none;
-  }
-  .review-row {
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-  }
-  .review-slot {
-    scroll-snap-align: center;
-  }
   .review-card:hover {
     transform: none;
   }
   .review-card:hover .review-card__glyph {
     transform: none;
   }
-  .review-card:hover .review-card__stars svg {
+  .review-card:hover .review-card__star {
     animation: none;
   }
-  .marquee-toggle {
-    display: none;
-  }
 }
 
-/* Without scripting the loop copy is never built (MarqueeEcho clones it), and
-   nothing could pause the motion anyway, so the row is a scroller as above. */
-@media (scripting: none) {
-  .marquee-toggle {
-    display: none;
-  }
-  .review-row .marquee-track {
-    animation: none;
-    transform: none;
-  }
-  .review-list[aria-hidden] {
-    display: none;
-  }
-  .review-row {
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-  }
-  .review-slot {
-    scroll-snap-align: center;
-  }
-}
-
-/* Two columns need room; below this the translation goes back underneath. */
-@media (max-width: 899px) {
-  .review-card[data-layout="split"] .review-card__body {
-    display: flex;
-    gap: 14px;
-  }
-  .review-card[data-layout="split"] .review-card__translation {
-    padding-top: 12px;
-    padding-left: 0;
-    border-top: 1px solid var(--color-line);
-    border-left: 0;
-  }
-}
-
-/* One language at a time on small screens, or a single long review makes the
-   row 860px tall. Opt-in by attribute, so a card used on its own is unaffected,
-   and scripting-gated, so without the toggle both languages stay readable. */
-@media (max-width: 899px) and (scripting: enabled) {
-  [data-review-lang="translation"] .review-card__quote:lang(ar),
-  [data-review-lang="original"] .review-card__translation {
-    display: none;
-  }
-  [data-review-lang="translation"] .review-card__translation,
-  [data-review-lang="translation"] .review-card[data-layout="split"] .review-card__translation {
-    padding-top: 0;
-    border-top: 0;
-  }
-  [data-review-lang="translation"] .review-card__translation {
-    font-size: 0.96875rem;
-    color: var(--color-bone);
-  }
-}
-
-@media (min-width: 900px) {
-  .review-lang-toggle {
-    display: none;
-  }
-}
-
-@media (scripting: none) {
-  .review-lang-toggle {
-    display: none;
-  }
-}
 /* Static review grids. Every original stays in the served HTML once per area. */
 .review-grid .review-list, .testimonial-list {
   display: grid;
@@ -1107,10 +964,12 @@
 .disclosure {
   display: grid;
   grid-template-rows: 0fr;
+  visibility: hidden;
   opacity: 0;
   transition:
     grid-template-rows 0.28s var(--ease-base),
-    opacity 0.2s var(--ease-fast);
+    opacity 0.2s var(--ease-fast),
+    visibility 0s linear 0.28s;
 }
 
 .disclosure > * {
@@ -1120,14 +979,26 @@
 
 .disclosure[data-open="true"] {
   grid-template-rows: 1fr;
+  visibility: visible;
   opacity: 1;
+  transition-delay: 0s;
 }
 
-/* With scripting off nothing can open a panel, so they all stand open. */
+/* Server markup has no inert attribute: without scripting, every panel stands
+   open and its links stay keyboard-accessible. CSS hides closed panels before
+   hydration; useHydrated applies inert to them immediately afterwards. */
 @media (scripting: none) {
   .disclosure {
     grid-template-rows: 1fr;
+    visibility: visible;
     opacity: 1;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disclosure {
+    transition: none;
   }
 }
 
@@ -1362,6 +1233,16 @@ html[lang="ar"] { --font-sans: var(--font-plex-arabic), var(--font-archivo), san
 html[lang="ar"] body { font-family: var(--font-sans); }
 html[lang="ar"] :is(.eyebrow, .font-mono) { font-family: var(--font-plex-arabic), var(--font-jetbrains-mono), monospace; letter-spacing: 0; }
 html[lang="ar"] :is(h1, h2, h3, h4) { line-height: 1.4; letter-spacing: 0; font-weight: 500; }
+/* Arabic needs more line height than Latin body headings, but the hero must not
+   inherit 1.4 at the Latin display size. Keep mobile unchanged; on larger
+   layouts use the 84px design ceiling and balanced, deliberate line wrapping. */
+@media (min-width: 768px) {
+  html[lang="ar"] #top h1 {
+    font-size: clamp(3.5rem, 6vw, 5.25rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+}
 html[lang="ar"] .review-card__quote { line-height: 1.85; }
 html[dir="rtl"] .map-row__bar { transform-origin: right; }
 html[dir="rtl"] .review-card__repeat { margin-left: 0; margin-inline-start: 8px; }

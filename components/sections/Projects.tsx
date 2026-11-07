@@ -10,6 +10,7 @@ import { Testimonials } from "./SocialProof";
 export function Projects({ locale = "en" }: LocaleProps) {
   const { projectsCopy } = getCopy(locale);
   const { featuredProjects, galleryProjects, orderedProjects } = getProjects(locale);
+  const [firstFeatured, ...remainingFeatured] = featuredProjects;
   return (
     <Section id="projects" tone="ink-900" z={16} offset={-40}>
       <Reveal>
@@ -22,13 +23,30 @@ export function Projects({ locale = "en" }: LocaleProps) {
         />
       </Reveal>
 
+      {firstFeatured && (
+        <Reveal delay={0.06}>
+          <FeaturedPanel locale={locale} project={firstFeatured} index={1} flip={false} />
+        </Reveal>
+      )}
+
+      {/* Lead with the work itself; client evidence supports the first project
+          rather than occupying the section's entire opening viewport. */}
       <Testimonials locale={locale} />
+
       <div className="flex flex-col gap-3.5">
-        {featuredProjects.map((project, i) => (
-          <Reveal key={project.slug} delay={i === 0 ? 0.06 : 0}>
-            <FeaturedPanel locale={locale} project={project} index={i + 1} flip={i % 2 === 1} />
-          </Reveal>
-        ))}
+        {remainingFeatured.map((project, i) => {
+          const index = i + 1;
+          return (
+            <Reveal key={project.slug}>
+              <FeaturedPanel
+                locale={locale}
+                project={project}
+                index={index + 1}
+                flip={index % 2 === 1}
+              />
+            </Reveal>
+          );
+        })}
       </div>
 
       <Reveal className="mt-20 md:mt-28">

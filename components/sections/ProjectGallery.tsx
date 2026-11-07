@@ -12,6 +12,7 @@ import type { Project } from "@/content/types";
 import { attentionAttrs, projectParams, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
+import { useHydrated } from "@/lib/useHydrated";
 import { useKeepInView } from "@/lib/useKeepInView";
 
 const panelId = (slug: string) => `proj-panel-${slug}`;
@@ -22,8 +23,9 @@ const tileId = (slug: string) => `proj-tile-${slug}`;
  *
  * The signature moment lives here now. Opening a tile does not navigate, modal
  * or crossfade: the tile lifts, its siblings recede, and a detail plane unfolds
- * under its row. Every plane stays in the DOM, `inert` when closed, because
- * that is what keeps the copy and the application IDs in the served HTML.
+ * under its row. Every plane stays in the DOM so the copy and application IDs
+ * are in the served HTML. Closed planes are CSS-hidden before hydration and
+ * inert afterwards; without JavaScript they all stand open.
  *
  * The first tile spans two columns, which is what makes seven tiles fill both
  * the 2- and the 4-column grid exactly. A different count leaves a hole, so
@@ -92,6 +94,7 @@ function GalleryItem({
   onClose: () => void;
 }) {
   const { projectsCopy } = getCopy(locale);
+  const hydrated = useHydrated();
   const asset = project.media?.asset;
   const icon = project.media?.icon;
   const params = projectParams(project, "gallery");
@@ -180,7 +183,7 @@ function GalleryItem({
               </h4>
             </div>
 
-            <p className="eyebrow leading-normal text-bone-52">
+            <p className="text-caption leading-normal text-bone-52">
               {project.category} &middot; {project.country}
             </p>
 
@@ -204,7 +207,7 @@ function GalleryItem({
         id={panelId(project.slug)}
         className="disclosure col-span-full"
         data-open={isOpen}
-        inert={!isOpen}
+        inert={hydrated && !isOpen}
         {...attentionAttrs("project", params)}
       >
         <div>

@@ -10,15 +10,18 @@ import { getExperiences } from "@/content/profile-i18n";
 
 import { attentionAttrs, experienceParams, trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
+import { useHydrated } from "@/lib/useHydrated";
 
 /**
  * Collapsed panels stay in the DOM — that is what puts every achievement bullet
- * in the served HTML — and carry `inert` when closed so they leave the tab
- * order and the accessibility tree.
+ * in the served HTML. CSS keeps them out of the tab order and accessibility
+ * tree before hydration, then `inert` takes over. With scripting disabled the
+ * panels stand open without `inert`, so the complete document stays accessible.
  */
 export function Experience({ locale = "en" }: LocaleProps) {
   const { experienceCopy } = getCopy(locale);
   const experiences = getExperiences(locale);
+  const hydrated = useHydrated();
   const [openSlug, setOpenSlug] = useState<string | null>(
     experiences.find((e) => e.isCurrent)?.slug ?? null,
   );
@@ -121,7 +124,7 @@ export function Experience({ locale = "en" }: LocaleProps) {
                   id={panelId}
                   className="disclosure"
                   data-open={isOpen}
-                  inert={!isOpen}
+                  inert={hydrated && !isOpen}
                   {...attentionAttrs("experience", experienceParams(role))}
                 >
                   <div>

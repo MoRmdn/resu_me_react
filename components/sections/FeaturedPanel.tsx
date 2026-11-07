@@ -10,6 +10,7 @@ import type { Project } from "@/content/types";
 import { attentionAttrs, projectParams, swipeAttrs, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
+import { useHydrated } from "@/lib/useHydrated";
 import { useKeepInView } from "@/lib/useKeepInView";
 
 const panelId = (slug: string) => `proj-panel-${slug}`;
@@ -21,10 +22,11 @@ const toggleId = (slug: string) => `proj-toggle-${slug}`;
  * four does not read as a template, and the 5/7 split is the system's own
  * asymmetry rather than a centred box.
  *
- * The rest unfolds under the face, in place. It stays in the DOM, `inert` when
- * closed, because that is what keeps the copy, the highlights and the
- * application ID in the served HTML. Panels open independently: closing one
- * above the reader on their behalf would pull the page out from under them.
+ * The rest unfolds under the face, in place. It stays in the DOM so the copy,
+ * highlights and application ID are in the served HTML. Closed panels are
+ * CSS-hidden before hydration and inert afterwards; without JavaScript every
+ * panel stands open instead. Panels open independently: closing one above the
+ * reader on their behalf would pull the page out from under them.
  *
  * A private project keeps its own marks inside the same layout: the frame is
  * dashed and the card carries zero copper at any tier, because copper marks the
@@ -43,6 +45,7 @@ export function FeaturedPanel({
 }) {
   const { projectsCopy } = getCopy(locale);
   const [isOpen, setIsOpen] = useState(false);
+  const hydrated = useHydrated();
   useKeepInView(isOpen ? panelId(project.slug) : null);
 
   const media = project.media;
@@ -105,7 +108,7 @@ export function FeaturedPanel({
           <div className="flex items-center gap-4">
             {media?.icon && <IconTile icon={media.icon} title={project.title} size={64} />}
             <div className="flex flex-col gap-2 pt-0.5">
-              <p className="eyebrow leading-normal text-bone-52">
+              <p className="text-caption leading-normal text-bone-52">
                 {project.country} &middot; {project.category}
               </p>
               <h3 className="text-h2">
@@ -135,7 +138,9 @@ export function FeaturedPanel({
 
           <p className="max-w-[62ch] text-body text-bone">{project.description}</p>
 
-          <p className="eyebrow text-bone-52">{projectsCopy.availability[project.availability]}</p>
+          <p className="text-caption leading-normal text-bone-52">
+            {projectsCopy.availability[project.availability]}
+          </p>
           <p className="text-h3 text-bone">{project.achievement}</p>
           {project.ledger ? (
             <dl className="hairline-grid grid-cols-3 overflow-hidden rounded-md border border-line">
@@ -179,7 +184,12 @@ export function FeaturedPanel({
         )}
       </div>
 
-      <div id={panelId(project.slug)} className="disclosure" data-open={isOpen} inert={!isOpen}>
+      <div
+        id={panelId(project.slug)}
+        className="disclosure"
+        data-open={isOpen}
+        inert={hydrated && !isOpen}
+      >
         <div>
           <ProjectDetail
             locale={locale}
