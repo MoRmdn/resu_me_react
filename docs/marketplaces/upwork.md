@@ -32,6 +32,11 @@
   role)", skills Flutter, Dart, Firebase, Web Application Development, image from
   `assets/projects/naas-promo.webp` converted to PNG (Upwork takes jpg, png, gif).
   Check the live profile to see whether it was published.
+- **Headline** (70-character limit): "Software Engineer | Cross-Platform Mobile and Web
+  Applications", the site's title. Upwork rejects `·` ("unsupported special
+  characters") but accepts `|`. It was "Software Engineer | Flutter, Firebase &
+  React | Mobile and Web Apps" until 2026-11-07. Use `form_input` on the title box:
+  setting the value from page JavaScript threw "Illegal invocation".
 - The **"Summary" block under Work history** is written by Upwork's AI from
   completed jobs. It cannot be edited. Only the overview can.
 
