@@ -35,3 +35,35 @@
   events, as on Upwork.
 - A work-experience entry: its "..." menu, then Edit, set the textarea, **Update**.
 - Reload and check the text afterwards; the rendered page can lag the saved state.
+
+## Portfolio synced to the site, 2026-11-07 (14 items)
+
+Added by browser: Arcit-AI, Mutabbib, Lpermis, Lpermis Pro, Dental Dinar, NAAS, SAAD, JS Quest,
+O'Permis (AYCO, Saber, FreeDoc were already there, plus Aera and Wassalny, which are not on the
+site). Each carries one cover (the 4:3 PNG in `~/Downloads/apps-screens/fiverr-covers/`), the
+text from `fiverr-portfolio-text.md`, **$4,000** (Fiverr shows it as a range, "$2500-$5000"),
+and the category "Mobile App Development" (JS Quest: "Software Development").
+
+Dates and duration used (confirm if they matter): Arcit-AI Dec 2023, Mutabbib Jan 2024,
+Lpermis / Lpermis Pro / Dental Dinar / O'Permis Mar 2023, NAAS Jan 2025, SAAD Oct 2025,
+JS Quest Jun 2026. Duration is "6+ months" everywhere except JS Quest ("3-6 months").
+The $4,000 and the SAAD, JS Quest and O'Permis dates came from the user.
+
+### How the form behaves (what worked)
+
+- Form: `https://www.fiverr.com/users/mormdn/portfolio/new`. Step 1 "Create project", step 2
+  "Link to catalog" (a category, then "Publish project").
+- **Fiverr's file input is a real `input[type=file]`**: `find` returns `ref_261` and
+  `file_upload` works (unlike Upwork). Max 5 files, the first is the thumbnail.
+- **Project cost is required** and public. Name is 50 characters, description 1,400.
+- Title and description: set with the native value setter plus `input`/`change`. Setting the
+  cost that way threw "Illegal invocation": click the field and type instead.
+- The dropdowns are custom widgets. Clicking an option in duration/month/year does nothing:
+  **open the field, then use the keyboard** (Down N, Enter). Month: January is 0 Downs. Year:
+  2026 is 0 Downs, 2025 is 1. Duration: 6+ months needs 5 or more Downs; check the result.
+- Industry and category are typeahead lists where a mouse click on the option works. Fiverr's
+  wording: "Health Care & Medical Center", "Driving School", "Dental Care", "Insurance",
+  "Education", "Architecture", "Social Media"; categories "Mobile App Development",
+  "Software Development". There is no plain "Healthcare".
+- The browser window size changed mid-session and every coordinate moved. Take a screenshot
+  and recompute before clicking by coordinates.
