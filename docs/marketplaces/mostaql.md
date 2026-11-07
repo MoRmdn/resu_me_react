@@ -70,5 +70,6 @@ is the only way to add more. The user chose to delete two items instead:
 
 ### State at the end of the session
 
-The NAAS form was left filled in Brave (thumbnail `07-naas.png`, Arabic title and description,
-completion date 07/11/2026), waiting for the user to tick the rights box and press "أضف العمل".
+The user ticked the rights box and submitted NAAS (9 items). SAAD was then filled the same way
+(thumbnail `02-saad.png`, Arabic title and description, completion date 04/11/2026, the day its
+Play screenshots were captured) and left for the user to tick the box and submit, which makes 10.
