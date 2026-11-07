@@ -44,3 +44,12 @@ automation cannot reach it, and fetching the image from a local server hung in B
 Adding an item means the user picks the file by hand in the upload dialog; the title,
 role, skills and description can be pasted. Upwork limits: title ~70, description 600
 characters, 6 skills.
+
+## Fiverr: ready to paste (2026-11-07)
+
+`~/Downloads/apps-screens/fiverr-covers/` holds nine 1600x1200 covers (the first file
+Fiverr uses as the thumbnail) and `fiverr-portfolio-text.md` with the name, industries,
+start date, extra screens and description for each missing project. SAAD and NAAS covers
+were generated (screens on the site's ink background). Fiverr's form: name 50 characters,
+description 1,400, up to 5 attachments, no URL field. Items marked "confirm" have no date,
+or no role, in the CV.
