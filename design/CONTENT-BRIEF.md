@@ -92,7 +92,7 @@ Badge on the current role reads `CURRENT`.
 
 ### 01. Flutter Developer — MisMar | مسمار
 
-`January 2025 — Present` · Saudi Arabia (Remote) · Remote, contract, full-time · **CURRENT**
+`March 2025 — Present` · Saudi Arabia (Remote) · Remote, contract, full-time · **CURRENT**
 
 Core contributor to NAAS, MisMar's B2B Flutter Web platform for fleet repair and car insurance claims, which connects insurers, fleet owners, workshops and parts vendors in one workflow. Earlier, a short stint on the MisMar driver app for iOS and Android.
 
