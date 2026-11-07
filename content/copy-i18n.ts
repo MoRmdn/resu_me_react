@@ -6,7 +6,7 @@ import { clientCountries } from "./clients";
 export const ui = {
   en: {
     technologies: "Technologies",
-    completedJobs: "completed jobs",
+    completedJobs: "jobs",
     reviews: "reviews",
     english: "English",
     arabic: "العربية",
@@ -28,7 +28,7 @@ export const ui = {
     moreReviews: "Show more reviews",
     fewerReviews: "Show fewer reviews",
     testimonials: "What clients say",
-    proof: `${reviewTotal} reviews and completed jobs across ${reviewPlatforms.length} marketplaces`,
+    proof: `${reviewTotal} reviews and jobs across ${reviewPlatforms.length} marketplaces`,
     proofLink: "Read client reviews",
     rating: "Rated 5 out of 5",
     repeat: "Repeat client",
@@ -41,7 +41,7 @@ export const ui = {
   },
   ar: {
     technologies: "التقنيات",
-    completedJobs: "أعمال مكتملة",
+    completedJobs: "أعمال",
     reviews: "تقييمات",
     english: "English",
     arabic: "العربية",
@@ -63,7 +63,7 @@ export const ui = {
     moreReviews: "عرض المزيد من التقييمات",
     fewerReviews: "عرض تقييمات أقل",
     testimonials: "ماذا يقول العملاء؟",
-    proof: `${reviewTotal} تقييمًا وعملًا مكتملًا عبر ${reviewPlatforms.length} منصات للعمل الحر`,
+    proof: `${reviewTotal} تقييمًا وعملًا عبر ${reviewPlatforms.length} منصات للعمل الحر`,
     proofLink: "اقرأ تقييمات العملاء",
     rating: "التقييم 5 من 5",
     repeat: "عميل متكرر",
@@ -170,9 +170,9 @@ const ar: typeof en = {
   reviewsCopy: {
     ...en.reviewsCopy,
     eyebrow: "05 / التقييمات",
-    headline: `${reviewTotal} تقييمًا وعملًا مكتملًا.`,
+    headline: `${reviewTotal} تقييمًا وعملًا.`,
     blurb:
-      "تقييمات وأعمال مكتملة عبر منصات العمل الحر. النصوص الأصلية منقولة كما كتبها العملاء، والترجمات موضّحة ويمكن الرجوع إلى الأصل.",
+      "تقييمات وأعمال عبر منصات العمل الحر. النصوص الأصلية منقولة كما كتبها العملاء، والترجمات موضّحة ويمكن الرجوع إلى الأصل.",
     note: "مجموعة منتقاة من التقييمات. القوائم الكاملة متاحة عبر روابط المنصات أعلاه.",
     pauseLabel: "إيقاف",
     playLabel: "تشغيل",

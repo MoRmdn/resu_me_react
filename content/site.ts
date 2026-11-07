@@ -23,7 +23,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-11-06",
+  contentLastChanged: "2026-11-07",
 } as const;
 
 export const contact = {
