@@ -29,3 +29,5 @@ the user's job. Still to change on the profile:
   Provider/Riverpod/Bloc). Replace with the NAAS wording from `content/experience.ts`.
 - **Portfolio:** "MisMar - Vehicle Maintenance App" is the driver app; add a NAAS
   Dashboard item and keep the existing one.
+- **MisMar date:** the profile still says "Jan, 2025 - Present"; it should be **March 2025** (2026-11-07).
+

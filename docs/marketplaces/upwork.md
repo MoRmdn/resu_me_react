@@ -22,7 +22,7 @@
 - **Overview** (profile description, 1,892 characters): kept the user's own text
   and added "insurance and fleet repair" to the domains list plus one sentence
   about NAAS.
-- **Employment history, MisMar (Jan 2025 to present):** the site's wording: core
+- **Employment history, MisMar (Mar 2025 to present; the user confirmed March, 2026-11-07):** the site's wording: core
   contributor to NAAS, the B2B Flutter Web platform for fleet repair and car
   insurance claims, with the driver app as one earlier clause, then the five
   achievement bullets and the stack line. Source: `content/experience.ts`.

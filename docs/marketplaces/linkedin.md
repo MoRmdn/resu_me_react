@@ -14,9 +14,9 @@
   Arabia)". 2,207 of 2,600 characters.
 - **Experience, MisMar:** the Highlights now carry the site's NAAS wording (core contributor, driver app as one
   earlier clause, the five bullets, the stack), 807 of 2,000 characters. Source: `content/experience.ts`.
-- **Not changed, and worth checking:** LinkedIn dates MisMar "Mar 2025 - Present"; the site and Upwork say
-  January 2025. Other roles' dates also differ slightly from the site (Mutabbib "Nov 2023 - Dec 2025" vs
-  Ebdda "Jan 2024 - Jan 2026"; Arcit-AI ends Mar 2025 vs Dec 2024). Ask the user which is right.
+- **Dates:** MisMar "Mar 2025 - Present" is correct (confirmed by the user, and the site now says March 2025). Other
+  roles' dates still differ slightly from the site (Mutabbib "Nov 2023 - Dec 2025" vs Ebdda "Jan 2024 - Jan 2026";
+  Arcit-AI ends Mar 2025 vs Dec 2024; Demeter ends Mar 2025 vs Jan 2025): ask before changing.
 
 ## Editing through a browser
 

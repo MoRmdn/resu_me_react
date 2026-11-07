@@ -45,7 +45,7 @@ text from `fiverr-portfolio-text.md`, **$4,000** (Fiverr shows it as a range, "$
 and the category "Mobile App Development" (JS Quest: "Software Development").
 
 Dates and duration used (confirm if they matter): Arcit-AI Dec 2023, Mutabbib Jan 2024,
-Lpermis / Lpermis Pro / Dental Dinar / O'Permis Mar 2023, NAAS Jan 2025, SAAD Oct 2025,
+Lpermis / Lpermis Pro / Dental Dinar / O'Permis Mar 2023, NAAS Mar 2025, SAAD Oct 2025,
 JS Quest Jun 2026. Duration is "6+ months" everywhere except JS Quest ("3-6 months").
 The $4,000 and the SAAD, JS Quest and O'Permis dates came from the user.
 
@@ -92,4 +92,10 @@ Dinar, Arcit-AI, Lpermis, Lpermis Pro, FreeDoc, Aera, Wassalny, so the profile s
   ("Ecommerce"), duration ("6+ months"), cost ($4,000, flat like the others) and a start date
   (March 2023, from the Eleven Stars role). Confirm these if they matter.
 - The edit page for any item is `/users/mormdn/portfolio/<id>/edit`; the id is in the item's URL.
+
+### MisMar start date (2026-11-07)
+
+MisMar started in **March 2025** (user-confirmed; the site, Upwork, Fiverr's work experience and its NAAS
+item all say so now). On Fiverr's work-experience form the start date is a **calendar picker that stores
+the day in UTC**: picking the 1st of March saved "Feb 2025". Pick a mid-month day (the 15th) instead.
 
