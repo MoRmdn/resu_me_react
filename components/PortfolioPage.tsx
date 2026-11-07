@@ -1,3 +1,5 @@
+import type { LocaleProps } from "@/content/locale";
+import { SocialProof } from "@/components/sections/SocialProof";
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { TechStrip } from "@/components/sections/TechStrip";
@@ -23,30 +25,31 @@ import { RevealRoot } from "@/components/motion/RevealRoot";
  * hero shows through them mid-page, which looks like a rendering fault. The
  * artboard needs no equivalent because its hero is a static block.
  */
-export default function Home() {
+export default function PortfolioPage({ locale = "en" }: LocaleProps) {
   return (
     <>
       <ScrollProgress />
       <RevealRoot />
-      <Nav />
+      <Nav locale={locale} />
       <main id="main">
-        <Hero />
+        <Hero locale={locale} />
         <div className="relative z-10 bg-ink-900">
           {/* The nav watches this to know when the hero's CTA has gone, so the
               hero button and the nav button are never both copper (§1.3). It
               sits here rather than inside the Hero because the hero is sticky —
               anything inside it stays pinned and never crosses the nav line. */}
           <div id="hero-end" aria-hidden className="h-px w-px" />
-          <TechStrip />
-          <About />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Reviews />
-          <Contact />
+          <TechStrip locale={locale} />
+          <SocialProof locale={locale} />
+          <About locale={locale} />
+          <Experience locale={locale} />
+          <Projects locale={locale} />
+          <Skills locale={locale} />
+          <Reviews locale={locale} />
+          <Contact locale={locale} />
         </div>
       </main>
-      <Footer />
+      <Footer locale={locale} />
     </>
   );
 }

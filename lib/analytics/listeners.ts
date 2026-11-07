@@ -69,6 +69,9 @@ function onClick(event: MouseEvent) {
   if (tagged) {
     sendEvent(tagged.dataset.track as EventName, {
       ...parse(tagged.dataset.trackParams),
+      ...(tagged.matches("summary") && tagged.parentElement instanceof HTMLDetailsElement
+        ? { toggle_action: tagged.parentElement.open ? "close" : "open" }
+        : {}),
       section_id: sectionOf(tagged),
     });
     return;
@@ -125,7 +128,10 @@ function onPointerOver(event: PointerEvent) {
   hovered = el;
   if (!el) return;
 
-  hoverTimer = setTimeout(() => reportHover(el), el.matches(REVIEW) ? HOVER_REVIEW_MS : HOVER_TILE_MS);
+  hoverTimer = setTimeout(
+    () => reportHover(el),
+    el.matches(REVIEW) ? HOVER_REVIEW_MS : HOVER_TILE_MS,
+  );
 }
 
 function reportHover(el: Element) {

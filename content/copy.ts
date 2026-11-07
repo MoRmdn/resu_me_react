@@ -4,6 +4,7 @@
  *
  * The hero intro previously said "four years" — the CV says over five.
  */
+import { orderedProjects } from "./projects";
 import { clientCountries } from "./clients";
 import { reviews, reviewTotal } from "./reviews";
 import { contact, metrics, site } from "./site";
@@ -28,7 +29,7 @@ export const hero = {
   trackRecordLabel: "Track record",
   trackRecord: [
     { value: metrics.yearsExperience, suffix: "+", label: "Years shipping Flutter" },
-    { value: metrics.appsLiveOnBothStores, suffix: "", label: "Apps live on both stores" },
+    { value: orderedProjects.length, suffix: "", label: "Selected apps and products" },
     { value: metrics.teams, suffix: "", label: `Teams across ${metrics.countries} countries` },
   ],
   viewsLabel: "page views",
@@ -64,13 +65,27 @@ export const experienceCopy = {
   hint: "tap a row to expand",
   currentBadge: "CURRENT",
   bandAxisNote: "DURATION \u00b7 CLICK A BAR",
-  bandCaption:
-    "Four of these ran at once through 2024 \u2014 most of them remote and part-time.",
+  bandCaption: "Four of these ran at once through 2024 \u2014 most of them remote and part-time.",
 };
 
 export const projectsCopy = {
   eyebrow: "03 / Projects",
-  headline: "Live on both stores.",
+  headline: "Selected apps and products.",
+  countLabel: (count: number) => `${count} selected projects`,
+  storyLabels: {
+    problem: "The problem",
+    responsibility: "My responsibility",
+    decisions: "Key decisions",
+    result: "The result",
+  },
+  availability: {
+    store_links: "Store links provided",
+    web: "Web project",
+    private: "Private client · no public listing",
+    sign_in: "Sign-in only B2B platform",
+    discontinued: "No longer listed on the stores",
+    unavailable: "Public links unavailable",
+  },
   privateLabel: "Private client · no public listing",
   appStoreLabel: "App Store",
   playStoreLabel: "Google Play",
@@ -97,9 +112,9 @@ export const skillsCopy = {
 
 export const reviewsCopy = {
   eyebrow: "05 / Reviews",
-  headline: `${reviewTotal} reviews. All five stars.`,
+  headline: `${reviewTotal} reviews and completed jobs.`,
   blurb:
-    "Every number below is a client who could have said otherwise. The quotes are copied word for word, typos included. Arabic ones keep the original with a translation underneath.",
+    "Reviews and completed jobs across freelance marketplaces. Original quotes are copied word for word, typos included. Translations are labelled and originals remain available.",
   scoreLabel: "5.0",
   note: `${reviews.length} of them, picked by me. The full lists are one click away on each platform.`,
   pauseLabel: "Pause",
@@ -116,8 +131,8 @@ export const clientMapCopy = {
   mapLabel: `World map of client locations across ${clientCountries.length} countries. The same figures are in the list that follows.`,
   filterLabel: "Show clients from",
   allLabel: "All sites",
-  countriesLabel: (count: number) => (count === 1 ? "country" : "countries"),
-  clientsLabel: (count: number) => (count === 1 ? "client" : "clients"),
+  countriesLabel: (count: number): string => (count === 1 ? "country" : "countries"),
+  clientsLabel: (count: number): string => (count === 1 ? "client" : "clients"),
   homeLabel: "Mansoura, Egypt",
   countedNote: "Counted once per site, so a client on two sites counts twice.",
   unplacedNote: (count: number) =>
@@ -165,7 +180,7 @@ export const privacyCopy = {
   headline: "What this site measures",
   intro:
     "This is the portfolio of Mohamed Ramadan. It uses Google Analytics to understand how people use the page, mainly which projects hold their attention.",
-  updated: "Last updated 30 October 2026",
+  updated: "Last updated 6 November 2026",
   backLabel: "Back to the portfolio",
   choiceTitle: "Your choice",
   choiceBody:
@@ -176,6 +191,7 @@ export const privacyCopy = {
       items: [
         "Pages opened, the links and buttons clicked, and how far down the page you scroll.",
         "How long you stop on each project, section and role, and which projects you open.",
+        "Language choices and opening more reviews or their original text.",
         "Page speed and script errors, so problems can be found and fixed.",
         "General facts Google Analytics reports: approximate location by city, device type, browser, language and the site that sent you.",
       ],
@@ -223,7 +239,7 @@ export const llmsCopy = {
   skillsHeading: "Skills",
   reviewsHeading: "Client reviews",
   reviewsSummary: (total: number, platforms: number) =>
-    `${total} reviews across ${platforms} freelance marketplaces, every one of them five stars. The quotes on the page are copied word for word from these profiles.`,
+    `${total} reviews and completed jobs across ${platforms} freelance marketplaces. Original quotes on the page are copied word for word from these profiles.`,
   clientsSummary: (clients: number, countries: number, names: string) =>
     `${clients} freelance clients in ${countries} countries: ${names}. A client who hired on two marketplaces is counted on each.`,
   educationHeading: "Education",

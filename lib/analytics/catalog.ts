@@ -26,6 +26,13 @@ type ParamSpec = {
 };
 
 export const PARAMS = {
+  target_locale: {
+    label: "Target language",
+    description:
+      "The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation.",
+    type: "string",
+    values: ["en", "ar"],
+  },
   // Sent with every event.
   event_description: {
     label: "Event description",
@@ -416,7 +423,13 @@ export const EVENTS = {
     group: "Attention",
     description: "One line describing the whole page load, for comparing engaged and quick visits.",
     trigger: "The page being closed or navigated away from.",
-    params: ["visit_seconds", "max_scroll_percent", "sections_seen", "projects_seen", "click_count"],
+    params: [
+      "visit_seconds",
+      "max_scroll_percent",
+      "sections_seen",
+      "projects_seen",
+      "click_count",
+    ],
     optional: ["top_project"],
   },
 
@@ -479,15 +492,43 @@ export const EVENTS = {
     params: ["link_text", "link_url"],
   },
 
+  language_switch: {
+    group: "Navigation",
+    description: "Measures visitors explicitly changing the portfolio language.",
+    trigger: "Clicking the English or Arabic language link.",
+    params: ["target_locale"],
+  },
+  reviews_expand: {
+    group: "Reviews",
+    description: "Measures visitors opening or closing the remaining client reviews.",
+    trigger: "Activating the Show more or Show fewer reviews disclosure.",
+    params: ["toggle_action"],
+  },
+  review_original_toggle: {
+    group: "Reviews",
+    description:
+      "Measures visitors opening or closing the original wording of a translated review without collecting its text or author.",
+    trigger: "Activating a review original-text disclosure.",
+    params: ["toggle_action"],
+  },
+  review_summary_click: {
+    group: "Reviews",
+    description:
+      "Measures visitors following the early credibility summary to the full reviews section.",
+    trigger: "Clicking Read client reviews below the technology strip.",
+    params: [],
+  },
   review_platform_click: {
     group: "Reviews",
-    description: "Shows visitors checking a score at its source, which is a sign of serious intent.",
+    description:
+      "Shows visitors checking a score at its source, which is a sign of serious intent.",
     trigger: "A click on a marketplace's score cell.",
     params: ["platform_id", "platform_label", "review_count"],
   },
   review_hover: {
     group: "Reviews",
-    description: "Shows reviews being read. The wall pauses under the pointer, so this is a real stop.",
+    description:
+      "Shows reviews being read. Only the review reference hash and platform are collected.",
     trigger: "A mouse resting on a review card for 1.5 seconds, once per review.",
     params: ["review_ref", "platform_id"],
   },
@@ -554,7 +595,8 @@ export const EVENTS = {
   },
   content_click: {
     group: "Safety net",
-    description: "A click on something that is not a control, which shows what visitors expect to work.",
+    description:
+      "A click on something that is not a control, which shows what visitors expect to work.",
     trigger: "A click anywhere that is not a link or button.",
     params: ["element_tag", "element_text"],
     optional: PROJECT,
@@ -636,7 +678,6 @@ export type EventParams<E extends EventName> = { [P in Required<E>]: ParamValue<
 
 export type ProjectPlacement = ParamValue<"project_placement">;
 export type ProjectParams = EventParams<"project_impression">;
-export type ExperienceParams = EventParams<"experience_dwell"> extends infer T
-  ? Omit<T, "dwell_seconds">
-  : never;
+export type ExperienceParams =
+  EventParams<"experience_dwell"> extends infer T ? Omit<T, "dwell_seconds"> : never;
 export type NavLocation = ParamValue<"nav_location">;

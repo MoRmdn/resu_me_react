@@ -1,7 +1,8 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { consentCopy } from "@/content/copy";
+import { getCopy } from "@/content/copy-i18n";
+import type { Locale, LocaleProps } from "@/content/locale";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import type { EventParams } from "@/lib/analytics/catalog";
 import {
@@ -16,12 +17,15 @@ const BUTTON =
   "inline-flex min-h-11 items-center rounded-md border border-line px-4 text-caption text-bone transition-colors duration-fast ease-fast hover:border-line-strong hover:bg-bone-06";
 
 function ConsentButtons({
+  locale = "en",
   source,
   current,
 }: {
+  locale?: Locale;
   source: EventParams<"consent_choice">["consent_source"];
   current?: ReturnType<typeof getConsentChoice>;
 }) {
+  const { consentCopy } = getCopy(locale);
   return (
     <div className="flex flex-wrap gap-2">
       <button
@@ -53,7 +57,8 @@ function ConsentButtons({
  * never be the LCP element or shift the served layout. It stays off the privacy
  * page, which has the same choice in the page itself.
  */
-export function ConsentNotice() {
+export function ConsentNotice({ locale = "en" }: LocaleProps) {
+  const { consentCopy } = getCopy(locale);
   const needed = useSyncExternalStore(
     subscribeConsent,
     () => isConsentNoticeNeeded() && window.location.pathname !== consentCopy.policyHref,
@@ -81,14 +86,15 @@ export function ConsentNotice() {
         </a>
       </p>
       <div className="mt-4">
-        <ConsentButtons source="notice" />
+        <ConsentButtons locale={locale} source="notice" />
       </div>
     </aside>
   );
 }
 
 /** The same choice on the privacy page, open to every visitor at any time. */
-export function ConsentControl() {
+export function ConsentControl({ locale = "en" }: LocaleProps) {
+  const { consentCopy } = getCopy(locale);
   const current = useSyncExternalStore(subscribeConsent, getConsentChoice, () => null);
 
   return (
@@ -96,7 +102,7 @@ export function ConsentControl() {
       <p className="eyebrow mb-3 text-bone-52">
         {current ? consentCopy.currentLabel[current] : consentCopy.currentLabel.none}
       </p>
-      <ConsentButtons source="privacy_page" current={current} />
+      <ConsentButtons locale={locale} source="privacy_page" current={current} />
     </div>
   );
 }

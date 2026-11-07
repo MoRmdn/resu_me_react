@@ -64,21 +64,18 @@ export function SectionHeader({
   note,
   aside,
   className,
+  headingClassName,
 }: {
   eyebrow: string;
   headline: React.ReactNode;
   note?: string;
   aside?: React.ReactNode;
   className?: string;
+  headingClassName?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "flex flex-wrap items-end justify-between gap-x-10 gap-y-4",
-        className,
-      )}
-    >
-      <div className="max-w-[16ch]">
+    <div className={cn("flex flex-wrap items-end justify-between gap-x-10 gap-y-4", className)}>
+      <div className={headingClassName ?? "max-w-[16ch]"}>
         <p className="eyebrow text-bone-52">{eyebrow}</p>
         <h2 className="mt-6 text-display-l text-balance">{headline}</h2>
       </div>

@@ -1,11 +1,14 @@
 "use client";
+import type { LocaleProps } from "@/content/locale";
+import { getCopy, ui } from "@/content/copy-i18n";
 
 import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/motion/Reveal";
-import { contactCopy } from "@/content/copy";
-import { channels, contact, socials } from "@/content/site";
+
+import { contact, socials } from "@/content/site";
+import { getProfile } from "@/content/profile-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 
@@ -18,7 +21,10 @@ import { cn } from "@/lib/cn";
  * WhatsApp, as the first channel, holds this viewport's single Tier 1 copper
  * fill (DESIGN-SYSTEM v2 §1.3).
  */
-export function Contact() {
+export function Contact({ locale = "en" }: LocaleProps) {
+  const { contactCopy } = getCopy(locale);
+  const copy = ui[locale];
+  const { channels } = getProfile(locale);
   return (
     <Section id="contact" tone="ink-800" z={20} offset={-40}>
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
@@ -57,11 +63,13 @@ export function Contact() {
                     })}
                   >
                     {s.label}
-                    <span className="text-bone-52">{s.handle}</span>
+                    <span className="text-bone-52">
+                      <bdi dir="ltr">{s.handle}</bdi>
+                    </span>
                     <span aria-hidden className="text-bone-52">
                       &#8599;
                     </span>
-                    <span className="sr-only">(opens in a new tab)</span>
+                    <span className="sr-only">{copy.external}</span>
                   </a>
                 </li>
               ))}
@@ -79,7 +87,7 @@ export function Contact() {
             <ul className="hairline-grid mt-6 border border-line sm:grid-cols-2">
               {channels.map((channel) => (
                 <li key={channel.id} className="bg-ink-700">
-                  <ChannelCard channel={channel} />
+                  <ChannelCard locale={locale} channel={channel} />
                 </li>
               ))}
             </ul>
@@ -90,9 +98,10 @@ export function Contact() {
   );
 }
 
-type Channel = (typeof channels)[number];
+type Channel = ReturnType<typeof getProfile>["channels"][number];
 
-function ChannelCard({ channel }: { channel: Channel }) {
+function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocaleProps) {
+  const copy = ui[locale];
   const isPrimary = "primary" in channel && channel.primary;
   const isExternal = channel.url.startsWith("http");
 
@@ -117,7 +126,7 @@ function ChannelCard({ channel }: { channel: Channel }) {
           })}
         >
           <span className={isPrimary ? "text-ink-900" : "text-bone-52"}>{channel.label}</span>
-          {isExternal && <span className="sr-only">(opens in a new tab)</span>}
+          {isExternal && <span className="sr-only">{copy.external}</span>}
         </a>
         <span
           aria-hidden
@@ -136,7 +145,7 @@ function ChannelCard({ channel }: { channel: Channel }) {
           isPrimary ? "text-ink-900" : "text-bone",
         )}
       >
-        {channel.handle}
+        <bdi dir="ltr">{channel.handle}</bdi>
       </p>
 
       {/* The note follows the handle in every cell; only the copy button is
@@ -147,7 +156,7 @@ function ChannelCard({ channel }: { channel: Channel }) {
 
       {"copyable" in channel && channel.copyable && (
         <div className="mt-auto pt-3">
-          <CopyAddress value={contact.email} />
+          <CopyAddress locale={locale} value={contact.email} />
         </div>
       )}
     </div>
@@ -161,7 +170,8 @@ function ChannelCard({ channel }: { channel: Channel }) {
  *
  * Sits above the stretched link, hence the z-index.
  */
-function CopyAddress({ value }: { value: string }) {
+function CopyAddress({ value, locale = "en" }: { value: string } & LocaleProps) {
+  const { contactCopy } = getCopy(locale);
   const [copied, setCopied] = useState(false);
 
   return (

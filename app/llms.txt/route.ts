@@ -1,4 +1,4 @@
-import { about, contactCopy, hero, llmsCopy } from "@/content/copy";
+import { about, contactCopy, hero, llmsCopy, projectsCopy } from "@/content/copy";
 import { clientCountries, unplacedClients } from "@/content/clients";
 import { experiences } from "@/content/experience";
 import { projects } from "@/content/projects";
@@ -75,6 +75,15 @@ export function GET() {
       `${p.category} · ${p.country} · ${p.technologies.join(", ")}`,
       "",
       p.longDescription,
+      projectsCopy.availability[p.availability],
+      ...(p.story
+        ? [
+            p.story.problem,
+            p.story.responsibility,
+            ...p.story.decisions.map((d) => `- ${d}`),
+            p.story.result,
+          ]
+        : []),
       "",
       `${llmsCopy.outcomeLabel}: ${p.achievement}`,
       ...(p.bundleId ? [`${llmsCopy.applicationIdLabel}: ${p.bundleId}`] : []),

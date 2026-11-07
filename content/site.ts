@@ -23,7 +23,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-11-05",
+  contentLastChanged: "2026-11-06",
 } as const;
 
 export const contact = {
@@ -109,12 +109,10 @@ export const socials = [
 export const publisherNamespace = "com.mormdn";
 
 /**
- * Hero metrics. Confirmed 2026-09: the apps figure counts unlisted and
- * client-account releases as well as the five publicly listed titles.
+ * Career metrics. The selected-project count is derived from projects.ts.
  */
 export const metrics = {
   yearsExperience: 5,
-  appsLiveOnBothStores: 10,
   teams: 7,
   countries: 6,
 } as const;

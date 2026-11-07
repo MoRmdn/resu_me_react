@@ -1,18 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import type { LocaleProps } from "@/content/locale";
+import { getProfile } from "@/content/profile-i18n";
+import { ui } from "@/content/copy-i18n";
+import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MoRmdnLockup } from "@/components/brand/MoRmdnLockup";
-import { navSections, site } from "@/content/site";
+import { site } from "@/content/site";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { useScrollSpy } from "@/lib/useScrollSpy";
 import { cn } from "@/lib/cn";
 
-const SECTION_IDS = navSections.map((s) => s.id);
-const LINKS = navSections.filter((s) => s.id !== "contact");
-
-export function Nav() {
+export function Nav({ locale = "en" }: LocaleProps) {
+  // Memoised by locale: getProfile("ar") builds fresh arrays per call, and an
+  // unstable SECTION_IDS makes useScrollSpy tear down and rebuild its
+  // IntersectionObserver on every scroll-spy state change.
+  const { navSections } = useMemo(() => getProfile(locale), [locale]);
+  const copy = ui[locale];
+  const SECTION_IDS = useMemo(() => navSections.map((s) => s.id), [navSections]);
+  const LINKS = navSections.filter((s) => s.id !== "contact");
   const active = useScrollSpy(SECTION_IDS);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const sheet = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [pastHero, setPastHero] = useState(false);
 
@@ -26,20 +36,17 @@ export function Nav() {
     const sentinel = document.getElementById("hero-end");
     if (!sentinel) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setPastHero(!entry.isIntersecting),
-      {
-        // Top margin shrinks the root by the nav's height, so the swap lands as
-        // the hero's bottom edge passes under the pill. The huge bottom margin
-        // is what makes it reliable: it means the sentinel counts as
-        // intersecting anywhere below the nav, so the only transition is the
-        // one at the nav line. Without it, an instant jump (a deep link, scroll
-        // restoration) carries the sentinel through the root between samples
-        // and no callback fires at all.
-        rootMargin: "-88px 0px 100000px 0px",
-        threshold: 0,
-      },
-    );
+    const observer = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
+      // Top margin shrinks the root by the nav's height, so the swap lands as
+      // the hero's bottom edge passes under the pill. The huge bottom margin
+      // is what makes it reliable: it means the sentinel counts as
+      // intersecting anywhere below the nav, so the only transition is the
+      // one at the nav line. Without it, an instant jump (a deep link, scroll
+      // restoration) carries the sentinel through the root between samples
+      // and no callback fires at all.
+      rootMargin: "-88px 0px 100000px 0px",
+      threshold: 0,
+    });
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, []);
@@ -47,7 +54,23 @@ export function Nav() {
   // The sheet is modal: lock the page behind it and close on Escape.
   useEffect(() => {
     if (!open) return;
+    const opener = menuButton.current;
+    const controls = () => [...(sheet.current?.querySelectorAll<HTMLElement>("a, button") ?? [])];
+    controls()[0]?.focus();
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Tab") {
+        const items = controls();
+        const first = items[0],
+          last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+        return;
+      }
       if (e.key !== "Escape") return;
       track("nav_menu_toggle", { menu_action: "close", toggle_method: "escape" });
       setOpen(false);
@@ -57,6 +80,7 @@ export function Nav() {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      opener?.focus({ preventScroll: true });
     };
   }, [open]);
 
@@ -64,15 +88,15 @@ export function Nav() {
     <>
       <header className="fixed inset-x-0 top-0 z-40 px-5 pt-5 md:px-8">
         <nav
-          aria-label="Primary"
-          className="mx-auto flex h-[58px] max-w-content items-center justify-between rounded-pill border border-line bg-ink-700/72 px-3 pl-5 backdrop-blur-xl"
+          aria-label={copy.primary}
+          className="mx-auto flex h-[58px] max-w-content items-center justify-between rounded-pill border border-line bg-ink-700/72 px-3 ps-5 backdrop-blur-xl"
           style={{ boxShadow: "0 18px 50px rgb(0 0 0 / 0.5)" }}
         >
           <a
             href="#top"
             // The accessible name has to contain the visible wordmark (WCAG
             // 2.5.3, label in name), or "click MoRmdn" fails for voice control.
-            aria-label={`${site.shortName}, back to top`}
+            aria-label={`${site.shortName}, ${copy.home}`}
             className="inline-flex min-h-11 items-center rounded-sm"
             {...trackAttrs("nav_link_click", {
               link_target: "top",
@@ -83,7 +107,7 @@ export function Nav() {
             <MoRmdnLockup />
           </a>
 
-          <div className="hidden items-center gap-1 sm:flex">
+          <div className="hidden items-center gap-1 lg:flex">
             {LINKS.map((link) => (
               <a
                 key={link.id}
@@ -113,7 +137,7 @@ export function Nav() {
             <a
               href="#contact"
               className={cn(
-                "ml-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold",
+                "ms-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold",
                 "transition-[background-color,border-color,color,transform] duration-fast ease-fast hover:-translate-y-0.5",
                 pastHero && active !== "contact"
                   ? "bg-copper text-ink-900 hover:bg-copper-bright"
@@ -121,19 +145,24 @@ export function Nav() {
               )}
               {...trackAttrs("cta_click", { cta_id: "nav_hire_me", link_text: "Hire me" })}
             >
-              Hire me
+              {copy.hire}
             </a>
           </div>
 
+          <LanguageSwitch locale={locale} />
           <button
+            ref={menuButton}
             type="button"
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            className="inline-flex size-11 items-center justify-center rounded-pill text-bone sm:hidden"
-            {...trackAttrs("nav_menu_toggle", { menu_action: "open", toggle_method: "menu_button" })}
+            className="inline-flex size-11 items-center justify-center rounded-pill text-bone lg:hidden"
+            {...trackAttrs("nav_menu_toggle", {
+              menu_action: "open",
+              toggle_method: "menu_button",
+            })}
           >
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{copy.openMenu}</span>
             <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden>
               <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" strokeWidth="1.5" />
             </svg>
@@ -142,16 +171,28 @@ export function Nav() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-50 sm:hidden" role="dialog" aria-modal="true" id="mobile-nav">
+        <div
+          className="fixed inset-0 z-50 lg:hidden"
+          role="dialog"
+          aria-label={copy.primary}
+          aria-modal="true"
+          id="mobile-nav"
+        >
           <button
             type="button"
-            aria-label="Close menu"
+            aria-label={copy.closeMenu}
             onClick={() => setOpen(false)}
             className="absolute inset-0 h-full w-full bg-ink-900/70 backdrop-blur-sm"
             {...trackAttrs("nav_menu_toggle", { menu_action: "close", toggle_method: "backdrop" })}
           />
-          <div className="absolute inset-x-0 bottom-0 rounded-t-[20px] border-t border-line bg-ink-700 pt-3 pb-8 motion-safe:animate-[rise-in_0.32s_var(--ease-base)_both]">
+          <div
+            ref={sheet}
+            className="absolute inset-x-0 bottom-0 rounded-t-[20px] border-t border-line bg-ink-700 pt-3 pb-8 motion-safe:animate-[rise-in_0.32s_var(--ease-base)_both]"
+          >
             <div className="mx-auto mb-6 h-1 w-9 rounded-pill bg-bone-18" aria-hidden />
+            <div className="px-5 pb-3">
+              <LanguageSwitch locale={locale} />
+            </div>
             <ul className="px-5">
               {navSections.map((link) => (
                 <li key={link.id}>

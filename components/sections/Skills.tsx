@@ -1,7 +1,8 @@
+import type { LocaleProps } from "@/content/locale";
+import { getCopy, ui } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { skillGroups } from "@/content/skills";
-import { skillsCopy } from "@/content/copy";
+import { getSkills } from "@/content/profile-i18n";
 
 /**
  * Six numbered plates on the 7/5 split, replacing v1's flat hairline table.
@@ -11,9 +12,12 @@ import { skillsCopy } from "@/content/copy";
  * copper on its label; no other plate is accented. The oversized index numeral is bone at 10% — decorative,
  * below the contrast floor by design, and hidden from assistive tech.
  */
-export function Skills() {
+export function Skills({ locale = "en" }: LocaleProps) {
+  const { skillsCopy } = getCopy(locale);
+  const copy = ui[locale];
+  const skillGroups = getSkills(locale);
   return (
-    <Section id="skills" tone="ink-800" z={18} offset={112}>
+    <Section id="skills" className="skills-section" tone="ink-800" z={18} offset={112}>
       <div className="mb-16 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-20">
         <div>
           <Eyebrow>{skillsCopy.eyebrow}</Eyebrow>
@@ -47,7 +51,9 @@ export function Skills() {
                   >
                     {group.label}
                   </h3>
-                  <p className="eyebrow text-bone-52">{group.items.length} capabilities</p>
+                  <p className="eyebrow text-bone-52">
+                    {group.items.length} {copy.capabilities}
+                  </p>
                 </div>
               </div>
 

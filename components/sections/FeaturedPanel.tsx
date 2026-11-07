@@ -4,11 +4,13 @@ import { useState } from "react";
 import { IconTile } from "@/components/ui/IconTile";
 import { ProjectPlate, ScreenStrip } from "@/components/ui/ProjectPlate";
 import { ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
-import { projectsCopy } from "@/content/copy";
+import { getCopy } from "@/content/copy-i18n";
+import type { Locale } from "@/content/locale";
 import type { Project } from "@/content/types";
 import { attentionAttrs, projectParams, swipeAttrs, trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { cn } from "@/lib/cn";
+import { useHydrated } from "@/lib/useHydrated";
 import { useKeepInView } from "@/lib/useKeepInView";
 
 const panelId = (slug: string) => `proj-panel-${slug}`;
@@ -20,25 +22,30 @@ const toggleId = (slug: string) => `proj-toggle-${slug}`;
  * four does not read as a template, and the 5/7 split is the system's own
  * asymmetry rather than a centred box.
  *
- * The rest unfolds under the face, in place. It stays in the DOM, `inert` when
- * closed, because that is what keeps the copy, the highlights and the
- * application ID in the served HTML. Panels open independently: closing one
- * above the reader on their behalf would pull the page out from under them.
+ * The rest unfolds under the face, in place. It stays in the DOM so the copy,
+ * highlights and application ID are in the served HTML. Closed panels are
+ * CSS-hidden before hydration and inert afterwards; without JavaScript every
+ * panel stands open instead. Panels open independently: closing one above the
+ * reader on their behalf would pull the page out from under them.
  *
  * A private project keeps its own marks inside the same layout: the frame is
  * dashed and the card carries zero copper at any tier, because copper marks the
  * reachable and nothing here is reachable. A ledger stands in for the outcome.
  */
 export function FeaturedPanel({
+  locale = "en",
   project,
   index,
   flip,
 }: {
+  locale?: Locale;
   project: Project;
   index: number;
   flip: boolean;
 }) {
+  const { projectsCopy } = getCopy(locale);
   const [isOpen, setIsOpen] = useState(false);
+  const hydrated = useHydrated();
   useKeepInView(isOpen ? panelId(project.slug) : null);
 
   const media = project.media;
@@ -46,7 +53,7 @@ export function FeaturedPanel({
   const plateClass = cn(
     // Below `sm` the strip scrolls, so it has to sit above the stretched toggle.
     "relative z-10 order-first border-line sm:z-auto",
-    flip ? "md:border-r" : "md:order-none md:border-l",
+    flip ? "md:border-e" : "md:order-none md:border-s",
   );
 
   function close() {
@@ -74,7 +81,11 @@ export function FeaturedPanel({
       {...attentionAttrs("project", params)}
     >
       {project.isPrivate && (
-        <svg aria-hidden className="pointer-events-none absolute inset-0 z-10 size-full" preserveAspectRatio="none">
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 size-full"
+          preserveAspectRatio="none"
+        >
           <rect
             x="0.5"
             y="0.5"
@@ -97,7 +108,7 @@ export function FeaturedPanel({
           <div className="flex items-center gap-4">
             {media?.icon && <IconTile icon={media.icon} title={project.title} size={64} />}
             <div className="flex flex-col gap-2 pt-0.5">
-              <p className="eyebrow leading-normal text-bone-52">
+              <p className="text-caption leading-normal text-bone-52">
                 {project.country} &middot; {project.category}
               </p>
               <h3 className="text-h2">
@@ -109,7 +120,7 @@ export function FeaturedPanel({
                   onClick={() => setIsOpen(!isOpen)}
                   aria-expanded={isOpen}
                   aria-controls={panelId(project.slug)}
-                  className="cursor-pointer text-left after:absolute after:inset-0 after:content-['']"
+                  className="cursor-pointer text-start after:absolute after:inset-0 after:content-['']"
                   {...trackAttrs("project_toggle", {
                     ...params,
                     toggle_action: isOpen ? "close" : "open",
@@ -120,13 +131,17 @@ export function FeaturedPanel({
                 </button>
               </h3>
             </div>
-            <span aria-hidden className="eyebrow ml-auto self-start text-bone-28">
+            <span aria-hidden className="eyebrow ms-auto self-start text-bone-28">
               {String(index).padStart(2, "0")}
             </span>
           </div>
 
           <p className="max-w-[62ch] text-body text-bone">{project.description}</p>
 
+          <p className="text-caption leading-normal text-bone-52">
+            {projectsCopy.availability[project.availability]}
+          </p>
+          <p className="text-h3 text-bone">{project.achievement}</p>
           {project.ledger ? (
             <dl className="hairline-grid grid-cols-3 overflow-hidden rounded-md border border-line">
               {project.ledger.map((entry) => (
@@ -139,20 +154,15 @@ export function FeaturedPanel({
                 </div>
               ))}
             </dl>
-          ) : (
-            <div className="border-t border-line pt-4">
-              <p className="eyebrow text-bone-52">{projectsCopy.outcomeLabel}</p>
-              <p className="mt-2 text-h3 text-bone">{project.achievement}</p>
-            </div>
-          )}
+          ) : null}
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-1">
             <div className="relative z-10">
-              <ProjectLinks project={project} placement="featured" buttons />
+              <ProjectLinks locale={locale} project={project} placement="featured" buttons />
             </div>
             <span
               aria-hidden
-              className="eyebrow ml-auto flex items-center gap-3 text-bone-52 transition-colors duration-fast ease-fast group-hover:text-bone"
+              className="eyebrow ms-auto flex items-center gap-3 text-bone-52 transition-colors duration-fast ease-fast group-hover:text-bone"
             >
               {isOpen ? projectsCopy.closeLabel : projectsCopy.detailsLabel}
               <span className="gallery-tile__plus flex size-7 items-center justify-center rounded-sm border border-line bg-ink-700 text-base leading-none tracking-normal">
@@ -178,10 +188,15 @@ export function FeaturedPanel({
         id={panelId(project.slug)}
         className="disclosure"
         data-open={isOpen}
-        inert={!isOpen}
+        inert={hydrated && !isOpen}
       >
         <div>
-          <ProjectDetail project={project} onFace className="border-t border-line p-6 md:p-8">
+          <ProjectDetail
+            locale={locale}
+            project={project}
+            onFace
+            className="border-t border-line p-6 md:p-8"
+          >
             <button
               type="button"
               onClick={close}

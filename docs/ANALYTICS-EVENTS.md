@@ -40,6 +40,14 @@ Shows which project or section outside links send visitors straight to.
 - **Sentence:** Arrived directly on #{landing_hash}
 - **Params:** `landing_hash`
 
+### `language_switch`
+
+Measures visitors explicitly changing the portfolio language.
+
+- **Fires on:** Clicking the English or Arabic language link.
+- **Sentence:** Switched the portfolio to {target_locale}
+- **Params:** `target_locale`
+
 ## Attention
 
 ### `section_view`
@@ -155,6 +163,30 @@ Shows interest in the live course linked from the About section.
 
 ## Reviews
 
+### `reviews_expand`
+
+Measures visitors opening or closing the remaining client reviews.
+
+- **Fires on:** Activating the Show more or Show fewer reviews disclosure.
+- **Sentence:** {toggle_action} the additional reviews
+- **Params:** `toggle_action`
+
+### `review_original_toggle`
+
+Measures visitors opening or closing the original wording of a translated review without collecting its text or author.
+
+- **Fires on:** Activating a review original-text disclosure.
+- **Sentence:** {toggle_action} the original review wording
+- **Params:** `toggle_action`
+
+### `review_summary_click`
+
+Measures visitors following the early credibility summary to the full reviews section.
+
+- **Fires on:** Clicking Read client reviews below the technology strip.
+- **Sentence:** Followed the early summary to client reviews
+- **Params:** None
+
 ### `review_platform_click`
 
 Shows visitors checking a score at its source, which is a sign of serious intent.
@@ -165,7 +197,7 @@ Shows visitors checking a score at its source, which is a sign of serious intent
 
 ### `review_hover`
 
-Shows reviews being read. The wall pauses under the pointer, so this is a real stop.
+Shows reviews being read. Only the review reference hash and platform are collected.
 
 - **Fires on:** A mouse resting on a review card for 1.5 seconds, once per review.
 - **Sentence:** Read a {platform_id} review
@@ -295,6 +327,7 @@ Shows how visitors answer the notice, which explains gaps in European data.
 
 | Parameter | Type | Values | Description |
 |---|---|---|---|
+| `target_locale` | string | en, ar | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | `event_description` | string |  | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
 | `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
 | `link_target` | string |  | The in-page section or page a navigation link goes to, such as projects. |
@@ -357,6 +390,7 @@ reports until they are registered, and registering is not retroactive.
 
 | Dimension name | Event parameter | Description |
 |---|---|---|
+| Target language | `target_locale` | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | Event description | `event_description` | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
 | Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
 | Link target | `link_target` | The in-page section or page a navigation link goes to, such as projects. |

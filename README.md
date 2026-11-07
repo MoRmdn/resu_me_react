@@ -5,7 +5,9 @@ Single-page portfolio. Next.js 16, statically exported, hosted on Firebase.
 **Live:** [mormdn.com](https://mormdn.com)
 
 Flutter developer in Mansoura. Five years of cross-platform apps. The page is
-one scroll: Hero, About, Experience, Projects, Skills, Contact.
+one scroll: Hero, marketplace proof, About, Experience, Projects, Skills,
+Reviews and client map, Contact. English is `/`, Arabic is `/ar/`; both locales
+also have a `noindex` privacy page.
 
 ## Why React
 
@@ -67,14 +69,21 @@ Access control is `database.rules.json`, not the API key.
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
 | `npm run analytics:docs` | Regenerate `docs/ANALYTICS-EVENTS.md` (`-- --check` to validate) |
+| `npm run agents:check` | Verify every tool's instruction file points at `AGENTS.md` |
+| `npm run check:portfolio` | Check the actual static export in both locales (build first) |
 | `npm run images` | AVIF/WebP from `public/images/*-src.png` |
+| `npm run promos` | Compose project store art (requires Chrome), then run `npm run images` |
+| `npm run banners` | Compose social banners into `exports/social-banners/` |
+| `npm run video` | Render the reviews/client-map film into `exports/video/` |
 | `npm run og` | Regenerate `public/og.png` |
+| `npm run map` | Regenerate map geometry from `content/clients.json` |
+| `npm run export:reviews` | Build and export all review cards to `exports/review-cards/` |
 | `npm run brief` | Print a content dump for review |
 
 Before calling a change done:
 
 ```bash
-npm run typecheck && npm run lint && npm run analytics:docs -- --check && npm run build
+npm run typecheck && npm run lint && npm run analytics:docs -- --check && npm run agents:check && npm run build && npm run check:portfolio
 ```
 
 ## Editing content
@@ -89,6 +98,9 @@ Every word and number lives in `content/`. Change the files, not the components.
 | `projects.ts` | Case studies |
 | `skills.ts` | Skill groups |
 | `types.ts` | Shared shapes |
+| `reviews.ts` + `reviews.json` | Verbatim marketplace reviews and selection |
+| `clients.ts` + `clients.json` | Client totals and countries for the map |
+| `copy-i18n.ts`, `*-i18n.ts` | Localized English/Arabic presentation |
 
 If the CV changes, update `content/` so the page stays the source of truth.
 
@@ -98,16 +110,22 @@ set `image` on that project in `projects.ts`.
 ## Layout
 
 ```
-app/            layout, page, design tokens
+app/
+  (english)/     English home/privacy routes
+  (arabic)/      Arabic home/privacy routes
+  globals.css   design tokens and animation layer
 components/
-  brand/        logo SVGs
-  ui/           Section, Eyebrow, Button, Tag
-  motion/       reveal, count-up, cursor glow, marquee
+  DocumentShell  shared metadata, local fonts, JSON-LD and document shell
+  PortfolioPage  shared localized page composition
+  analytics/    GA4 consent and the delegated event listener
+  brand/        logo and marketplace SVGs
+  ui/           Section, Eyebrow, Button, Tag, ReviewCard
+  motion/       reveal, count-up, scroll progress, marquee
   sections/     one file per band of the page
-content/        copy and numbers
-lib/            Firebase (dynamic import), hooks
+content/        every word, number, review and client location
+lib/            Firebase (dynamic import), analytics, hooks
 design/         Obsidian & Copper — visual authority
-scripts/        image and OG generation
+scripts/        generation, export and static-export verification
 ```
 
 ## Design
@@ -120,7 +138,7 @@ Short rules that leak into code:
 - One copper accent per viewport
 - `--color-bone-52` is the contrast floor for readable text
 - Every animation has a `prefers-reduced-motion` fallback to the finished state
-- Fonts are `next/font`. Do not add a Google Fonts `<link>`
+- Fonts are `next/font/local` files in `app/fonts/`. Do not add a Google Fonts `<link>`
 
 ## Firebase
 
@@ -146,6 +164,11 @@ npx firebase deploy --only hosting --project m0rmdn            # https://mormdn.
 A preview channel does not update production. Use the second command for
 [mormdn.com](https://mormdn.com). Firebase's `m0rmdn.web.app` address remains
 available as a hosting fallback.
+
+Only fingerprinted `/_next/static/**` assets receive immutable year-long caching.
+Stable public URLs — including `og.png`, generated project images, icons and the
+map SVG — are cached for one day (`max-age=86400`), so a deploy replaces them
+within a day without costing returning visitors a request per image.
 
 ### Custom domain
 
@@ -183,7 +206,7 @@ curl -sSI https://www.mormdn.com/   # expect 301 → https://mormdn.com/
 replacing the Firebase record breaks hosting.
 
 `GOOGLE_SITE_VERIFICATION` in `.env` covers a separate URL-prefix property via
-the meta tag in `app/layout.tsx`; the two are independent.
+the meta tag in `components/DocumentShell.tsx`; the two are independent.
 
 The old `m0rmdn.web.app` address still serves the same build at `200`. Search
 Console's Change of Address tool cannot be used for it: that tool requires the

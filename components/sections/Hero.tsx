@@ -1,8 +1,10 @@
 "use client";
+import type { LocaleProps } from "@/content/locale";
+import { getCopy, ui } from "@/content/copy-i18n";
 
 import { MoRmdnMarkDraw } from "@/components/brand/MoRmdnMarkDraw";
 import { CountUp } from "@/components/motion/CountUp";
-import { hero } from "@/content/copy";
+
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { useViews } from "@/lib/useViews";
 
@@ -15,16 +17,22 @@ import { useViews } from "@/lib/useViews";
  * all three track-record metrics are bone, not copper — live values are jade,
  * because jade is the status hue and is exempt from the accent count.
  */
-export function Hero() {
+export function Hero({ locale = "en" }: LocaleProps) {
+  const { hero } = getCopy(locale);
+  const copy = ui[locale];
   const views = useViews({ increment: true });
 
-  const rise = (i: number) =>
-    ({ "--rise-delay": `${0.15 + i * 0.08}s` }) as React.CSSProperties;
+  const rise = (i: number) => ({ "--rise-delay": `${0.15 + i * 0.08}s` }) as React.CSSProperties;
 
+  // `min-h`, never a fixed `h`: the section is sticky and `items-center`,
+  // so a fixed height centres oversized content past both edges and
+  // `overflow-hidden` clips it. The extra `md` top padding also keeps the
+  // status row below the fixed nav when taller content fills the hero;
+  // `xl` restores the symmetric padding once the layout has enough room.
   return (
     <section
       id="top"
-      className="hero-held relative isolate flex min-h-[680px] items-center overflow-hidden bg-ink-900 py-32 md:h-[880px] md:py-0"
+      className="hero-held relative isolate flex min-h-[680px] items-center overflow-hidden bg-ink-900 py-32 md:min-h-[880px] md:pt-28 md:pb-16 xl:pt-16"
     >
       {/* The mark appears once at full strength in the nav and once here as an
           oversized watermark at 5.5%. LOGO.md forbids a third placement. */}
@@ -83,7 +91,7 @@ export function Hero() {
               })}
             >
               {hero.secondaryCta.label}
-              <span className="sr-only">(opens in a new tab)</span>
+              <span className="sr-only">{copy.external}</span>
             </a>
             <a
               href={hero.resumeCta.href}
@@ -138,8 +146,7 @@ export function Hero() {
         aria-hidden
         className="absolute inset-x-0 bottom-0 h-px"
         style={{
-          background:
-            "linear-gradient(90deg, rgb(242 118 46 / 0.14), transparent 62%)",
+          background: "linear-gradient(90deg, rgb(242 118 46 / 0.14), transparent 62%)",
         }}
       />
     </section>

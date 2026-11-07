@@ -150,7 +150,7 @@ function render({ EVENTS, PARAMS, USER_PROPERTIES }, SENTENCES) {
           "",
           `- **Fires on:** ${spec.trigger}`,
           `- **Sentence:** ${SENTENCES[name]}`,
-          `- **Params:** ${[...spec.params].map(code).join(", ")}`,
+          `- **Params:** ${[...spec.params].map(code).join(", ") || "None"}`,
           ...(optional.length ? [`- **Optional:** ${optional.map(code).join(", ")}`] : []),
         ].join("\n");
       });

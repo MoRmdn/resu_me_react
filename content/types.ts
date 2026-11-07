@@ -7,7 +7,25 @@
  * Mohamed_Ramadan_CV_EN.pdf.
  */
 
+export type ProjectAvailability =
+  | "store_links"
+  | "web"
+  | "private"
+  | "sign_in"
+  | "discontinued"
+  | "unavailable";
+
+export type ProjectStory = {
+  problem: string;
+  responsibility: string;
+  decisions: string[];
+  result: string;
+};
+
 export type Project = {
+  availability: ProjectAvailability;
+  analyticsLabels?: { category: string; country: string };
+  story?: ProjectStory;
   slug: string;
   title: string;
   /** One-line summary used on cards. */
@@ -75,7 +93,6 @@ export type SkillGroup = {
   /** At most one group may be highlighted — one copper accent per viewport. */
   highlighted?: boolean;
 };
-
 
 /**
  * How a project's supplied imagery is presented.

@@ -9,6 +9,10 @@ import type { EventName } from "./catalog";
  * once filled in: GA cuts a parameter value there.
  */
 export const SENTENCES: Record<EventName, string> = {
+  language_switch: "Switched the portfolio to {target_locale}",
+  reviews_expand: "{toggle_action} the additional reviews",
+  review_original_toggle: "{toggle_action} the original review wording",
+  review_summary_click: "Followed the early summary to client reviews",
   nav_link_click: "Clicked {link_text} in the {nav_location}",
   nav_menu_toggle: "Mobile menu: {menu_action} via {toggle_method}",
   cta_click: "Clicked the {link_text} button",
@@ -17,7 +21,8 @@ export const SENTENCES: Record<EventName, string> = {
   section_view: "Stopped on the {section_id} section",
   section_dwell: "Spent {dwell_seconds}s on the {section_id} section",
   scroll_depth: "Scrolled {scroll_percent}% of the page",
-  visit_summary: "Visit: {visit_seconds}s active, {max_scroll_percent}% scrolled, {click_count} clicks",
+  visit_summary:
+    "Visit: {visit_seconds}s active, {max_scroll_percent}% scrolled, {click_count} clicks",
 
   project_impression: "Saw project {project_title}",
   project_dwell: "Spent {dwell_seconds}s on project {project_title}",

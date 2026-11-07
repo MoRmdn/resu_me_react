@@ -7,7 +7,10 @@ import { projects } from "@/content/projects";
 import { AnalyticsRoot } from "@/components/analytics/AnalyticsRoot";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { projectNames } from "@/lib/projectNames";
-import "./globals.css";
+import "@/app/globals.css";
+import type { Locale } from "@/content/locale";
+import { ui } from "@/content/copy-i18n";
+import { localizeProject } from "@/content/projects-i18n";
 
 /**
  * Fonts are self-hosted by next/font rather than pulled from the Google Fonts
@@ -26,14 +29,14 @@ import "./globals.css";
  * the Arabic unicode-range is written out in place.
  */
 const archivo = localFont({
-  src: "./fonts/archivo-latin-var.woff2",
+  src: "../app/fonts/archivo-latin-var.woff2",
   weight: "400 700",
   variable: "--font-archivo",
   display: "swap",
 });
 
 const jetbrainsMono = localFont({
-  src: "./fonts/jetbrains-mono-latin-var.woff2",
+  src: "../app/fonts/jetbrains-mono-latin-var.woff2",
   weight: "400 500",
   variable: "--font-jetbrains-mono",
   display: "swap",
@@ -46,8 +49,8 @@ const jetbrainsMono = localFont({
  */
 const plexArabic = localFont({
   src: [
-    { path: "./fonts/plex-sans-arabic-400-arabic.woff2", weight: "400" },
-    { path: "./fonts/plex-sans-arabic-500-arabic.woff2", weight: "500" },
+    { path: "../app/fonts/plex-sans-arabic-400-arabic.woff2", weight: "400" },
+    { path: "../app/fonts/plex-sans-arabic-500-arabic.woff2", weight: "500" },
   ],
   variable: "--font-plex-arabic",
   display: "swap",
@@ -64,7 +67,7 @@ const plexArabic = localFont({
 const keywordProjects = projects.filter((p) => !p.hideFromKeywords);
 const appNames = keywordProjects.map((p) => projectNames(p.title).name);
 
-export const metadata: Metadata = {
+const englishMetadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.name} — ${site.title}`,
@@ -172,9 +175,11 @@ export const viewport: Viewport = {
  * namespaces the client chose, and their store links are rendered on this same
  * page. Publishing the real values means those searches land here too.
  */
-function jsonLd() {
+function jsonLd(locale: Locale) {
+  const localizedProjects = projects.map((p) => localizeProject(p, locale));
   const personId = `${site.url}/#person`;
-  const profileId = `${site.url}/#profile`;
+  const pageUrl = `${site.url}${locale === "ar" ? "/ar/" : "/"}`;
+  const profileId = `${pageUrl}#profile`;
 
   /**
    * The current employer, taken from the same array the Experience section
@@ -264,7 +269,7 @@ function jsonLd() {
     };
   };
 
-  const apps = projects
+  const apps = localizedProjects
     .filter((p) => !p.links.website)
     .map((p) => ({
       "@type": "MobileApplication",
@@ -279,14 +284,16 @@ function jsonLd() {
       // worse than an absent one.
       ...(p.bundleId ? { identifier: p.bundleId } : {}),
       ...(p.media?.icon
-        ? { image: `${site.url}/images/projects/${p.media.icon.file}/${p.media.icon.file}-128.webp` }
+        ? {
+            image: `${site.url}/images/projects/${p.media.icon.file}/${p.media.icon.file}-128.webp`,
+          }
         : {}),
       ...(p.links.playStore || p.links.appStore
         ? { installUrl: [p.links.playStore, p.links.appStore].filter(Boolean) }
         : {}),
     }));
 
-  const webApps = projects
+  const webApps = localizedProjects
     .filter((p) => p.links.website)
     .map((p) => ({
       "@type": "WebApplication",
@@ -307,13 +314,14 @@ function jsonLd() {
         "@id": `${site.url}/#website`,
         url: site.url,
         name: `${site.name} — ${site.title}`,
-        inLanguage: "en",
+        inLanguage: locale,
         publisher: { "@id": personId },
       },
       {
         "@type": "ProfilePage",
         "@id": profileId,
-        url: site.url,
+        url: pageUrl,
+        inLanguage: locale,
         name: `${site.name} — ${site.title}`,
         isPartOf: { "@id": `${site.url}/#website` },
         /**
@@ -327,7 +335,7 @@ function jsonLd() {
         about: { "@id": personId },
         mainEntity: { "@id": personId },
         // The apps are described on this page too, not only by their author.
-        mentions: projects.map((p) => ({ "@id": `${site.url}/#${p.slug}` })),
+        mentions: localizedProjects.map((p) => ({ "@id": `${site.url}/#${p.slug}` })),
       },
       ...apps,
       ...webApps,
@@ -335,19 +343,21 @@ function jsonLd() {
   };
 }
 
-export default function RootLayout({
+export default function DocumentShell({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  locale,
+}: Readonly<{ children: React.ReactNode; locale: Locale }>) {
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
       className={`${archivo.variable} ${jetbrainsMono.variable} ${plexArabic.variable}`}
     >
       <body className="bg-ink-900 text-bone antialiased">
         <script
           type="application/ld+json"
           // Static, author-controlled string — no user input reaches this.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale)) }}
         />
         <a
           href="#main"
@@ -358,12 +368,36 @@ export default function RootLayout({
             nav_location: "skip_link",
           })}
         >
-          Skip to content
+          {ui[locale].skip}
         </a>
         {children}
         <div className="grain" aria-hidden />
-        <AnalyticsRoot />
+        <AnalyticsRoot locale={locale} />
       </body>
     </html>
   );
+}
+
+export function pageMetadata(locale: Locale): Metadata {
+  const title = locale === "ar" ? "محمد رمضان — مهندس برمجيات" : `${site.name} — ${site.title}`;
+  const description =
+    locale === "ar"
+      ? "معرض أعمال محمد رمضان، مهندس برمجيات في المنصورة. تطبيقات Flutter ومنتجات ويب، وخبرة في بناء الأنظمة متعددة المنصات والعمل مع فرق في ست دول."
+      : englishMetadata.description;
+  const path = locale === "ar" ? "/ar/" : "/";
+  return {
+    ...englishMetadata,
+    title,
+    description,
+    alternates: { canonical: path, languages: { en: "/", ar: "/ar/", "x-default": "/" } },
+    openGraph: {
+      ...englishMetadata.openGraph,
+      title,
+      description: description ?? undefined,
+      url: `${site.url}${path}`,
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? "en_US" : "ar_EG",
+    },
+    twitter: { ...englishMetadata.twitter, title, description: description ?? undefined },
+  };
 }

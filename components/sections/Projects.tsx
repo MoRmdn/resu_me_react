@@ -1,28 +1,52 @@
+import type { LocaleProps } from "@/content/locale";
+import { getCopy } from "@/content/copy-i18n";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { FeaturedPanel } from "@/components/sections/FeaturedPanel";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
-import { featuredProjects, galleryProjects, orderedProjects } from "@/content/projects";
-import { projectsCopy } from "@/content/copy";
+import { getProjects } from "@/content/projects-i18n";
+import { Testimonials } from "./SocialProof";
 
-export function Projects() {
+export function Projects({ locale = "en" }: LocaleProps) {
+  const { projectsCopy } = getCopy(locale);
+  const { featuredProjects, galleryProjects, orderedProjects } = getProjects(locale);
+  const [firstFeatured, ...remainingFeatured] = featuredProjects;
   return (
     <Section id="projects" tone="ink-900" z={16} offset={-40}>
       <Reveal>
         <SectionHeader
           eyebrow={projectsCopy.eyebrow}
           headline={projectsCopy.headline}
-          note={`${orderedProjects.length} shipped`}
-          className="mb-14"
+          note={projectsCopy.countLabel(orderedProjects.length)}
+          className="mb-10"
+          headingClassName="max-w-[800px]"
         />
       </Reveal>
 
+      {firstFeatured && (
+        <Reveal delay={0.06}>
+          <FeaturedPanel locale={locale} project={firstFeatured} index={1} flip={false} />
+        </Reveal>
+      )}
+
+      {/* Lead with the work itself; client evidence supports the first project
+          rather than occupying the section's entire opening viewport. */}
+      <Testimonials locale={locale} />
+
       <div className="flex flex-col gap-3.5">
-        {featuredProjects.map((project, i) => (
-          <Reveal key={project.slug} delay={i === 0 ? 0.06 : 0}>
-            <FeaturedPanel project={project} index={i + 1} flip={i % 2 === 1} />
-          </Reveal>
-        ))}
+        {remainingFeatured.map((project, i) => {
+          const index = i + 1;
+          return (
+            <Reveal key={project.slug}>
+              <FeaturedPanel
+                locale={locale}
+                project={project}
+                index={index + 1}
+                flip={index % 2 === 1}
+              />
+            </Reveal>
+          );
+        })}
       </div>
 
       <Reveal className="mt-20 md:mt-28">
@@ -37,7 +61,7 @@ export function Projects() {
         </div>
       </Reveal>
 
-      <ProjectGallery projects={galleryProjects} />
+      <ProjectGallery locale={locale} projects={galleryProjects} />
     </Section>
   );
 }

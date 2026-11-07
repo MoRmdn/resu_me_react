@@ -1,6 +1,7 @@
 import { ButtonLink } from "./Button";
 import { QuietTag } from "./Tag";
-import { projectsCopy } from "@/content/copy";
+import { getCopy, ui } from "@/content/copy-i18n";
+import type { Locale, LocaleProps } from "@/content/locale";
 import type { Project } from "@/content/types";
 import { projectParams, trackAttrs, type TrackAttrs } from "@/lib/analytics/attrs";
 import type { EventParams, ProjectPlacement } from "@/lib/analytics/catalog";
@@ -51,11 +52,18 @@ export function TechList({
 
 /** Visible text, not only structured data: a literal identifier search is
     matched against the served HTML. */
-export function ApplicationId({ id, className }: { id: string; className?: string }) {
+export function ApplicationId({
+  id,
+  className,
+  locale = "en",
+}: { id: string; className?: string } & LocaleProps) {
+  const { projectsCopy } = getCopy(locale);
   return (
     <div className={className}>
       <p className="eyebrow text-bone-52">{projectsCopy.bundleIdLabel}</p>
-      <p className="mt-2 font-mono text-[0.8125rem] break-all text-bone">{id}</p>
+      <p className="mt-2 font-mono text-[0.8125rem] break-all text-bone" dir="ltr">
+        {id}
+      </p>
     </div>
   );
 }
@@ -66,27 +74,54 @@ export function ApplicationId({ id, className }: { id: string; className?: strin
  * carries the description and the outcome. `children` ends the facts column.
  */
 export function ProjectDetail({
+  locale = "en",
   project,
   onFace,
   className,
   children,
 }: {
+  locale?: Locale;
   project: Project;
   onFace?: boolean;
   className?: string;
   children?: React.ReactNode;
 }) {
+  const { projectsCopy } = getCopy(locale);
   return (
     <div className={cn("grid gap-x-12 gap-y-8 lg:grid-cols-[7fr_5fr]", className)}>
       <div>
         {!onFace && <p className="max-w-[62ch] text-body-l text-bone">{project.description}</p>}
-        <p className={cn("max-w-[62ch] text-body text-bone-70", !onFace && "mt-4")}>
-          {project.longDescription}
-        </p>
-        {project.highlights && <HighlightList highlights={project.highlights} className="mt-6" />}
+        {!project.story && (
+          <p className={cn("max-w-[62ch] text-body text-bone-70", !onFace && "mt-4")}>
+            {project.longDescription}
+          </p>
+        )}
+        {project.story && (
+          <div className="mt-6 space-y-5">
+            <div>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.problem}</h4>
+              <p className="mt-2 text-body text-bone-70">{project.story.problem}</p>
+            </div>
+            <div>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.responsibility}</h4>
+              <p className="mt-2 text-body text-bone-70">{project.story.responsibility}</p>
+            </div>
+            <div>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.decisions}</h4>
+              <HighlightList highlights={project.story.decisions} className="mt-2" />
+            </div>
+            <div>
+              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.result}</h4>
+              <p className="mt-2 text-body text-bone">{project.story.result}</p>
+            </div>
+          </div>
+        )}
+        {!project.story && project.highlights && (
+          <HighlightList highlights={project.highlights} className="mt-6" />
+        )}
       </div>
 
-      <div className="flex flex-col gap-6 border-t border-line pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
+      <div className="flex flex-col gap-6 border-t border-line pt-6 lg:border-t-0 lg:border-s lg:pt-0 lg:ps-12">
         {!onFace && (
           <div>
             <p className="eyebrow text-bone-52">{projectsCopy.outcomeLabel}</p>
@@ -99,7 +134,7 @@ export function ProjectDetail({
           <TechList technologies={project.technologies} />
         </div>
 
-        {project.bundleId && <ApplicationId id={project.bundleId} />}
+        {project.bundleId && <ApplicationId locale={locale} id={project.bundleId} />}
 
         {children}
       </div>
@@ -115,30 +150,18 @@ export function ProjectDetail({
  * `buttons` is the featured-panel treatment; a gallery plane keeps text links.
  */
 export function ProjectLinks({
+  locale = "en",
   project,
   placement,
   buttons,
 }: {
+  locale?: Locale;
   project: Project;
   placement: ProjectPlacement;
   buttons?: boolean;
 }) {
+  const { projectsCopy } = getCopy(locale);
   const { appStore, playStore, website, github } = project.links;
-
-  if (project.isPrivate) {
-    return (
-      <p className="eyebrow flex items-center gap-2.5 text-bone-52">
-        <span aria-hidden className="size-2 rotate-45 border border-bone-28" />
-        {projectsCopy.privateLabel}
-      </p>
-    );
-  }
-
-  if (!appStore && !playStore && !website && !github) {
-    return project.linkStatus ? (
-      <p className="eyebrow text-bone-52">{project.linkStatus}</p>
-    ) : null;
-  }
 
   const ListingLink = buttons ? ExternalButton : ExternalLink;
 
@@ -148,6 +171,7 @@ export function ProjectLinks({
     link_type: EventParams<"project_link_click">["link_type"],
   ) => (
     <ListingLink
+      locale={locale}
       href={href}
       label={label}
       track={trackAttrs("project_link_click", {
@@ -170,10 +194,12 @@ export function ProjectLinks({
 }
 
 function ExternalLink({
+  locale = "en",
   href,
   label,
   track,
 }: {
+  locale?: Locale;
   href: string;
   label: string;
   track: TrackAttrs;
@@ -187,16 +213,18 @@ function ExternalLink({
       {...track}
     >
       {label} <span aria-hidden>&#8599;</span>
-      <span className="sr-only">(opens in a new tab)</span>
+      <span className="sr-only">{ui[locale].external}</span>
     </a>
   );
 }
 
 function ExternalButton({
+  locale = "en",
   href,
   label,
   track,
 }: {
+  locale?: Locale;
   href: string;
   label: string;
   track: TrackAttrs;
@@ -210,7 +238,7 @@ function ExternalButton({
       className="px-5 py-2.5 text-[0.875rem]"
     >
       {label} <span aria-hidden>&#8599;</span>
-      <span className="sr-only">(opens in a new tab)</span>
+      <span className="sr-only">{ui[locale].external}</span>
     </ButtonLink>
   );
 }

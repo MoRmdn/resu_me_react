@@ -15,13 +15,15 @@
     "og": "node scripts/generate-og.mjs",
     "map": "node scripts/generate-world-map.mjs",
     "export:reviews": "next build && node scripts/export-review-cards.mjs",
-    "brief": "tsc content/*.ts scripts/content-brief.ts --outDir .brief --module commonjs --target es2022 --moduleResolution node --skipLibCheck && node .brief/scripts/content-brief.js && rm -rf .brief",
+    "brief": "tsc content/*.ts scripts/content-brief.ts --outDir .brief --module commonjs --target es2022 --moduleResolution node --resolveJsonModule --esModuleInterop --skipLibCheck && node .brief/scripts/content-brief.js && rm -rf .brief",
     "ingest": "node scripts/ingest-assets.mjs",
-    "analytics:docs": "node scripts/analytics-docs.mjs"
+    "analytics:docs": "node scripts/analytics-docs.mjs",
+    "agents:check": "node scripts/check-agent-docs.mjs",
+    "check:portfolio": "node scripts/check-portfolio.mjs"
   },
   "dependencies": {
     "firebase": "^12.18.0",
-    "next": "16.3.4",
+    "next": "16.4.5",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
@@ -32,8 +34,8 @@
     "@types/react-dom": "^19",
     "d3-geo": "^3.1.1",
     "eslint": "^9",
-    "eslint-config-next": "16.3.4",
-    "sharp": "^0.35.4",
+    "eslint-config-next": "16.4.5",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "topojson-client": "^3.1.0",
     "typescript": "^5",

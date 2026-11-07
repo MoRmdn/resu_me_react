@@ -8,10 +8,12 @@ import { cn } from "@/lib/cn";
  * reduced motion it stops and becomes a horizontally scrollable list.
  */
 export function Marquee({
+  label,
   items,
   duration = 42,
   className,
 }: {
+  label: string;
   items: readonly string[];
   duration?: number;
   className?: string;
@@ -20,11 +22,16 @@ export function Marquee({
 
   return (
     <div
-      className={cn("marquee group relative overflow-hidden", className)}
+      // Clip and paint-contain the animated track: its transformed visual
+      // overflow must never widen the document. Reduced motion restores
+      // overflow-x: auto in globals.css so the static list remains scrollable.
+      className={cn("marquee group relative overflow-clip", className)}
       style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}
     >
       {/* Screen readers get the list once, not the duplicated track. */}
-      <span className="sr-only">Technologies: {items.join(", ")}</span>
+      <span className="sr-only">
+        {label}: {items.join(", ")}
+      </span>
 
       <div className="marquee-track" aria-hidden>
         {run.map((item, i) => (

@@ -12,10 +12,16 @@
  */
 import { writeFileSync } from "node:fs";
 import {
-  site, contact, socials, metrics, navSections, education, learningNow,
+  site,
+  contact,
+  socials,
+  metrics,
+  navSections,
+  education,
+  learningNow,
   channels,
 } from "../content/site";
-import { projects } from "../content/projects";
+import { orderedProjects as projects } from "../content/projects";
 import { experiences } from "../content/experience";
 import { skillGroups, marqueeItems } from "../content/skills";
 import * as copy from "../content/copy";
@@ -39,7 +45,9 @@ w(`- **Location:** ${site.location} (${site.timezone})`);
 w(`- **Email:** ${contact.email} · **Phone:** ${contact.phoneDisplay}`);
 w(`- **Résumé:** ${contact.resumeUrl}`);
 w(`- **Links:** ${socials.map((s) => `${s.label} → ${s.handle} (${s.url})`).join(" · ")}`);
-w(`- **Headline numbers:** ${metrics.yearsExperience} years · ${metrics.appsLiveOnBothStores} apps on both stores · ${metrics.teams} teams · ${metrics.countries} countries`);
+w(
+  `- **Headline numbers:** ${metrics.yearsExperience} years · ${projects.length} selected apps and products · ${metrics.teams} teams · ${metrics.countries} countries`,
+);
 w(`- **Nav:** ${navSections.map((s) => s.label).join(" · ")}`);
 w();
 w("### Education & certifications");
@@ -53,22 +61,26 @@ w("credentials above so an in-progress course is never mistaken for a finished o
 w();
 learningNow.completed.forEach((c) => w(`- **Completed:** ${c.title} — ${c.provider}`));
 learningNow.inProgress.forEach((c) => w(`- **In progress:** ${c.title}`));
-w(`- **Built with it:** ${learningNow.built.title} — ${learningNow.built.note} (${learningNow.built.href})`);
+w(
+  `- **Built with it:** ${learningNow.built.title} — ${learningNow.built.note} (${learningNow.built.href})`,
+);
 w();
 w("---");
 w();
 w("## Hero");
 w();
 w(`- Status chip: **${copy.hero.status}** · ${copy.hero.place}`);
-w(`- Headline (3 lines, line ${copy.hero.headlineAccentIndex + 1} carries the copper accent):`);
-copy.hero.headline.forEach((l, i) =>
-  w(`  ${i + 1}. ${l}${i === copy.hero.headlineAccentIndex ? "  ← copper" : ""}`),
-);
+w("- Headline (the CTA carries the copper accent):");
+copy.hero.headline.forEach((l, i) => w(`  ${i + 1}. ${l}`));
 w(`- Intro: ${copy.hero.intro}`);
-w(`- CTAs: **${copy.hero.primaryCta.label}** (primary) · ${copy.hero.secondaryCta.label} (ghost) · ${copy.hero.resumeCta.label} (text link)`);
+w(
+  `- CTAs: **${copy.hero.primaryCta.label}** (primary) · ${copy.hero.secondaryCta.label} (ghost) · ${copy.hero.resumeCta.label} (text link)`,
+);
 w(`- Panel "${copy.hero.trackRecordLabel}" — three metrics that count up once in view:`);
 copy.hero.trackRecord.forEach((m) => w(`  - **${m.value}${m.suffix}** — ${m.label}`));
-w(`- Plus a live "${copy.hero.viewsLabel}" figure streamed from Firebase (real number, changes on every load).`);
+w(
+  `- Plus a live "${copy.hero.viewsLabel}" figure streamed from Firebase (real number, changes on every load).`,
+);
 w();
 w("## Tech marquee");
 w();
@@ -94,7 +106,9 @@ copy.about.stats.forEach((s) => w(`- **${s.value}** — ${s.label}`));
 w();
 w("---");
 w();
-w(`## Experience — eyebrow \`${copy.experienceCopy.eyebrow}\`, headline "${copy.experienceCopy.headline}"`);
+w(
+  `## Experience — eyebrow \`${copy.experienceCopy.eyebrow}\`, headline "${copy.experienceCopy.headline}"`,
+);
 w();
 w(`${experiences.length} roles. Rows expand; the current one opens by default.`);
 w("Badge on the current role reads `" + copy.experienceCopy.currentBadge + "`.");
@@ -107,7 +121,9 @@ w();
 experiences.forEach((r, i) => {
   w(`### ${String(i + 1).padStart(2, "0")}. ${r.position} — ${r.company}`);
   w();
-  w(`\`${r.startDate} — ${r.endDate}\` · ${r.location}${r.engagement ? ` · ${r.engagement}` : ""}${r.isCurrent ? " · **CURRENT**" : ""}`);
+  w(
+    `\`${r.startDate} — ${r.endDate}\` · ${r.location}${r.engagement ? ` · ${r.engagement}` : ""}${r.isCurrent ? " · **CURRENT**" : ""}`,
+  );
   w();
   w(r.description);
   w();
@@ -118,12 +134,16 @@ experiences.forEach((r, i) => {
 });
 w("---");
 w();
-w(`## Projects — eyebrow \`${copy.projectsCopy.eyebrow}\`, headline "${copy.projectsCopy.headline}"`);
+w(
+  `## Projects — eyebrow \`${copy.projectsCopy.eyebrow}\`, headline "${copy.projectsCopy.headline}"`,
+);
 w();
-w(`${projects.length} projects. The first is the flagship and is the only one with a real screenshot.`);
+w(`${projects.length} selected projects. Availability and supported outcomes are stated for each.`);
 w();
 projects.forEach((p, i) => {
-  w(`### ${String(i + 1).padStart(2, "0")}. ${p.title}${i === 0 ? "  — FLAGSHIP" : ""}${p.isPrivate ? "  — PRIVATE CLIENT, NO STORE LINKS" : ""}`);
+  w(
+    `### ${String(i + 1).padStart(2, "0")}. ${p.title}${i === 0 ? "  — LEAD PROJECT" : ""}${p.isPrivate ? "  — PRIVATE CLIENT, NO STORE LINKS" : ""}`,
+  );
   w();
   w(`*${p.category} · ${p.country}*`);
   w();
@@ -131,22 +151,36 @@ projects.forEach((p, i) => {
   w();
   w(`**Long form:** ${p.longDescription}`);
   w();
+  w(`**Availability:** ${copy.projectsCopy.availability[p.availability]}`);
+  if (p.story) {
+    w(`**Problem:** ${p.story.problem}`);
+    w(`**Responsibility:** ${p.story.responsibility}`);
+    w("**Decisions:**");
+    p.story.decisions.forEach((decision) => w(`- ${decision}`));
+    w(`**Result:** ${p.story.result}`);
+  }
   w(`**Outcome:** ${p.achievement}`);
   w();
   w(`*Tech:* ${p.technologies.join(" · ")}`);
   w();
   if (p.highlights) {
-    w("Detail bullets (currently truncated to 2 on the card — a detail view could show all):");
+    w("Supporting technical details:");
     w();
     p.highlights.forEach((h) => w(`- ${h}`));
     w();
   }
   if (p.isPrivate) {
-    w(`Needs a deliberate treatment reading "${copy.projectsCopy.privateLabel}" — not an empty slot where the store buttons would be.`);
+    w(
+      `Needs a deliberate treatment reading "${copy.projectsCopy.privateLabel}" — not an empty slot where the store buttons would be.`,
+    );
   } else {
-    w(`Links: ${p.links.appStore ? "App Store" : ""}${p.links.appStore && p.links.playStore ? " · " : ""}${p.links.playStore ? "Google Play" : ""}`);
+    const links = [p.links.appStore && "App Store", p.links.playStore && "Google Play", p.links.website && "Website", p.links.github && "Source"].filter(Boolean);
+    w(links.length ? `Links: ${links.join(" · ")}` : "Links: no public destination supplied.");
   }
-  if (p.image) w(`Image: \`public/images/${p.image.slug}/\` — ${p.image.width}×${p.image.height} portrait phone screenshot.`);
+  if (p.image)
+    w(
+      `Image: \`public/images/${p.image.slug}/\` — ${p.image.width}×${p.image.height} portrait phone screenshot.`,
+    );
   w();
 });
 w("---");
@@ -155,7 +189,9 @@ w(`## Skills — eyebrow \`${copy.skillsCopy.eyebrow}\`, headline "${copy.skills
 w();
 w(copy.skillsCopy.blurb);
 w();
-w(`${skillGroups.length} groups, ${skillGroups.reduce((n, g) => n + g.items.length, 0)} capabilities. Group sizes are uneven — 5, 5, 9, 11, 7, 10 — so any layout that assumes equal cells will break.`);
+w(
+  `${skillGroups.length} groups, ${skillGroups.reduce((n, g) => n + g.items.length, 0)} capabilities. Group sizes are uneven — 5, 5, 9, 11, 7, 10 — so any layout that assumes equal cells will break.`,
+);
 w();
 skillGroups.forEach((g) => {
   w(`**${g.label}**${g.highlighted ? "  ← the one highlighted group" : ""} (${g.items.length})`);
@@ -175,15 +211,21 @@ w(`- Channels, in priority order (the first takes the section's Tier 1 copper):`
 channels.forEach((c, i) =>
   w(`  ${i + 1}. **${c.label}** \u2014 ${c.handle} \u00b7 ${c.note} \u2014 ${c.url}`),
 );
-w(`- Profile links (not hiring channels): ${socials.map((s) => `${s.label} \u2192 ${s.handle}`).join(" \u00b7 ")}`);
-w(`- Availability block: label \`${copy.contactCopy.availabilityLabel}\`, jade dot, "${copy.contactCopy.availability}"`);
+w(
+  `- Profile links (not hiring channels): ${socials.map((s) => `${s.label} \u2192 ${s.handle}`).join(" \u00b7 ")}`,
+);
+w(
+  `- Availability block: label \`${copy.contactCopy.availabilityLabel}\`, jade dot, "${copy.contactCopy.availability}"`,
+);
 w();
 w("There is no contact form. It used to write to Firebase Realtime Database;");
 w("enquiries now go straight to a channel, and that world-writable path is closed.");
 w();
 w("## Footer");
 w();
-w(`Mark + "${site.shortName} © <year> · ${copy.footerCopy.builtWith}" · "${site.designCodename} ${site.designVersion} · <n> views" · "${copy.footerCopy.backToTop} ↑"`);
+w(
+  `Mark + "${site.shortName} © <year> · ${copy.footerCopy.builtWith}" · "${site.designCodename} ${site.designVersion} · <n> views" · "${copy.footerCopy.backToTop} ↑"`,
+);
 w();
 
 writeFileSync("design/CONTENT-BRIEF.md", out.join("\n"));

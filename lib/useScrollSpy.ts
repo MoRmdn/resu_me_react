@@ -18,15 +18,27 @@ export function useScrollSpy(ids: readonly string[], rootMargin = "-45% 0px -50%
       .filter((el): el is HTMLElement => el !== null);
     if (elements.length === 0) return;
 
+    const intersecting = new Set<Element>();
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length === 0) return;
-        // Topmost wins when two sections straddle the band.
-        const top = visible.reduce((a, b) =>
-          a.boundingClientRect.top < b.boundingClientRect.top ? a : b,
-        );
-        setActive(top.target.id);
+        for (const entry of entries) {
+          if (entry.isIntersecting) intersecting.add(entry.target);
+          else intersecting.delete(entry.target);
+        }
+
+        // Entries only describe targets whose state changed. Re-read every
+        // retained intersection so an exit-only event cannot strand a stale
+        // active link while another section is still inside the band.
+        const top = elements
+          .filter((el) => intersecting.has(el))
+          .reduce<HTMLElement | null>(
+            (current, el) =>
+              !current || el.getBoundingClientRect().top < current.getBoundingClientRect().top
+                ? el
+                : current,
+            null,
+          );
+        setActive(top?.id ?? null);
       },
       { rootMargin, threshold: 0 },
     );

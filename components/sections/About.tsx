@@ -1,15 +1,20 @@
+import type { LocaleProps } from "@/content/locale";
+import { getCopy, ui } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/motion/Reveal";
-import { about, learning } from "@/content/copy";
-import { education, learningNow } from "@/content/site";
+
+import { getProfile } from "@/content/profile-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
 /**
  * 7/5 split. The right column drops 80px below the left — the deliberate
  * asymmetry the design system asks for instead of two flush columns.
  */
-export function About() {
+export function About({ locale = "en" }: LocaleProps) {
+  const { about, learning } = getCopy(locale);
+  const copy = ui[locale];
+  const { education, learningNow } = getProfile(locale);
   return (
     <Section id="about" tone="ink-900" z={12} offset={-1} border={false}>
       <div className="grid gap-14 lg:grid-cols-[7fr_5fr] lg:gap-20">
@@ -38,7 +43,7 @@ export function About() {
 
         <div className="flex flex-col gap-11 lg:pt-20">
           <Reveal>
-            <p className="eyebrow text-bone-52">Credentials</p>
+            <p className="eyebrow text-bone-52">{copy.credentials}</p>
             <ul className="mt-4">
               {education.map((item, i) => (
                 <li
@@ -61,9 +66,7 @@ export function About() {
                   <dd className="text-[2.375rem] leading-none font-semibold tracking-[-0.03em] tabular">
                     {stat.value}
                   </dd>
-                  <dt className="mt-2 text-[0.75rem] leading-snug text-bone-52">
-                    {stat.label}
-                  </dt>
+                  <dt className="mt-2 text-[0.75rem] leading-snug text-bone-52">{stat.label}</dt>
                 </div>
               ))}
             </dl>
@@ -81,7 +84,7 @@ export function About() {
 
               <dl className="mt-4 flex flex-col gap-4">
                 <div className="flex gap-4">
-                  <dt className="eyebrow w-24 shrink-0 pt-1 text-bone-52">
+                  <dt className="eyebrow w-32 shrink-0 pt-1 text-bone-52">
                     {learning.completedLabel}
                   </dt>
                   <dd className="text-caption text-bone">
@@ -94,7 +97,7 @@ export function About() {
                 </div>
 
                 <div className="flex gap-4">
-                  <dt className="eyebrow w-24 shrink-0 pt-1 text-bone-52">
+                  <dt className="eyebrow w-32 shrink-0 pt-1 text-bone-52">
                     {learning.inProgressLabel}
                   </dt>
                   <dd className="text-caption text-bone">
@@ -108,9 +111,7 @@ export function About() {
                 </div>
 
                 <div className="flex gap-4 border-t border-line pt-4">
-                  <dt className="eyebrow w-24 shrink-0 pt-1 text-bone-52">
-                    {learning.builtLabel}
-                  </dt>
+                  <dt className="eyebrow w-32 shrink-0 pt-1 text-bone-52">{learning.builtLabel}</dt>
                   <dd className="text-caption">
                     <a
                       href={learningNow.built.href}
@@ -123,7 +124,7 @@ export function About() {
                       })}
                     >
                       {learningNow.built.title} <span aria-hidden>&#8599;</span>
-                      <span className="sr-only">(opens in a new tab)</span>
+                      <span className="sr-only">{copy.external}</span>
                     </a>
                     <span className="mt-1 block text-bone-52">{learningNow.built.note}</span>
                   </dd>
