@@ -12,6 +12,8 @@ how to refresh it, and what went wrong before.
 | Mostaql | [mostaql.md](mostaql.md) | 4 reviews | 1 placed, 3 unplaced |
 | Khamsat | [khamsat.md](khamsat.md) | 88 tech reviews | 74 placed, 1 unplaced |
 
+Not marketplaces, but updated with the same text: [linkedin.md](linkedin.md) and [github.md](github.md).
+
 (Counts as of 2026-11-07. The source of truth is `content/reviews.ts` and
 `content/clients.json`, not this table.)
 
