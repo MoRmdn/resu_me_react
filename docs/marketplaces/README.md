@@ -8,7 +8,7 @@ how to refresh it, and what went wrong before.
 |---|---|---|---|
 | Upwork | [upwork.md](upwork.md) | 8 jobs | 7 placed |
 | Fiverr | [fiverr.md](fiverr.md) | 26 reviews | 15 placed |
-| Freelancer | [freelancer.md](freelancer.md) | 9 reviews | 6 placed, 1 unplaced |
+| Freelancer | [freelancer.md](freelancer.md) | 9 reviews | 6 placed, 1 unplaced (profile text not synced) |
 | Mostaql | [mostaql.md](mostaql.md) | 4 reviews | 1 placed, 3 unplaced |
 | Khamsat | [khamsat.md](khamsat.md) | 88 tech reviews | 74 placed, 1 unplaced |
 

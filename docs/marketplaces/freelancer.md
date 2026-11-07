@@ -16,3 +16,16 @@
 
 - The modal truncates; check the whole quote before copying.
 - Never guess a country for `unplaced`.
+
+## Profile text: NOT yet synced to the site (2026-11-07)
+
+The browser used for edits was **not signed in** to Freelancer, and signing in is
+the user's job. Still to change on the profile:
+
+- **Headline** "Senior Flutter Developer | iOS, Android | Firebase" to the site's
+  Software Engineer wording.
+- **About:** "Senior Flutter developer with 5+ years..." plus the NAAS line.
+- **Experience, MisMar:** still lists driver-app duties (ML Kit, Figma/XD,
+  Provider/Riverpod/Bloc). Replace with the NAAS wording from `content/experience.ts`.
+- **Portfolio:** "MisMar - Vehicle Maintenance App" is the driver app; add a NAAS
+  Dashboard item and keep the existing one.
