@@ -67,3 +67,29 @@ The $4,000 and the SAAD, JS Quest and O'Permis dates came from the user.
   "Software Development". There is no plain "Healthcare".
 - The browser window size changed mid-session and every coordinate moved. Take a screenshot
   and recompute before clicking by coordinates.
+
+### Why the profile showed only the old five (2026-11-07)
+
+The **profile's Portfolio section shows only the first five projects, in the order set under
+"Reorganize"** on `/users/mormdn/portfolio` ("Showing 14 projects" there is the full list). New
+items are added at the end, so the profile kept showing the original five (AYCO, Saber, Wassalny,
+Aera, FreeDoc). The order is now NAAS, AYCO, SAAD, Saber, Mutabbib, JS Quest, O'Permis, Dental
+Dinar, Arcit-AI, Lpermis, Lpermis Pro, FreeDoc, Aera, Wassalny, so the profile shows the first five.
+
+- "Reorganize" is a drag-and-drop list that shows about ten rows. Dragging an item to a row that is
+  scrolled out of view fails (an attempt dropped Mutabbib at the bottom); drag one item at a time
+  and take a screenshot after each, or reorder from a taller window.
+- Do not put non-site items (Wassalny, Aera) in the first five.
+
+### Saber (older item) and image order
+
+- Saber now uses the mockup (`upwork-covers/07-saber-yamen.png`) as its first image, followed by its
+  four original Play screenshots, saved in `~/Downloads/apps-screens/saber/fiverr-originals/`.
+- **Fiverr uses the first attachment as the thumbnail and cannot reorder attachments**: to put a new
+  image first, delete the others, upload the new one, then re-upload the rest after it. Max 5 files.
+- **An item created before the required fields existed cannot be saved until it has them**: Saber needed
+  a title of at least 15 characters ("Saber Yamen: Multi-Vendor Marketplace"), an industry
+  ("Ecommerce"), duration ("6+ months"), cost ($4,000, flat like the others) and a start date
+  (March 2023, from the Eleven Stars role). Confirm these if they matter.
+- The edit page for any item is `/users/mormdn/portfolio/<id>/edit`; the id is in the item's URL.
+
