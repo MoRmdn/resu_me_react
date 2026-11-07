@@ -57,3 +57,14 @@ or no role, in the CV.
 **Update 2026-11-07:** Fiverr now has all nine items (see `fiverr.md`). Fiverr's file input turned
 out to be reachable, so the "cannot upload" note above applies to Upwork only. Remaining gaps:
 Upwork (Arcit-AI, SAAD), Freelancer, Mostaql.
+
+## NAAS image: use the mockup, not the screenshot
+
+NAAS is shown everywhere as the **mockup** (red promo with the Arabic headline), never the raw
+dashboard screenshot. Source: `assets/projects/naas-promo.webp` (1200x1420) in the repo. The
+local copies are in `~/Downloads/apps-screens/naas/`: `naas-mockup.png`, the 4:3 cover
+`cover-4x3-mockup.png` (mockup centred on the dark background, 1600x1200) and the raw
+screenshot (`naas-dashboard-screenshot.webp`, do not use as a cover). `fiverr-covers/07-naas.png`
+was regenerated from the mockup on 2026-11-07. Upwork already used the mockup. On Fiverr the
+NAAS item was edited to the mockup; on Mostaql the new thumbnail is uploaded but needs the
+user's rights tick-box and "حفظ", which an edit also requires.
