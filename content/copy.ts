@@ -112,9 +112,9 @@ export const skillsCopy = {
 
 export const reviewsCopy = {
   eyebrow: "05 / Reviews",
-  headline: `${reviewTotal} reviews and completed jobs.`,
+  headline: `${reviewTotal} reviews and jobs.`,
   blurb:
-    "Reviews and completed jobs across freelance marketplaces. Original quotes are copied word for word, typos included. Translations are labelled and originals remain available.",
+    "Reviews and jobs across freelance marketplaces. Original quotes are copied word for word, typos included. Translations are labelled and originals remain available.",
   scoreLabel: "5.0",
   note: `${reviews.length} of them, picked by me. The full lists are one click away on each platform.`,
   pauseLabel: "Pause",
@@ -239,7 +239,7 @@ export const llmsCopy = {
   skillsHeading: "Skills",
   reviewsHeading: "Client reviews",
   reviewsSummary: (total: number, platforms: number) =>
-    `${total} reviews and completed jobs across ${platforms} freelance marketplaces. Original quotes on the page are copied word for word from these profiles.`,
+    `${total} reviews and jobs across ${platforms} freelance marketplaces. Original quotes on the page are copied word for word from these profiles.`,
   clientsSummary: (clients: number, countries: number, names: string) =>
     `${clients} freelance clients in ${countries} countries: ${names}. A client who hired on two marketplaces is counted on each.`,
   educationHeading: "Education",

@@ -50,8 +50,8 @@ export const reviewPlatforms: ReviewPlatform[] = [
     id: "upwork",
     label: "Upwork",
     url: "https://www.upwork.com/freelancers/~010d028f2b8e318fec",
-    count: 6,
-    countLabel: "completed jobs",
+    count: 8,
+    countLabel: "jobs",
   },
   {
     id: "fiverr",

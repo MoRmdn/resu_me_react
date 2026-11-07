@@ -76,7 +76,7 @@ const VOICE = [
 
 /** Hand-kept in step with content/reviews.ts, which a plain .mjs can't import. */
 const PLATFORMS = {
-  upwork: { label: "Upwork", color: "#14A800", count: 6, countLabel: "completed jobs" },
+  upwork: { label: "Upwork", color: "#14A800", count: 8, countLabel: "jobs" },
   fiverr: { label: "Fiverr", color: "#1DBF73", count: 26, countLabel: "reviews" },
   freelancer: { label: "Freelancer", color: "#29B2FE", count: 9, countLabel: "reviews" },
   mostaql: { label: "Mostaql", color: "#2F9BE0", count: 4, countLabel: "reviews" },
