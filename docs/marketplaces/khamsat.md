@@ -21,3 +21,14 @@ reviews" and not "reviews".
 - A buyer's country is on their profile.
 - Reviews are in Arabic: keep the original and add a labelled `translation`.
 - Update the four places in [README.md](README.md).
+
+## Bio rewritten from scratch, 2026-11-07
+
+The text is in [bio-ar.md](bio-ar.md). Edit page: `https://khamsat.com/account`;
+field `details` ("النبذة التعريفية", 3,000 characters; the page says no links or
+outside contact details); button "حفظ". It held the same old bio as Mostaql.
+
+**Open issue:** after saving, the server-rendered form contains the new text, but the
+public page `/user/m0rmdn` still says "لم يكتب نبذة شخصية" (no bio written), and it
+said so before the edit too. Not yet explained (moderation, a different field, or
+caching). Check the live page while signed out.

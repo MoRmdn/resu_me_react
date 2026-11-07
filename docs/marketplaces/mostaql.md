@@ -30,3 +30,13 @@
 - Verify by fetching the public `/u/MoRmdn` page, not by trusting the flash text.
 - Match the bullet style: the bio's bullet lines start with a single space.
 - Arabic wording for NAAS should follow `content/profile-i18n.ts`.
+
+## Bio rewritten from scratch, 2026-11-07
+
+Replaces the 2026-11-07 morning patch above. The full text is in
+[bio-ar.md](bio-ar.md). **Mostaql rejects links in the bio.** The first attempt
+included `mormdn.com` and the whole form failed validation (the page then also
+flagged the speciality, job title and skills fields as empty because the page had
+not finished loading). Reload, wait about six seconds, confirm `speciality_id`,
+`job_title` and `skills` are populated, then set `brief` and click "حفظ". Verify
+by fetching `/u/MoRmdn` and looking for a heading from the new text.
