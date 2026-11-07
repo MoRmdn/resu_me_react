@@ -19,7 +19,7 @@ Dental Dinar, FreeDoc, O'Permis.
 | Marketplace | Has | Missing |
 |---|---|---|
 | Upwork (11 items) | AYCO, NAAS, Lpermis, Lpermis Pro, Mutabbib, Saber Yamen, Dental Dinar, O'Permis, JS Quest | Arcit-AI, SAAD, FreeDoc (FreeDoc was removed on purpose, per `upwork-portfolio-text.md`) |
-| Fiverr (14) | all 12 site projects except none: Arcit-AI, SAAD, JS Quest, Mutabbib, Lpermis, Lpermis Pro, NAAS, Dental Dinar, O'Permis added 2026-11-07 | nothing |
+| Fiverr (14) | all 12 site projects (the nine below were added 2026-11-07: Arcit-AI, SAAD, JS Quest, Mutabbib, Lpermis, Lpermis Pro, NAAS, Dental Dinar, O'Permis) | nothing |
 | Freelancer (6 seen) | AYCO, Lpermis, Lpermis Pro, Mutabbib, Arcit-AI | SAAD, JS Quest, Saber Yamen, NAAS, Dental Dinar, FreeDoc, O'Permis |
 | Mostaql (10) | Lpermis, Lpermis Pro, AYCO, Mutabbib, Arcit-AI, Dental Dinar, Saber Yamen, FreeDoc | SAAD, JS Quest, NAAS, O'Permis |
 
