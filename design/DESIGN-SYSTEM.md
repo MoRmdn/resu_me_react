@@ -305,6 +305,10 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
 - **Timeline bars** (`.timeline-bar`) draw along the axis when their row
   appears.
 - Hero promos lift 4px under the pointer.
+- **Client map intro** (runs once when the map scrolls into view): the Mansoura
+  pin drops in, lines draw outward nearest-first, each country fills and its
+  dot pops as its line arrives. `--i` is the order from
+  `scripts/generate-world-map.mjs`. The pin ring pulses slowly: the one loop.
 - Every one of these uses `--ease-slow`, and reduced motion and print get the
   finished page. The
   standalone review export retains its own animated wall and reduced-motion mode.

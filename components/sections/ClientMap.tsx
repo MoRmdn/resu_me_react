@@ -43,7 +43,7 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
     Object.keys(country.clients).join(" ");
 
   return (
-    <div className="mt-24 md:mt-32">
+    <div data-reveal className="mt-24 md:mt-32">
       <ClientMapExplorer
         locale={locale}
         height={worldMap.height}
@@ -60,19 +60,19 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
           aria-label={clientMapCopy.mapLabel}
           className="absolute inset-0 size-full"
         >
-          {shapes.map(({ id, path, country }) => (
+          {shapes.map(({ id, path, order, country }) => (
             <path
               key={id}
               className="map-country"
               d={path}
               data-map-target={id}
               data-platforms={platformsOf(country)}
-              style={weights(country) as React.CSSProperties}
+              style={{ "--i": order, ...weights(country) } as React.CSSProperties}
             />
           ))}
 
           {shapes.map(
-            ({ id, arc, country }) =>
+            ({ id, arc, order, country }) =>
               arc && (
                 <path
                   key={id}
@@ -81,12 +81,12 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
                   pathLength={1}
                   data-map-target={id}
                   data-platforms={platformsOf(country)}
-
+                  style={{ "--i": order } as React.CSSProperties}
                 />
               ),
           )}
 
-          {shapes.map(({ id, x, y, country }) => (
+          {shapes.map(({ id, x, y, order, country }) => (
             <g key={id} data-platforms={platformsOf(country)} className="map-marker">
               <circle
                 className="map-dot"
@@ -94,7 +94,7 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
                 cy={y}
                 r={2.2}
                 data-map-target={id}
-
+                style={{ "--i": order } as React.CSSProperties}
               />
               {/* Kuwait is a pixel wide. This is what the pointer actually hits. */}
               <circle className="map-hit" cx={x} cy={y} r={8} data-map-target={id} />

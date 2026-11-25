@@ -564,6 +564,8 @@
   stroke-opacity: 0.38;
   stroke-width: 1;
   stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
   transition:
@@ -616,6 +618,54 @@
 .map-pin__ring {
   fill: var(--color-jade);
   fill-opacity: 0.22;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* The map's intro, run once when the map scrolls into view (RevealObserver
+   sets data-revealed). Order of events: the pin lands, lines leave it
+   nearest-first, each country fills as its line arrives. --i is that order,
+   from scripts/generate-world-map.mjs. The finished map is the base style, and
+   `backwards` fill hands control back to the lit and hover states afterwards. */
+@keyframes map-pin-land {
+  from { transform: translate3d(0, -18px, 0); opacity: 0; }
+}
+@keyframes map-line-draw {
+  from { stroke-dashoffset: 1; }
+}
+@keyframes map-fill-in {
+  from { fill-opacity: 0; stroke-opacity: 0; }
+}
+@keyframes map-dot-in {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.9); }
+  100% { transform: scale(1); }
+}
+@keyframes map-pin-ring {
+  0% { transform: scale(0.7); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on [data-revealed] .map-pin {
+    animation: map-pin-land 420ms var(--ease-base) backwards;
+  }
+  .reveal-on [data-revealed] .map-arc {
+    animation: map-line-draw 620ms var(--ease-slow) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms + 320ms);
+  }
+  .reveal-on [data-revealed] .map-country {
+    animation: map-fill-in 320ms var(--ease-base) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms + 760ms);
+  }
+  .reveal-on [data-revealed] .map-dot {
+    animation: map-dot-in 320ms var(--ease-base) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms + 760ms);
+  }
+  /* Mansoura is live: its ring pulses slowly, the one looping motion left. */
+  .map-pin__ring {
+    animation: map-pin-ring 2.4s var(--ease-base) infinite;
+  }
 }
 
 .map-tip {
