@@ -1,93 +1,117 @@
 import type { LocaleProps } from "@/content/locale";
 import { getCopy, ui } from "@/content/copy-i18n";
-import Image from "next/image";
+import { getProjects } from "@/content/projects-i18n";
+import { experiences } from "@/content/experience";
 import { ProjectImage } from "@/components/ui/ProjectImage";
+import { projectNames } from "@/lib/projectNames";
 import { trackAttrs } from "@/lib/analytics/attrs";
+
+/** Staggered tops for the three promos, so the sheet reads as hand-laid. */
+const OFFSETS = ["", "mt-8", "mt-4"];
 
 export function Hero({ locale = "en" }: LocaleProps) {
   const { hero } = getCopy(locale);
+  const { orderedProjects } = getProjects(locale);
+  const firstYear = Math.min(...experiences.map((e) => Number(e.start.slice(0, 4))));
+  const current = experiences.find((e) => e.end === null);
+  const currentCompany = current?.company.split(" | ")[0];
+
+  const ledger = [
+    { label: hero.ledger.basedIn, value: hero.place },
+    { label: hero.ledger.since, value: String(firstYear) },
+    { label: hero.ledger.teams, value: hero.ledger.teamsValue },
+    ...(currentCompany
+      ? [{ label: hero.ledger.now, value: `${hero.ledger.nowProduct} ${hero.ledger.nowJoin} ${currentCompany}` }]
+      : []),
+  ];
 
   return (
-    <section id="top" className="hero-workbench relative isolate overflow-hidden bg-ink-900">
-      <div className="relative mx-auto w-full max-w-content px-5 pt-32 md:px-8 md:pt-40">
-        <div className="relative z-10 max-w-[42rem]">
-          <p className="eyebrow text-bone-70">{hero.place}</p>
-          <h1 className="hero-headline rise-lcp mt-5 font-semibold text-balance">
-            {hero.headline.map((line, index) => (
-              <span key={line} className="block">{index > 0 && " "}{line}</span>
-            ))}
-          </h1>
-          <p className="mt-6 max-w-[42ch] text-body-l text-bone-70">{hero.intro}</p>
+    <section id="top" className="mx-auto w-full max-w-content px-5 pt-32 pb-16 md:px-8 md:pt-36">
+      <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.875rem] text-bone-70">
+        <span className="inline-flex items-center gap-2 font-medium text-jade">
+          <span aria-hidden className="size-[7px] rounded-pill bg-jade" />
+          {hero.status}
+        </span>
+        <span aria-hidden className="h-px w-6 bg-line-strong" />
+        <span>
+          {hero.role}, {hero.place}
+        </span>
+      </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+      <h1 className="hero-headline rise-lcp mt-7 max-w-[16ch]">{hero.headline.join(" ")}</h1>
+
+      <div className="mt-12 grid items-start gap-10 lg:grid-cols-[5fr_7fr] lg:gap-14">
+        <div className="lg:pt-4">
+          <p className="max-w-[36rem] text-body-l text-bone-70">{hero.intro}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={hero.primaryCta.href}
-              className="inline-flex min-h-12 items-center rounded-md bg-copper px-5 font-medium text-ink-900 transition-colors duration-fast ease-fast hover:bg-copper-bright active:bg-copper-dim"
-              {...trackAttrs("cta_click", {
-                cta_id: "hero_see_work",
-                link_text: hero.primaryCta.label,
-              })}
-            >
-              {hero.primaryCta.label}
-            </a>
-            <a
-              href={hero.secondaryCta.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex min-h-12 items-center rounded-md border border-line-strong px-5 font-medium text-bone transition-colors duration-fast ease-fast hover:bg-bone-06"
+              className="inline-flex min-h-12 items-center gap-2.5 rounded-md bg-copper px-5 font-semibold text-on-copper transition-colors duration-fast ease-fast hover:bg-copper-bright active:bg-copper-dim"
               {...trackAttrs("contact_channel_click", {
                 channel_id: "whatsapp",
-                channel_label: hero.secondaryCta.label,
+                channel_label: hero.primaryCta.label,
                 channel_placement: "hero",
               })}
             >
-              {hero.secondaryCta.label}
+              {hero.primaryCta.label}
+              <span aria-hidden className="rtl:-scale-x-100">→</span>
               <span className="sr-only">{ui[locale].external}</span>
+            </a>
+            <a
+              href={hero.secondaryCta.href}
+              className="inline-flex min-h-12 items-center rounded-md border border-line-strong px-5 font-medium text-bone transition-colors duration-fast ease-fast hover:border-bone"
+              {...trackAttrs("cta_click", {
+                cta_id: "hero_see_work",
+                link_text: hero.secondaryCta.label,
+              })}
+            >
+              {hero.secondaryCta.label}
             </a>
           </div>
         </div>
 
-        <picture className="hero-scene">
-          <source type="image/avif" srcSet="/images/hero-workbench-840.avif 840w, /images/hero-workbench-1672.avif 1672w" sizes="100vw" />
-          <source type="image/webp" srcSet="/images/hero-workbench-840.webp 840w, /images/hero-workbench-1672.webp 1672w" sizes="100vw" />
-          <Image
-            src="/images/hero-workbench-840.webp"
-            alt={hero.sceneAlt}
-            width={1672}
-            height={941}
-            loading="eager"
-            fetchPriority="high"
-            unoptimized
-          />
-        </picture>
-
-        <div className="relative z-10 grid gap-4 lg:mt-20 lg:grid-cols-[1fr_25rem] lg:items-start lg:gap-12">
-          <dl className="grid max-w-[34rem] grid-cols-3 gap-4 border-t border-line py-6 lg:mt-8">
-            {hero.trackRecord.map(({ value, suffix, label }) => (
-              <div key={label} className="flex flex-col gap-2">
-                <dt className="text-caption text-bone-70">{label}</dt>
-                <dd className="order-first text-h2 tabular"><bdi dir="ltr">{value}{suffix}</bdi></dd>
-              </div>
-            ))}
-          </dl>
-
-          <figure className="grid w-full max-w-[25rem] grid-cols-[1fr_clamp(7.5rem,33vw,10rem)] items-center gap-4 justify-self-end rounded-t-lg border border-b-0 border-line bg-ink-800 px-4 pt-4 lg:gap-6 lg:px-6">
-            <figcaption className="pb-4">
-              <p className="text-h3"><bdi>{hero.preview.title}</bdi></p>
-              <p className="mt-2 text-caption text-bone-70">{hero.preview.caption}</p>
-            </figcaption>
-            <ProjectImage
-              file="saad-screen-1"
-              widths={[280, 560]}
-              sizes="(min-width: 680px) 160px, 33vw"
-              alt={hero.preview.alt}
-              width={1200}
-              height={2133}
-              className="h-auto w-full rounded-t-md"
-            />
-          </figure>
-        </div>
+        <figure className="rounded-[24px] border border-line bg-ink-700 px-4 pt-4 pb-2.5 shadow-[0_28px_56px_-28px_var(--color-shadow)]">
+          <figcaption className="sr-only">{hero.figureCaption}</figcaption>
+          <ul className="grid grid-cols-3 items-start gap-3">
+            {hero.promos.map((promo, i) => {
+              const project = orderedProjects.find((p) => p.slug === promo.slug);
+              return (
+                <li key={promo.slug} className={OFFSETS[i]}>
+                  <ProjectImage
+                    file={promo.file}
+                    widths={[280, 560]}
+                    sizes="(min-width: 1040px) 220px, 30vw"
+                    alt={promo.alt}
+                    width={promo.width}
+                    height={promo.height}
+                    loading="eager"
+                    className="block aspect-[5/8] h-auto w-full rounded-[9px] bg-ink-800 object-cover object-top"
+                  />
+                  {project && (
+                    <p className="mx-0.5 mt-2.5 text-[0.875rem] leading-snug font-medium">
+                      <bdi>{projectNames(project.title).name}</bdi>
+                      <span className="block text-[0.78125rem] font-normal text-bone-52">{project.country}</span>
+                    </p>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </figure>
       </div>
+
+      <dl className="hairline-grid mt-16 grid-cols-2 border-y border-line md:grid-cols-4">
+        {ledger.map(({ label, value }) => (
+          <div key={label} className="bg-ink-900 py-4.5 pe-4.5 md:ps-4.5 md:first:ps-0">
+            <dt className="text-caption text-bone-52">{label}</dt>
+            <dd className="mt-1.5 font-mono text-[0.9375rem] tabular">
+              <bdi>{value}</bdi>
+            </dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

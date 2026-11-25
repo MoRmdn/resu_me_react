@@ -40,17 +40,12 @@ credentials above so an in-progress course is never mistaken for a finished one.
 
 - Location: **Mansoura, Egypt**
 - Headline (the CTA carries the copper accent):
-  1. I build Flutter apps
-  2. from prototype
-  3. to release
-- Intro: I'm Mohamed Ramadan, a software engineer building mobile and web apps for teams in 6 countries. My work includes tools for language learning, driver training, and field maintenance.
-- CTAs: **View projects** (primary) · WhatsApp (secondary)
-- Track record:
-  - **5+** — Years with Flutter
-  - **12** — Selected apps and products
-  - **7** — Teams across 6 countries
-- Workbench photo: A black phone and machined copper plates on a graphite workbench
-- Project preview: **SAAD | صاد**. A bilingual app for learning English vocabulary from songs, films, and interviews.
+  1. I build Arabic‑first apps for businesses from Morocco to Oman
+- Intro: I'm Mohamed Ramadan. For 5 years I've built mobile and web products for 7 teams in 6 countries, on a clean architecture the next developer can pick up.
+- CTAs: **Start a project** (primary) · See the work (secondary)
+- Ledger strip:
+  - Based in · Shipping since · Teams: 7 in 6 countries · Now
+- Figure: Store art from three shipped apps (lpermis, saad, mutabbib)
 
 ## Technology strip
 
@@ -62,7 +57,7 @@ Dart · Flutter · Bloc · GetX · Riverpod · Firebase · GraphQL · ML Kit · 
 
 ## About — eyebrow `About`
 
-Headline (3 lines): Bioinformatics / degree, mobile / obsession.
+Headline (3 lines): Bioinformatics degree, / mobile obsession
 
 **Lede (set larger):** I build cross-platform apps that behave like native ones — fast to open, smooth under the thumb, and honest about state.
 

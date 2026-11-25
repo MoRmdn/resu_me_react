@@ -10,7 +10,7 @@ export function SocialProof({ locale = "en" }: LocaleProps) {
     <section
       id="social-proof"
       aria-label={copy.testimonials}
-      className="relative z-[11] border-b border-line bg-ink-900"
+      className="border-y border-line bg-ink-700"
     >
       <div className="mx-auto flex max-w-content flex-wrap items-center justify-between gap-x-8 gap-y-2 px-5 py-6 md:px-8">
         <p className="text-caption text-bone-70">{copy.proof}</p>

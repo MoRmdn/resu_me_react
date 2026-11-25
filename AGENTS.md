@@ -9,8 +9,9 @@ The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
 was invisible to search engines, screen readers and Cmd+F. **Anything that puts
 content back out of reach of a crawler defeats the point of this repo.**
 
-Design codename: **Obsidian & Copper**. `design/` is the authority for anything
-visual — read it before touching UI.
+Design direction: **Ledger** (light, the default) with **Obsidian** as the dark
+theme, one copper accent in both. `design/` is the authority for anything
+visual — read `design/DESIGN-SYSTEM.md` before touching UI.
 
 ---
 
@@ -164,11 +165,21 @@ change that adds or changes something a visitor can interact with.
 - **One copper accent per viewport.** If two things are copper, one is wrong.
 - **Elevation is hairlines and offsets, not blur.** Use the `elevation-*`
   utilities.
-- **`--color-bone-52` is the contrast floor for text.** It is the lowest alpha
-  that clears 4.5:1 on every ink ground. `bone-38` and `bone-28` are below it
-  and are decoration only — dividers, watermarks, the card index. Never put a
-  word a reader needs in one of them, and mark them `aria-hidden` when they
-  render as text.
+- **Token names are roles, and every token has a light and a dark value.**
+  `ink-*` are the ground planes (paper in light, ink in dark) and `bone*` is
+  the foreground. Light values live in `@theme`, dark ones under
+  `:root[data-theme="dark"]` and the `prefers-color-scheme` fallback in
+  `app/globals.css`. A new token needs both. `.band` (Contact, footer) applies
+  the dark values in both themes.
+- **`--color-bone-52` is the contrast floor for text** in both themes: ink at
+  0.66 on paper, bone at 0.52 on ink, each the lowest alpha that clears 4.5:1
+  on every ground of its theme. `bone-38` and below are decoration only —
+  dividers, watermarks. Never put a word a reader needs in one of them, and
+  mark them `aria-hidden` when they render as text. Copper on a fill takes
+  `text-on-copper`, never `text-ink-900`.
+- **Ledger numbering (`01–06`) is the page's one signature.** It marks the
+  section eyebrows (`<Eyebrow index>`), the section rail and the menu sheet.
+  Do not number anything else.
 - **Every animation needs a `prefers-reduced-motion` fallback**, and it must
   degrade to the finished state, never a half-played one.
 - Fonts are `next/font/local` files committed in `app/fonts/`. Do not add a
@@ -234,10 +245,25 @@ disallowed URL is never fetched, so the directive would never be read.
 
 **The hero headline paints at full opacity from the first frame.** `.rise-lcp`
 uses a short translation so the headline is eligible for LCP as soon as it
-paints. The responsive workbench photograph loads eagerly from
-`public/images/hero-workbench-*`. RTL mirrors only the workshop photo and its
-shading. The SAAD capture, action labels, hero copy, and metrics keep their own
-reading direction.
+paints. The three store promos in the hero figure load eagerly. The ledger
+strip's values are derived from `content/` (first experience year, current
+role), so they move with the data.
+
+**The theme is set before first paint.** An inline script, first in `<body>`
+(`components/DocumentShell.tsx`), reads `localStorage.theme` or the system
+setting and sets `data-theme` on `<html>`, which carries
+`suppressHydrationWarning` for that reason. Keep its key in step with
+`lib/theme.ts`. Do not move the theme into React state that renders on the
+server: the HTML would ship one theme and flash to the other.
+
+**The Archivo file is instanced, not the Google original.** It carries only
+`wght 400–600` and `wdth 100–118` (Ledger's display width). A heavier weight or
+another width means regenerating it with fontTools `varLib.instancer` from the
+Google Fonts variable file; nothing outside that range renders.
+
+**The nav island writes its progress ring outside React.** The ring is a CSS
+variable set in a rAF scroll callback. Its links stay in the served HTML and,
+without scripting, stand open (`.island-links` under `@media (scripting: none)`).
 
 **Scroll-spy observer entries are changes, not a snapshot.** Keep a set of all
 intersecting sections across callbacks and choose from it after both entries
@@ -292,11 +318,13 @@ screenshots show real hospital names, so only the home, batch and settings
 screens are used. Every screenshot there also has the dev-flavour ribbon, which
 `scripts/make-promos.mjs` covers with a drawn status bar.
 
-**The land is an image on purpose.** `public/images/world-land.svg` is 50 KB of
+**The land is an image on purpose, used as a CSS mask.** `public/images/world-land.svg` is 50 KB of
 path data; inline it would ship twice, in the HTML and again in the RSC payload.
 Only the client countries are inline, and they are rendered by the server
 component `ClientMap`, so no geometry reaches the client bundle. If you add a
-country, run `npm run map` or it has no shape.
+country, run `npm run map` or it has no shape. The mask (`.map-land`) paints
+it in `bone-10`, so the file's own fill colour never shows and the land
+follows the theme.
 
 **The map renders its finished geometry on the server.** Only filter and hover
 state change in `ClientMapExplorer`.
@@ -343,7 +371,6 @@ pages. Root layouts render `lang` and `dir` before JavaScript. Copy lives under
   project art and the text-composition `og.png`, and pointing `image` at that
   is worse than omitting it. A real portrait is the one remaining
   structured-data gap that feeds a knowledge panel.
-- Light ("Bone") theme is specced in `design/DESIGN-SYSTEM.md` §1.2, not built.
 - Only Arcit-AI has a screenshot. Drop a PNG at
   `public/images/<slug>-src.png`, run `npm run images`, and set `image` on that
   project in `content/projects.ts`.

@@ -18,10 +18,10 @@ Shows which parts of the page visitors jump to deliberately.
 
 ### `nav_menu_toggle`
 
-Shows how often phone visitors use the menu, and how they leave it.
+Shows how often visitors open the section menu, and how they leave it.
 
-- **Fires on:** The mobile menu opening or closing.
-- **Sentence:** Mobile menu: {menu_action} via {toggle_method}
+- **Fires on:** The nav island's section menu opening or closing.
+- **Sentence:** Section menu: {menu_action} via {toggle_method}
 - **Params:** `menu_action`, `toggle_method`
 
 ### `cta_click`
@@ -39,6 +39,14 @@ Shows which project or section outside links send visitors straight to.
 - **Fires on:** A page load whose address carries an in-page anchor.
 - **Sentence:** Arrived directly on #{landing_hash}
 - **Params:** `landing_hash`
+
+### `theme_toggle`
+
+Shows how many visitors prefer the dark theme over the light default.
+
+- **Fires on:** A click on the theme toggle in the nav.
+- **Sentence:** Switched to the {theme_choice} theme
+- **Params:** `theme_choice`
 
 ### `language_switch`
 
@@ -327,14 +335,15 @@ Shows how visitors answer the notice, which explains gaps in European data.
 
 | Parameter | Type | Values | Description |
 |---|---|---|---|
+| `theme_choice` | string | light, dark | The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping. |
 | `target_locale` | string | en, ar | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | `event_description` | string |  | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
 | `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
 | `link_target` | string |  | The in-page section or page a navigation link goes to, such as projects. |
 | `link_text` | string |  | The visible label of the link or button that was clicked. |
 | `link_url` | string |  | The full address of the external page the visitor was sent to. |
-| `nav_location` | string | header, mobile_menu, footer, skip_link, privacy_page, consent_notice | Which navigation surface held the link that was clicked. |
-| `menu_action` | string | open, close | Whether the mobile menu was opened or closed. |
+| `nav_location` | string | header, mobile_menu, section_rail, footer, skip_link, privacy_page, consent_notice | Which navigation surface held the link that was clicked. |
+| `menu_action` | string | open, close | Whether the navigation menu (the island's links, or the sheet on a phone) was opened or closed. |
 | `cta_id` | string | hero_see_work, nav_hire_me | Which call-to-action button was clicked. |
 | `landing_hash` | string |  | The in-page anchor the visitor arrived on from outside, such as lpermis, without the hash. |
 | `dwell_seconds` | number |  | Seconds the visitor stayed stopped on a project, section or experience in one stop. Idle time and hidden tabs are excluded. |
@@ -351,7 +360,7 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `project_category` | string |  | The project's market category, such as Healthcare. |
 | `project_country` | string |  | The country the project was built for. |
 | `toggle_action` | string | open, close | Whether a project or experience panel was opened or closed. |
-| `toggle_method` | string | tile, panel, close_button, escape, list_row, timeline_bar, arrow_keys, menu_button, backdrop | The control the visitor used to open or close a panel or the mobile menu. |
+| `toggle_method` | string | tile, panel, close_button, escape, list_row, timeline_bar, arrow_keys, menu_button, backdrop, link | The control the visitor used to open or close a panel or the mobile menu. |
 | `link_type` | string | website, source, app_store, play_store | Which listing of the project was opened. |
 | `experience_slug` | string |  | The stable identifier of the role, such as mismar. |
 | `experience_company` | string |  | The company of the role, without its translation. |
@@ -390,12 +399,13 @@ reports until they are registered, and registering is not retroactive.
 
 | Dimension name | Event parameter | Description |
 |---|---|---|
+| Theme choice | `theme_choice` | The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping. |
 | Target language | `target_locale` | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | Event description | `event_description` | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
 | Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
 | Link target | `link_target` | The in-page section or page a navigation link goes to, such as projects. |
 | Navigation location | `nav_location` | Which navigation surface held the link that was clicked. |
-| Menu action | `menu_action` | Whether the mobile menu was opened or closed. |
+| Menu action | `menu_action` | Whether the navigation menu (the island's links, or the sheet on a phone) was opened or closed. |
 | CTA | `cta_id` | Which call-to-action button was clicked. |
 | Landing anchor | `landing_hash` | The in-page anchor the visitor arrived on from outside, such as lpermis, without the hash. |
 | Scroll percent | `scroll_percent` | The scroll depth milestone reached: 25, 50, 75 or 100 percent of the page. |

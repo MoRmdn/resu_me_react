@@ -30,15 +30,19 @@ size to reach `em`. `-3.8` on 96px became `-0.04em`.
 |---|---|---|
 | Hero | `components/sections/Hero.tsx` | ink-900 |
 | Tech strip | `components/sections/TechStrip.tsx` | ink-800 |
+| Proof line | `components/sections/SocialProof.tsx` | ink-700 |
 | About | `components/sections/About.tsx` | ink-900 |
 | Experience | `components/sections/Experience.tsx` | ink-800 |
 | Projects | `components/sections/Projects.tsx` | ink-900 |
 | Skills | `components/sections/Skills.tsx` | ink-800 |
-| Contact | `components/sections/Contact.tsx` | ink-900 |
-| Footer | `components/sections/Footer.tsx` | ink-900 |
-| Nav | `components/sections/Nav.tsx` | fixed ink header |
+| Reviews | `components/sections/Reviews.tsx` | ink-900 |
+| Contact | `components/sections/Contact.tsx` | ink band (`.band`) |
+| Footer | `components/sections/Footer.tsx` | ink band (`.band`) |
+| Nav | `components/sections/Nav.tsx` | island (ink-800) + section rail |
 
-Grounds alternate so sections separate without rules between them.
+Bands sit flush, divided by hairlines. The Ledger reference is direction A of
+the Claude Design project "Flutter portfolio redesign", page *Portfolio
+Directions*.
 
 ## Deliberate deviations from DESIGN-SYSTEM.md
 
@@ -54,8 +58,16 @@ they render as text the element is `aria-hidden`, so "decorative" is enforced
 rather than asserted.
 
 **Accent allocation.** The hero and Contact each use copper for their primary
-action. The header contact link is neutral, including while it overlays either
-section. The map uses copper to encode client locations.
+action. The island's Hire me is ink-solid, not the artboard's copper, because it
+shares the first viewport with the hero CTA. The map uses copper to encode
+client locations.
+
+**Ledger departures.** Light copper and jade are a step darker than the
+artboard (`#A3460F`, `#0B655A`) to hold 4.5:1 as text. The artboard's "UTC+3"
+is dropped (Egypt is UTC+2 half the year) and every figure comes from
+`content/`. The section rail appears from 1600px, not 1440px, where it would
+touch the content column. Skill plates carry no number: `01–06` is reserved
+for sections.
 
 ## Motion inventory (v2.1)
 
@@ -80,8 +92,7 @@ assert, no ticker guards.
   `--color-line` background, with ink-filled children. That is how the about
   stat grid, the skills table, and the contact link panel get their 1px rules.
 - **Wide content scrolls inside its own container.** The page body must never
-  scroll horizontally; the workbench photo is clipped to the hero and
-  the mobile project screenshot strips scroll within their own containers.
+  scroll horizontally; the mobile project screenshot strips scroll within their own containers.
 - **Collapsed accordion panels stay rendered** and take `inert`. Conditional
   rendering would strip the achievement bullets out of the page source, which
   is the one thing this rebuild exists to prevent.
@@ -92,13 +103,10 @@ assert, no ticker guards.
 The artboard (`Portfolio Redesign.dc.html` in the v2.0 handoff) is the
 implementation target. Four deliberate departures:
 
-1. **The career band shows real concurrency.** The artboard laid seven roles
-   side by side against a `2021 → NOW` axis, but its months sum to 110 against
-   ~65 months of actual elapsed time — four engagements ran concurrently through
-   2024 and most were part-time. As drawn it inflated the career by 1.7× and
-   read concurrent contracts as consecutive ones. `lib/careerLanes.ts` packs
-   bars from the ISO `start`/`end` in `content/experience.ts` into four lanes on
-   a true axis, so the overlap is visible. `content/experience.ts` also carries
+1. **The timeline shows real concurrency.** Four engagements ran concurrently
+   through 2024 and most were part-time. Each row's bar is placed on one true
+   axis by `lib/careerLanes.ts` from the ISO `start`/`end` in
+   `content/experience.ts`, so overlaps read as overlaps. `content/experience.ts` also carries
    an `engagement` field the artboard never rendered; the row panel renders it.
 2. **`grid-template-rows: 0fr → 1fr`, not `max-height`.** The artboard capped
    panels at 420–560px, which clips. JS Quest's open panel measures 705px.
@@ -113,9 +121,7 @@ implementation target. Four deliberate departures:
    and fails the 4.5:1 the design system itself requires. Treat every artboard
    `.45` on text as nominal.
 
-Two smaller ones: the film grain is `position: fixed` **below** the nav per §4,
-not the artboard's `z-index:60` above it (an artefact of it being
-`position:absolute` inside a bounded canvas frame); and the Skills section uses hairline rows on every viewport.
+
 
 **`support.js` from the handoff is not ported.** It is generated canvas runtime
 — React 18 + Babel from unpkg, an expression parser, and the shim that turns

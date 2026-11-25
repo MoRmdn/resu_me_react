@@ -1,4 +1,4 @@
-# MoRmdn — Design System v2.1
+# MoRmdn — Design System v3.0
 Personal brand system for **Mohamed Ramadan**, Software Engineer — Mansoura, Egypt.
 Codename: **Obsidian & Copper**.
 
@@ -7,9 +7,11 @@ Codename: **Obsidian & Copper**.
 > React components. Historical Flutter artboards remain design references, not
 > implementation guidance.
 
-> **v2.1 — workbench direction (November 2026).** A graphite workbench
-> frames the hero. Warm neutrals, sentence-case labels, and quiet controls
-> carry the rest of the page. The v2.0 artboards record the earlier direction.
+> **v3.0 — Ledger (November 2026).** Direction A of the Claude Design project
+> "Flutter portfolio redesign" (page *Portfolio Directions*). Light ruled paper
+> by default with the Obsidian dark theme a toggle away, wide Archivo for
+> display, mono figures, and one signature: Ledger numbering, `01–06`, on the
+> section eyebrows, the left rail and the menu sheet, and nowhere else.
 
 ---
 
@@ -26,102 +28,90 @@ Codename: **Obsidian & Copper**.
 
 ## 1. Color
 
-Dark is the primary theme. Light ("Bone") is a supported inverse for print/résumé and system-light users.
+Light ("Ledger") is the default. Dark ("Obsidian") follows the system setting
+or the nav toggle. The token **names** are roles shared by both themes:
+`ink-*` are the ground planes, `bone*` the foreground ramp. Values live in
+`app/globals.css`: light in `@theme`, dark under `:root[data-theme="dark"]`
+and `@media (prefers-color-scheme: dark)` for visitors without JavaScript.
 
-### 1.1 Dark theme (default)
+### 1.1 Values
 
-| Token | Value | Use |
-|---|---|---|
-| `--ink-900` | `#100E0D` | Page background |
-| `--ink-800` | `#171412` | Section alternate background |
-| `--ink-700` | `#201C19` | Surface / card |
-| `--ink-600` | `#292420` | Raised surface, input fill |
-| `--line` | `rgba(242,238,231,0.10)` | Hairline borders, dividers |
-| `--line-strong` | `rgba(242,238,231,0.20)` | Hover borders, focus ring base |
-| `--bone` | `#F2EEE7` | Primary text (warm off-white, never pure `#fff`) |
-| `--bone-70` | `rgba(242,238,231,0.70)` | Body text |
-| `--bone-52` | `rgba(242,238,231,0.52)` | Contrast floor for secondary text / captions |
-| `--bone-28` | `rgba(242,238,231,0.28)` | Disabled, decorative numerals |
-| `--copper` | `#F2762E` | **Primary accent** — links, active state, key numbers |
-| `--copper-dim` | `#C86023` | Pressed accent |
-| `--copper-wash` | `rgba(242,118,46,0.12)` | Accent fill, tag background |
-| `--jade` | `#3FD8C0` | Status only: "available", success, live |
-| `--rose` | `#FF6B6B` | Error / destructive only |
+| Token | Ledger (light) | Obsidian (dark) | Use |
+|---|---|---|---|
+| `ink-900` | `#F5F5F2` | `#100E0D` | Page: ruled paper |
+| `ink-800` | `#E8E9E4` | `#171412` | Alternate band |
+| `ink-700` | `#FFFFFF` | `#201C19` | Sheet / card |
+| `ink-600` | `#EEEEE9` | `#292420` | Raised surface, input fill |
+| `bone` | `#16181C` | `#F2EEE7` | Primary text |
+| `bone-70` | ink at 0.78 | bone at 0.70 | Body text |
+| `bone-62` | ink at 0.72 | bone at 0.62 | Secondary text |
+| `bone-52` | ink at 0.66 | bone at 0.52 | **Contrast floor** (≥ 4.5:1 on every ground of its theme) |
+| `bone-38 … 06` | — | — | Decoration only, never a word a reader needs |
+| `line` / `line-strong` | ink at 0.10 / 0.18 | bone at 0.10 / 0.20 | Hairlines |
+| `copper` | `#A3460F` | `#F2762E` | The one accent |
+| `copper-bright` | `#8C3C0C` | `#FF8A45` | Hover |
+| `on-copper` | `#FFFFFF` | `#100E0D` | Text on a copper fill |
+| `jade` | `#0B655A` | `#3FD8C0` | Status only: available, current, live |
+| `shadow` | ink at 0.14 | black at 0.55 | The few things that float |
 
-### 1.2 Light theme ("Bone")
+Light copper and jade are darker than the Ledger artboard's `#B04E17` and
+`#0D7366` so each holds 4.5:1 as text on every light ground.
 
-| Token | Value |
-|---|---|
-| `--bg` | `#F2EEE7` |
-| `--surface` | `#FFFFFF` |
-| `--surface-alt` | `#E8E2D8` |
-| `--text` | `#131316` |
-| `--text-70` | `rgba(19,19,22,0.70)` |
-| `--line` | `rgba(19,19,22,0.12)` |
-| `--copper` | `#D95A15` (darkened for AA on bone) |
+### 1.2 The ink band
 
-> Light-theme tokens remain a design specification; the Next.js site currently
-> ships dark only. See "Implementation status" below.
+Contact and the footer carry the `band` class, which applies the Obsidian
+values in both themes: the ledger's closing page. In the dark theme the band
+steps up to `#171412` so it still reads apart.
 
 ### 1.3 Rules
 
-**Accent tiers (v2.0).** v1.0's "one accent per viewport" was contradicted by
-the same document's copper primary buttons and copper metric numbers — a hero
-built to spec carried four copper elements. The rule is now tiered, and the
-*tier* is what's limited, not the hue:
-
-| Tier | What | Limit |
-|---|---|---|
-| **1** | Solid copper fill (`--copper` background) | **Max one per viewport.** It is always the primary action. |
-| **2** | Full-chroma copper text or stroke | **Max one per viewport**, and never in the same viewport as a Tier 1. |
-| **3** | `--copper-wash`, copper hairlines, any copper at ≤38% | Unlimited. This is material, not accent. |
-
-Accent use:
-
-- The hero CTA carries the solid copper fill. Copper in the photograph is
-  a material colour. The fixed header's contact action stays neutral.
-- Track-record metrics are bone. Jade is reserved for status.
-- The logo's copper half is exempt as identity.
-- The AYCO private card carries **zero** copper at any tier. Copper marks the
-  reachable; nothing on that card is reachable.
-- Use a neutral-to-transparent fade to blend the workbench photograph into the page.
-- Text contrast: body ≥ 4.5:1, large display ≥ 3:1. `--bone-28` is decorative only, never information.
+- **One copper fill per viewport, and it is the primary action.** The hero's
+  Start a project and Contact's WhatsApp cell. The island's Hire me is ink-solid
+  (`bg-bone text-ink-900`), never copper, because it shares the first viewport
+  with the hero CTA.
+- Copper may also mark one thing in a component: the open timeline bar, the
+  progress ring, the focus ring.
+- The logo's copper half is identity and exempt.
+- The AYCO private card carries **zero** copper.
+- Jade is status only and always paired with a word.
+- Text contrast: body ≥ 4.5:1, large display ≥ 3:1. Check both themes.
 
 ---
 
 ## 2. Typography
 
-Families:
+- **Display / UI:** `Archivo`, variable `wght 400–600` × `wdth 100–118`.
+  Headings (`h1–h3`) set `font-variation-settings: "wdth" 118`; body stays at
+  100. The `wide` utility applies 118 elsewhere. The committed file is
+  instanced to exactly that range (Latin subset, ~37 KB).
+- **Mono:** `JetBrains Mono` 400 / 500 for figures, dates, counts and the
+  Ledger numbers. Always `tabular`.
+- **Arabic:** `IBM Plex Sans Arabic` 400 / 500. No width axis, tracking 0,
+  heading line height 1.4.
 
-- **Display / UI:** `Archivo` — 400 / 500 / 600 / 700. Wide-set grotesk with real personality at large sizes.
-- **Mono:** `JetBrains Mono` — 400 / 500. Used for code and compact technical values.
-- **Arabic:** `IBM Plex Sans Arabic` — 400 / 500, with its own heading rhythm and RTL layout.
+> **Loading:** files are committed under `app/fonts/` and loaded with
+> `next/font/local` in `components/DocumentShell.tsx`. No Google Fonts `<link>`,
+> no `next/font/google`.
 
-> **Loading:** variable font files are committed under `app/fonts/` and loaded
-> with `next/font/local` in `components/DocumentShell.tsx`. Do not add a Google
-> Fonts `<link>` or switch to `next/font/google`; self-hosting keeps the export
-> reproducible and avoids a render-blocking third-party request.
+### 2.1 Scale
 
-### 2.1 Scale (desktop → mobile)
-
-| Role | Size / Line | Weight | Tracking | Notes |
+| Role | Size | Weight | Tracking | Notes |
 |---|---|---|---|---|
-| `display-xl` | 116 / 0.90 → 52 / 0.94 | 600 | −0.04em | Hero only, one per page |
-| `display-l` | 72 / 0.95 → 38 | 600 | −0.035em | Section openers |
-| `h1` | 44 / 1.05 → 30 | 600 | −0.03em | |
-| `h2` | 30 / 1.15 → 24 | 600 | −0.02em | Card titles |
-| `h3` | 21 / 1.25 → 19 | 600 | −0.01em | |
-| `body-l` | 18 / 1.6 → 17 | 400 | 0 | Intro paragraphs, max 62ch |
-| `body` | 16 / 1.65 | 400 | 0 | Default |
-| `caption` | 13 / 1.5 | 400 | 0 | Secondary |
-| `eyebrow` | 13 / 1.45 | 500 sans | Normal tracking | Sentence-case section labels |
-| `metric` | 46 / 1 | 600 | −0.03em | Stat numbers, bone |
+| `.hero-headline` | 42 → 88 | 500 | −0.045em | Hero only, line height 0.98 |
+| `display-xl` | 40 → 88 | 500 | −0.045em | Contact title |
+| `display-l` | 32 → 54 | 500 | −0.035em | Section titles, line height 1.02 |
+| `h1` | 30 → 44 | 500 | −0.03em | |
+| `h2` | 24 → 30 | 600 | −0.02em | Card titles |
+| `h3` | 19 → 21 | 600 | −0.01em | |
+| `body-l` | 17 → 18 | 400 | 0 | Intro paragraphs, max 62ch |
+| `body` | 16 | 400 | 0 | Default |
+| `caption` / `eyebrow` | 13 | 400 / 500 | 0 | Sentence case, never tracked uppercase |
 
 ### 2.2 Rules
 
-- Use the hero clamp in `.hero-headline`. Arabic uses its own size and line height.
-- Align headings to the start of the reading direction. Body copy is capped at 62ch.
-- Use tabular figures for metrics.
+- Hierarchy is size and colour, not weight. 700 is not loaded.
+- No trailing period on headlines, labels or buttons.
+- Numbers are mono and tabular, in one format across the page.
 
 ---
 
@@ -134,17 +124,19 @@ Families:
 - **Breakpoints:** the Tailwind tokens are `sm 680 · md 900 · lg 1040 · xl 1240`; the Arabic desktop hero also has a targeted adjustment from 768px.
 - Asymmetry is the signature: content sits on a 7/5 or 8/4 split, not centred boxes.
 
-### 3.1 Workbench hero and section rhythm
+### 3.1 Ledger hero and section rhythm
 
-- The full-width photograph keeps its subject at the end of the reading direction.
-  Arabic mirrors the photograph and its edge shading. The actual project screenshot
-  keeps its original orientation.
-- Mobile puts the photograph after the two main actions. The SAAD preview and
-  track record sit at the bottom of the hero, with the CV and live views in the footer.
-- Use the responsive AVIF and WebP variants in `public/images/hero-workbench-*`.
-  The photograph and actual SAAD listing capture are separate assets.
-- Section grounds alternate between `--ink-900` and `--ink-800`. Projects
-  and Contact overlap their preceding sections by 40px.
+- Hero: a status line (jade dot, "Taking new projects", role and place), the
+  headline, then a 5/7 split: intro and two actions on the start side, the
+  store-art figure on the end side (Lpermis, SAAD, Mutabbib promos on a white
+  sheet at staggered tops 0 / 32 / 16px). Under it the ledger strip: a
+  four-cell hairline `<dl>` (based in, shipping since, teams, now) with mono
+  values derived from `content/`.
+- Sections sit flush, 120px vertical padding desktop and 80px mobile, divided by
+  hairlines. Grounds: hero paper, tech strip band, proof line sheet, About paper,
+  Experience band, Projects paper, Skills band, Reviews paper, Contact ink band.
+- Every section title is preceded by its Ledger number. Nothing else on the
+  page uses `01–06`.
 
 ---
 
@@ -158,27 +150,9 @@ Families:
 | `--r-xl` | 28px (hero panels, media) |
 | `--r-pill` | 999px (status chips, nav) |
 
-**Elevation is drawn with hairlines and offsets, not blur.**
-
-- `e0` — flat: `1px solid --line`
-- `e1` — card: `1px solid --line` + `0 1px 0 rgba(255,255,255,0.03) inset`
-- `e2` — hover: `1px solid --line-strong` + `0 12px 32px rgba(0,0,0,0.45)`
-- `e3` — overlay/menu: `0 24px 60px rgba(0,0,0,0.6)`
-- `glow` — accent focus: `0 0 0 1px --copper, 0 0 40px rgba(242,118,46,0.18)`
-
-### Film grain
-
-A single tiled fractal-noise layer across the page keeps the dark from
-flattening. Exact spec:
-
-- One 180×180 SVG `feTurbulence` tile — `type="fractalNoise"`,
-  `baseFrequency="0.85"`, `numOctaves="3"` — repeated as a background image.
-- `position: fixed; inset: 0; pointer-events: none;` at **3% opacity**.
-- Stacking: above section backgrounds, **below body text and the fixed header**, so
-  type stays crisp.
-- Excluded from the flagship device screenshot so the shot is not degraded.
-- **Static. Never animated, never per-section, never parallaxed.**
-- `prefers-reduced-motion`: unaffected — it does not move.
+**Elevation is drawn with hairlines and surface steps.** A soft neutral
+`--color-shadow` appears only on what floats: the nav island and its sheet,
+the hero figure, the map tooltip. No coloured shadows, no glow, no grain.
 
 ---
 
@@ -187,9 +161,9 @@ flattening. Exact spec:
 ### Buttons
 | Variant | Idle | Hover | Pressed |
 |---|---|---|---|
-| **Primary** | copper fill, `#100E0D` label, `--r-md`, 14px/24px padding, 500 weight | brightness 1.08, lift `translateY(-2px)` | `translateY(0)`, copper-dim |
-| **Ghost** | transparent, 1px `--line`, bone label | border `--line-strong`, bg `rgba(255,255,255,.04)` | bg `rgba(255,255,255,.02)` |
-| **Text/link** | bone label + copper 1px underline offset 4px | underline grows from left (200ms) | — |
+| **Primary** | copper fill, `on-copper` label, `--r-md`, 600 weight | `copper-bright` | `copper-dim` |
+| **Ghost** | transparent, 1px `line-strong`, bone label | border `bone` | — |
+| **Ink** | `bone` fill, `ink-900` label, pill (the island's Hire me) | `bone-70` | — |
 
 Height 44px min (touch target), icon 18px, gap 8px.
 
@@ -197,7 +171,15 @@ Height 44px min (touch target), icon 18px, gap 8px.
 Use the `--ink-700` surface, `--r-lg` radius, and a neutral hairline. Interactive cards use a stronger hairline or a surface step to show state.
 
 ### Navigation
-A fixed 64px header uses an opaque ink ground and one bottom hairline. The active link has a short underline. On mobile the menu opens a keyboard-trapped sheet.
+- **Island.** A fixed 56px pill, centred, on `ink-800` with a hairline and the
+  soft shadow: the mark, the section toggle (progress ring, active section,
+  `n/6`), the section links that slide open beside it (with the theme toggle),
+  the language switch and the ink Hire me. The progress ring is a conic
+  gradient fed by a `--progress` variable written in a rAF scroll callback, with
+  no React state. Below `lg` the links open as a sheet under the island
+  (numbered rows, language, theme). Escape closes it and returns focus.
+- **Rail.** From 1600px, a fixed column at the inline start lists
+  `01 About … 06 Contact`, the active one in full `bone`.
 
 ### Inputs
 Reserved for future forms: fill `--ink-600`, 1px `--line`, `--r-md`, 14px padding, 16px Archivo. Label above in `eyebrow` mono. Focus: border copper. Error: `--rose` border + 13px message. Contact currently ships no form.
@@ -206,7 +188,12 @@ Reserved for future forms: fill `--ink-600`, 1px `--line`, `--r-md`, 14px paddin
 Use a quiet hairline and a sentence-case label. Use a status colour for meaningful status.
 
 ### Timeline (experience)
-Each entry marked by a 8px square node (rotated 45°) that fills copper when the row is open. Rows are expanders: role, company, and date range collapsed; responsibilities revealed on open.
+One 2021 → now axis in mono over the list. Each row is an expander:
+company · country and role, then a pill track with the role's bar placed by its
+real start and end (`lib/careerLanes.ts`), the date range (with a jade Current
+chip) and a `+` that turns 45°. The open row's bar is copper; the rest are
+`bone`. Time runs left to right in both languages. Below `lg` the bar hides and
+the dates fold under the company.
 
 ### Metric block
 Sentence-case label with the `metric` number in **`--bone`** (v2.0 — was copper; see
@@ -215,22 +202,11 @@ hairline dividers between. Live/streamed values take `--jade`.
 
 ## 5.1 New components (v2.0)
 
-### Career band (Experience index)
-A duration-weighted bar chart that doubles as an index into the timeline below.
+### Skills plates
 
-- Seven columns, oldest → newest left to right, `flex` proportional to months served.
-- Height `40 + months × 2.2` px desktop (×0.6 mobile), 104px container, 4px gaps.
-- `--r-sm` on the top corners only; no bottom border — the columns sit on the axis hairline.
-- Idle `rgba(242,238,231,.06)` + `--line`. Selected: `--copper-wash` fill,
-  `rgba(242,118,46,.35)` border, +14px height (Tier 3 — not an accent).
-- Start year in 10px mono at the foot of each column; axis labelled `2021` / `NOW`.
-- Clicking a column opens the matching timeline row. Keyboard: arrow keys move
-  selection, Enter opens.
-
-### Skills rows
-
-Use a hairline between groups. On desktop, the group heading sits beside
-a wrapping list of skills. On narrow screens the skills sit under the heading.
+One white plate per group on a two-column grid, every second plate 40px lower
+from `sm`. Chips are hairline outlines; the core skills (`coreSkills` in
+`content/skills.ts`) are the only filled ones.
 
 ### Private-project card
 For work with no public listing (AYCO). Must read as deliberate, never as a broken card.
@@ -318,7 +294,8 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
   immediately at their natural height.
 - Interactive controls use brief colour, opacity, or border transitions. Map
   transitions communicate a change of filter or the country being inspected.
-- The technology strip, career band, skills, and review cards are static. The
+- The nav island's links slide open (max-width and opacity, 420ms). The
+  technology strip, timeline, skills and review cards are static. The
   standalone review export retains its own animated wall and reduced-motion mode.
 
 ## 7. Accessibility
@@ -330,14 +307,17 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
 
 ## Implementation status
 
-The static export renders the workshop hero, the career band, the client
-map, and the project and review details in HTML. Contact uses direct channels.
-
-- **Light ("Bone") theme** — tokens remain specced in §1.2, with no implementation.
+Ledger is built in both themes and both languages.
 
 ---
 
 ## Change log
+
+**v3.0 — November 2026.** Ledger: light default with the Obsidian dark theme on
+a toggle, ink band for Contact and the footer, wide Archivo display, nav island
+and section rail, store-art hero figure and ledger strip, per-row experience
+timeline, skills plates. The workbench photograph, film grain and career band
+are gone.
 
 **v2.1 — November 2026.** Workshop hero, single real app preview, warm ink
 range, simplified typography and navigation, and motion focused on interaction.

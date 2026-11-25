@@ -1,6 +1,5 @@
 import type { LocaleProps } from "@/content/locale";
 import { getCopy } from "@/content/copy-i18n";
-import Image from "next/image";
 import { ClientMapExplorer } from "@/components/sections/ClientMapExplorer";
 
 import { clientCountries, clientsIn, type ClientFilter } from "@/content/clients";
@@ -52,15 +51,9 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
         platforms={reviewPlatforms.map(({ id, label }) => ({ id, label }))}
         positions={Object.fromEntries(shapes.map((s) => [s.id, [s.x, s.y]]))}
       >
-        <Image
-          src="/images/world-land.svg"
-          alt=""
-          width={worldMap.width}
-          height={worldMap.height}
-          loading="lazy"
-          unoptimized
-          className="absolute inset-0 size-full"
-        />
+        {/* The land is an image used as a mask, so it takes the theme's ink
+            rather than the colour baked into the file. */}
+        <div aria-hidden className="map-land absolute inset-0 size-full" />
         <svg
           viewBox={`0 0 ${worldMap.width} ${worldMap.height}`}
           role="img"

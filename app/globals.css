@@ -11,39 +11,47 @@
 --------------------------------------------------------------------------- */
 
 @theme {
-  /* -- Ink: the stacked planes ------------------------------------------- */
-  --color-ink-900: #100e0d; /* page */
-  --color-ink-800: #171412; /* alternate section */
-  --color-ink-700: #201c19; /* surface / card */
-  --color-ink-600: #292420; /* raised surface, input fill */
+  /* -- Grounds and foreground ---------------------------------------------
+     Ledger. The names are roles, not colours: `ink-*` are the ground planes
+     (page, alternate band, card, raised) and `bone*` is the foreground ramp.
+     These are the light values; the dark values are below the @theme block
+     and switch on <html data-theme="dark"> (or the system setting without JS). */
+  --color-ink-900: #f5f5f2; /* page: ruled paper */
+  --color-ink-800: #e8e9e4; /* alternate band */
+  --color-ink-700: #ffffff; /* sheet / card */
+  --color-ink-600: #eeeee9; /* raised surface, input fill */
 
-  /* -- Bone: text and hairlines ------------------------------------------ */
-  --color-bone: #f2eee7;
-  --color-bone-70: rgb(242 238 231 / 0.7);
-  --color-bone-62: rgb(242 238 231 / 0.62);
-  /* 0.52 is the lowest alpha that clears 4.5:1 on every ink ground, so this
-     is the floor for any text carrying information. */
-  --color-bone-52: rgb(242 238 231 / 0.52);
+  --color-bone: #16181c;
+  --color-bone-70: rgb(22 24 28 / 0.78);
+  --color-bone-62: rgb(22 24 28 / 0.72);
+  /* The contrast floor: the lowest alpha that clears 4.5:1 on every ground of
+     the active theme (0.66 on paper, 0.52 on ink). Any text a reader needs
+     sits at this step or above. */
+  --color-bone-52: rgb(22 24 28 / 0.66);
   /* Below the contrast floor: decoration only — dividers, watermarks, the
      card index. Never put a word a reader needs in one of these. */
-  --color-bone-38: rgb(242 238 231 / 0.38);
-  --color-bone-28: rgb(242 238 231 / 0.28);
-  --color-bone-18: rgb(242 238 231 / 0.18);
-  --color-bone-10: rgb(242 238 231 / 0.1);
-  --color-bone-06: rgb(242 238 231 / 0.06);
-  --color-line: rgb(242 238 231 / 0.1);
-  --color-line-strong: rgb(242 238 231 / 0.2);
+  --color-bone-38: rgb(22 24 28 / 0.4);
+  --color-bone-28: rgb(22 24 28 / 0.28);
+  --color-bone-18: rgb(22 24 28 / 0.18);
+  --color-bone-10: rgb(22 24 28 / 0.1);
+  --color-bone-06: rgb(22 24 28 / 0.05);
+  --color-line: rgb(22 24 28 / 0.1);
+  --color-line-strong: rgb(22 24 28 / 0.18);
 
-  /* -- Copper: the one accent -------------------------------------------- */
-  --color-copper: #f2762e;
-  --color-copper-bright: #ff8a45; /* hover */
-  --color-copper-dim: #c86023; /* pressed */
-  --color-copper-wash: rgb(242 118 46 / 0.12);
+  /* -- Copper: the one accent. Darker on paper so it holds 4.5:1 as text. -- */
+  --color-copper: #a3460f;
+  --color-copper-bright: #8c3c0c; /* hover */
+  --color-copper-dim: #7a340a; /* pressed */
+  --color-copper-wash: rgb(163 70 15 / 0.1);
+  --color-on-copper: #ffffff; /* text on a copper fill */
 
   /* -- Status ------------------------------------------------------------ */
-  --color-jade: #3fd8c0; /* available, success, live */
-  --color-rose: #ff6b6b; /* error */
-  --color-amber: #f59e0b; /* warning */
+  --color-jade: #0b655a; /* available, success, live */
+  --color-rose: #b42318; /* error */
+  --color-amber: #9a5b00; /* warning */
+
+  /* Shadow tint for the few things that float (the nav island, tooltips). */
+  --color-shadow: rgb(22 24 28 / 0.14);
 
   /* -- Marketplaces: identity, like the logo, so exempt from the accent tiers.
      Only ever on a platform's own mark and the card that quotes it. -------- */
@@ -58,20 +66,20 @@
     var(--font-archivo), var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 
-  --text-display-xl: clamp(3.25rem, 8.5vw, 7.25rem); /* 52 → 116 */
-  --text-display-xl--line-height: 0.9;
-  --text-display-xl--letter-spacing: -0.04em;
-  --text-display-xl--font-weight: 600;
+  --text-display-xl: clamp(2.5rem, 6vw, 5.5rem); /* 40 → 88, the contact title */
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--letter-spacing: -0.045em;
+  --text-display-xl--font-weight: 500;
 
-  --text-display-l: clamp(2.375rem, 5.5vw, 4.5rem); /* 38 → 72 */
-  --text-display-l--line-height: 0.95;
+  --text-display-l: clamp(2rem, 4vw, 3.375rem); /* 32 → 54, the section title */
+  --text-display-l--line-height: 1.02;
   --text-display-l--letter-spacing: -0.035em;
-  --text-display-l--font-weight: 600;
+  --text-display-l--font-weight: 500;
 
   --text-h1: clamp(1.875rem, 3.4vw, 2.75rem); /* 30 → 44 */
   --text-h1--line-height: 1.05;
   --text-h1--letter-spacing: -0.03em;
-  --text-h1--font-weight: 600;
+  --text-h1--font-weight: 500;
 
   --text-h2: clamp(1.5rem, 2.4vw, 1.875rem); /* 24 → 30 */
   --text-h2--line-height: 1.15;
@@ -126,6 +134,76 @@
   --breakpoint-xl: 1240px;
 }
 
+/* ---------------------------------------------------------------------------
+   Obsidian: the dark theme, and the ink band (Contact, Footer) in both themes.
+   The pre-paint script in DocumentShell sets data-theme before first paint;
+   without JavaScript the system setting decides.
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+}
+:root[data-theme="dark"],
+.band {
+  --color-ink-900: #100e0d;
+  --color-ink-800: #171412;
+  --color-ink-700: #201c19;
+  --color-ink-600: #292420;
+  --color-bone: #f2eee7;
+  --color-bone-70: rgb(242 238 231 / 0.7);
+  --color-bone-62: rgb(242 238 231 / 0.62);
+  --color-bone-52: rgb(242 238 231 / 0.52);
+  --color-bone-38: rgb(242 238 231 / 0.38);
+  --color-bone-28: rgb(242 238 231 / 0.28);
+  --color-bone-18: rgb(242 238 231 / 0.18);
+  --color-bone-10: rgb(242 238 231 / 0.1);
+  --color-bone-06: rgb(242 238 231 / 0.06);
+  --color-line: rgb(242 238 231 / 0.1);
+  --color-line-strong: rgb(242 238 231 / 0.2);
+  --color-copper: #f2762e;
+  --color-copper-bright: #ff8a45;
+  --color-copper-dim: #c86023;
+  --color-copper-wash: rgb(242 118 46 / 0.12);
+  --color-on-copper: #100e0d;
+  --color-jade: #3fd8c0;
+  --color-rose: #ff6b6b;
+  --color-amber: #f59e0b;
+  --color-shadow: rgb(0 0 0 / 0.55);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-ink-900: #100e0d;
+    --color-ink-800: #171412;
+    --color-ink-700: #201c19;
+    --color-ink-600: #292420;
+    --color-bone: #f2eee7;
+    --color-bone-70: rgb(242 238 231 / 0.7);
+    --color-bone-62: rgb(242 238 231 / 0.62);
+    --color-bone-52: rgb(242 238 231 / 0.52);
+    --color-bone-38: rgb(242 238 231 / 0.38);
+    --color-bone-28: rgb(242 238 231 / 0.28);
+    --color-bone-18: rgb(242 238 231 / 0.18);
+    --color-bone-10: rgb(242 238 231 / 0.1);
+    --color-bone-06: rgb(242 238 231 / 0.06);
+    --color-line: rgb(242 238 231 / 0.1);
+    --color-line-strong: rgb(242 238 231 / 0.2);
+    --color-copper: #f2762e;
+    --color-copper-bright: #ff8a45;
+    --color-copper-dim: #c86023;
+    --color-copper-wash: rgb(242 118 46 / 0.12);
+    --color-on-copper: #100e0d;
+    --color-jade: #3fd8c0;
+    --color-rose: #ff6b6b;
+    --color-amber: #f59e0b;
+    --color-shadow: rgb(0 0 0 / 0.55);
+    color-scheme: dark;
+}
+}
+/* The band stays ink in dark mode too; one step up so it still reads apart. */
+:root[data-theme="dark"] .band {
+  --color-ink-900: #171412;
+}
+
 @theme static {
   --duration-instant: 90ms;
   --duration-fast: 180ms;
@@ -145,10 +223,10 @@
 }
 @utility elevation-hover {
   border: 1px solid var(--color-line-strong);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+  box-shadow: 0 12px 32px var(--color-shadow);
 }
 @utility elevation-overlay {
-  box-shadow: 0 24px 60px rgb(0 0 0 / 0.6);
+  box-shadow: 0 24px 60px var(--color-shadow);
 }
 
 /** The hairline grid: Flutter fills a container with `line` and lays ink
@@ -166,6 +244,12 @@
 }
 
 /** Metadata numerals are always mono with tabular figures so they cannot jitter. */
+/** Ledger's display voice: Archivo widened to 118. Latin only — Arabic has no
+    width axis and resets tracking in the html[lang="ar"] rules at the end. */
+@utility wide {
+  font-variation-settings: "wdth" 118;
+}
+
 @utility tabular {
   font-variant-numeric: tabular-nums;
 }
@@ -181,7 +265,7 @@
   html {
     scroll-behavior: smooth;
     /* Clear the fixed header when jumping to an anchor. */
-    scroll-padding-top: 72px;
+    scroll-padding-top: 96px;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -197,7 +281,7 @@
 
   ::selection {
     background-color: var(--color-copper);
-    color: var(--color-ink-900);
+    color: var(--color-on-copper);
   }
 
   /* The focus ring DESIGN-SYSTEM.md specced but the Flutter app never built. */
@@ -210,23 +294,13 @@
   [hidden] {
     display: none !important;
   }
-}
 
-/* ---------------------------------------------------------------------------
-   Film grain — 3% over the whole page, specced in DESIGN-SYSTEM.md §"Texture"
-   and never implemented in Flutter. Pure CSS, no image request.
---------------------------------------------------------------------------- */
-/* DESIGN-SYSTEM v2 §4: one fixed 180px fractal-noise tile at 3%, above the
-   section backgrounds and BELOW body text and the nav pill, so type stays
-   crisp. Static — never animated, unaffected by reduced motion. */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  h1,
+  h2,
+  h3 {
+    font-variation-settings: "wdth" 118;
+    text-wrap: balance;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -467,6 +541,11 @@
   --w: var(--w-khamsat, 0);
 }
 
+.map-land {
+  background-color: var(--color-bone-10);
+  mask: url("/images/world-land.svg") center / 100% 100% no-repeat;
+}
+
 .map-country {
   fill: var(--color-copper);
   fill-opacity: var(--w, 0);
@@ -548,7 +627,7 @@
   border: 1px solid var(--color-line-strong);
   border-radius: var(--radius-md);
   background-color: var(--color-ink-600);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+  box-shadow: 0 12px 32px var(--color-shadow);
   pointer-events: none;
   transform: translate(-50%, calc(-100% - 12px));
 }
@@ -668,64 +747,37 @@
   transform: rotate(45deg);
 }
 
+/* The nav island's section links slide open from the toggle. Without
+   scripting they stand open, because nothing could open them. */
+.island-links {
+  max-width: 0;
+  opacity: 0;
+  transition:
+    max-width 420ms var(--ease-base),
+    opacity 240ms var(--ease-fast);
+}
+.island-links[data-open="true"] {
+  max-width: 760px;
+  opacity: 1;
+}
+@media (scripting: none) {
+  .island-links {
+    max-width: none;
+    opacity: 1;
+  }
+}
+
 .perimeter {
   width: calc(100% - 1px);
   height: calc(100% - 1px);
 }
 
 .hero-headline {
-  font-size: clamp(2.75rem, 6vw, 5.75rem);
+  font-size: clamp(2.625rem, 6vw, 5.5rem); /* 42 → 88 */
+  font-weight: 500;
   line-height: 0.98;
   letter-spacing: -0.045em;
-}
-
-.hero-scene {
-  position: relative;
-  display: block;
-  height: clamp(12rem, 46vw, 24rem);
-  margin: 1.5rem -1.25rem 0;
-  mask-image: linear-gradient(to bottom, transparent, black 18%, black 72%, transparent);
-}
-
-.hero-scene img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 78% center;
-}
-
-/* Mirror only the photograph so the calm part always sits under the copy. */
-[dir="rtl"] .hero-scene img {
-  transform: scaleX(-1);
-}
-
-@media (min-width: 900px) {
-  .hero-scene { margin-inline: -2rem; }
-}
-
-@media (min-width: 1040px) {
-  .hero-scene {
-    position: absolute;
-    inset-block: 0;
-    left: 50%;
-    width: 100vw;
-    height: auto;
-    margin: 0;
-    transform: translateX(-50%);
-    mask-image: linear-gradient(to bottom, black 68%, transparent);
-  }
-
-  .hero-scene img { object-position: center 35%; }
-
-  .hero-scene::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    background: linear-gradient(to right, var(--color-ink-900), transparent 72%);
-  }
-
-  [dir="rtl"] .hero-scene::after { transform: scaleX(-1); }
+  font-variation-settings: "wdth" 118;
 }
 
 /* Arabic is a complete document direction, not a transform of the artwork. */

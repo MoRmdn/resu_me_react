@@ -89,7 +89,7 @@ export function FeaturedPanel({
             y="0.5"
             rx="15.5"
             fill="none"
-            stroke="rgb(242 238 231 / 0.20)"
+            stroke="var(--color-line-strong)"
             strokeDasharray="6 6"
             className="perimeter"
           />

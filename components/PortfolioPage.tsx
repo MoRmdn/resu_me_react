@@ -16,16 +16,14 @@ export default function PortfolioPage({ locale = "en" }: LocaleProps) {
       <Nav locale={locale} />
       <main id="main">
         <Hero locale={locale} />
-        <div className="relative z-10 bg-ink-900">
-          <TechStrip locale={locale} />
-          <SocialProof locale={locale} />
-          <About locale={locale} />
-          <Experience locale={locale} />
-          <Projects locale={locale} />
-          <Skills locale={locale} />
-          <Reviews locale={locale} />
-          <Contact locale={locale} />
-        </div>
+        <TechStrip locale={locale} />
+        <SocialProof locale={locale} />
+        <About locale={locale} />
+        <Experience locale={locale} />
+        <Projects locale={locale} />
+        <Skills locale={locale} />
+        <Reviews locale={locale} />
+        <Contact locale={locale} />
       </main>
       <Footer locale={locale} />
     </>

@@ -76,10 +76,9 @@ w(`- Intro: ${copy.hero.intro}`);
 w(
   `- CTAs: **${copy.hero.primaryCta.label}** (primary) · ${copy.hero.secondaryCta.label} (secondary)`,
 );
-w("- Track record:");
-copy.hero.trackRecord.forEach((m) => w(`  - **${m.value}${m.suffix}** — ${m.label}`));
-w(`- Workbench photo: ${copy.hero.sceneAlt}`);
-w(`- Project preview: **${copy.hero.preview.title}**. ${copy.hero.preview.caption}`);
+w("- Ledger strip:");
+w(`  - ${copy.hero.ledger.basedIn} · ${copy.hero.ledger.since} · ${copy.hero.ledger.teams}: ${copy.hero.ledger.teamsValue} · ${copy.hero.ledger.now}`);
+w(`- Figure: ${copy.hero.figureCaption} (${copy.hero.promos.map((p) => p.slug).join(", ")})`);
 w();
 w("## Technology strip");
 w();

@@ -14,11 +14,11 @@ export function Reviews({ locale = "en" }: LocaleProps) {
   const initial = selectedReviews(initialReviewIds);
   const remaining = reviews.filter((r) => !initialReviewIds.includes(r.id));
   return (
-    <Section id="reviews" tone="ink-900" z={19} offset={-40} className="overflow-x-clip">
-      <div className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-20">
+    <Section id="reviews" tone="ink-900" className="overflow-x-clip">
+      <div className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">
         <div>
-          <Eyebrow>{reviewsCopy.eyebrow}</Eyebrow>
-          <h2 className="mt-6 text-display-l text-balance">{reviewsCopy.headline}</h2>
+          <Eyebrow index={5}>{reviewsCopy.eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-display-l">{reviewsCopy.headline}</h2>
         </div>
         <div>
           <p className="max-w-[46ch] text-body text-bone-70">{reviewsCopy.blurb}</p>
@@ -41,13 +41,13 @@ export function Reviews({ locale = "en" }: LocaleProps) {
                 />
                 <span
                   aria-hidden
-                  className="text-[0.75rem] text-bone-28 transition-transform duration-fast ease-fast group-hover:translate-x-0.5"
+                  className="text-[0.75rem] text-bone-52 transition-colors duration-fast ease-fast group-hover:text-bone rtl:-scale-x-100"
                 >
                   &#8599;
                 </span>
               </div>
               <div>
-                <p className="text-metric text-bone">
+                <p className="font-mono text-[2rem] leading-none font-medium tracking-[-0.03em] text-bone tabular">
                   {platform.count}
                 </p>
                 <a
@@ -89,7 +89,7 @@ export function Reviews({ locale = "en" }: LocaleProps) {
         </ul>
         <details className="reviews-more mt-6">
           <summary
-            className="inline-flex min-h-11 cursor-pointer items-center rounded-md border border-line px-5 text-caption text-bone"
+            className="inline-flex min-h-11 cursor-pointer items-center rounded-md border border-line-strong px-5 text-caption text-bone transition-colors duration-fast ease-fast hover:border-bone"
             {...trackAttrs("reviews_expand", { toggle_action: "open" })}
           >
             <span className="when-closed">{copy.moreReviews}</span>

@@ -2,6 +2,7 @@ import * as en from "./copy";
 import type { Locale } from "./locale";
 import { reviewTotal, reviewPlatforms } from "./reviews";
 import { clientCountries } from "./clients";
+import { metrics } from "./site";
 
 export const ui = {
   en: {
@@ -14,6 +15,12 @@ export const ui = {
     hire: "Hire me",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    sections: "Sections",
+    intro: "Intro",
+    toDark: "Switch to the dark theme",
+    toLight: "Switch to the light theme",
+    themeDark: "Dark",
+    themeLight: "Light",
     skip: "Skip to content",
     credentials: "Credentials",
     external: "(opens in a new tab)",
@@ -49,6 +56,12 @@ export const ui = {
     hire: "لنعمل معًا",
     openMenu: "فتح القائمة",
     closeMenu: "إغلاق القائمة",
+    sections: "الأقسام",
+    intro: "البداية",
+    toDark: "التبديل إلى الوضع الداكن",
+    toLight: "التبديل إلى الوضع الفاتح",
+    themeDark: "داكن",
+    themeLight: "فاتح",
     skip: "انتقل إلى المحتوى",
     credentials: "التعليم والشهادات",
     external: "(يفتح في علامة تبويب جديدة)",
@@ -81,27 +94,34 @@ const ar: typeof en = {
   hero: {
     ...en.hero,
     place: "المنصورة، مصر",
-    headline: ["أبني تطبيقات Flutter", "من الفكرة إلى الإطلاق"],
+    status: "متاح لمشاريع جديدة",
+    role: "مهندس برمجيات",
+    headline: ["أبني تطبيقات تضع العربية أولًا، لأعمال من المغرب إلى عُمان"],
     intro:
-      "أنا محمد رمضان، مهندس برمجيات أبني تطبيقات الهاتف والويب لفرق في ست دول. تشمل أعمالي أدوات لتعلّم اللغات وتعليم القيادة والصيانة الميدانية.",
-    primaryCta: { ...en.hero.primaryCta, label: "استعرض المشاريع" },
+      "أنا محمد رمضان. منذ خمس سنوات أبني منتجات للهاتف والويب لسبعة فرق في ست دول، ببنية واضحة يستطيع المطور التالي أن يكمل عليها.",
+    primaryCta: { ...en.hero.primaryCta, label: "ابدأ مشروعًا" },
+    secondaryCta: { ...en.hero.secondaryCta, label: "استعرض الأعمال" },
     resumeCta: { ...en.hero.resumeCta, label: "تنزيل السيرة الذاتية (بالإنجليزية)" },
-    trackRecord: en.hero.trackRecord.map((item, i) => ({
-      ...item,
-      label: ["سنوات في تطوير Flutter", "تطبيقات ومنتجات مختارة", "فرق عمل في ست دول"][i],
-    })),
-    sceneAlt: "هاتف أسود وصفائح نحاسية مصقولة على طاولة عمل بلون الغرافيت",
-    preview: {
-      ...en.hero.preview,
-      title: "صاد | SAAD",
-      caption: "تطبيق ثنائي اللغة لتعلّم مفردات الإنجليزية من الأغاني والأفلام والمقابلات.",
-      alt: "لقطة من متجر تطبيق صاد تعرض الكلمات الجديدة وقيد التعلّم والمعروفة",
+    ledger: {
+      basedIn: "المقر",
+      since: "أُطلق التطبيقات منذ",
+      teams: "الفرق",
+      teamsValue: `${metrics.teams} فرق في ${metrics.countries} دول`,
+      now: "الآن",
+      nowProduct: "NAAS",
+      nowJoin: "في",
     },
+    figureCaption: "صور المتجر لثلاثة تطبيقات منشورة",
+    promos: [
+      { ...en.hero.promos[0], alt: "صورة متجر Lpermis: شاشة الحجز تحت عنوان عربي" },
+      { ...en.hero.promos[1], alt: "صورة متجر صاد: شاشة الترحيب على هاتف مائل" },
+      { ...en.hero.promos[2], alt: "صورة متجر مطبب: دليل المستشفيات تحت عنوان عربي" },
+    ],
   },
   about: {
     ...en.about,
     eyebrow: "نبذة عني",
-    headline: ["درست المعلوماتية الحيوية،", "ووجدت شغفي", "في بناء التطبيقات."],
+    headline: ["درست المعلوماتية الحيوية،", "ووجدت شغفي في بناء التطبيقات"],
     lede: "أبني تطبيقات متعددة المنصات تمنح المستخدم تجربة طبيعية: تشغيل سريع، وتفاعل سلس، وحالة واضحة في كل خطوة.",
     body: [
       "كان مشروع تخرجي تطبيقًا لتحليل البيانات وعرضها على الهاتف، ومنه بدأت الرحلة. منذ ذلك الحين قدت منتجات من ملف `main.dart` فارغ إلى الإطلاق: منصة لتعليم القيادة في المغرب، وتطبيقًا طبيًا في ليبيا، ومنتجًا للتوفيق بين العملاء ومقدمي الخدمات في السعودية، وسوقًا متعدد البائعين في تركيا، ونظام تقارير صيانة ميدانية بنيته بمفردي. تختلف المجالات، لكن منهجي ثابت: إدارة واضحة للحالة، وبنية تسهّل عمل المطور التالي، واختبارات للوحدات والواجهات حيث تضيف قيمة.",
@@ -127,10 +147,9 @@ const ar: typeof en = {
   experienceCopy: {
     eyebrow: "الخبرة",
     headline: "سبعة فرق في ست دول",
-    hint: "اضغط على الوظيفة لعرض التفاصيل",
     currentBadge: "حاليًا",
-    bandAxisNote: "المدة",
-    bandCaption: "تداخلت أربع من هذه الوظائف خلال عام 2024؛ وكان معظمها عن بُعد وبدوام جزئي.",
+    bandCaption:
+      "طول الشريط هو مدة العمل في الدور. تداخلت أربع من هذه الوظائف خلال عام 2024، وكان معظمها عن بُعد وبدوام جزئي.",
   },
   projectsCopy: {
     ...en.projectsCopy,
@@ -266,6 +285,7 @@ const ar: typeof en = {
         items: [
           "يستخدم Google Analytics ملفات _ga لمدة تصل إلى عامين للتمييز بين الزيارات.",
           "يُحفظ اختيارك في هذا المتصفح حتى لا يتكرر السؤال في كل زيارة.",
+          "إذا اخترت الوضع الفاتح أو الداكن، يُحفظ هذا الاختيار في التخزين المحلي أيضًا، ولا شيء غيره.",
           "يزيد عداد الزيارات مرة لكل تحميل للصفحة ولا يحتفظ بمعلومات عنك.",
         ],
       },

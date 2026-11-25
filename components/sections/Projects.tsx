@@ -11,8 +11,9 @@ export function Projects({ locale = "en" }: LocaleProps) {
   const { featuredProjects, galleryProjects, orderedProjects } = getProjects(locale);
   const [firstFeatured, ...remainingFeatured] = featuredProjects;
   return (
-    <Section id="projects" tone="ink-900" z={16} offset={-40}>
+    <Section id="projects" tone="ink-900">
       <SectionHeader
+        index={3}
         eyebrow={projectsCopy.eyebrow}
         headline={projectsCopy.headline}
         note={projectsCopy.countLabel(orderedProjects.length)}
@@ -34,10 +35,10 @@ export function Projects({ locale = "en" }: LocaleProps) {
         ))}
       </div>
 
-      <div className="mt-20 md:mt-28">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
-          <h3 className="text-h1">{projectsCopy.galleryHeadline}</h3>
-          <p className="eyebrow text-bone-52">
+      <div className="mt-16 border-t border-line pt-5 md:mt-18">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
+          <h3 className="text-h2">{projectsCopy.galleryHeadline}</h3>
+          <p className="text-caption text-bone-52">
             {projectsCopy.galleryNote(galleryProjects.length)}
           </p>
         </div>

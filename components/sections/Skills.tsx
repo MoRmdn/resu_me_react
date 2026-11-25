@@ -3,31 +3,55 @@ import { getCopy } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getSkills } from "@/content/profile-i18n";
+import { coreSkills } from "@/content/skills";
+import { cn } from "@/lib/cn";
 
+/**
+ * Ledger plates: the blurb on the left, one plate per group on the right.
+ * Every second plate sits lower on wide screens so the grid reads laid by
+ * hand; the core skills are the only filled chips.
+ */
 export function Skills({ locale = "en" }: LocaleProps) {
   const { skillsCopy } = getCopy(locale);
   const skillGroups = getSkills(locale);
   return (
-    <Section id="skills" tone="ink-800" z={18} offset={64}>
-      <div className="mb-8 grid items-end gap-6 md:mb-12 lg:grid-cols-[7fr_5fr] lg:gap-16">
+    <Section id="skills" tone="ink-800">
+      <div className="grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
         <div>
-          <Eyebrow>{skillsCopy.eyebrow}</Eyebrow>
+          <Eyebrow index={4}>{skillsCopy.eyebrow}</Eyebrow>
           <h2 className="mt-4 text-display-l">{skillsCopy.headline}</h2>
+          <p className="mt-5 max-w-[36ch] text-body text-bone-70">{skillsCopy.blurb}</p>
         </div>
-        <p className="max-w-[46ch] text-body text-bone-70">{skillsCopy.blurb}</p>
-      </div>
 
-      <div className="border-t border-line">
-        {skillGroups.map((group) => (
-          <div key={group.label} className="grid gap-3 border-b border-line py-5 md:grid-cols-[1fr_2fr] md:items-baseline md:gap-8">
-            <h3 className="text-h3">{group.label}</h3>
-            <ul className="flex flex-wrap gap-x-4 gap-y-2 text-caption text-bone-70">
-              {group.items.map((item) => (
-                <li key={item}><bdi>{item}</bdi></li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <ul className="grid items-start gap-4 sm:grid-cols-2">
+          {skillGroups.map((group, i) => (
+            <li
+              key={group.label}
+              className={cn(
+                "rounded-lg border border-line bg-ink-700 p-6",
+                i % 2 === 1 && "sm:mt-10",
+              )}
+            >
+              <h3 className="text-[1.0625rem] leading-snug font-semibold">{group.label}</h3>
+              <ul className="mt-4 flex flex-wrap gap-1.5 text-[0.875rem]">
+                {group.items.map((item) => {
+                  const core = coreSkills.includes(item);
+                  return (
+                    <li
+                      key={item}
+                      className={cn(
+                        "rounded-sm px-2.5 py-1",
+                        core ? "bg-bone font-medium text-ink-900" : "border border-line-strong text-bone-70",
+                      )}
+                    >
+                      <bdi>{item}</bdi>
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
+          ))}
+        </ul>
       </div>
     </Section>
   );

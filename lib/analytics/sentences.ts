@@ -14,7 +14,8 @@ export const SENTENCES: Record<EventName, string> = {
   review_original_toggle: "{toggle_action} the original review wording",
   review_summary_click: "Followed the early summary to client reviews",
   nav_link_click: "Clicked {link_text} in the {nav_location}",
-  nav_menu_toggle: "Mobile menu: {menu_action} via {toggle_method}",
+  nav_menu_toggle: "Section menu: {menu_action} via {toggle_method}",
+  theme_toggle: "Switched to the {theme_choice} theme",
   cta_click: "Clicked the {link_text} button",
   deep_link_landing: "Arrived directly on #{landing_hash}",
 

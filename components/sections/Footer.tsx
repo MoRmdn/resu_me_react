@@ -15,7 +15,7 @@ export function Footer({ locale = "en" }: LocaleProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-[22] border-t border-line bg-ink-800">
+    <footer className="band border-t border-line bg-ink-900 text-bone">
       <div className="mx-auto flex max-w-content flex-wrap items-center justify-between gap-4 px-5 py-8 text-caption text-bone-52 md:px-8">
         <p className="flex items-center gap-2">
           <MoRmdnMark size={16} />

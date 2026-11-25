@@ -4,37 +4,45 @@
  *
  * The hero intro previously said "four years" — the CV says over five.
  */
-import { orderedProjects } from "./projects";
 import { clientCountries } from "./clients";
 import { reviews, reviewTotal } from "./reviews";
 import { contact, metrics, site } from "./site";
 
 export const hero = {
   place: String(site.location),
-  headline: ["I build Flutter apps", "from prototype", "to release"],
-  intro: `I'm ${site.name}, a software engineer building mobile and web apps for teams in ${metrics.countries} countries. My work includes tools for language learning, driver training, and field maintenance.`,
-  primaryCta: { label: "View projects", href: "#projects" },
-  // WhatsApp is the stated first-choice channel, so it takes the hero's
-  // secondary action. The email address still appears in Contact, the footer
-  // and the structured data.
-  secondaryCta: { label: "WhatsApp", href: "https://wa.me/201281100168" },
+  status: "Taking new projects",
+  role: "Software engineer",
+  // Morocco and Oman are the western and eastern ends of content/clients.json.
+  headline: ["I build Arabic‑first apps for businesses from Morocco to Oman"],
+  intro: `I'm ${site.name}. For ${metrics.yearsExperience} years I've built mobile and web products for ${metrics.teams} teams in ${metrics.countries} countries, on a clean architecture the next developer can pick up.`,
+  // Ledger leads with the conversation, because WhatsApp is the stated
+  // first-choice channel; the work is the quieter second action.
+  primaryCta: { label: "Start a project", href: "https://wa.me/201281100168" },
+  secondaryCta: { label: "See the work", href: "#projects" },
   resumeCta: { label: "Download CV", href: contact.resumeUrl },
-  trackRecord: [
-    { value: metrics.yearsExperience, suffix: "+", label: "Years with Flutter" },
-    { value: orderedProjects.length, suffix: "", label: "Selected apps and products" },
-    { value: metrics.teams, suffix: "", label: `Teams across ${metrics.countries} countries` },
-  ],
-  sceneAlt: "A black phone and machined copper plates on a graphite workbench",
-  preview: {
-    title: "SAAD | صاد",
-    caption: "A bilingual app for learning English vocabulary from songs, films, and interviews.",
-    alt: "SAAD store screenshot showing new words, words in progress, and known words",
+  /** The ledger strip under the hero. Values are filled in by Hero.tsx from content/. */
+  ledger: {
+    basedIn: "Based in",
+    since: "Shipping since",
+    teams: "Teams",
+    teamsValue: `${metrics.teams} in ${metrics.countries} countries`,
+    now: "Now",
+    // The product of the current role; its company comes from experience.ts.
+    nowProduct: "NAAS",
+    nowJoin: "at",
   },
+  figureCaption: "Store art from three shipped apps",
+  /** The three promos in the hero figure, by project slug. */
+  promos: [
+    { slug: "lpermis", file: "lpermis-promo", width: 1200, height: 2601, alt: "Lpermis store promo, a booking screen under an Arabic headline" },
+    { slug: "saad", file: "saad-promo", width: 1200, height: 2133, alt: "SAAD store promo, the welcome screen on a tilted phone" },
+    { slug: "mutabbib", file: "mutabbib-promo", width: 1200, height: 2601, alt: "Mutabbib store promo, a hospital directory under an Arabic headline" },
+  ],
 };
 
 export const about = {
   eyebrow: "About",
-  headline: ["Bioinformatics", "degree, mobile", "obsession."],
+  headline: ["Bioinformatics degree,", "mobile obsession"],
   lede: "I build cross-platform apps that behave like native ones — fast to open, smooth under the thumb, and honest about state.",
   body: [
     "My final-year project was mobile data analysis and visualisation; that's where the habit started. Since then I've led products from an empty `main.dart` to the App Store: a driving-school platform in Morocco, a medical social network in Libya, an AI matchmaking product in Saudi Arabia, a multi-vendor marketplace in Türkiye, and a field-service reporting system built solo end to end. Different domains, same discipline — Bloc or Cubit for anything with real business logic, clean architecture so the next developer isn't cursing my name, and unit and widget tests where they earn their keep.",
@@ -59,10 +67,9 @@ export const learning = {
 export const experienceCopy = {
   eyebrow: "Experience",
   headline: "Seven teams across six countries",
-  hint: "tap a row to expand",
   currentBadge: "Current",
-  bandAxisNote: "Duration",
-  bandCaption: "Four of these ran at once through 2024 \u2014 most of them remote and part-time.",
+  bandCaption:
+    "Bar length is time in the role. Four of these ran at once through 2024, most of them remote and part-time.",
 };
 
 export const projectsCopy = {
@@ -207,6 +214,7 @@ export const privacyCopy = {
       items: [
         "Google Analytics sets _ga cookies, which last up to two years, to tell one visit from the next.",
         "Your choice is kept in this browser's local storage so you are not asked again.",
+        "If you pick the light or dark theme, that choice is kept in local storage too, and nothing else.",
         "The visit counter on the page adds one per page load and stores no information about you.",
       ],
     },
