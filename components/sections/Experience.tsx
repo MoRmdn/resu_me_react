@@ -4,7 +4,6 @@ import { getCopy } from "@/content/copy-i18n";
 
 import { useState } from "react";
 import { Section, SectionHeader } from "@/components/ui/Section";
-import { Reveal } from "@/components/motion/Reveal";
 import { CareerBand } from "./CareerBand";
 import { getExperiences } from "@/content/profile-i18n";
 
@@ -27,32 +26,32 @@ export function Experience({ locale = "en" }: LocaleProps) {
   );
 
   return (
-    <Section id="experience" tone="ink-800" z={14} offset={112}>
-      <Reveal>
+    <Section id="experience" tone="ink-800" z={14} offset={64}>
+      <div>
         <SectionHeader
           eyebrow={experienceCopy.eyebrow}
           headline={experienceCopy.headline}
           note={experienceCopy.hint}
           className="mb-14"
         />
-      </Reveal>
+      </div>
 
-      <Reveal delay={0.06}>
+      <div>
         <CareerBand
           locale={locale}
           roles={experiences}
           openSlug={openSlug}
           onSelect={(slug) => setOpenSlug(slug)}
         />
-      </Reveal>
+      </div>
 
       <ul className="border-t border-line">
-        {experiences.map((role, i) => {
+        {experiences.map((role) => {
           const isOpen = openSlug === role.slug;
           const panelId = `exp-panel-${role.slug}`;
 
           return (
-            <Reveal as="li" key={role.slug} delay={Math.min(i * 0.04, 0.2)}>
+            <li key={role.slug}>
               <div className="border-b border-line">
                 <h3>
                   <button
@@ -83,7 +82,7 @@ export function Experience({ locale = "en" }: LocaleProps) {
                           {role.position}
                         </span>
                         {role.isCurrent && (
-                          <span className="eyebrow rounded-pill bg-jade/12 px-2 py-1 text-jade">
+                          <span className="eyebrow text-jade">
                             {experienceCopy.currentBadge}
                           </span>
                         )}
@@ -93,12 +92,12 @@ export function Experience({ locale = "en" }: LocaleProps) {
                       </span>
                       {/* Dates and location get their own columns on desktop;
                           on mobile they fold under the company. */}
-                      <span className="mt-1 block font-mono text-[0.75rem] tracking-[0.06em] text-bone-52 tabular md:hidden">
+                      <span className="mt-1 block text-caption text-bone-52 tabular md:hidden">
                         {role.startDate} — {role.endDate}
                       </span>
                     </span>
 
-                    <span className="hidden font-mono text-[0.78125rem] tracking-[0.06em] text-bone-52 tabular md:block">
+                    <span className="hidden text-caption text-bone-52 tabular md:block">
                       <time dateTime={role.start}>{role.startDate}</time>
                       {" — "}
                       {role.end ? <time dateTime={role.end}>{role.endDate}</time> : role.endDate}
@@ -140,7 +139,7 @@ export function Experience({ locale = "en" }: LocaleProps) {
                             {role.technologies.map((tech) => (
                               <li
                                 key={tech}
-                                className="eyebrow rounded-sm bg-copper-wash px-2.5 py-1.5 text-copper"
+                                className="eyebrow rounded-sm border border-line px-2 py-1 text-bone-70"
                               >
                                 {tech}
                               </li>
@@ -166,7 +165,7 @@ export function Experience({ locale = "en" }: LocaleProps) {
                   </div>
                 </div>
               </div>
-            </Reveal>
+            </li>
           );
         })}
       </ul>

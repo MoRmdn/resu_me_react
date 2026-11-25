@@ -51,10 +51,6 @@ export function ReviewCard({ review, locale = "en" }: { review: Review; locale?:
       data-platform={review.platform}
       data-layout={layoutOf(review)}
     >
-      <span aria-hidden className="review-card__glyph">
-        &ldquo;
-      </span>
-
       <header className="review-card__top">
         <PlatformMark
           platform={review.platform}
@@ -64,11 +60,7 @@ export function ReviewCard({ review, locale = "en" }: { review: Review; locale?:
         <span role="img" aria-label={copy.rating} className="review-card__rating">
           <span aria-hidden className="review-card__stars">
             {[0, 1, 2, 3, 4].map((i) => (
-              <span
-                key={i}
-                className="review-card__star"
-                style={{ "--star": i } as React.CSSProperties}
-              />
+              <span key={i} className="review-card__star" />
             ))}
           </span>
           <span aria-hidden>{"5.0"}</span>

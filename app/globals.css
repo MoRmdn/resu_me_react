@@ -12,10 +12,10 @@
 
 @theme {
   /* -- Ink: the stacked planes ------------------------------------------- */
-  --color-ink-900: #0a0a0c; /* page */
-  --color-ink-800: #101013; /* alternate section */
-  --color-ink-700: #16161b; /* surface / card */
-  --color-ink-600: #1e1e24; /* raised surface, input fill */
+  --color-ink-900: #100e0d; /* page */
+  --color-ink-800: #171412; /* alternate section */
+  --color-ink-700: #201c19; /* surface / card */
+  --color-ink-600: #292420; /* raised surface, input fill */
 
   /* -- Bone: text and hairlines ------------------------------------------ */
   --color-bone: #f2eee7;
@@ -37,7 +37,7 @@
   /* -- Copper: the one accent -------------------------------------------- */
   --color-copper: #f2762e;
   --color-copper-bright: #ff8a45; /* hover */
-  --color-copper-dim: #c25a1e; /* pressed */
+  --color-copper-dim: #c86023; /* pressed */
   --color-copper-wash: rgb(242 118 46 / 0.12);
 
   /* -- Status ------------------------------------------------------------ */
@@ -92,9 +92,8 @@
   --text-caption: 0.8125rem; /* 13 */
   --text-caption--line-height: 1.5;
 
-  --text-eyebrow: 0.6875rem; /* 11 */
-  --text-eyebrow--line-height: 1;
-  --text-eyebrow--letter-spacing: 0.18em;
+  --text-eyebrow: 0.8125rem; /* 13 */
+  --text-eyebrow--line-height: 1.45;
   --text-eyebrow--font-weight: 500;
 
   --text-metric: clamp(2.25rem, 4vw, 2.875rem); /* 36 → 46 */
@@ -161,12 +160,9 @@
 }
 
 @utility eyebrow {
-  font-family: var(--font-mono);
   font-size: var(--text-eyebrow);
-  line-height: 1;
-  letter-spacing: 0.18em;
-  font-weight: 500;
-  text-transform: uppercase;
+  line-height: var(--text-eyebrow--line-height);
+  font-weight: var(--text-eyebrow--font-weight);
 }
 
 /** Metadata numerals are always mono with tabular figures so they cannot jitter. */
@@ -184,8 +180,8 @@
 
   html {
     scroll-behavior: smooth;
-    /* Clears the fixed nav pill when jumping to a section. */
-    scroll-padding-top: 96px;
+    /* Clear the fixed header when jumping to an anchor. */
+    scroll-padding-top: 72px;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -252,55 +248,11 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Marquee. A duplicated track translated by exactly -50%, which is seamless
-   because the second copy is identical. Replaces the Flutter Ticker +
-   ScrollController that had to guard hasContentDimensions on early frames.
---------------------------------------------------------------------------- */
-@keyframes marquee-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.marquee {
-  /* A transformed max-content track can otherwise add a few pixels to the
-     document's scroll width even when its parent is clipped. */
-  contain: paint;
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll var(--marquee-duration, 42s) linear infinite;
-}
-
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-    /* Still readable, just static and scrollable. */
-    transform: none;
-  }
-  .marquee {
-    overflow-x: auto;
-  }
-}
-
-/* ---------------------------------------------------------------------------
    Review cards. Plain classes rather than utilities: the whole block between
    the markers is lifted into the bundle by scripts/export-review-cards.mjs.
    The exporter supplies the wall/marquee layout used only by its standalone
    page; the site uses the static grid at the end of this block.
 
-   Card hover is CSS only. Reduced motion keeps the colour but loses the lift
-   and the star sequence.
 --------------------------------------------------------------------------- */
 /* review-cards:start */
 [data-platform="upwork"] {
@@ -343,50 +295,10 @@
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.03);
   color: var(--color-bone);
   font-family: var(--font-sans);
-  transition:
-    transform 320ms var(--ease-base),
-    border-color 180ms var(--ease-fast),
-    box-shadow 320ms var(--ease-base);
 }
 
 .review-card[data-layout="wide"] {
   width: min(84vw, 520px);
-}
-
-/* A hairline that wipes in from the left, in the platform's colour. */
-.review-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 2px;
-  background-color: var(--review-brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 320ms var(--ease-base);
-}
-
-.review-card:hover {
-  transform: translate3d(0, -4px, 0);
-  border-color: color-mix(in srgb, var(--review-brand) 45%, transparent);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
-}
-.review-card:hover::before {
-  transform: scaleX(1);
-}
-
-.review-card__glyph {
-  position: absolute;
-  right: 18px;
-  bottom: 44px;
-  font-size: 9rem;
-  font-weight: 600;
-  line-height: 0.6;
-  color: var(--color-bone-06);
-  pointer-events: none;
-  transition: transform 320ms var(--ease-base);
-}
-.review-card:hover .review-card__glyph {
-  transform: translate3d(0, -6px, 0);
 }
 
 .review-card__top {
@@ -417,7 +329,6 @@
   display: inline-flex;
   gap: 2px;
   color: var(--color-bone-70);
-  transition: color 180ms var(--ease-fast);
 }
 .review-card__star {
   display: block;
@@ -439,26 +350,6 @@
     37% 34.5%
   );
 }
-.review-card:hover .review-card__stars {
-  color: var(--review-brand);
-}
-.review-card:hover .review-card__star {
-  animation: review-star-pop 320ms var(--ease-base) both;
-  animation-delay: calc(var(--star) * 50ms);
-}
-
-@keyframes review-star-pop {
-  0% {
-    transform: scale(1);
-  }
-  45% {
-    transform: scale(1.32) rotate(-8deg);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .review-card__body {
   position: relative;
   display: flex;
@@ -508,11 +399,7 @@
 }
 
 .review-card__repeat {
-  padding: 2px 7px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.4;
   color: var(--color-bone-62);
@@ -527,23 +414,8 @@
 
 .review-card__source {
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
   color: var(--color-bone-52);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .review-card:hover {
-    transform: none;
-  }
-  .review-card:hover .review-card__glyph {
-    transform: none;
-  }
-  .review-card:hover .review-card__star {
-    animation: none;
-  }
 }
 
 /* Static review grids. Every original stays in the served HTML once per area. */
@@ -575,14 +447,7 @@
 }
 /* review-cards:end */
 
-/* ---------------------------------------------------------------------------
-   Client map. The finished map is the base style; the intro is an animation
-   that only runs once Reveal flips data-visible, so with no JS, a missed
-   observer or reduced motion it is simply already drawn.
-
-   Order of events: the pin lands, lines leave it nearest-first, each country
-   fills as its line arrives. --i is that order, from generate-world-map.mjs.
---------------------------------------------------------------------------- */
+/* Client map. The finished geometry renders before JavaScript. */
 [data-map-filter="all"] .map-country {
   --w: var(--w-all, 0);
 }
@@ -620,8 +485,6 @@
   stroke-opacity: 0.38;
   stroke-width: 1;
   stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
   transition:
@@ -674,68 +537,6 @@
 .map-pin__ring {
   fill: var(--color-jade);
   fill-opacity: 0.22;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: map-pin-ring 2.4s var(--ease-base) infinite;
-}
-
-@keyframes map-pin-ring {
-  0% {
-    transform: scale(0.7);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-
-@keyframes map-pin-land {
-  from {
-    transform: translate3d(0, -18px, 0);
-    opacity: 0;
-  }
-}
-
-@keyframes map-line-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-}
-
-@keyframes map-fill-in {
-  from {
-    fill-opacity: 0;
-    stroke-opacity: 0;
-  }
-}
-
-@keyframes map-dot-in {
-  0% {
-    transform: scale(0);
-  }
-  60% {
-    transform: scale(1.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.reveal[data-visible="true"] .map-pin {
-  animation: map-pin-land 420ms var(--ease-base) both;
-}
-.reveal[data-visible="true"] .map-arc {
-  animation: map-line-draw 620ms var(--ease-slow) both;
-  animation-delay: calc(var(--i) * 70ms + 320ms);
-}
-.reveal[data-visible="true"] .map-country {
-  animation: map-fill-in 320ms var(--ease-base) both;
-  animation-delay: calc(var(--i) * 70ms + 760ms);
-}
-.reveal[data-visible="true"] .map-dot {
-  animation: map-dot-in 320ms var(--ease-base) both;
-  animation-delay: calc(var(--i) * 70ms + 760ms);
 }
 
 .map-tip {
@@ -800,162 +601,27 @@
   opacity: 0.8;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .map-pin__ring {
-    animation: none;
-    opacity: 1;
-  }
-  .reveal[data-visible="true"] .map-pin,
-  .reveal[data-visible="true"] .map-arc,
-  .reveal[data-visible="true"] .map-country,
-  .reveal[data-visible="true"] .map-dot {
-    animation: none;
-  }
-}
-
-/* Slow pulse for the "open to work" dot. */
-@keyframes dot-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-
-.pulse-dot {
-  animation: dot-pulse 2.4s var(--ease-base) infinite;
-}
-
-/* ---------------------------------------------------------------------------
-   Entrance choreography.
-
-   A short rise and fade, staggered by --reveal-delay within a group, switched
-   on by one shared IntersectionObserver (components/motion/Reveal.tsx).
-
-   Doing this in CSS rather than an animation library keeps ~180KB out of the
-   bundle, which is most of the reason this site left Flutter Web.
---------------------------------------------------------------------------- */
-.reveal {
-  opacity: 0;
-  transform: translate3d(0, var(--reveal-y, 18px), 0);
-  transition:
-    opacity 0.62s var(--ease-slow),
-    transform 0.62s var(--ease-slow);
-  transition-delay: var(--reveal-delay, 0s);
-  will-change: opacity, transform;
-}
-
-.reveal[data-visible="true"] {
-  opacity: 1;
-  transform: none;
-  will-change: auto;
-}
-
-/* With scripting off the observer never runs, so show everything outright. */
-@media (scripting: none) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Hero entrance — the same idea, but running on load rather than on scroll.
---------------------------------------------------------------------------- */
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 26px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.rise {
-  animation: rise-in 0.72s var(--ease-slow) both;
-  animation-delay: var(--rise-delay, 0s);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rise {
-    animation: none;
-  }
-}
-
-/*
- * The hero headline, and only the hero headline.
- *
- * It is the largest text on the page, so it is the LCP element. `rise-in`
- * starts at `opacity: 0` with `both` fill, which means a `.rise` headline is
- * fully transparent for the whole of its delay — and Chrome will not accept a
- * transparent element as an LCP candidate. Every load paid that delay before
- * Largest Contentful Paint could even be recorded.
- *
- * Same movement, no opacity and no delay: the words are on screen in the first
- * frame and rise into place from there. The staggered fade stays on everything
- * around it, which is where the choreography actually reads.
- */
+/* One entrance for the headline, opaque from its first paint. */
 @keyframes rise-in-opaque {
-  from {
-    transform: translate3d(0, 26px, 0);
-  }
-  to {
-    transform: none;
-  }
+  from { transform: translateY(8px); }
+  to { transform: translateY(0); }
 }
 
 .rise-lcp {
-  animation: rise-in-opaque 0.72s var(--ease-slow) both;
+  animation: rise-in-opaque 360ms var(--ease-base) both;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rise-lcp {
-    animation: none;
-  }
+  .rise-lcp { animation: none; }
 }
 
 /* ---------------------------------------------------------------------------
-   Scroll progress. Uses a scroll-driven animation where the browser supports
-   one (it then runs off the main thread entirely); otherwise ScrollProgress.tsx
-   writes --scroll-progress from a rAF-throttled listener.
---------------------------------------------------------------------------- */
-@keyframes scroll-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-.scroll-progress {
-  transform-origin: 0 50%;
-  transform: scaleX(var(--scroll-progress, 0));
-}
-
-@supports (animation-timeline: scroll()) {
-  .scroll-progress {
-    transform: scaleX(0);
-    animation: scroll-progress linear both;
-    animation-timeline: scroll(root block);
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Accordion. grid-template-rows 0fr -> 1fr animates to the content's real
-   height with no measurement and no JS.
+   Accordion. Collapsed rows occupy zero height and keep their markup in place.
 
    NOT called `.collapse`: Tailwind ships a `collapse` utility that sets
    `visibility: collapse`, which silently hid every expanded panel while the
@@ -965,11 +631,6 @@
   display: grid;
   grid-template-rows: 0fr;
   visibility: hidden;
-  opacity: 0;
-  transition:
-    grid-template-rows 0.28s var(--ease-base),
-    opacity 0.2s var(--ease-fast),
-    visibility 0s linear 0.28s;
 }
 
 .disclosure > * {
@@ -980,8 +641,6 @@
 .disclosure[data-open="true"] {
   grid-template-rows: 1fr;
   visibility: visible;
-  opacity: 1;
-  transition-delay: 0s;
 }
 
 /* Server markup has no inert attribute: without scripting, every panel stands
@@ -991,268 +650,94 @@
   .disclosure {
     grid-template-rows: 1fr;
     visibility: visible;
-    opacity: 1;
-    transition: none;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .disclosure {
-    transition: none;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Logo draw-on. Paths carry pathLength="100", so the dash maths is unit-free.
-   LOGO.md allows this once, in the hero — never on every load elsewhere.
---------------------------------------------------------------------------- */
-@keyframes draw {
-  from {
-    stroke-dashoffset: 100;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.draw-path {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: draw 0.9s var(--ease-slow) both;
-  animation-delay: var(--draw-delay, 0s);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .draw-path {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   v2.0 — plane rhythm, the career band, Skills plates, the spatial tile open.
-   design/DESIGN-SYSTEM.md §3.1, §5.1 and §6.1 are the authority.
---------------------------------------------------------------------------- */
-
-/* Career band columns grow from the baseline as the band enters view.
-   Reduced motion: rendered at final height (see the global block above, which
-   collapses the duration). */
-@keyframes band-grow {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
-.band-bar {
-  transform-origin: 50% 100%;
-  animation: band-grow 0.62s var(--ease-slow) both;
-  animation-delay: var(--band-delay, 0s);
-}
-
-/* Skills plates slide in from their stagger side, alternating. */
-@keyframes plate-in-left {
-  from {
-    opacity: 0;
-    transform: translate3d(-28px, 0, 0);
-  }
-}
-@keyframes plate-in-right {
-  from {
-    opacity: 0;
-    transform: translate3d(28px, 0, 0);
-  }
-}
-
-.plate {
-  animation: plate-in-left 0.32s var(--ease-base) both;
-  animation-delay: var(--plate-delay, 0s);
-}
-.plate:nth-child(even) {
-  animation-name: plate-in-right;
-  /* The stagger is a desktop gesture. At 375px an 88px indent eats a quarter
-     of the plate, so it only applies once there is room for it. */
-  margin-left: var(--plate-stagger, 0);
-}
-
-@media (min-width: 900px) {
-  .plate:nth-child(even) {
-    margin-left: var(--plate-stagger, 88px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .band-bar,
-  .plate {
-    animation: none;
-    transform: none;
-    opacity: 1;
-  }
-}
-
-/* The AYCO plane's dashed border draws once as the card lands. `stroke` on an
-   SVG rect rather than a CSS border, because a border cannot be drawn. */
-@keyframes perimeter-draw {
-  from {
-    stroke-dashoffset: var(--perimeter, 2400);
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.perimeter {
-  width: calc(100% - 1px);
-  height: calc(100% - 1px);
-  animation: perimeter-draw 0.62s var(--ease-slow) 0.12s both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .perimeter {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   A featured panel's store screens sit on a stepped baseline and square up on
-   hover. Only with room for all three: below `sm` the strip is a scroller, and
-   a stepped baseline there just looks misaligned.
---------------------------------------------------------------------------- */
-.screen-strip__item {
-  transition: transform 320ms var(--ease-base);
-}
-
-@media (min-width: 680px) {
-  .screen-strip__item:nth-child(2) {
-    transform: translate3d(0, 28px, 0);
-  }
-  .screen-strip__item:nth-child(3) {
-    transform: translate3d(0, 14px, 0);
-  }
-  .feature-panel:hover .screen-strip__item {
-    transform: translate3d(0, 14px, 0);
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   The signature moment — a gallery tile opens where it sits.
-
-   The detail planes are grid items of their own. `grid-auto-flow: dense` lets
-   the tiles backfill the row a closed plane would have broken, so every plane
-   lands directly under its tile's row at any column count, and row-gap has to
-   stay 0: a closed plane is a zero-height row, and a gap would still show. The
-   space between rows is padding on the tile's slot instead.
---------------------------------------------------------------------------- */
+/* The gallery keeps zero row gap because each closed detail plane is a
+   zero-height grid item. Its tile slot supplies the vertical space. */
 .gallery-tile {
-  transition:
-    transform 320ms var(--ease-base),
-    opacity 320ms var(--ease-base),
-    box-shadow 320ms var(--ease-base),
-    border-color 180ms var(--ease-fast),
-    background-color 180ms var(--ease-fast);
+  transition: border-color 180ms var(--ease-fast), background-color 180ms var(--ease-fast);
 }
 
 .gallery-tile:hover {
-  transform: translate3d(0, -3px, 0);
-  border-color: rgb(242 118 46 / 0.35);
+  border-color: var(--color-line-strong);
 }
 
-.gallery-tile[data-open="true"] {
-  transform: scale(1.012);
-}
-
-/* The page recedes so one plane can come forward. */
-.gallery-tile[data-dimmed="true"] {
-  opacity: 0.38;
-  transform: scale(0.985);
-}
-.gallery-tile[data-dimmed="true"]:hover {
-  opacity: 0.7;
-}
-
-.gallery-tile__plus {
-  transition: transform 320ms var(--ease-base);
-}
 .gallery-tile[data-open="true"] .gallery-tile__plus,
 .feature-panel[data-open="true"] .gallery-tile__plus {
   transform: rotate(45deg);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .gallery-tile,
-  .gallery-tile__plus,
-  .screen-strip__item {
-    transition: none;
-  }
-  .gallery-tile:hover,
-  .gallery-tile[data-open="true"] {
-    transform: none;
-  }
-  /* Siblings stay at 100% — dimming six tiles with no tween just flickers. */
-  .gallery-tile[data-dimmed="true"] {
-    opacity: 1;
-    transform: none;
-  }
+.perimeter {
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
 }
 
-@media (max-width: 899px) {
-  /* Mobile drops the scale; only colour and shadow move. */
-  .gallery-tile,
-  .gallery-tile:hover,
-  .gallery-tile[data-open="true"],
-  .gallery-tile[data-dimmed="true"] {
-    transform: none;
+.hero-headline {
+  font-size: clamp(2.75rem, 6vw, 5.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.hero-scene {
+  position: relative;
+  display: block;
+  height: clamp(12rem, 46vw, 24rem);
+  margin: 1.5rem -1.25rem 0;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 72%, transparent);
+}
+
+.hero-scene img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% center;
+}
+
+/* Mirror only the photograph so the calm part always sits under the copy. */
+[dir="rtl"] .hero-scene img {
+  transform: scaleX(-1);
+}
+
+@media (min-width: 900px) {
+  .hero-scene { margin-inline: -2rem; }
+}
+
+@media (min-width: 1040px) {
+  .hero-scene {
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    width: 100vw;
+    height: auto;
+    margin: 0;
+    transform: translateX(-50%);
+    mask-image: linear-gradient(to bottom, black 68%, transparent);
   }
-}
 
-/* ---------------------------------------------------------------------------
-   Plane rhythm — DESIGN-SYSTEM v2 §3.1.
+  .hero-scene img { object-position: center 35%; }
 
-   The hero is held at the top and the page slides over it: every plane after
-   it is opaque and carries a higher z-index, so the hero stays pinned behind
-   rather than scrolling away. Reduced motion releases it to normal flow.
---------------------------------------------------------------------------- */
-.hero-held {
-  position: sticky;
-  top: 0;
-  z-index: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-held {
-    position: relative;
+  .hero-scene::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(to right, var(--color-ink-900), transparent 72%);
   }
-}
 
+  [dir="rtl"] .hero-scene::after { transform: scaleX(-1); }
+}
 
 /* Arabic is a complete document direction, not a transform of the artwork. */
 html[lang="ar"] { --font-sans: var(--font-plex-arabic), var(--font-archivo), sans-serif; }
 html[lang="ar"] body { font-family: var(--font-sans); }
-html[lang="ar"] :is(.eyebrow, .font-mono) { font-family: var(--font-plex-arabic), var(--font-jetbrains-mono), monospace; letter-spacing: 0; }
+html[lang="ar"] .font-mono { font-family: var(--font-plex-arabic), var(--font-jetbrains-mono), monospace; letter-spacing: 0; }
 html[lang="ar"] :is(h1, h2, h3, h4) { line-height: 1.4; letter-spacing: 0; font-weight: 500; }
-/* Arabic needs more line height than Latin body headings, but the hero must not
-   inherit 1.4 at the Latin display size. Keep mobile unchanged; on larger
-   layouts use the 84px design ceiling and balanced, deliberate line wrapping. */
-@media (min-width: 768px) {
-  html[lang="ar"] #top h1 {
-    font-size: clamp(3.5rem, 6vw, 5.25rem);
-    line-height: 1.15;
-    text-wrap: balance;
-  }
+html[lang="ar"] .hero-headline {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  line-height: 1.17;
 }
 html[lang="ar"] .review-card__quote { line-height: 1.85; }
 html[dir="rtl"] .map-row__bar { transform-origin: right; }
 html[dir="rtl"] .review-card__repeat { margin-left: 0; margin-inline-start: 8px; }
 bdi, code { unicode-bidi: isolate; }
-@media (max-width: 767px) {
-  .skills-section .plate { padding: 18px; margin-inline: 0; }
-  .skills-section .plate > div { gap: 12px; }
-  .skills-section .plate h3 { font-size: 1rem; }
-  .skills-section .plate li { padding: 4px 8px; }
-  .skills-section .plate [data-index] { display: none; }
-  .skills-section > div > .grid { margin-bottom: 28px; gap: 20px; }
-  html[lang="ar"] #top h1 { font-size: 2.5rem; }
-}

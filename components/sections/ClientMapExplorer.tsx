@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CountUp } from "@/components/motion/CountUp";
 import { getCopy } from "@/content/copy-i18n";
 import { countryName } from "@/content/countries-i18n";
 import type { Locale } from "@/content/locale";
@@ -116,15 +115,10 @@ export function ClientMapExplorer({
       <div className="grid items-end gap-8 lg:grid-cols-[7fr_5fr] lg:gap-20">
         <div>
           <p className="eyebrow text-bone-52">{clientMapCopy.eyebrow}</p>
-          <h3 className="mt-5 flex flex-wrap items-baseline gap-x-4 text-h1">
-            {clientMapCopy.headline}
-            <CountUp
-              key={filter}
-              value={dominationOf(rows.length)}
-              suffix="%"
-              className="tabular"
-            />
-          </h3>
+          <h3 className="mt-4 text-h1">{clientMapCopy.headline}</h3>
+          <p className="mt-2 text-caption text-bone-52 tabular">
+            {clientMapCopy.coverageLabel(dominationOf(rows.length))}
+          </p>
         </div>
         <p className="max-w-[46ch] text-body text-bone-70">{clientMapCopy.blurb}</p>
       </div>
@@ -231,7 +225,7 @@ export function ClientMapExplorer({
 
       <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-caption text-bone-52">
         <p className="flex items-center gap-2">
-          <span aria-hidden className="pulse-dot size-1.5 rounded-full bg-jade" />
+          <span aria-hidden className="size-1.5 rounded-full bg-jade" />
           {clientMapCopy.homeLabel}
         </p>
         <p>{clientMapCopy.countedNote}</p>

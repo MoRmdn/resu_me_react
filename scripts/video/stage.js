@@ -4,7 +4,7 @@
  * twice. Nothing in here may depend on the previous frame or on the clock.
  */
 /* global d3, topojson */
-const { format, countries, stops: stopSpec, home, world, topology, marks, totals } = window.DATA;
+const { format, copy, countries, stops: stopSpec, home, world, topology, marks } = window.DATA;
 
 const COPPER = "#F2762E";
 const COPPER_BRIGHT = "#FF8A45";
@@ -46,6 +46,8 @@ const LAYOUT = portrait
 
 const ROLL = -8;
 const FLY = 1.7;
+/** A later card of the same site only settles the camera: its lines are already drawn. */
+const SETTLE = 0.9;
 const INTRO = 5.2;
 const FINALE_LENGTH = 11.2;
 const ARC_LIFT = 0.19;
@@ -88,22 +90,25 @@ const distanceFromHome = (c) => angleBetween(HOME_XYZ, toXyz([c.lon, c.lat]));
 
 const stops = stopSpec.map((spec, chapter) => {
   const flyStart = cursor;
-  const land = flyStart + FLY;
+  const land = flyStart + (spec.first ? FLY : SETTLE);
   const leave = land + spec.hold;
   cursor = leave;
 
   // Egypt is home: it is lit, but no line leaves for it.
-  const targets = countries
+  const targets = (spec.first ? countries : [])
     .filter((c) => c.id !== "EG" && c.clients[spec.site])
     .sort((a, b) => distanceFromHome(a) - distanceFromHome(b));
-  const stagger = Math.min(0.22, 1.7 / targets.length);
+  const stagger = Math.min(0.22, 1.7 / Math.max(1, targets.length));
   targets.forEach((country, i) => {
     const launch = flyStart + 0.5 + i * stagger;
     flights.push({ chapter, country, launch, land: launch + 0.9 });
   });
 
+  // The lines of a site belong to its first card, and stay lit for the others.
+  const lineChapter = stopSpec.findIndex((other) => other.site === spec.site);
   return {
     ...spec,
+    lineChapter,
     flyStart,
     land,
     leave,
@@ -439,7 +444,12 @@ const cards = stops.map((stop) => {
   const top = el("div", "card__top");
   const mark = el("div", "card__mark");
   const logo = marks[review.platform];
+  const [, , logoW, logoH] = logo.viewBox.split(" ").map(Number);
+  // A lone symbol (Upwork, Freelancer, Khamsat) is named; a wordmark names itself.
+  const symbol = logoW / logoH < 2;
+  mark.classList.toggle("is-wordmark", !symbol);
   mark.innerHTML = `<svg viewBox="${logo.viewBox}" aria-hidden="true">${logo.markup}</svg>`;
+  if (symbol) mark.append(el("span", "card__site", review.platformLabel));
   const rating = el("div", "card__rating");
   const stars = el("div", "card__stars");
   stars.innerHTML = STAR.repeat(5);
@@ -447,13 +457,20 @@ const cards = stops.map((stop) => {
   top.append(mark, rating);
   card.append(top);
 
-  const quote = el("blockquote", "card__quote", review.quote);
-  quote.classList.toggle("is-long", review.quote.length > 160);
-  quote.lang = review.lang;
-  quote.dir = review.lang === "ar" ? "rtl" : "ltr";
+  // What is read first is in English: a translated review leads with its translation
+  // and keeps the Arabic original under it, smaller.
+  const lead = review.translation ?? review.quote;
+  const quote = el("blockquote", "card__quote", lead);
+  quote.classList.toggle("is-long", lead.length > 160);
+  quote.classList.toggle("is-xlong", lead.length > 250);
+  quote.lang = review.translation ? "en" : review.lang;
+  quote.dir = quote.lang === "ar" ? "rtl" : "ltr";
   card.append(quote);
   if (review.translation) {
-    card.append(el("p", "card__label", review.translatedLabel), el("p", "card__translation", review.translation));
+    const original = el("p", "card__original", review.quote);
+    original.lang = review.lang;
+    original.dir = "rtl";
+    card.append(el("p", "card__label", review.translatedLabel), original);
   }
 
   const foot = el("div", "card__foot");
@@ -469,19 +486,32 @@ const cards = stops.map((stop) => {
   const tag = el("div", "tag layer", stop.siteLabel);
   tag.append(el("span", "", stop.siteCount));
 
+  tag.append(el("em", "", `${stop.index + 1}/${stop.total}`));
+
   document.getElementById("cards").append(tag, card);
-  return { root: card, tag, wipe: card.querySelector(".card__wipe"), stars: [...stars.children] };
+  // Header, quote, original and footer arrive one after another.
+  const parts = [...card.children].filter((node) => !node.matches(".card__wipe, .card__glyph"));
+  return { root: card, tag, parts, wipe: card.querySelector(".card__wipe"), stars: [...stars.children] };
 });
 
 const $ = (id) => document.getElementById(id);
-$("brand").innerHTML = `${MARK(portrait ? 42 : 36)}<span>mormdn.com</span>`;
-$("site").innerHTML = `${MARK(portrait ? 50 : 46)}<span>mormdn.com</span>`;
-$("stats").append(
-  `${totals.clients} clients. ${totals.countries} countries.`,
-  el("br"),
-  `${totals.reviews} reviews, all five stars.`,
-);
-$("next").textContent = `Yours could be ${totals.countries + 1}.`;
+$("brand").innerHTML = `${MARK(portrait ? 42 : 36)}<span>${copy.brand}</span>`;
+$("site").innerHTML = `${MARK(portrait ? 50 : 46)}<span>${copy.brand}</span>`;
+$("intro-eyebrow").textContent = copy.intro.eyebrow;
+$("intro-title").textContent = copy.intro.headline;
+$("intro-sub").textContent = copy.intro.sub;
+$("hud-label").textContent = copy.hud;
+$("finale-eyebrow").textContent = copy.finale.eyebrow;
+// Each line of the headline on its own row; the percent counts up after the last.
+copy.finale.headline.forEach((line, i) => {
+  if (i) $("finale-title").append(el("br"));
+  $("finale-title").append(line);
+});
+copy.finale.stats.forEach((line, i) => {
+  if (i) $("stats").append(el("br"));
+  $("stats").append(line);
+});
+$("next").textContent = copy.finale.closer;
 
 /**
  * Fixed to whole pixels once, with the fonts in. A card must never be placed by
@@ -489,8 +519,13 @@ $("next").textContent = `Yours could be ${totals.countries + 1}.`;
  * at its own sub-pixel offset, and the interleaved frames shake.
  */
 function placeCards() {
+  // However long a quote is, its card stays one size: the type steps down until it fits.
+  const limit = portrait ? 470 : Math.round(H * 0.6);
   stops.forEach((stop, i) => {
     const { root, tag } = cards[i];
+    for (let fit = 1; fit > 0.62 && root.offsetHeight > limit; fit -= 0.03) {
+      root.style.setProperty("--fit", fit.toFixed(2));
+    }
     const height = root.offsetHeight;
     const top = portrait ? 340 : Math.round((H - height) / 2) + 6;
     root.style.top = `${top}px`;
@@ -509,12 +544,17 @@ function updateDom(t) {
   show($("intro-sub"), seg(t, 2.1, 2.7));
 
   stops.forEach((stop, i) => {
-    const { root, tag, wipe, stars } = cards[i];
+    const { root, tag, wipe, stars, parts } = cards[i];
     const enter = out(seg(t, stop.land - 0.2, stop.land + 0.35));
     const exit = inOut(seg(t, stop.leave - 0.4, stop.leave));
     show(root, enter * (1 - exit), `translateY(${lerp(30, 0, enter) - exit * 14}px)`);
     show(tag, seg(t, stop.land, stop.land + 0.3) * (1 - exit));
     wipe.style.transform = `scaleX(${out(seg(t, stop.land, stop.land + 0.6))})`;
+    parts.forEach((part, j) => {
+      const arrive = out(seg(t, stop.land + 0.05 + j * 0.13, stop.land + 0.5 + j * 0.13));
+      part.style.opacity = arrive;
+      part.style.transform = `translateY(${lerp(16, 0, arrive)}px)`;
+    });
     stars.forEach((star, j) => {
       const pop = seg(t, stop.land + 0.15 + j * 0.06, stop.land + 0.4 + j * 0.06);
       star.style.opacity = pop;
@@ -527,7 +567,7 @@ function updateDom(t) {
 
   const shown = seg(t, FINALE + 0.8, FINALE + 1.5);
   show($("finale"), shown, `translateY(${lerp(24, 0, out(shown))}px)`);
-  $("percent").textContent = `${Math.round((ringValue(t) / world) * 100)}%`;
+  $("percent").textContent = copy.finale.percent ? `${Math.round((ringValue(t) / world) * 100)}%` : "";
   show($("stats"), seg(t, FINALE + 3.2, FINALE + 3.8));
   const cta = seg(t, FINALE + 6.4, FINALE + 7);
   show($("cta"), cta, `translateY(${lerp(16, 0, out(cta))}px)`);
@@ -557,7 +597,7 @@ window.seek = (t) => {
   flights.forEach((flight) => {
     const progress = inOut(seg(t, flight.launch, flight.land));
     if (!progress) return;
-    const during = flight.chapter === chapter ? 1 : 0.32;
+    const during = flight.chapter === stops[chapter]?.lineChapter ? 1 : 0.32;
     ctx.globalAlpha = lerp(during, flight.first ? 1 : 0, closing);
     if (ctx.globalAlpha > 0) drawFlight(view, flight.country, progress);
   });

@@ -36,7 +36,7 @@ size to reach `em`. `-3.8` on 96px became `-0.04em`.
 | Skills | `components/sections/Skills.tsx` | ink-800 |
 | Contact | `components/sections/Contact.tsx` | ink-900 |
 | Footer | `components/sections/Footer.tsx` | ink-900 |
-| Nav | `components/sections/Nav.tsx` | fixed pill |
+| Nav | `components/sections/Nav.tsx` | fixed ink header |
 
 Grounds alternate so sections separate without rules between them.
 
@@ -53,78 +53,22 @@ underline, the accordion node border, and the project card index — and where
 they render as text the element is `aria-hidden`, so "decorative" is enforced
 rather than asserted.
 
-**Settled: the accent rule is tiered (DESIGN-SYSTEM v2 §1.3).** Tier 1 is a
-solid copper fill — max one per viewport, always the primary action. Tier 2 is
-full-chroma copper text or stroke — max one, and never beside a Tier 1. Tier 3
-is wash, hairlines and copper at ≤38%, unlimited, because that is material
-rather than accent. The logo's copper half and the scroll-progress bar are
-chrome and exempt.
+**Accent allocation.** The hero and Contact each use copper for their primary
+action. The header contact link is neutral, including while it overlays either
+section. The map uses copper to encode client locations.
 
-Applied in pixels, not just prose — the artboard resolves the rule in a panel
-but still draws three Tier 1 fills in the hero:
+## Motion inventory (v2.1)
 
-- The hero headline no longer accents its final word. `headlineAccentIndex`
-  stays in `content/copy.ts` for data fidelity and is not rendered.
-- All three track-record metrics are bone. Live values are jade — jade is the
-  status hue and is exempt from the count.
-- The nav "Hire me" renders **ghost while the hero is on screen** and takes the
-  copper fill only once the hero's own CTA has scrolled away, so the two are
-  never lit together (`components/sections/Nav.tsx`).
-- Contact spends its Tier 1 on the copper email button, so the form's submit is
-  a ghost button.
-- Experience spends its one full-chroma copper on the open row's node; the row
-  label and the active band label are bone.
-- The AYCO card carries zero copper at any tier. Copper marks the reachable.
-- The nav "Hire me" is copper only in the stretch between the other two Tier 1
-  fills: ghost over the hero (whose CTA holds it), copper mid-page, ghost again
-  at Contact (where the WhatsApp card holds it). Being ghost at Contact is also
-  simply correct — a button whose only job is to scroll you to Contact has
-  nothing to offer once you are there.
+| Behaviour | Where | Reduced motion |
+|---|---|---|
+| Headline entrance | `.rise-lcp` | In place at first paint |
+| Mobile sheet entrance | `Nav.tsx` | In place on opening |
+| Map filter and active country | `ClientMapExplorer`, `.map-*` | Immediate state |
+| Review export wall | `scripts/export-review-cards.mjs` | Horizontal scroller |
 
-**Three documented exemptions**, all non-actions: the logo's copper half
-(identity), the 2px scroll-progress bar (chrome), and Experience's 9px
-accordion node (a state marker, specified as a copper fill in §5.1). A sweep of
-44 viewport positions finds no viewport with two competing copper *actions*; the
-node co-occurs with the nav pill and is deliberately not counted against it.
-
-**Auditing this correctly requires occlusion.** The hero is sticky and stays in
-the viewport behind the opaque sheet for the whole page, so a check based on
-`getBoundingClientRect` alone reports its CTA as visible everywhere and gives
-false positives. Test the element at its own centre with
-`document.elementFromPoint` and only count it if it is the topmost thing there.
-
-**Built, that the spec listed as missing:** the 3% film grain overlay
-(`.grain`, pure CSS, no image request); the logo draw-on (`MoRmdnMarkDraw`,
-`pathLength="100"` + `stroke-dashoffset`, hero only, once); `prefers-reduced-motion`
-throughout; and the focus ring (the `glow` token) on `:focus-visible`.
-
-## Motion inventory (v2.0)
-
-| Behaviour | Where | Mechanism | Reduced-motion fallback |
-|---|---|---|---|
-| Hero entrance | `.rise` + `--rise-delay` | CSS keyframes, staggered 90ms | no animation, content present |
-| Logo draw-on | `.draw-path` | `stroke-dashoffset`, once on load | fully drawn |
-| Scroll reveal | `.reveal` + `RevealRoot` | CSS transition, one shared IntersectionObserver | visible, no transition |
-| Scroll progress | `.scroll-progress` | `animation-timeline: scroll()`, rAF fallback | listener not installed |
-| Marquee | `.marquee-track` | CSS `translate3d(-50%)`, duplicated track | stops, becomes scrollable |
-| Accordion | `.disclosure` | `grid-template-rows: 0fr → 1fr` | instant |
-| Cursor glow | `CursorGlow` | rAF lerp writing a transform | not installed |
-| Count-up | `CountUp` | rAF, easeOutQuart, once in view | final value rendered |
-| Card / button lift | Tailwind | `transition-transform` | duration collapsed to 0 |
-| Status dot | `.pulse-dot` | CSS keyframes | duration collapsed to 0 |
-| Held hero | `.hero-held` | `position: sticky`, planes slide over | released to normal flow |
-| Career band grow | `.band-bar` | `scaleY` from the baseline, 40ms stagger | final height, no grow |
-| Skills plate slide | `.plate` | `translateX`, alternating side | in place |
-| AYCO perimeter draw | `.perimeter` | SVG `stroke-dashoffset` | fully drawn from first paint |
-| Store screens square up | `.screen-strip__item` | `translateY` from a stepped baseline, on panel hover | stay stepped, no movement |
-| **Gallery tile opens spatially** | `.gallery-tile` | `scale` + `grid-template-rows`, siblings to .38 | instant at final size, siblings stay 100% |
-
-**No animation library.** Motion (framer-motion) was used during the build and
-then removed: it was 183 KB raw for effects that CSS and three small rAF helpers
-cover. Think hard before adding one back.
-
-**The cursor glow is gone** (DESIGN-SYSTEM v2 §6, "Cut in v2.0") — it decorated
-rather than explained, and competed with the film grain for the same job.
+The portfolio's content is visible at first paint. Its disclosure panels open
+at natural height. The gallery keeps its detail planes in the grid and changes
+the open tile's surface.
 
 ## Layout invariants
 
@@ -136,8 +80,8 @@ assert, no ticker guards.
   `--color-line` background, with ink-filled children. That is how the about
   stat grid, the skills table, and the contact link panel get their 1px rules.
 - **Wide content scrolls inside its own container.** The page body must never
-  scroll horizontally; the marquee and the hero watermark are both inside
-  `overflow-hidden`.
+  scroll horizontally; the workbench photo is clipped to the hero and
+  the mobile project screenshot strips scroll within their own containers.
 - **Collapsed accordion panels stay rendered** and take `inert`. Conditional
   rendering would strip the achievement bullets out of the page source, which
   is the one thing this rebuild exists to prevent.
@@ -171,8 +115,7 @@ implementation target. Four deliberate departures:
 
 Two smaller ones: the film grain is `position: fixed` **below** the nav per §4,
 not the artboard's `z-index:60` above it (an artefact of it being
-`position:absolute` inside a bounded canvas frame); and the Skills stagger only
-applies from 900px up, because an 88px indent eats a quarter of a 375px screen.
+`position:absolute` inside a bounded canvas frame); and the Skills section uses hairline rows on every viewport.
 
 **`support.js` from the handoff is not ported.** It is generated canvas runtime
 — React 18 + Babel from unpkg, an expression parser, and the shim that turns

@@ -30,7 +30,7 @@ const html = await readFile("out/index.html", "utf8");
 const reviews = JSON.parse(await readFile("content/reviews.json", "utf8"));
 const marks = JSON.parse(await readFile("content/platform-marks.json", "utf8"));
 
-/* -- CSS: the marked block, the marquee it leans on, and only the tokens used. */
+/* -- CSS: the marked card block, the standalone wall, and only the tokens used. */
 const between = (start, end) => {
   const from = globals.indexOf(start);
   const to = globals.indexOf(end, from);
@@ -41,7 +41,6 @@ const between = (start, end) => {
 const cardCss = between("/* review-cards:start */", "/* review-cards:end */")
   .replace("/* review-cards:start */", "")
   .trim();
-const marqueeCss = between("@keyframes marquee-scroll", '/* Slow pulse for the "open to work"');
 
 // The standalone package deliberately presents the cards as an animated wall.
 // The site no longer does, so these layout rules belong to this exporter rather
@@ -49,7 +48,10 @@ const marqueeCss = between("@keyframes marquee-scroll", '/* Slow pulse for the "
 // the marked review-cards block in globals.css.
 const wallCss = `
 .review-wall { display: flex; flex-direction: column; gap: 8px; }
-.review-row { position: relative; flex: none; overflow: hidden; padding-block: 8px; }
+.review-row { position: relative; flex: none; contain: paint; overflow: hidden; padding-block: 8px; }
+@keyframes marquee-scroll { to { transform: translateX(-50%); } }
+.marquee-track { display: flex; width: max-content; animation: marquee-scroll var(--marquee-duration) linear infinite; }
+.review-row:hover .marquee-track, .review-row:focus-within .marquee-track { animation-play-state: paused; }
 .review-row::before, .review-row::after {
   content: ""; position: absolute; inset-block: 0; z-index: 1; width: 72px; pointer-events: none;
 }
@@ -60,6 +62,7 @@ const wallCss = `
 .review-list { display: flex; gap: 16px; margin: 0; padding: 0 16px 0 0; list-style: none; }
 .review-slot { display: flex; }
 @media (prefers-reduced-motion: reduce) {
+  .review-row .marquee-track { animation: none; transform: none; }
   .review-list[aria-hidden] { display: none; }
   .review-row { overflow-x: auto; scroll-snap-type: x proximity; }
   .review-slot { scroll-snap-align: center; }
@@ -76,12 +79,11 @@ const wallCss = `
 
 const SKIP = new Set([
   "--review-brand",
-  "--star",
   "--font-sans",
   "--font-mono",
   "--marquee-duration",
 ]);
-const used = new Set(`${cardCss}\n${marqueeCss}\n${wallCss}`.match(/--[a-z0-9-]+/g));
+const used = new Set(`${cardCss}\n${wallCss}`.match(/--[a-z0-9-]+/g));
 const tokens = [...used]
   .filter((name) => !SKIP.has(name))
   .map((name) => {
@@ -96,8 +98,6 @@ ${tokens.join("\n")}
   --font-sans: "Archivo", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
-
-${marqueeCss}
 
 ${wallCss}
 

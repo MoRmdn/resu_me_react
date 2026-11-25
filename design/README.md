@@ -6,7 +6,7 @@ user can see, the answer is in here.
 ## Read in this order
 
 1. **[IMPLEMENTATION-MAP.md](IMPLEMENTATION-MAP.md)** — start here. Maps every
-   spec token and section to the Dart file that owns it, and lists the layout
+   spec token and section to the React or CSS file that owns it, and lists the layout
    invariants that will break the app if you violate them.
 2. **[DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)** — the full "Obsidian & Copper"
    spec: colour tokens, type scale, spacing, components, motion. Ends with a
@@ -19,17 +19,17 @@ user can see, the answer is in here.
 
 ## The one-paragraph version
 
-Dark-first, codename **Obsidian & Copper**. Near-black `#0A0A0C` grounds
+Dark-first, codename **Obsidian & Copper**. Near-black `#100E0D` grounds
 everything; warm off-white `#F2EEE7` carries text (never pure white); a single
 copper `#F2762E` marks the one most important thing on screen. Depth is drawn
-with hairlines and offsets, never blur or gradients. `Archivo` for display and
-body, `JetBrains Mono` for eyebrows and metadata. Layout is asymmetric — 7/5 and
+with hairlines and surface steps. `Archivo` for display, body, and labels, with
+`JetBrains Mono` for code and technical values. Layout is asymmetric — 7/5 and
 8/4 splits, 1240px max width — because centred boxes read as a template.
 The deliberate anti-pattern is the purple-gradient glassmorphism dev portfolio.
 
 ## House rules
 
-- No raw hex in widget files — every colour goes through `AppColors`.
+- No raw hex in components. Define colour tokens in `app/globals.css`.
 - One copper accent per viewport. Two means one is wrong.
 - Never gradient two hues.
 - `--bone-28` is decorative only, never information.

@@ -1,7 +1,6 @@
 import type { LocaleProps } from "@/content/locale";
 import { getCopy } from "@/content/copy-i18n";
 import Image from "next/image";
-import { Reveal } from "@/components/motion/Reveal";
 import { ClientMapExplorer } from "@/components/sections/ClientMapExplorer";
 
 import { clientCountries, clientsIn, type ClientFilter } from "@/content/clients";
@@ -33,10 +32,6 @@ function weights(country: (typeof clientCountries)[number]) {
  * bundle; ClientMapExplorer only holds the filter and the hover. Everything the
  * map says is also in the ranked list it renders, which is the part screen
  * readers and crawlers get.
- *
- * The intro is CSS keyed off Reveal's `data-visible`, staggered by `--i` from
- * the nearest country outward. The finished map is the base style, so with no
- * JS or reduced motion it is simply already there.
  */
 export function ClientMap({ locale = "en" }: LocaleProps) {
   const { clientMapCopy } = getCopy(locale);
@@ -49,7 +44,7 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
     Object.keys(country.clients).join(" ");
 
   return (
-    <Reveal className="mt-24 md:mt-32">
+    <div className="mt-24 md:mt-32">
       <ClientMapExplorer
         locale={locale}
         height={worldMap.height}
@@ -72,19 +67,19 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
           aria-label={clientMapCopy.mapLabel}
           className="absolute inset-0 size-full"
         >
-          {shapes.map(({ id, path, order, country }) => (
+          {shapes.map(({ id, path, country }) => (
             <path
               key={id}
               className="map-country"
               d={path}
               data-map-target={id}
               data-platforms={platformsOf(country)}
-              style={{ "--i": order, ...weights(country) } as React.CSSProperties}
+              style={weights(country) as React.CSSProperties}
             />
           ))}
 
           {shapes.map(
-            ({ id, arc, order, country }) =>
+            ({ id, arc, country }) =>
               arc && (
                 <path
                   key={id}
@@ -93,12 +88,12 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
                   pathLength={1}
                   data-map-target={id}
                   data-platforms={platformsOf(country)}
-                  style={{ "--i": order } as React.CSSProperties}
+
                 />
               ),
           )}
 
-          {shapes.map(({ id, x, y, order, country }) => (
+          {shapes.map(({ id, x, y, country }) => (
             <g key={id} data-platforms={platformsOf(country)} className="map-marker">
               <circle
                 className="map-dot"
@@ -106,7 +101,7 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
                 cy={y}
                 r={2.2}
                 data-map-target={id}
-                style={{ "--i": order } as React.CSSProperties}
+
               />
               {/* Kuwait is a pixel wide. This is what the pointer actually hits. */}
               <circle className="map-hit" cx={x} cy={y} r={8} data-map-target={id} />
@@ -119,6 +114,6 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
           </g>
         </svg>
       </ClientMapExplorer>
-    </Reveal>
+    </div>
   );
 }

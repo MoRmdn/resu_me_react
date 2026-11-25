@@ -5,16 +5,14 @@ import { cn } from "@/lib/cn";
 type Variant = "primary" | "ghost";
 
 const BASE =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-6 py-3.5 " +
-  "font-medium transition-[transform,background-color,border-color,color] " +
-  "duration-fast ease-fast will-change-transform";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-6 py-3 " +
+  "font-medium transition-colors duration-fast ease-fast";
 
 const VARIANTS: Record<Variant, string> = {
-  // Copper fill, ink label. Hover brightens and lifts 2px; pressed returns to 0.
   primary:
-    "bg-copper text-ink-900 hover:-translate-y-0.5 hover:bg-copper-bright active:translate-y-0 active:bg-copper-dim",
+    "bg-copper text-ink-900 hover:bg-copper-bright active:bg-copper-dim",
   ghost:
-    "border border-line text-bone hover:-translate-y-0.5 hover:border-line-strong hover:bg-bone-06 active:translate-y-0",
+    "border border-line text-bone hover:border-line-strong hover:bg-bone-06",
 };
 
 export type ButtonProps = {

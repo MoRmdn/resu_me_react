@@ -84,7 +84,7 @@ export function CareerBand({
           />
         ))}
 
-        {bars.map((bar, i) => {
+        {bars.map((bar) => {
           const active = openSlug === bar.role.slug;
           return (
             <button
@@ -93,7 +93,7 @@ export function CareerBand({
                 refs.current[bar.role.slug] = el;
               }}
               type="button"
-              tabIndex={i === 0 || active ? 0 : -1}
+              tabIndex={order[focusIndex] === bar.role.slug ? 0 : -1}
               aria-pressed={active}
               aria-label={`${bar.role.position} ${copy.at} ${bar.role.company}, ${bar.role.startDate} ${copy.to} ${bar.role.endDate}, ${bar.months} ${copy.months}`}
               onClick={() => onSelect(bar.role.slug)}
@@ -103,22 +103,18 @@ export function CareerBand({
                 toggle_method: "timeline_bar",
               })}
               className={cn(
-                "band-bar absolute flex items-center overflow-hidden rounded-t-sm border px-2.5 text-start",
+                "absolute flex items-center overflow-hidden rounded-t-sm border px-2 text-start",
                 "transition-[background-color,border-color] duration-fast ease-fast",
                 active
                   ? "border-copper/35 bg-copper/12"
                   : "border-line bg-bone-06 hover:border-line-strong",
               )}
-              style={
-                {
-                  left: `${bar.left * 100}%`,
-                  width: `${bar.width * 100}%`,
-                  top: bar.lane * (LANE_H + LANE_GAP),
-                  height: LANE_H,
-                  // Oldest bar grows first, newest last.
-                  "--band-delay": `${(bars.length - 1 - i) * 0.04}s`,
-                } as React.CSSProperties
-              }
+              style={{
+                left: `${bar.left * 100}%`,
+                width: `${bar.width * 100}%`,
+                top: bar.lane * (LANE_H + LANE_GAP),
+                height: LANE_H,
+              }}
             >
               {/* Bone, not copper: the wash fill and warmed border already
                   mark the active bar, and the open row's node is this

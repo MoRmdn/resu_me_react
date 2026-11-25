@@ -2,7 +2,6 @@ import type { LocaleProps } from "@/content/locale";
 import { getCopy, ui } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Reveal } from "@/components/motion/Reveal";
 
 import { getProfile } from "@/content/profile-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
@@ -19,7 +18,7 @@ export function About({ locale = "en" }: LocaleProps) {
     <Section id="about" tone="ink-900" z={12} offset={-1} border={false}>
       <div className="grid gap-14 lg:grid-cols-[7fr_5fr] lg:gap-20">
         <div className="flex flex-col gap-8">
-          <Reveal>
+          <div>
             <Eyebrow>{about.eyebrow}</Eyebrow>
             <h2 className="mt-6 text-display-l text-balance">
               {about.headline.map((l) => (
@@ -28,21 +27,21 @@ export function About({ locale = "en" }: LocaleProps) {
                 </span>
               ))}
             </h2>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.06}>
+          <div>
             <p className="max-w-[46ch] text-body-l text-bone">{about.lede}</p>
-          </Reveal>
+          </div>
 
           {about.body.map((para, i) => (
-            <Reveal key={i} delay={0.06 * (i + 2)}>
+            <div key={i}>
               <p className="max-w-[62ch] text-body text-bone-70">{renderWithCode(para)}</p>
-            </Reveal>
+            </div>
           ))}
         </div>
 
         <div className="flex flex-col gap-11 lg:pt-20">
-          <Reveal>
+          <div>
             <p className="eyebrow text-bone-52">{copy.credentials}</p>
             <ul className="mt-4">
               {education.map((item, i) => (
@@ -57,9 +56,9 @@ export function About({ locale = "en" }: LocaleProps) {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.08}>
+          <div>
             <dl className="grid grid-cols-2 border-t border-l border-line">
               {about.stats.map((stat) => (
                 <div key={stat.label} className="border-r border-b border-line p-5">
@@ -70,12 +69,12 @@ export function About({ locale = "en" }: LocaleProps) {
                 </div>
               ))}
             </dl>
-          </Reveal>
+          </div>
 
           {/* September 2026 — the move into front-end work. Kept separate from
               Credentials above so an in-progress course is never mistaken for
               a finished one. */}
-          <Reveal delay={0.14}>
+          <div>
             <div className="rounded-lg border border-line bg-ink-700 p-6">
               <div className="flex items-baseline justify-between gap-4 border-b border-line pb-4">
                 <p className="eyebrow text-bone-52">{learning.eyebrow}</p>
@@ -131,7 +130,7 @@ export function About({ locale = "en" }: LocaleProps) {
                 </div>
               </dl>
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </Section>

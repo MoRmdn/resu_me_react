@@ -38,28 +38,29 @@ credentials above so an in-progress course is never mistaken for a finished one.
 
 ## Hero
 
-- Status chip: **Open to work** · Mansoura, Egypt · UTC+3
+- Location: **Mansoura, Egypt**
 - Headline (the CTA carries the copper accent):
-  1. Flutter apps
-  2. that actually
-  3. ship.
-- Intro: I'm Mohamed Ramadan — a software engineer with 5 years spent building cross-platform products, mobile and web, for teams in 6 countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.
-- CTAs: **See the work** (primary) · WhatsApp (ghost) · Download CV (text link)
-- Panel "Track record" — three metrics that count up once in view:
-  - **5+** — Years shipping Flutter
+  1. I build Flutter apps
+  2. from prototype
+  3. to release
+- Intro: I'm Mohamed Ramadan, a software engineer building mobile and web apps for teams in 6 countries. My work includes tools for language learning, driver training, and field maintenance.
+- CTAs: **View projects** (primary) · WhatsApp (secondary)
+- Track record:
+  - **5+** — Years with Flutter
   - **12** — Selected apps and products
   - **7** — Teams across 6 countries
-- Plus a live "page views" figure streamed from Firebase (real number, changes on every load).
+- Workbench photo: A black phone and machined copper plates on a graphite workbench
+- Project preview: **SAAD | صاد**. A bilingual app for learning English vocabulary from songs, films, and interviews.
 
-## Tech marquee
+## Technology strip
 
-12 items, infinite horizontal strip, pauses on hover:
+12 technologies:
 
 Dart · Flutter · Bloc · GetX · Riverpod · Firebase · GraphQL · ML Kit · Clean Architecture · Cloud Functions · Stripe · Hive
 
 ---
 
-## About — eyebrow `01 / About`
+## About — eyebrow `About`
 
 Headline (3 lines): Bioinformatics / degree, mobile / obsession.
 
@@ -80,10 +81,10 @@ Metric grid (4 cells, first is copper):
 
 ---
 
-## Experience — eyebrow `02 / Experience`, headline "Seven teams, six countries."
+## Experience — eyebrow `Experience`, headline "Seven teams across six countries"
 
 7 roles. Rows expand; the current one opens by default.
-Badge on the current role reads `CURRENT`.
+Badge on the current role reads `Current`.
 
 > **Note for layout:** these engagements OVERLAP heavily — four ran
 > concurrently through 2024 (Demeter, Ebdda, Arcit-AI, Eleven Stars), most
@@ -173,7 +174,7 @@ Delivered a multi-platform application with integrated analytics, improving user
 
 ---
 
-## Projects — eyebrow `03 / Projects`, headline "Selected apps and products."
+## Projects — eyebrow `Projects`, headline "Selected apps and products"
 
 12 selected projects. Availability and supported outcomes are stated for each.
 
@@ -417,7 +418,7 @@ Links: Website · Source
 
 ---
 
-## Skills — eyebrow `04 / Skills`, headline "The toolbox."
+## Skills — eyebrow `Skills`, headline "Languages, tools, and platforms"
 
 Depth where it matters — Dart, Flutter, state management and payments — and enough breadth to talk to backend, data and design without a translator.
 
@@ -449,7 +450,7 @@ Clean Architecture · Feature-first architecture · SOLID · OOP · Firestore Se
 
 ---
 
-## Contact — eyebrow `06 / Contact`
+## Contact — eyebrow `Contact`
 
 Headline: Got an app / to build? (the word "build?" is copper)
 
@@ -463,11 +464,11 @@ Full-time, contract or a second pair of hands on a release that's slipping — r
   5. **Fiverr** — mormdn · Fixed-scope packages — https://www.fiverr.com/mormdn
   6. **Khamsat** — m0rmdn · Arabic-language clients — https://khamsat.com/user/m0rmdn
 - Profile links (not hiring channels): GitHub → MoRmdn · LinkedIn → Eng. M.Ramadan · X → @MoRmdn
-- Availability block: label `AVAILABILITY`, jade dot, "Taking new work · Mansoura / remote"
+- Availability block: label `Availability`, jade dot, "Taking new work · Mansoura / remote"
 
 There is no contact form. It used to write to Firebase Realtime Database;
 enquiries now go straight to a channel, and that world-writable path is closed.
 
 ## Footer
 
-Mark + "MoRmdn © <year> · Built with Next.js" · "Obsidian & Copper v2.0 · <n> views" · "Back to top ↑"
+Mark + "MoRmdn © <year>" · live page views · "Download CV" · "Privacy" · "Back to top"

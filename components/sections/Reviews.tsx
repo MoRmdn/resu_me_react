@@ -3,8 +3,6 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ReviewCard } from "@/components/ui/ReviewCard";
 import { PlatformMark } from "@/components/brand/PlatformMark";
-import { Reveal } from "@/components/motion/Reveal";
-import { CountUp } from "@/components/motion/CountUp";
 import { getCopy, ui } from "@/content/copy-i18n";
 import type { LocaleProps } from "@/content/locale";
 import { reviewPlatforms, reviews, initialReviewIds, selectedReviews } from "@/content/reviews";
@@ -18,16 +16,16 @@ export function Reviews({ locale = "en" }: LocaleProps) {
   return (
     <Section id="reviews" tone="ink-900" z={19} offset={-40} className="overflow-x-clip">
       <div className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-20">
-        <Reveal>
+        <div>
           <Eyebrow>{reviewsCopy.eyebrow}</Eyebrow>
           <h2 className="mt-6 text-display-l text-balance">{reviewsCopy.headline}</h2>
-        </Reveal>
-        <Reveal delay={0.06}>
+        </div>
+        <div>
           <p className="max-w-[46ch] text-body text-bone-70">{reviewsCopy.blurb}</p>
-        </Reveal>
+        </div>
       </div>
 
-      <Reveal>
+      <div>
         <ul className="hairline-grid grid-cols-2 overflow-hidden rounded-lg border border-line lg:grid-cols-5">
           {reviewPlatforms.map((platform) => (
             <li
@@ -50,7 +48,7 @@ export function Reviews({ locale = "en" }: LocaleProps) {
               </div>
               <div>
                 <p className="text-metric text-bone">
-                  <CountUp value={platform.count} />
+                  {platform.count}
                 </p>
                 <a
                   href={platform.url}
@@ -79,7 +77,7 @@ export function Reviews({ locale = "en" }: LocaleProps) {
             </li>
           ))}
         </ul>
-      </Reveal>
+      </div>
 
       <div className="review-grid mt-10">
         <ul className="review-list">

@@ -80,7 +80,7 @@ export const skillGroups: SkillGroup[] = [
 ];
 
 /** The marquee strip — short names only, and deliberately not the full skill list. */
-export const marqueeItems = [
+export const technologyStripItems = [
   "Dart",
   "Flutter",
   "Bloc",

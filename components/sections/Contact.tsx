@@ -5,7 +5,6 @@ import { getCopy, ui } from "@/content/copy-i18n";
 import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Reveal } from "@/components/motion/Reveal";
 
 import { contact, socials } from "@/content/site";
 import { getProfile } from "@/content/profile-i18n";
@@ -29,26 +28,26 @@ export function Contact({ locale = "en" }: LocaleProps) {
     <Section id="contact" tone="ink-800" z={20} offset={-40}>
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
         <div>
-          <Reveal>
+          <div>
             <Eyebrow>{contactCopy.eyebrow}</Eyebrow>
             <h2 className="mt-6 text-display-l text-balance">
               <span className="block">{contactCopy.headline[0]}</span>
               <span className="block">{contactCopy.headline[1]}</span>
             </h2>
             <p className="mt-7 max-w-[46ch] text-body-l text-bone-70">{contactCopy.blurb}</p>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.1}>
+          <div>
             <div className="mt-10 flex items-center gap-3 border-t border-line pt-7">
-              <span className="pulse-dot size-1.5 rounded-full bg-jade" aria-hidden />
+              <span className="size-1.5 rounded-full bg-jade" aria-hidden />
               <div>
                 <p className="eyebrow text-bone-52">{contactCopy.availabilityLabel}</p>
                 <p className="mt-1.5 text-body text-bone-70">{contactCopy.availability}</p>
               </div>
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.16}>
+          <div>
             <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
               {socials.map((s) => (
                 <li key={s.label}>
@@ -74,10 +73,10 @@ export function Contact({ locale = "en" }: LocaleProps) {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
         </div>
 
-        <Reveal delay={0.06}>
+        <div>
           <div className="rounded-lg border border-line bg-ink-700 p-7 elevation-card md:p-9">
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-line pb-5">
               <p className="eyebrow text-bone-52">{contactCopy.channelsLabel}</p>
@@ -92,7 +91,7 @@ export function Contact({ locale = "en" }: LocaleProps) {
               ))}
             </ul>
           </div>
-        </Reveal>
+        </div>
       </div>
     </Section>
   );

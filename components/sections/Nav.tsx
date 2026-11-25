@@ -24,32 +24,6 @@ export function Nav({ locale = "en" }: LocaleProps) {
   const menuButton = useRef<HTMLButtonElement>(null);
   const sheet = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
-
-  /**
-   * The hero CTA and this button are both solid copper, and DESIGN-SYSTEM v2
-   * §1.3 allows exactly one Tier 1 fill per viewport. So while the hero is on
-   * screen this renders ghost, and it takes the copper once the hero's own CTA
-   * has scrolled away. The two are never lit at the same time.
-   */
-  useEffect(() => {
-    const sentinel = document.getElementById("hero-end");
-    if (!sentinel) return;
-
-    const observer = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
-      // Top margin shrinks the root by the nav's height, so the swap lands as
-      // the hero's bottom edge passes under the pill. The huge bottom margin
-      // is what makes it reliable: it means the sentinel counts as
-      // intersecting anywhere below the nav, so the only transition is the
-      // one at the nav line. Without it, an instant jump (a deep link, scroll
-      // restoration) carries the sentinel through the root between samples
-      // and no callback fires at all.
-      rootMargin: "-88px 0px 100000px 0px",
-      threshold: 0,
-    });
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
 
   // The sheet is modal: lock the page behind it and close on Escape.
   useEffect(() => {
@@ -86,11 +60,10 @@ export function Nav({ locale = "en" }: LocaleProps) {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 px-5 pt-5 md:px-8">
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-ink-900">
         <nav
           aria-label={copy.primary}
-          className="mx-auto flex h-[58px] max-w-content items-center justify-between rounded-pill border border-line bg-ink-700/72 px-3 ps-5 backdrop-blur-xl"
-          style={{ boxShadow: "0 18px 50px rgb(0 0 0 / 0.5)" }}
+          className="mx-auto flex h-16 max-w-content items-center justify-between gap-3 px-5 md:px-8"
         >
           <a
             href="#top"
@@ -127,46 +100,41 @@ export function Nav({ locale = "en" }: LocaleProps) {
                 <span
                   aria-hidden
                   className={cn(
-                    "absolute inset-x-3 -bottom-0.5 h-px origin-left bg-bone-28",
-                    "transition-transform duration-base ease-base",
-                    active === link.id ? "scale-x-100" : "scale-x-0",
+                    "absolute inset-x-3 bottom-1 h-px bg-bone-52 transition-opacity duration-fast ease-fast",
+                    active === link.id ? "opacity-100" : "opacity-0",
                   )}
                 />
               </a>
             ))}
             <a
               href="#contact"
-              className={cn(
-                "ms-2 inline-flex h-10 items-center rounded-pill px-5 text-[0.84375rem] font-semibold",
-                "transition-[background-color,border-color,color,transform] duration-fast ease-fast hover:-translate-y-0.5",
-                pastHero && active !== "contact"
-                  ? "bg-copper text-ink-900 hover:bg-copper-bright"
-                  : "border border-line-strong text-bone hover:border-copper hover:bg-bone-06",
-              )}
-              {...trackAttrs("cta_click", { cta_id: "nav_hire_me", link_text: "Hire me" })}
+              className="ms-2 inline-flex min-h-11 items-center rounded-md border border-line px-4 text-caption font-medium text-bone transition-colors duration-fast ease-fast hover:bg-bone-06"
+              {...trackAttrs("cta_click", { cta_id: "nav_hire_me", link_text: copy.hire })}
             >
               {copy.hire}
             </a>
           </div>
 
-          <LanguageSwitch locale={locale} />
-          <button
-            ref={menuButton}
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            className="inline-flex size-11 items-center justify-center rounded-pill text-bone lg:hidden"
-            {...trackAttrs("nav_menu_toggle", {
-              menu_action: "open",
-              toggle_method: "menu_button",
-            })}
-          >
-            <span className="sr-only">{copy.openMenu}</span>
-            <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden>
-              <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2">
+            <LanguageSwitch locale={locale} />
+            <button
+              ref={menuButton}
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              className="inline-flex size-11 items-center justify-center rounded-md text-bone lg:hidden"
+              {...trackAttrs("nav_menu_toggle", {
+                menu_action: "open",
+                toggle_method: "menu_button",
+              })}
+            >
+              <span className="sr-only">{copy.openMenu}</span>
+              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
+                <path d="M0 4h18M0 9h18M0 14h18" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -182,14 +150,13 @@ export function Nav({ locale = "en" }: LocaleProps) {
             type="button"
             aria-label={copy.closeMenu}
             onClick={() => setOpen(false)}
-            className="absolute inset-0 h-full w-full bg-ink-900/70 backdrop-blur-sm"
+            className="absolute inset-0 h-full w-full bg-ink-900/80"
             {...trackAttrs("nav_menu_toggle", { menu_action: "close", toggle_method: "backdrop" })}
           />
           <div
             ref={sheet}
             className="absolute inset-x-0 bottom-0 rounded-t-[20px] border-t border-line bg-ink-700 pt-3 pb-8 motion-safe:animate-[rise-in_0.32s_var(--ease-base)_both]"
           >
-            <div className="mx-auto mb-6 h-1 w-9 rounded-pill bg-bone-18" aria-hidden />
             <div className="px-5 pb-3">
               <LanguageSwitch locale={locale} />
             </div>

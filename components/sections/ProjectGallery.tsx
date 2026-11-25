@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Reveal } from "@/components/motion/Reveal";
 import { IconTile } from "@/components/ui/IconTile";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { SocialStrip } from "@/components/ui/ProjectPlate";
@@ -22,7 +21,7 @@ const tileId = (slug: string) => `proj-tile-${slug}`;
  * Everything that is not a featured panel, as a wall of art.
  *
  * The signature moment lives here now. Opening a tile does not navigate, modal
- * or crossfade: the tile lifts, its siblings recede, and a detail plane unfolds
+ * or crossfade: the tile highlights and a detail plane opens
  * under its row. Every plane stays in the DOM so the copy and application IDs
  * are in the served HTML. Closed planes are CSS-hidden before hydration and
  * inert afterwards; without JavaScript they all stand open.
@@ -43,7 +42,7 @@ export function ProjectGallery({ projects, locale = "en" }: { projects: Project[
 
   return (
     <div
-      className="grid grid-flow-dense grid-cols-2 gap-x-3.5 lg:grid-cols-4"
+      className="grid grid-flow-dense grid-cols-2 gap-x-4 lg:grid-cols-4"
       onKeyDown={(e) => {
         if (e.key !== "Escape" || !openSlug) return;
         const project = projects.find((p) => p.slug === openSlug);
@@ -63,9 +62,7 @@ export function ProjectGallery({ projects, locale = "en" }: { projects: Project[
           key={project.slug}
           project={project}
           wide={i === 0}
-          delay={Math.min(i * 0.04, 0.2)}
           isOpen={openSlug === project.slug}
-          isDimmed={openSlug !== null && openSlug !== project.slug}
           onToggle={() => setOpenSlug(openSlug === project.slug ? null : project.slug)}
           onClose={() => close(project.slug)}
         />
@@ -78,18 +75,14 @@ function GalleryItem({
   locale = "en",
   project,
   wide,
-  delay,
   isOpen,
-  isDimmed,
   onToggle,
   onClose,
 }: {
   locale?: Locale;
   project: Project;
   wide: boolean;
-  delay: number;
   isOpen: boolean;
-  isDimmed: boolean;
   onToggle: () => void;
   onClose: () => void;
 }) {
@@ -101,17 +94,16 @@ function GalleryItem({
 
   return (
     <>
-      <Reveal delay={delay} className={cn("pb-3.5", wide && "col-span-2")}>
+      <div className={cn("pb-4", wide && "col-span-2")}>
         <article
           id={project.slug}
           data-open={isOpen}
-          data-dimmed={isDimmed}
           className={cn(
             "gallery-tile relative flex h-full scroll-mt-24 overflow-hidden rounded-lg border",
             wide ? "min-h-56 flex-row" : "flex-col",
             isOpen
-              ? "border-copper/35 bg-ink-600 shadow-[0_24px_60px_rgb(0_0_0/0.6)]"
-              : "border-line bg-ink-700 shadow-[inset_0_1px_0_rgb(255_255_255/0.03)]",
+              ? "border-line-strong bg-ink-600"
+              : "border-line bg-ink-700",
           )}
           {...attentionAttrs("project", params, { dwell: false })}
         >
@@ -121,7 +113,7 @@ function GalleryItem({
             className={cn(
               "relative shrink-0 overflow-hidden bg-ink-800",
               wide
-                ? "w-[44%] border-r border-line"
+                ? "w-[44%] border-e border-line"
                 : "aspect-[5/6] border-b border-line sm:aspect-[4/3] lg:aspect-[5/6]",
             )}
           >
@@ -152,7 +144,7 @@ function GalleryItem({
 
           <span
             aria-hidden
-            className="gallery-tile__plus absolute top-3 right-3 flex size-7 items-center justify-center rounded-sm border border-line bg-ink-700 text-bone-52"
+            className="gallery-tile__plus absolute top-3 end-3 flex size-7 items-center justify-center rounded-sm border border-line bg-ink-700 text-bone-52"
           >
             +
           </span>
@@ -201,7 +193,7 @@ function GalleryItem({
             )}
           </div>
         </article>
-      </Reveal>
+      </div>
 
       <div
         id={panelId(project.slug)}

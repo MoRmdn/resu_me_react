@@ -17,6 +17,10 @@
  *   npm run video
  *   npm run video -- --format=portrait
  *   npm run video -- --stills=6,14.5,40        write PNGs instead of encoding
+ *   npm run video -- --preview-openers         one still of every opening in reel.json
+ *   npm run video -- --opener=clients --closer=hello   a named opening and closer, own file
+ *
+ * The words and the chapters are in scripts/video/reel.json: see docs/REEL.md.
  *
  * Outputs land in exports/video/ (gitignored).
  */
@@ -42,18 +46,6 @@ const FORMATS = {
   landscape: { width: 1920, height: 1080 },
   portrait: { width: 1080, height: 1920 },
 };
-
-/**
- * Smallest reach first, so every chapter lights more of the map. `hold` is reading
- * time, and `view` and `r` frame that site's countries clear of the card.
- */
-const STOPS = [
-  { site: "mostaql", review: "mostaql-hussein", hold: 6.5, view: [36, 23], r: 1250 },
-  { site: "upwork", review: "upwork-graduation", hold: 8.5, view: [16, 14], r: 900 },
-  { site: "freelancer", review: "freelancer-moath", hold: 10.1, view: [18, 20], r: 980 },
-  { site: "khamsat", review: "khamsat-bassam", hold: 8.5, view: [32, 12], r: 720 },
-  { site: "fiverr", review: "fiverr-nathan-genius", hold: 5.5, view: [-10, 24], r: 620 },
-];
 
 /**
  * The ElevenLabs narration, by file in exports/video/voice/ and start in seconds.
@@ -85,33 +77,93 @@ const PLATFORMS = {
 
 const json = async (file) => JSON.parse(await readFile(file, "utf8"));
 
-async function stageData(format) {
-  const { countries } = await json("content/clients.json");
+/**
+ * Every word and every chapter lives in scripts/video/reel.json. Numbers are never
+ * typed there: they are tokens, filled from content/ at render time.
+ */
+const reel = await json("scripts/video/reel.json");
+const STOPS = reel.chapters;
+
+const pick = (group, key, flag) => {
+  const entry = reel[`${group}s`][key];
+  if (!entry) {
+    throw new Error(`--${flag}=${key}: no such ${flag}. Choose one of ${Object.keys(reel[`${group}s`]).join(", ")}.`);
+  }
+  return entry;
+};
+
+const fill = (text, tokens) =>
+  text.replace(/\{(\w+)\}/g, (_, key) => {
+    if (!(key in tokens)) throw new Error(`reel.json uses {${key}}, which is not a token: ${Object.keys(tokens).join(", ")}`);
+    return String(tokens[key]);
+  });
+
+async function stageData(format, { opener, closer }) {
+  const { countries, unplaced } = await json("content/clients.json");
   const reviews = await json("content/reviews.json");
   const counted = countries.map((country) => ({
     ...country,
     count: Object.values(country.clients).reduce((a, b) => a + b, 0),
   }));
 
+  const totals = {
+    // Clients with no country on the map still count: content/clients.ts does the same.
+    clients:
+      counted.reduce((sum, country) => sum + country.count, 0) +
+      Object.values(unplaced).reduce((a, b) => a + b, 0),
+    countries: counted.length,
+    reviews: Object.values(PLATFORMS).reduce((sum, platform) => sum + platform.count, 0),
+  };
+  const tokens = { ...totals, world: WORLD_COUNTRIES, next: totals.countries + 1 };
+  const intro = Object.fromEntries(
+    Object.entries(pick("opener", opener, "opener")).map(([key, text]) => [key, fill(text, tokens)]),
+  );
+  if (intro.headline.length > 13) {
+    console.warn(`Opener "${opener}" headline is ${intro.headline.length} characters; it may run off the frame.`);
+  }
+
   return {
     format,
+    copy: {
+      brand: reel.brand,
+      hud: reel.hud,
+      intro,
+      finale: {
+        eyebrow: reel.finale.eyebrow,
+        headline: reel.finale.headline,
+        percent: reel.finale.percent,
+        stats: reel.finale.stats.map((line) => fill(line, tokens)),
+        closer: fill(pick("closer", closer, "closer"), tokens),
+      },
+    },
     home: HOME,
     world: WORLD_COUNTRIES,
     countries: counted,
     marks: await json("content/platform-marks.json"),
     topology: await json("node_modules/world-atlas/countries-50m.json"),
-    totals: {
-      clients: counted.reduce((sum, country) => sum + country.count, 0),
-      countries: counted.length,
-      reviews: Object.values(PLATFORMS).reduce((sum, platform) => sum + platform.count, 0),
-    },
-    stops: STOPS.map((stop) => {
+    totals,
+    stops: STOPS.map((stop, index) => {
       const review = reviews.find((r) => r.id === stop.review);
       if (!review) throw new Error(`No review ${stop.review}`);
       const platform = PLATFORMS[review.platform];
       if (review.platform !== stop.site) throw new Error(`${stop.review} is not on ${stop.site}`);
+      // The first chapter of a site flies its lines and frames the shot; the rest reuse both.
+      const lead = STOPS.find((other) => other.site === stop.site);
+      const first = lead === stop;
+      const view = stop.view ?? lead.view;
+      const r = stop.r ?? lead.r;
+      if (!view || !r) throw new Error(`Chapter ${index + 1} (${stop.review}) has no view and r, and ${stop.site} has none to reuse`);
+      // A fast read, at 34 characters a second, kept between a glance and eight seconds.
+      const reading = review.translation ?? review.quote;
+      const hold = stop.hold ?? Math.round(Math.min(8, Math.max(4.2, 2 + reading.length / 34)) * 10) / 10;
       return {
         ...stop,
+        view,
+        r,
+        hold,
+        first,
+        index,
+        total: STOPS.length,
         siteLabel: platform.label,
         siteCount: `${platform.count} ${platform.countLabel}`,
         review: {
@@ -129,7 +181,7 @@ async function stageData(format) {
 }
 
 /** Writes the stage to a folder Chrome can open from disk. */
-async function buildStage(dir, format) {
+async function buildStage(dir, format, choice) {
   const deps = {
     "d3-array.min.js": "node_modules/d3-array/dist/d3-array.min.js",
     "d3-geo.min.js": "node_modules/d3-geo/dist/d3-geo.min.js",
@@ -139,7 +191,7 @@ async function buildStage(dir, format) {
   await copyFile("scripts/video/stage.js", path.join(dir, "stage.js"));
   const html = await readFile("scripts/video/stage.html", "utf8");
   await writeFile(path.join(dir, "index.html"), html.replaceAll("DEPS/", ""));
-  await writeFile(path.join(dir, "data.js"), `window.DATA = ${JSON.stringify(await stageData(format))};`);
+  await writeFile(path.join(dir, "data.js"), `window.DATA = ${JSON.stringify(await stageData(format, choice))};`);
   return pathToFileURL(path.join(dir, "index.html")).href;
 }
 
@@ -292,8 +344,17 @@ async function film(name, url, format, dir, encoder) {
 }
 
 const { values } = parseArgs({
-  options: { format: { type: "string" }, stills: { type: "string" } },
+  options: {
+    format: { type: "string" },
+    stills: { type: "string" },
+    opener: { type: "string" },
+    closer: { type: "string" },
+    "preview-openers": { type: "boolean" },
+  },
 });
+const choice = { opener: values.opener ?? reel.opener, closer: values.closer ?? reel.closer };
+// A named choice gets its own file, so trying options never overwrites the main film.
+const suffix = [values.opener, values.closer].filter(Boolean).map((key) => `-${key}`).join("");
 const names = values.format ? [values.format] : Object.keys(FORMATS);
 
 await mkdir(path.join(OUT, "stills"), { recursive: true });
@@ -301,20 +362,32 @@ await mkdir(path.join(OUT, "stills"), { recursive: true });
 const build = await mkdtemp(path.join(tmpdir(), "film-"));
 let encoder;
 let mixer;
-if (!values.stills) {
+if (!values.stills && !values["preview-openers"]) {
   encoder = path.join(build, "encode");
   mixer = path.join(build, "mix");
   execFileSync("swiftc", ["-O", "scripts/video/encode.swift", "-o", encoder], { stdio: "inherit" });
   execFileSync("swiftc", ["-O", "scripts/video/mix.swift", "-o", mixer], { stdio: "inherit" });
 }
-const hasVoice = VOICE.every(([file]) => existsSync(path.join(OUT, "voice", file)));
+const hasVoice =
+  reel.voice === true && VOICE.every(([file]) => existsSync(path.join(OUT, "voice", file)));
 
 try {
   for (const name of names) {
     const format = FORMATS[name];
     const dir = await mkdtemp(path.join(build, `${name}-`));
-    const url = await buildStage(dir, format);
-    const file = `client-map-reviews-${name}`;
+    const file = `client-map-reviews-${name}${suffix}`;
+    if (values["preview-openers"]) {
+      // One still of the opening per option, so the choice costs seconds, not a render.
+      for (const key of Object.keys(reel.openers)) {
+        const optionDir = await mkdtemp(path.join(build, `${name}-${key}-`));
+        const url = await buildStage(optionDir, format, { ...choice, opener: key });
+        await stills(`${name}-opener-${key}`, url, format, optionDir, [3.4]);
+        await rm(optionDir, { recursive: true, force: true });
+      }
+      await rm(dir, { recursive: true, force: true });
+      continue;
+    }
+    const url = await buildStage(dir, format, choice);
     if (values.stills) {
       await stills(name, url, format, dir, values.stills.split(",").map(Number));
     } else {

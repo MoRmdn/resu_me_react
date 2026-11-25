@@ -54,7 +54,7 @@ npm run dev
 | `npm run images` | regenerate AVIF/WebP variants from `public/images/*-src.png` |
 | `npm run promos` | compose store-style promos into `assets/projects/` (needs Chrome), then run `npm run images` |
 | `npm run banners` | compose the LinkedIn, Facebook and X banners into `exports/social-banners/` (gitignored, needs Chrome) |
-| `npm run video` | render the reviews and client map film into `exports/video/` (gitignored, needs Chrome and Xcode command line tools) |
+| `npm run video` | render the reviews and client map film into `exports/video/` (gitignored, needs Chrome and Xcode command line tools); words and chapters live in `scripts/video/reel.json`, guide in `docs/REEL.md` |
 | `npm run og` | regenerate `public/og.png` |
 | `npm run map` | redraw the client map from `content/clients.json` |
 | `npm run export:reviews` | build, then package the review cards into `exports/review-cards/` (gitignored) |
@@ -74,9 +74,8 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 ## Architecture
 
 Server components by default. `"use client"` only where something genuinely
-needs the browser: `Nav`, `Hero`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
-`Footer`, the motion primitives, the consent and language controls, and
-`ClientMapExplorer`. No state library, no router — it is one page.
+needs the browser: `Nav`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
+`Footer`, the consent and language controls, and `ClientMapExplorer`. No state library, no router — it is one page.
 
 ```
 app/
@@ -88,9 +87,8 @@ app/
 └── globals.css       ALL design tokens (@theme) + the animation layer
 components/
 ├── analytics/        AnalyticsRoot, ConsentNotice
-├── brand/            MoRmdnMark, MoRmdnLockup, MoRmdnMarkDraw — SVG, geometry locked
+├── brand/            MoRmdnMark, MoRmdnLockup — SVG, geometry locked
 ├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
-├── motion/           Reveal, RevealRoot, CountUp, ScrollProgress, Marquee
 └── sections/         one file per band of the page
 content/              every word and number the site renders
 lib/                  firebase, hooks, cn
@@ -98,6 +96,7 @@ lib/analytics/        the event catalog, the tag, the listeners, the dwell engin
 docs/                 ANALYTICS.md (the rules), ANALYTICS-EVENTS.md (generated)
                       marketplaces/ one file per marketplace: what the site shows, where it lives, how to refresh
 scripts/              image + OG generation, run by hand
+                      video/reel.json is the one file to edit to change the reel's words (docs/REEL.md)
 ```
 
 ### Content
@@ -115,7 +114,7 @@ Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
 
 Realtime Database, one live path:
 
-- `views/total` — a counter incremented once per load and streamed live.
+- `views/total` — a counter incremented once per load and streamed live in the footer.
 - `contact_submissions/` — **closed.** There is no contact form; enquiries go to
   the channels in `content/site.ts`. `.write` is `false` in
   `database.rules.json`. Do not reopen it without App Check in front.
@@ -188,13 +187,6 @@ change that adds or changes something a visitor can interact with.
 
 ## Things that will bite you
 
-**Reveal-on-scroll must never permanently hide content.** `.reveal` starts at
-`opacity: 0`, so if the observer misses an element it disappears for good. Two
-guards exist and both matter: the observer's `rootMargin` has a huge *top*
-value so anything the viewport jumps past (anchor link, deep link, scroll
-restoration) reveals immediately; and `@media (scripting: none)` shows
-everything when JS is off. Do not "tidy" either away.
-
 **Collapsed accordion panels stay in the DOM.** That is what puts every
 achievement bullet in the served HTML. Closed `.disclosure` panels use
 `visibility: hidden` before hydration, then `useHydrated` applies `inert`. The
@@ -206,24 +198,17 @@ conditional rendering — it would strip the content from the page source.
 **The gallery's `row-gap` must stay 0.** Each detail plane is a grid item of its
 own, and `grid-flow-dense` lets the tiles backfill the row it would have broken.
 A closed plane is a zero-height row, so any row gap would show as a stack of
-empty gaps. The space between rows is `pb-3.5` on the tile's slot. The first tile
+empty gaps. The space between rows is `pb-4` on the tile's slot. The first tile
 spans two columns, which only fills the grid at seven tiles: move the span if the
 count changes.
 
-**Keep the marquee paint-contained.** Its max-content track translates across
-the viewport; without `.marquee { contain: paint }` and clipping, Chrome can add
-transient horizontal document overflow at tablet widths. Reduced motion changes
-the strip to `overflow-x: auto`; do not remove that intentional scroller.
+**Keep the review export wall paint-contained.** Its animated max-content track
+can widen the document unless the rows clip and use `contain: paint`. The site
+uses a wrapping technology list and static review grids.
 
 **Never drive state from pointer-move.** Pointer-follow effects must write a
 transform inside a rAF loop and hold zero React state. A `setState` per pointer
 move would re-render the page on every mouse twitch.
-
-**`IntersectionObserver` and `requestAnimationFrame` are suspended in hidden
-tabs.** Reveals and count-ups will not run until the tab is foregrounded. That
-is correct, but it makes automated screenshot testing unreliable if the browser
-pane is collapsed — verify structurally (`getBoundingClientRect`,
-`getComputedStyle`) when you cannot see the page.
 
 **Static export has no server.** No API routes, no server actions, no
 `next/image` optimisation (`images.unoptimized` is set, and
@@ -247,23 +232,12 @@ whole page again as plain text at their own URLs. `firebase.json` sends them
 `X-Robots-Tag: noindex`. It is deliberately not a `robots.txt` `Disallow` — a
 disallowed URL is never fetched, so the directive would never be read.
 
-**The hero headline is the LCP element.** It uses `.rise-lcp`, not `.rise`:
-`rise-in` starts at `opacity: 0` with `both` fill, and Chrome will not accept a
-transparent element as an LCP candidate, so a `.rise` headline delays LCP by
-its own `--rise-delay` on every load. `rise-lcp` keeps the movement and drops
-the fade. Do not "unify" it back into `.rise`.
-
-**The held hero takes `min-h`, never a fixed `h`.** `.hero-held` is sticky with
-`items-center` and `overflow-hidden`, so a fixed height centres oversized
-content past both edges and clips it. The Arabic headline runs a line taller
-than the English one, and `md:h-[880px]` pushed its eyebrow badge up behind the
-nav and cut it in half. With `md:min-h-[880px]` the section just grows, and the
-page slides over a taller hero exactly as designed. When the content fills that
-minimum, `md:pt-28` keeps the status row below the fixed nav; `xl:pt-16`
-restores symmetric padding once the layout has room. Arabic desktop hero type
-also has its own `clamp()` and `line-height: 1.15`: the global Arabic heading
-rule is `1.4`, which overrides the hero's Tailwind line-height and makes the
-display excessively tall. The mobile Arabic treatment stays unchanged.
+**The hero headline paints at full opacity from the first frame.** `.rise-lcp`
+uses a short translation so the headline is eligible for LCP as soon as it
+paints. The responsive workbench photograph loads eagerly from
+`public/images/hero-workbench-*`. RTL mirrors only the workshop photo and its
+shading. The SAAD capture, action labels, hero copy, and metrics keep their own
+reading direction.
 
 **Scroll-spy observer entries are changes, not a snapshot.** Keep a set of all
 intersecting sections across callbacks and choose from it after both entries
@@ -324,9 +298,8 @@ Only the client countries are inline, and they are rendered by the server
 component `ClientMap`, so no geometry reaches the client bundle. If you add a
 country, run `npm run map` or it has no shape.
 
-**The map's finished state is the base style.** Its intro is an animation keyed
-off Reveal's `data-visible`, not a hidden start state, so a missed observer or
-reduced motion shows a complete map rather than an empty one.
+**The map renders its finished geometry on the server.** Only filter and hover
+state change in `ClientMapExplorer`.
 
 **`.review-card` is deliberately not Tailwind.** Everything between the
 `review-cards:start` and `:end` markers in `globals.css` is lifted into the

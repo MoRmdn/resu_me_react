@@ -10,33 +10,30 @@ import { reviews, reviewTotal } from "./reviews";
 import { contact, metrics, site } from "./site";
 
 export const hero = {
-  status: "Open to work",
-  place: `${site.location} · ${site.timezone}`,
-  headline: ["Flutter apps", "that actually", "ship."],
-  /**
-   * v1 accented the final word in copper. DESIGN-SYSTEM v2 §1.3 spends the
-   * hero viewport's one Tier 1 on the CTA instead, so this is retained for
-   * data fidelity and deliberately NOT rendered.
-   */
-  headlineAccentIndex: 2,
-  intro: `I'm ${site.name} — a software engineer with ${metrics.yearsExperience} years spent building cross-platform products, mobile and web, for teams in ${metrics.countries} countries. Bloc, GetX, Cubit, clean architecture, and a stubborn preference for 60fps.`,
-  primaryCta: { label: "See the work", href: "#projects" },
+  place: String(site.location),
+  headline: ["I build Flutter apps", "from prototype", "to release"],
+  intro: `I'm ${site.name}, a software engineer building mobile and web apps for teams in ${metrics.countries} countries. My work includes tools for language learning, driver training, and field maintenance.`,
+  primaryCta: { label: "View projects", href: "#projects" },
   // WhatsApp is the stated first-choice channel, so it takes the hero's
   // secondary action. The email address still appears in Contact, the footer
   // and the structured data.
   secondaryCta: { label: "WhatsApp", href: "https://wa.me/201281100168" },
   resumeCta: { label: "Download CV", href: contact.resumeUrl },
-  trackRecordLabel: "Track record",
   trackRecord: [
-    { value: metrics.yearsExperience, suffix: "+", label: "Years shipping Flutter" },
+    { value: metrics.yearsExperience, suffix: "+", label: "Years with Flutter" },
     { value: orderedProjects.length, suffix: "", label: "Selected apps and products" },
     { value: metrics.teams, suffix: "", label: `Teams across ${metrics.countries} countries` },
   ],
-  viewsLabel: "page views",
+  sceneAlt: "A black phone and machined copper plates on a graphite workbench",
+  preview: {
+    title: "SAAD | صاد",
+    caption: "A bilingual app for learning English vocabulary from songs, films, and interviews.",
+    alt: "SAAD store screenshot showing new words, words in progress, and known words",
+  },
 };
 
 export const about = {
-  eyebrow: "01 / About",
+  eyebrow: "About",
   headline: ["Bioinformatics", "degree, mobile", "obsession."],
   lede: "I build cross-platform apps that behave like native ones — fast to open, smooth under the thumb, and honest about state.",
   body: [
@@ -60,17 +57,17 @@ export const learning = {
 };
 
 export const experienceCopy = {
-  eyebrow: "02 / Experience",
-  headline: "Seven teams, six countries.",
+  eyebrow: "Experience",
+  headline: "Seven teams across six countries",
   hint: "tap a row to expand",
-  currentBadge: "CURRENT",
-  bandAxisNote: "DURATION \u00b7 CLICK A BAR",
+  currentBadge: "Current",
+  bandAxisNote: "Duration",
   bandCaption: "Four of these ran at once through 2024 \u2014 most of them remote and part-time.",
 };
 
 export const projectsCopy = {
-  eyebrow: "03 / Projects",
-  headline: "Selected apps and products.",
+  eyebrow: "Projects",
+  headline: "Selected apps and products",
   countLabel: (count: number) => `${count} selected projects`,
   storyLabels: {
     problem: "The problem",
@@ -99,20 +96,20 @@ export const projectsCopy = {
   socialLabel: "Store & social artwork",
   screensLabel: (title: string) => `${title} store screens`,
   galleryEyebrow: "Gallery",
-  galleryHeadline: "The rest of the shelf.",
-  galleryNote: (count: number) => `${count} more · tap a tile to open`,
+  galleryHeadline: "More projects",
+  galleryNote: (count: number) => `${count} more projects`,
 };
 
 export const skillsCopy = {
-  eyebrow: "04 / Skills",
-  headline: "The toolbox.",
+  eyebrow: "Skills",
+  headline: "Languages, tools, and platforms",
   blurb:
     "Depth where it matters — Dart, Flutter, state management and payments — and enough breadth to talk to backend, data and design without a translator.",
 };
 
 export const reviewsCopy = {
-  eyebrow: "05 / Reviews",
-  headline: `${reviewTotal} reviews and jobs.`,
+  eyebrow: "Reviews",
+  headline: `${reviewTotal} reviews and jobs`,
   blurb:
     "Reviews and jobs across freelance marketplaces. Original quotes are copied word for word, typos included. Translations are labelled and originals remain available.",
   scoreLabel: "5.0",
@@ -125,7 +122,8 @@ export const reviewsCopy = {
 
 export const clientMapCopy = {
   eyebrow: "Where they are",
-  headline: "World domination",
+  headline: "Client locations",
+  coverageLabel: (percent: number) => `${percent}% of countries worldwide`,
   blurb:
     "Every lit country has a client who hired me on one of these five sites. The lines all start in Mansoura, because that's still where the work gets done.",
   mapLabel: `World map of client locations across ${clientCountries.length} countries. The same figures are in the list that follows.`,
@@ -140,11 +138,11 @@ export const clientMapCopy = {
 };
 
 export const contactCopy = {
-  eyebrow: "06 / Contact",
+  eyebrow: "Contact",
   headline: ["Got an app", "to build?"],
   blurb:
     "Full-time, contract or a second pair of hands on a release that's slipping — reach me wherever suits you and I'll reply within a day.",
-  availabilityLabel: "AVAILABILITY",
+  availabilityLabel: "Availability",
   availability: "Taking new work · Mansoura / remote",
   channelsLabel: "Get in touch",
   channelsNote: "Pick whichever is easiest — they all reach me.",

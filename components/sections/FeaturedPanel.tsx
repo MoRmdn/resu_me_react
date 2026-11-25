@@ -35,12 +35,10 @@ const toggleId = (slug: string) => `proj-toggle-${slug}`;
 export function FeaturedPanel({
   locale = "en",
   project,
-  index,
   flip,
 }: {
   locale?: Locale;
   project: Project;
-  index: number;
   flip: boolean;
 }) {
   const { projectsCopy } = getCopy(locale);
@@ -70,8 +68,8 @@ export function FeaturedPanel({
         "feature-panel relative scroll-mt-24 overflow-hidden rounded-lg",
         project.isPrivate
           ? "bg-ink-800"
-          : "bg-ink-700 elevation-card transition-colors duration-fast ease-fast hover:border-copper/35",
-        isOpen && !project.isPrivate && "border-copper/35",
+          : "bg-ink-700 elevation-card transition-colors duration-fast ease-fast hover:border-line-strong",
+        isOpen && !project.isPrivate && "border-line-strong",
       )}
       onKeyDown={(e) => {
         if (e.key !== "Escape" || !isOpen) return;
@@ -131,9 +129,6 @@ export function FeaturedPanel({
                 </button>
               </h3>
             </div>
-            <span aria-hidden className="eyebrow ms-auto self-start text-bone-28">
-              {String(index).padStart(2, "0")}
-            </span>
           </div>
 
           <p className="max-w-[62ch] text-body text-bone">{project.description}</p>

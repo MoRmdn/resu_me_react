@@ -8,6 +8,10 @@
 - **README:** title "Software Engineer · Cross-Platform Mobile and Web Applications"; a line in `$ whoami` about
   NAAS; the old MisMar driver-app entry in "Published apps" was removed and a **Current role** section with
   **NAAS Dashboard** was added. Commit `7fc0fb3`, pushed to `main` directly (it is a solo profile repo).
+- **Banner:** GitHub has no profile banner field, so a banner made for GitHub (1280×320, `$ whoami` and the name) sits at
+  the top of the profile README as `banner.png` in the `MoRmdn/MoRmdn` repo (2026-11-07). Its source is the "GitHub README"
+  board of the Claude Design canvas "MoRmdn Profile Banners": change the numbers in its Tweaks, export the PNG, and
+  replace `banner.png` there, then commit and push.
 - **Bio** (a profile setting, 160 characters): "Software Engineer · Flutter, Firebase & React · Apps on App
   Store & Google Play" was first set, then changed to "Software Engineer · Cross-Platform Mobile and Web
   Applications · Apps on App Store & Google Play" to match the site title.
