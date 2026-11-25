@@ -1,3 +1,4 @@
+import { stagger } from "@/lib/motion";
 import { ClientMap } from "@/components/sections/ClientMap";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -15,7 +16,7 @@ export function Reviews({ locale = "en" }: LocaleProps) {
   const remaining = reviews.filter((r) => !initialReviewIds.includes(r.id));
   return (
     <Section id="reviews" tone="ink-900" className="overflow-x-clip">
-      <div className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">
+      <div data-reveal className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">
         <div>
           <Eyebrow index={5}>{reviewsCopy.eyebrow}</Eyebrow>
           <h2 className="mt-4 text-display-l">{reviewsCopy.headline}</h2>
@@ -26,7 +27,7 @@ export function Reviews({ locale = "en" }: LocaleProps) {
       </div>
 
       <div>
-        <ul className="hairline-grid grid-cols-2 overflow-hidden rounded-lg border border-line lg:grid-cols-5">
+        <ul data-reveal className="hairline-grid grid-cols-2 overflow-hidden rounded-lg border border-line lg:grid-cols-5">
           {reviewPlatforms.map((platform) => (
             <li
               key={platform.id}
@@ -81,8 +82,8 @@ export function Reviews({ locale = "en" }: LocaleProps) {
 
       <div className="review-grid mt-10">
         <ul className="review-list">
-          {initial.map((review) => (
-            <li key={review.id} className="review-slot">
+          {initial.map((review, i) => (
+            <li key={review.id} data-reveal style={stagger(i % 3)} className="review-slot">
               <ReviewCard review={review} locale={locale} />
             </li>
           ))}

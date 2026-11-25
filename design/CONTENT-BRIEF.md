@@ -45,7 +45,7 @@ credentials above so an in-progress course is never mistaken for a finished one.
 - CTAs: **Start a project** (primary) · See the work (secondary)
 - Ledger strip:
   - Based in · Shipping since · Teams: 7 in 6 countries · Now
-- Figure: Store art from three shipped apps (lpermis, saad, mutabbib)
+- Figure: Screens from three shipped apps (lpermis, ayco, mutabbib)
 
 ## Technology strip
 
@@ -230,7 +230,7 @@ Supporting technical details:
 - Localised Arabic-first with full RTL: 430 strings in matching Arabic and English ARB files, plus dark mode, both verified on every changed screen.
 - Kept the backend contract frozen through the refactor: routes, API paths, JSON keys and persisted preference keys unchanged, with 78 test files covering success, failure and disposal behaviour.
 
-Links: App Store
+Links: App Store · Google Play
 
 ### 03. Lpermis
 

@@ -10,6 +10,7 @@ import { contact, socials } from "@/content/site";
 import { getProfile } from "@/content/profile-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
+import { stagger } from "@/lib/motion";
 
 /**
  * No form. Enquiries used to land in a Firebase console; they now go straight
@@ -27,7 +28,7 @@ export function Contact({ locale = "en" }: LocaleProps) {
   return (
     <Section id="contact" tone="ink-900" className="band text-bone" border={false}>
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
-        <div>
+        <div data-reveal>
           <div>
             <Eyebrow index={6}>{contactCopy.eyebrow}</Eyebrow>
             <h2 className="mt-4 text-display-xl">
@@ -77,7 +78,7 @@ export function Contact({ locale = "en" }: LocaleProps) {
         </div>
 
         <div>
-          <div className="rounded-lg border border-line bg-ink-700 p-7 elevation-card md:p-9">
+          <div data-reveal style={stagger(1)} className="rounded-lg border border-line bg-ink-700 p-7 elevation-card md:p-9">
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-line pb-5">
               <p className="eyebrow text-bone-52">{contactCopy.channelsLabel}</p>
               <p className="text-caption text-bone-52">{contactCopy.channelsNote}</p>

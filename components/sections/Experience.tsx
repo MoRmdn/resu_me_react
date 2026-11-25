@@ -1,4 +1,5 @@
 "use client";
+import { stagger } from "@/lib/motion";
 import type { LocaleProps } from "@/content/locale";
 import { getCopy, ui } from "@/content/copy-i18n";
 
@@ -50,13 +51,13 @@ export function Experience({ locale = "en" }: LocaleProps) {
       </div>
 
       <ul className="mt-8 border-t border-line-strong lg:mt-0">
-        {experiences.map((role) => {
+        {experiences.map((role, index) => {
           const isOpen = openSlug === role.slug;
           const panelId = `exp-panel-${role.slug}`;
           const bar = bars.find((b) => b.role.slug === role.slug);
 
           return (
-            <li key={role.slug} className="border-b border-line">
+            <li key={role.slug} data-reveal style={stagger(index)} className="border-b border-line">
               <h3>
                 <button
                   type="button"
@@ -93,7 +94,7 @@ export function Experience({ locale = "en" }: LocaleProps) {
                     {bar && (
                       <span
                         className={cn(
-                          "absolute inset-y-0 rounded-pill transition-colors duration-fast ease-fast",
+                          "timeline-bar absolute inset-y-0 rounded-pill transition-colors duration-fast ease-fast",
                           isOpen ? "bg-copper" : "bg-bone group-hover:bg-bone-70",
                         )}
                         style={{ left: `${bar.left * 100}%`, width: `${bar.width * 100}%` }}

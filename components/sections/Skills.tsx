@@ -1,3 +1,4 @@
+import { stagger } from "@/lib/motion";
 import type { LocaleProps } from "@/content/locale";
 import { getCopy } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
@@ -17,7 +18,7 @@ export function Skills({ locale = "en" }: LocaleProps) {
   return (
     <Section id="skills" tone="ink-800">
       <div className="grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
-        <div>
+        <div data-reveal>
           <Eyebrow index={4}>{skillsCopy.eyebrow}</Eyebrow>
           <h2 className="mt-4 text-display-l">{skillsCopy.headline}</h2>
           <p className="mt-5 max-w-[36ch] text-body text-bone-70">{skillsCopy.blurb}</p>
@@ -27,6 +28,8 @@ export function Skills({ locale = "en" }: LocaleProps) {
           {skillGroups.map((group, i) => (
             <li
               key={group.label}
+              data-reveal
+              style={stagger(i)}
               className={cn(
                 "rounded-lg border border-line bg-ink-700 p-6",
                 i % 2 === 1 && "sm:mt-10",

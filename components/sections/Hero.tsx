@@ -5,6 +5,8 @@ import { experiences } from "@/content/experience";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { projectNames } from "@/lib/projectNames";
 import { trackAttrs } from "@/lib/analytics/attrs";
+import { stagger } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 
 /** Staggered tops for the three promos, so the sheet reads as hand-laid. */
 const OFFSETS = ["", "mt-8", "mt-4"];
@@ -27,7 +29,7 @@ export function Hero({ locale = "en" }: LocaleProps) {
 
   return (
     <section id="top" className="mx-auto w-full max-w-content px-5 pt-32 pb-16 md:px-8 md:pt-36">
-      <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.875rem] text-bone-70">
+      <p className="enter flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.875rem] text-bone-70" style={stagger(0)}>
         <span className="inline-flex items-center gap-2 font-medium text-jade">
           <span aria-hidden className="size-[7px] rounded-pill bg-jade" />
           {hero.status}
@@ -41,7 +43,7 @@ export function Hero({ locale = "en" }: LocaleProps) {
       <h1 className="hero-headline rise-lcp mt-7 max-w-[16ch]">{hero.headline.join(" ")}</h1>
 
       <div className="mt-12 grid items-start gap-10 lg:grid-cols-[5fr_7fr] lg:gap-14">
-        <div className="lg:pt-4">
+        <div className="enter lg:pt-4" style={stagger(2)}>
           <p className="max-w-[36rem] text-body-l text-bone-70">{hero.intro}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
@@ -72,13 +74,13 @@ export function Hero({ locale = "en" }: LocaleProps) {
           </div>
         </div>
 
-        <figure className="rounded-[24px] border border-line bg-ink-700 px-4 pt-4 pb-2.5 shadow-[0_28px_56px_-28px_var(--color-shadow)]">
+        <figure style={stagger(3)} className="enter rounded-[24px] border border-line bg-ink-700 px-4 pt-4 pb-2.5 shadow-[0_28px_56px_-28px_var(--color-shadow)]">
           <figcaption className="sr-only">{hero.figureCaption}</figcaption>
           <ul className="grid grid-cols-3 items-start gap-3">
             {hero.promos.map((promo, i) => {
               const project = orderedProjects.find((p) => p.slug === promo.slug);
               return (
-                <li key={promo.slug} className={OFFSETS[i]}>
+                <li key={promo.slug} className={cn("enter", OFFSETS[i])} style={stagger(4 + i)}>
                   <ProjectImage
                     file={promo.file}
                     widths={[280, 560]}
@@ -87,7 +89,7 @@ export function Hero({ locale = "en" }: LocaleProps) {
                     width={promo.width}
                     height={promo.height}
                     loading="eager"
-                    className="block aspect-[5/8] h-auto w-full rounded-[9px] bg-ink-800 object-cover object-top"
+                    className="promo block aspect-[5/8] h-auto w-full rounded-[9px] bg-ink-800 object-cover object-top"
                   />
                   {project && (
                     <p className="mx-0.5 mt-2.5 text-[0.875rem] leading-snug font-medium">
@@ -102,7 +104,7 @@ export function Hero({ locale = "en" }: LocaleProps) {
         </figure>
       </div>
 
-      <dl className="hairline-grid mt-16 grid-cols-2 border-y border-line md:grid-cols-4">
+      <dl style={stagger(7)} className="enter hairline-grid mt-16 grid-cols-2 border-y border-line md:grid-cols-4">
         {ledger.map(({ label, value }) => (
           <div key={label} className="bg-ink-900 py-4.5 pe-4.5 md:ps-4.5 md:first:ps-0">
             <dt className="text-caption text-bone-52">{label}</dt>

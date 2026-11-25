@@ -245,7 +245,8 @@ disallowed URL is never fetched, so the directive would never be read.
 
 **The hero headline paints at full opacity from the first frame.** `.rise-lcp`
 uses a short translation so the headline is eligible for LCP as soon as it
-paints. The three store promos in the hero figure load eagerly. The ledger
+paints. The three images in the hero figure (Lpermis and Mutabbib promos,
+AYCO's home screen) load eagerly. The ledger
 strip's values are derived from `content/` (first experience year, current
 role), so they move with the data.
 
@@ -260,6 +261,14 @@ server: the HTML would ship one theme and flash to the other.
 `wght 400–600` and `wdth 100–118` (Ledger's display width). A heavier weight or
 another width means regenerating it with fontTools `varLib.instancer` from the
 Google Fonts variable file; nothing outside that range renders.
+
+**Scroll reveals hide nothing until JavaScript says so.** `[data-reveal]`
+elements are only hidden under `html.reveal-on`, which
+`components/motion/RevealObserver.tsx` adds after load, and never under
+reduced motion. The served HTML, crawlers and no-JS visitors get the finished
+page. Do not put `data-reveal` on a cell of a `.hairline-grid`: a hidden cell
+shows the line colour. Reveal the grid. Staggers use `stagger(i)` from
+`lib/motion.ts`.
 
 **The nav island writes its progress ring outside React.** The ring is a CSS
 variable set in a rAF scroll callback. Its links stay in the served HTML and,

@@ -62,6 +62,7 @@ export function FeaturedPanel({
 
   return (
     <article
+      data-reveal
       id={project.slug}
       data-open={isOpen}
       className={cn(

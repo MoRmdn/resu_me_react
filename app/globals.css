@@ -700,6 +700,70 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Ledger motion. One curve (--ease-slow), one beat (70ms) between staggered
+   items, and every effect ends on the finished page:
+   - `.enter`: the hero's load entrance, staggered by --i (lib/motion.ts).
+   - `[data-reveal]`: fades up once on first view. Hidden only after
+     RevealObserver adds `.reveal-on`, so the served HTML is never hidden.
+   - `.timeline-bar`: experience bars draw along the time axis.
+   Reduced motion gets none of it, and print gets the finished page.
+--------------------------------------------------------------------------- */
+@keyframes enter-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter-rise 720ms var(--ease-slow) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+  }
+
+  .reveal-on [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 620ms var(--ease-slow),
+      transform 620ms var(--ease-slow);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+  .reveal-on [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-on .timeline-bar {
+    transform: scaleX(0);
+    transition:
+      transform 900ms var(--ease-slow) calc(var(--i, 0) * 70ms + 200ms),
+      background-color 180ms var(--ease-fast);
+  }
+  .reveal-on [data-revealed] .timeline-bar {
+    transform: scaleX(1);
+  }
+
+  /* The hero promos lift a few pixels under the pointer. */
+  .promo {
+    transition: transform 320ms var(--ease-base);
+  }
+  .promo:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.timeline-bar {
+  transform-origin: left center;
+}
+
+@media print {
+  .reveal-on [data-reveal],
+  .reveal-on .timeline-bar {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Accordion. Collapsed rows occupy zero height and keep their markup in place.
 
    NOT called `.collapse`: Tailwind ships a `collapse` utility that sets

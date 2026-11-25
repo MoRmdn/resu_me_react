@@ -111,10 +111,10 @@ const ar: typeof en = {
       nowProduct: "NAAS",
       nowJoin: "في",
     },
-    figureCaption: "صور المتجر لثلاثة تطبيقات منشورة",
+    figureCaption: "شاشات من ثلاثة تطبيقات منشورة",
     promos: [
       { ...en.hero.promos[0], alt: "صورة متجر Lpermis: شاشة الحجز تحت عنوان عربي" },
-      { ...en.hero.promos[1], alt: "صورة متجر صاد: شاشة الترحيب على هاتف مائل" },
+      { ...en.hero.promos[1], alt: "الشاشة الرئيسية لتطبيق AYCO بعنوان تقارير صيانة بلا ورق" },
       { ...en.hero.promos[2], alt: "صورة متجر مطبب: دليل المستشفيات تحت عنوان عربي" },
     ],
   },

@@ -128,7 +128,7 @@ steps up to `#171412` so it still reads apart.
 
 - Hero: a status line (jade dot, "Taking new projects", role and place), the
   headline, then a 5/7 split: intro and two actions on the start side, the
-  store-art figure on the end side (Lpermis, SAAD, Mutabbib promos on a white
+  figure on the end side (Lpermis and Mutabbib store promos and AYCO's home screen on a white
   sheet at staggered tops 0 / 32 / 16px). Under it the ledger strip: a
   four-cell hairline `<dl>` (based in, shipping since, teams, now) with mono
   values derived from `content/`.
@@ -294,8 +294,19 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
   immediately at their natural height.
 - Interactive controls use brief colour, opacity, or border transitions. Map
   transitions communicate a change of filter or the country being inspected.
-- The nav island's links slide open (max-width and opacity, 420ms). The
-  technology strip, timeline, skills and review cards are static. The
+- The nav island's links slide open (max-width and opacity, 420ms).
+- **Hero entrance** (`.enter`): status line, intro, figure, each promo and the
+  ledger strip fade up 20px over 720ms, 90ms apart. The headline itself only
+  moves (`.rise-lcp`), so it stays the LCP element.
+- **Scroll reveal** (`[data-reveal]`): section headers, About blocks, timeline
+  rows, featured panels, skill plates, review cards and the Contact columns
+  fade up once on first view, 70ms apart within a group. Hairline grids reveal
+  as a whole, never cell by cell, or the line colour shows through.
+- **Timeline bars** (`.timeline-bar`) draw along the axis when their row
+  appears.
+- Hero promos lift 4px under the pointer.
+- Every one of these uses `--ease-slow`, and reduced motion and print get the
+  finished page. The
   standalone review export retains its own animated wall and reduced-motion mode.
 
 ## 7. Accessibility

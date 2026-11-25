@@ -61,7 +61,7 @@ export function SectionHeader({
   headingClassName?: string;
 }) {
   return (
-    <div className={cn("flex flex-wrap items-end justify-between gap-x-10 gap-y-4", className)}>
+    <div data-reveal className={cn("flex flex-wrap items-end justify-between gap-x-10 gap-y-4", className)}>
       <div className={headingClassName ?? "max-w-[40rem]"}>
         <Eyebrow index={index}>{eyebrow}</Eyebrow>
         <h2 className="mt-4 text-display-l">{headline}</h2>

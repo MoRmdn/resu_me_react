@@ -1,3 +1,4 @@
+import { stagger } from "@/lib/motion";
 import type { LocaleProps } from "@/content/locale";
 import { getCopy, ui } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
@@ -18,12 +19,12 @@ export function About({ locale = "en" }: LocaleProps) {
     <Section id="about" tone="ink-900">
       <div className="grid gap-14 lg:grid-cols-[4fr_7fr] lg:gap-16">
         <div className="flex flex-col gap-10">
-          <div>
+          <div data-reveal>
             <Eyebrow index={1}>{about.eyebrow}</Eyebrow>
             <h2 className="mt-4 text-display-l">{about.headline.join(" ")}</h2>
           </div>
 
-          <div>
+          <div data-reveal style={stagger(1)}>
             <p className="eyebrow text-bone-52">{copy.credentials}</p>
             <ul className="mt-3 border-t border-line">
               {education.map((item) => (
@@ -36,7 +37,7 @@ export function About({ locale = "en" }: LocaleProps) {
 
           {/* The move into front-end work. Kept apart from Credentials so an
               in-progress course is never mistaken for a finished one. */}
-          <div className="rounded-lg border border-line bg-ink-700 p-6">
+          <div data-reveal style={stagger(2)} className="rounded-lg border border-line bg-ink-700 p-6">
             <div className="flex items-baseline justify-between gap-4 border-b border-line pb-4">
               <p className="eyebrow text-bone-52">{learning.eyebrow}</p>
               <p className="font-mono text-[0.75rem] text-bone-52 tabular">{learningNow.period}</p>
@@ -90,16 +91,16 @@ export function About({ locale = "en" }: LocaleProps) {
         </div>
 
         <div>
-          <p className="wide max-w-[30ch] text-[clamp(1.375rem,2.4vw,1.875rem)] leading-[1.3] font-medium tracking-[-0.02em]">
+          <p data-reveal style={stagger(1)} className="wide max-w-[30ch] text-[clamp(1.375rem,2.4vw,1.875rem)] leading-[1.3] font-medium tracking-[-0.02em]">
             {about.lede}
           </p>
           {about.body.map((para, i) => (
-            <p key={i} className="mt-5 max-w-[62ch] text-body text-bone-70 first-of-type:mt-7">
+            <p key={i} data-reveal style={stagger(2 + i)} className="mt-5 max-w-[62ch] text-body text-bone-70 first-of-type:mt-7">
               {renderWithCode(para)}
             </p>
           ))}
 
-          <dl className="hairline-grid mt-11 grid-cols-2 overflow-hidden rounded-lg border border-line sm:grid-cols-4">
+          <dl data-reveal style={stagger(4)} className="hairline-grid mt-11 grid-cols-2 overflow-hidden rounded-lg border border-line sm:grid-cols-4">
             {about.stats.map((stat) => (
               <div key={stat.label} className="flex flex-col bg-ink-700 p-5">
                 <dt className="order-last mt-1.5 text-[0.8125rem] leading-snug text-bone-52">{stat.label}</dt>

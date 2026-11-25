@@ -31,11 +31,13 @@ export const hero = {
     nowProduct: "NAAS",
     nowJoin: "at",
   },
-  figureCaption: "Store art from three shipped apps",
+  figureCaption: "Screens from three shipped apps",
   /** The three promos in the hero figure, by project slug. */
   promos: [
     { slug: "lpermis", file: "lpermis-promo", width: 1200, height: 2601, alt: "Lpermis store promo, a booking screen under an Arabic headline" },
-    { slug: "saad", file: "saad-promo", width: 1200, height: 2133, alt: "SAAD store promo, the welcome screen on a tilted phone" },
+    // AYCO is private: its home screen stands in for store art. Only the home,
+    // batch and settings screens are safe to show (no client data).
+    { slug: "ayco", file: "ayco-screen-1", width: 1200, height: 2600, alt: "AYCO home screen, headlined paperless maintenance reports" },
     { slug: "mutabbib", file: "mutabbib-promo", width: 1200, height: 2601, alt: "Mutabbib store promo, a hospital directory under an Arabic headline" },
   ],
 };
