@@ -29,9 +29,9 @@ export const PARAMS = {
   theme_choice: {
     label: "Theme choice",
     description:
-      "The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping.",
+      "The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way.",
     type: "string",
-    values: ["light", "dark"],
+    values: ["auto", "light", "dark"],
   },
   target_locale: {
     label: "Target language",
@@ -510,7 +510,7 @@ export const EVENTS = {
 
   theme_toggle: {
     group: "Navigation",
-    description: "Shows how many visitors prefer the dark theme over the light default.",
+    description: "Shows how many visitors override the automatic theme, and whether they pick light or dark.",
     trigger: "A click on the theme toggle in the nav.",
     params: ["theme_choice"],
   },

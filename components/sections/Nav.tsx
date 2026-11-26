@@ -11,12 +11,33 @@ import { trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { useScrollSpy } from "@/lib/useScrollSpy";
 import { useHydrated } from "@/lib/useHydrated";
-import { useTheme } from "@/lib/useTheme";
-import { setTheme } from "@/lib/theme";
+import { useThemeMode } from "@/lib/useTheme";
+import { nextThemeMode, setThemeMode, type ThemeMode } from "@/lib/theme";
 import { cn } from "@/lib/cn";
 
 /** Ledger numbering, the page's signature: 01 About … 06 Contact. */
 const index = (i: number) => String(i + 1).padStart(2, "0");
+
+/** One glyph per theme mode: half-filled for auto, sun for light, moon for dark. */
+function ThemeIcon({ mode }: { mode: ThemeMode }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      {mode === "auto" && (
+        <>
+          <circle cx="12" cy="12" r="8" />
+          <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
+        </>
+      )}
+      {mode === "light" && (
+        <>
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" strokeLinecap="round" />
+        </>
+      )}
+      {mode === "dark" && <path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z" strokeLinejoin="round" />}
+    </svg>
+  );
+}
 
 /**
  * The nav island and, on wide screens, the section rail. Both share one
@@ -32,7 +53,8 @@ export function Nav({ locale = "en" }: LocaleProps) {
   const active = useScrollSpy(ids);
   const activeIndex = navSections.findIndex((s) => s.id === active);
   const hydrated = useHydrated();
-  const theme = useTheme();
+  // Null in server HTML; auto is the default, so that is what it renders.
+  const themeMode = useThemeMode() ?? "auto";
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const ring = useRef<HTMLSpanElement>(null);
@@ -72,21 +94,22 @@ export function Nav({ locale = "en" }: LocaleProps) {
 
   // Closed links leave the tab order only once JavaScript can open them again.
   const linkTab = hydrated && !open ? -1 : undefined;
-  const nextTheme = theme === "dark" ? "light" : "dark";
+  const nextMode = nextThemeMode(themeMode);
+  const modeLabel = { auto: copy.themeAuto, light: copy.themeLight, dark: copy.themeDark };
+  // Cycles auto → light → dark → auto. The name says the current mode and
+  // contains the visible label, so voice control can target it.
   const themeButton = (className: string, withLabel = false, tabIndex?: number) => (
     <button
       type="button"
       tabIndex={tabIndex}
-      onClick={() => setTheme(nextTheme)}
-      aria-label={withLabel ? undefined : nextTheme === "dark" ? copy.toDark : copy.toLight}
+      onClick={() => setThemeMode(nextMode)}
+      aria-label={`${copy.theme}: ${modeLabel[themeMode]}`}
+      title={withLabel ? undefined : `${copy.theme}: ${modeLabel[themeMode]}`}
       className={className}
-      {...trackAttrs("theme_toggle", { theme_choice: nextTheme })}
+      {...trackAttrs("theme_toggle", { theme_choice: nextMode })}
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
-      </svg>
-      {withLabel && (nextTheme === "dark" ? copy.themeDark : copy.themeLight)}
+      <ThemeIcon mode={themeMode} />
+      {withLabel && modeLabel[themeMode]}
     </button>
   );
 

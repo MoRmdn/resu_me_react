@@ -42,10 +42,10 @@ Shows which project or section outside links send visitors straight to.
 
 ### `theme_toggle`
 
-Shows how many visitors prefer the dark theme over the light default.
+Shows how many visitors override the automatic theme, and whether they pick light or dark.
 
 - **Fires on:** A click on the theme toggle in the nav.
-- **Sentence:** Switched to the {theme_choice} theme
+- **Sentence:** Switched the theme to {theme_choice}
 - **Params:** `theme_choice`
 
 ### `language_switch`
@@ -335,7 +335,7 @@ Shows how visitors answer the notice, which explains gaps in European data.
 
 | Parameter | Type | Values | Description |
 |---|---|---|---|
-| `theme_choice` | string | light, dark | The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping. |
+| `theme_choice` | string | auto, light, dark | The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way. |
 | `target_locale` | string | en, ar | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | `event_description` | string |  | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
 | `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
@@ -399,7 +399,7 @@ reports until they are registered, and registering is not retroactive.
 
 | Dimension name | Event parameter | Description |
 |---|---|---|
-| Theme choice | `theme_choice` | The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping. |
+| Theme choice | `theme_choice` | The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way. |
 | Target language | `target_locale` | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | Event description | `event_description` | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
 | Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |

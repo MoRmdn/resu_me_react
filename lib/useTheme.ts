@@ -1,15 +1,15 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { currentTheme, type Theme } from "./theme";
+import { currentThemeMode, type ThemeMode } from "./theme";
 
 function subscribe(onChange: () => void) {
   const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme-mode"] });
   return () => observer.disconnect();
 }
 
-/** The active theme; null in server HTML, where it is not known yet. */
-export function useTheme(): Theme | null {
-  return useSyncExternalStore(subscribe, currentTheme, () => null);
+/** The visitor's theme choice (auto, light or dark); null in server HTML. */
+export function useThemeMode(): ThemeMode | null {
+  return useSyncExternalStore(subscribe, currentThemeMode, () => null);
 }

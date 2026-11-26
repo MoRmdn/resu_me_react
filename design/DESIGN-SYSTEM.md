@@ -28,8 +28,8 @@ Codename: **Obsidian & Copper**.
 
 ## 1. Color
 
-Light ("Ledger") is the default. Dark ("Obsidian") follows the system setting
-or the nav toggle. The token **names** are roles shared by both themes:
+Light ("Ledger") and dark ("Obsidian") follow the system setting by default
+(auto). The nav toggle cycles auto → light → dark, and a manual choice is kept. The token **names** are roles shared by both themes:
 `ink-*` are the ground planes, `bone*` the foreground ramp. Values live in
 `app/globals.css`: light in `@theme`, dark under `:root[data-theme="dark"]`
 and `@media (prefers-color-scheme: dark)` for visitors without JavaScript.
@@ -174,7 +174,7 @@ Use the `--ink-700` surface, `--r-lg` radius, and a neutral hairline. Interactiv
 ### Navigation
 - **Island.** A fixed 56px pill, centred, on `ink-800` with a hairline and the
   soft shadow: the mark, the section toggle (progress ring, active section,
-  `n/6`), the section links that slide open beside it (with the theme toggle),
+  `n/6`), the section links that slide open beside it (with the auto / light / dark theme toggle),
   the language switch and the ink Hire me. The progress ring is a conic
   gradient fed by a `--progress` variable written in a rAF scroll callback, with
   no React state. Below `lg` the links open as a sheet under the island

@@ -9,8 +9,8 @@ The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
 was invisible to search engines, screen readers and Cmd+F. **Anything that puts
 content back out of reach of a crawler defeats the point of this repo.**
 
-Design direction: **Ledger** (light, the default) with **Obsidian** as the dark
-theme, one copper accent in both. `design/` is the authority for anything
+Design direction: **Ledger** (light) and **Obsidian** (dark), one copper accent
+in both. The default theme mode is **auto**: it follows the system setting. `design/` is the authority for anything
 visual — read `design/DESIGN-SYSTEM.md` before touching UI.
 
 ---
@@ -250,12 +250,14 @@ AYCO's home screen) load eagerly. The ledger
 strip's values are derived from `content/` (first experience year, current
 role), so they move with the data.
 
-**The theme is set before first paint.** An inline script, first in `<body>`
-(`components/DocumentShell.tsx`), reads `localStorage.theme` or the system
-setting and sets `data-theme` on `<html>`, which carries
-`suppressHydrationWarning` for that reason. Keep its key in step with
-`lib/theme.ts`. Do not move the theme into React state that renders on the
-server: the HTML would ship one theme and flash to the other.
+**The theme is set before first paint.** `themeScript` in `lib/theme.ts` runs
+inline, first in `<body>` (`components/DocumentShell.tsx`). It reads
+`localStorage.theme` (`light` or `dark`; absent means auto), sets the resolved
+`data-theme` and the choice `data-theme-mode` on `<html>`, which carries
+`suppressHydrationWarning` for that reason, and stays subscribed so auto
+follows an OS theme change live. The nav toggle cycles auto → light → dark;
+choosing auto removes the key. Do not move the theme into React state that
+renders on the server: the HTML would ship one theme and flash to the other.
 
 **The Archivo file is instanced, not the Google original.** It carries only
 `wght 400–600` and `wdth 100–118` (Ledger's display width). A heavier weight or
