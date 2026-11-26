@@ -1,0 +1,54 @@
+{
+  "_help": [
+    "This is the one file to edit when you want different words or different chapters in the reel.",
+    "Numbers are never typed here: {clients}, {countries}, {reviews}, {world} and {next} (countries + 1) are filled in from content/clients.json and the review counts when the film renders.",
+    "Pick the opening with `opener` (or --opener=name on the command line) and the last line with `closer` (or --closer=name). Add your own entry to `openers` or `closers` and it is available by name.",
+    "Keep an opening headline to about 12 characters: it is one line, 150px, and it must not run into the planet.",
+    "One chapter is one review card. `view` is [longitude, latitude] of the planet and `r` its size: give them on the first chapter of a site and the later chapters of that site reuse them, with no new lines drawn. `hold` is reading time in seconds; leave it out and it is worked out from the length of the quote (4.2 to 8 seconds).",
+    "Chapters run in the order listed. Put the site with the smallest reach first so every site lights more of the map than the one before.",
+    "`voice` stays false unless exports/video/voice/ was recorded for this exact chapter list: the clips are timed to a film, not to a script.",
+    "`review` must be an id from content/reviews.json on that same `site`. Quotes are verbatim, so fix nothing there.",
+    "Full guide: docs/REEL.md"
+  ],
+
+  "brand": "mormdn.com",
+  "hud": "World domination",
+
+  "opener": "desk",
+  "openers": {
+    "desk": { "eyebrow": "Mansoura, Egypt", "headline": "One desk.", "sub": "Every line starts here." },
+    "clients": { "eyebrow": "Mansoura, Egypt", "headline": "{clients} clients.", "sub": "Here is where they are." },
+    "countries": { "eyebrow": "Mansoura, Egypt", "headline": "{countries} countries.", "sub": "One desk." },
+    "reviews": { "eyebrow": "Mansoura, Egypt", "headline": "{reviews} reviews.", "sub": "Every one of them five stars." },
+    "start": { "eyebrow": "Software Engineer", "headline": "Start here.", "sub": "Mansoura, Egypt." },
+    "mansoura": { "eyebrow": "Egypt", "headline": "Mansoura.", "sub": "Where every line starts." }
+  },
+
+  "finale": {
+    "eyebrow": "Where they are",
+    "headline": ["World", "domination"],
+    "percent": true,
+    "stats": ["{clients} clients. {countries} countries.", "{reviews} reviews, all five stars."]
+  },
+
+  "closer": "next",
+  "closers": {
+    "next": "Yours could be {next}.",
+    "country": "Your country could be next.",
+    "hello": "Say hello.",
+    "yours": "Start yours here."
+  },
+
+  "voice": false,
+
+  "chapters": [
+    { "site": "upwork", "review": "upwork-lpermis", "view": [16, 14], "r": 900 },
+    { "site": "upwork", "review": "upwork-lpermis-pro" },
+    { "site": "freelancer", "review": "freelancer-islam-payments", "view": [18, 20], "r": 980 },
+    { "site": "freelancer", "review": "freelancer-hashim" },
+    { "site": "freelancer", "review": "freelancer-emiliano" },
+    { "site": "khamsat", "review": "khamsat-bassam", "view": [32, 12], "r": 720 },
+    { "site": "fiverr", "review": "fiverr-asma", "view": [-10, 24], "r": 620 },
+    { "site": "fiverr", "review": "fiverr-mihai" }
+  ]
+}

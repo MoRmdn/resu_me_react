@@ -1,9 +1,8 @@
 import type { SkillGroup } from "./types";
 
 /**
- * Six groups — the Skills section is composed as six numbered plates (01-06)
- * staggered on a 7/5 split, so new capabilities fold into an existing group
- * rather than adding a seventh.
+ * Six groups — the Skills section is composed as six staggered plates, so new
+ * capabilities fold into an existing group rather than adding a seventh.
  *
  * Extended from the CV's TECHNICAL SKILLS section: the Firebase
  * back-end surface, offline-first sync, on-device PDF, barcode/QR, RTL
@@ -12,6 +11,9 @@ import type { SkillGroup } from "./types";
  * "Moyasar" was previously misspelled "Moyaser". September 2026 added the
  * front-end and Supabase capabilities, all exercised in JS Quest.
  */
+/** The depth: the only filled chips in the Skills plates. */
+export const coreSkills = ["Dart", "Flutter"];
+
 export const skillGroups: SkillGroup[] = [
   {
     label: "Languages & frameworks",
@@ -80,7 +82,7 @@ export const skillGroups: SkillGroup[] = [
 ];
 
 /** The marquee strip — short names only, and deliberately not the full skill list. */
-export const marqueeItems = [
+export const technologyStripItems = [
   "Dart",
   "Flutter",
   "Bloc",

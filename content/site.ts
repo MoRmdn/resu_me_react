@@ -11,7 +11,7 @@ export const site = {
   description:
     "Mohamed Ramadan — software engineer in Mansoura, Egypt. Five years building cross-platform mobile and web apps in Flutter for teams in six countries. Bloc, GetX, Cubit, Firebase, clean architecture.",
   designCodename: "Obsidian & Copper",
-  designVersion: "v2.0",
+  designVersion: "v2.1",
 
   /**
    * When the page's content last actually changed. Feeds both the sitemap's
@@ -23,7 +23,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-11-07",
+  contentLastChanged: "2026-11-25",
 } as const;
 
 export const contact = {

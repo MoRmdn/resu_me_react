@@ -40,14 +40,14 @@ export default function PrivacyPage({ locale = "en" }: LocaleProps) {
           <p className="mt-4 text-caption text-bone-52">{privacyCopy.updated}</p>
 
           <div className="mt-12 rounded-lg border border-line bg-ink-700 p-7 elevation-card">
-            <h2 className="text-h3">{privacyCopy.choiceTitle}</h2>
+            <h2 className="text-h3 [font-variation-settings:normal]">{privacyCopy.choiceTitle}</h2>
             <p className="mt-3 mb-6 text-body text-bone-70">{privacyCopy.choiceBody}</p>
             <ConsentControl locale={locale} />
           </div>
 
           {privacyCopy.sections.map((section) => (
             <section key={section.title} className="mt-12">
-              <h2 className="text-h3">{section.title}</h2>
+              <h2 className="text-h3 [font-variation-settings:normal]">{section.title}</h2>
               <ul className="mt-4 border-t border-line">
                 {section.items.map((item) => (
                   <li key={item} className="border-b border-line py-3.5 text-body text-bone-70">
@@ -59,7 +59,7 @@ export default function PrivacyPage({ locale = "en" }: LocaleProps) {
           ))}
 
           <section className="mt-12">
-            <h2 className="text-h3">{privacyCopy.contactTitle}</h2>
+            <h2 className="text-h3 [font-variation-settings:normal]">{privacyCopy.contactTitle}</h2>
             <p className="mt-4 text-body text-bone-70">
               {privacyCopy.contactBody}{" "}
               <a

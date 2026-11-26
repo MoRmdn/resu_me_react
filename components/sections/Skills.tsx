@@ -1,75 +1,60 @@
+import { stagger } from "@/lib/motion";
 import type { LocaleProps } from "@/content/locale";
-import { getCopy, ui } from "@/content/copy-i18n";
+import { getCopy } from "@/content/copy-i18n";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getSkills } from "@/content/profile-i18n";
+import { coreSkills } from "@/content/skills";
+import { cn } from "@/lib/cn";
 
 /**
- * Six numbered plates on the 7/5 split, replacing v1's flat hairline table.
- *
- * Every second plate indents (see `.plate` in globals.css) so the stack reads
- * as a stagger rather than a list. Group 01 spends the section's single Tier 2
- * copper on its label; no other plate is accented. The oversized index numeral is bone at 10% — decorative,
- * below the contrast floor by design, and hidden from assistive tech.
+ * Ledger plates: the blurb on the left, one plate per group on the right.
+ * Every second plate sits lower on wide screens so the grid reads laid by
+ * hand; the core skills are the only filled chips.
  */
 export function Skills({ locale = "en" }: LocaleProps) {
   const { skillsCopy } = getCopy(locale);
-  const copy = ui[locale];
   const skillGroups = getSkills(locale);
   return (
-    <Section id="skills" className="skills-section" tone="ink-800" z={18} offset={112}>
-      <div className="mb-16 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-20">
-        <div>
-          <Eyebrow>{skillsCopy.eyebrow}</Eyebrow>
-          <h2 className="mt-6 text-display-l">{skillsCopy.headline}</h2>
+    <Section id="skills" tone="ink-800">
+      <div className="grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
+        <div data-reveal>
+          <Eyebrow index={4}>{skillsCopy.eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-display-l">{skillsCopy.headline}</h2>
+          <p className="mt-5 max-w-[36ch] text-body text-bone-70">{skillsCopy.blurb}</p>
         </div>
-        <p className="max-w-[46ch] text-body text-bone-70">{skillsCopy.blurb}</p>
-      </div>
 
-      <div className="flex flex-col gap-2.5">
-        {skillGroups.map((group, i) => (
-          <div
-            key={group.label}
-            className="plate rounded-lg bg-ink-700 p-7 elevation-card transition-[border-color,background-color] duration-fast ease-fast hover:border-copper/35 hover:bg-ink-600 md:p-[30px_34px]"
-            style={{ "--plate-delay": `${Math.min(i * 0.06, 0.3)}s` } as React.CSSProperties}
-          >
-            <div className="grid items-start gap-8 lg:grid-cols-[7fr_5fr] lg:gap-12">
-              <div className="flex items-start gap-6.5">
-                {/* Decorative index, drawn by CSS from the attribute. As a text
-                    node, bone-10 fails the contrast audit even under
-                    aria-hidden; generated content is not text a reader needs. */}
-                <span
-                  aria-hidden
-                  data-index={String(i + 1).padStart(2, "0")}
-                  className="hidden shrink-0 font-mono text-[3.5rem] leading-[0.9] text-bone-10 tabular before:content-[attr(data-index)] sm:block"
-                />
-                <div className="flex flex-col gap-2.5 pt-1.5">
-                  <h3
-                    className={`font-mono text-[clamp(1.125rem,2.2vw,1.625rem)] leading-tight tracking-[-0.01em] ${
-                      group.highlighted ? "text-copper" : "text-bone"
-                    }`}
-                  >
-                    {group.label}
-                  </h3>
-                  <p className="eyebrow text-bone-52">
-                    {group.items.length} {copy.capabilities}
-                  </p>
-                </div>
-              </div>
-
-              <ul className="flex flex-wrap gap-1.5 pt-2">
-                {group.items.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-sm border border-line px-2.5 py-1.5 text-[0.8125rem] text-bone-70"
-                  >
-                    {item}
-                  </li>
-                ))}
+        <ul className="grid items-start gap-4 sm:grid-cols-2">
+          {skillGroups.map((group, i) => (
+            <li
+              key={group.label}
+              data-reveal
+              style={stagger(i)}
+              className={cn(
+                "rounded-lg border border-line bg-ink-700 p-6",
+                i % 2 === 1 && "sm:mt-10",
+              )}
+            >
+              <h3 className="text-[1.0625rem] leading-snug font-semibold">{group.label}</h3>
+              <ul className="mt-4 flex flex-wrap gap-1.5 text-[0.875rem]">
+                {group.items.map((item) => {
+                  const core = coreSkills.includes(item);
+                  return (
+                    <li
+                      key={item}
+                      className={cn(
+                        "rounded-sm px-2.5 py-1",
+                        core ? "bg-bone font-medium text-ink-900" : "border border-line-strong text-bone-70",
+                      )}
+                    >
+                      <bdi>{item}</bdi>
+                    </li>
+                  );
+                })}
               </ul>
-            </div>
-          </div>
-        ))}
+            </li>
+          ))}
+        </ul>
       </div>
     </Section>
   );

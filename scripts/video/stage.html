@@ -9,11 +9,11 @@
     --bone-78: rgb(242 238 231 / .78); --bone-62: rgb(242 238 231 / .62);
     --line: rgb(242 238 231 / .12);
     --gutter: 96px; --card: 780px; --quote: 44px; --quote-ar: 40px; --small: 28px;
-    --meta: 21px; --title: 124px; --display: 100px; --sub: 36px;
+    --meta: 21px; --title: 124px; --display: 100px; --sub: 36px; --logo: 40px;
   }
   body.portrait {
-    --gutter: 64px; --card: 952px; --quote: 58px; --quote-ar: 52px; --small: 36px;
-    --meta: 26px; --title: 150px; --display: 130px; --sub: 42px;
+    --gutter: 64px; --card: 952px; --quote: 42px; --quote-ar: 52px; --small: 36px;
+    --meta: 22px; --title: 150px; --display: 130px; --sub: 42px; --logo: 38px;
   }
   * { box-sizing: border-box; margin: 0; }
   html, body { overflow: hidden; background: var(--ink-900); }
@@ -36,38 +36,41 @@
   #intro p { margin-top: 28px; font-size: var(--sub); font-weight: 500; letter-spacing: -.01em;
     color: var(--bone-78); }
 
-  .card { left: var(--gutter); width: var(--card); padding: 40px 44px 36px;
-    border: 1px solid var(--line); border-radius: 14px; background: var(--ink-700);
+  .card { left: var(--gutter); width: var(--card); padding: 38px 44px 32px;
+    border: 1px solid color-mix(in srgb, var(--brand) 38%, transparent); border-radius: 14px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 9%, var(--ink-700)), var(--ink-700) 150px);
     overflow: hidden; }
-  body.portrait .card { padding: 48px 56px 44px; }
-  .card__wipe { position: absolute; inset: 0 0 auto; height: 3px; background: var(--brand);
+  body.portrait .card { padding: 26px 34px 22px; }
+  .card__wipe { position: absolute; inset: 0 0 auto; height: 4px; background: var(--brand);
     transform-origin: left; }
-  .card__glyph { position: absolute; right: 30px; bottom: 56px; font-size: 280px; font-weight: 600;
+  .card__glyph { display: none; position: absolute; right: 30px; bottom: 56px; font-size: 280px; font-weight: 600;
     line-height: .6; color: rgb(242 238 231 / .05); }
   .card__top { position: relative; display: flex; align-items: center; justify-content: space-between; }
-  .card__mark { color: var(--brand); height: 34px; display: flex; align-items: center; }
-  .card__mark svg { height: 100%; width: auto; display: block; fill: currentColor; }
+  .card__mark { color: var(--brand); display: flex; align-items: center; gap: 14px; }
+  .card__mark svg { height: var(--logo); width: auto; display: block; fill: currentColor; }
+  .card__mark.is-wordmark svg { height: calc(var(--logo) * .72); }
+  .card__site { font-size: calc(var(--logo) * .66); font-weight: 600; letter-spacing: -.02em; color: var(--bone); }
   .card__rating { display: flex; align-items: center; gap: 12px;
     font: 500 var(--meta)/1 "JetBrains Mono", monospace; color: var(--bone-78); }
   .card__stars { display: flex; gap: 4px; color: var(--brand); }
-  .card__stars svg { width: 24px; height: 24px; display: block; fill: currentColor; }
-  .card__quote { position: relative; margin-top: 34px; font-size: var(--quote); line-height: 1.28;
+  .card__stars svg { width: 20px; height: 20px; display: block; fill: currentColor; }
+  .card__quote { position: relative; margin-top: 16px; font-size: calc(var(--quote) * var(--fit, 1)); line-height: 1.28;
     font-weight: 500; letter-spacing: -.015em; white-space: pre-line; }
-  .card__quote.is-long { font-size: calc(var(--quote) * .84); line-height: 1.32; }
-  .card__quote[lang="ar"] { font-family: "IBM Plex Sans Arabic", sans-serif;
-    font-size: var(--quote-ar); line-height: 1.6; letter-spacing: 0; }
-  .card__label { position: relative; margin-top: 26px; font: 500 var(--meta)/1 "JetBrains Mono", monospace;
+  .card__quote.is-long { font-size: calc(var(--quote) * .84 * var(--fit, 1)); line-height: 1.3; }
+  .card__quote.is-xlong { font-size: calc(var(--quote) * .76 * var(--fit, 1)); line-height: 1.3; }
+  .card__label { position: relative; margin-top: 12px; font: 500 calc(var(--meta) * .86)/1 "JetBrains Mono", monospace;
     letter-spacing: .12em; text-transform: uppercase; color: var(--bone-62); }
-  .card__translation { position: relative; margin-top: 14px; font-size: var(--small); line-height: 1.4;
-    color: var(--bone-78); }
-  .card__foot { position: relative; margin-top: 34px; padding-top: 22px;
+  /* The Arabic original sits under its translation, smaller and quieter. */
+  .card__original { display: none; position: relative; margin-top: 12px; font-family: "IBM Plex Sans Arabic", sans-serif;
+    font-size: calc(var(--quote-ar) * .66 * var(--fit, 1)); line-height: 1.6; color: var(--bone-78); }
+  .card__foot { position: relative; margin-top: 16px; padding-top: 12px;
     border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
   .card__author { font-size: 28px; font-weight: 600; display: flex; align-items: center; gap: 14px; }
-  body.portrait .card__author { font-size: 34px; }
+  body.portrait .card__author { font-size: 28px; }
   .card__repeat { font: 500 17px/1 "JetBrains Mono", monospace; letter-spacing: .08em;
     text-transform: uppercase; color: var(--ink-900); background: var(--brand);
     padding: 7px 10px; border-radius: 5px; }
-  body.portrait .card__repeat { font-size: 21px; }
+  body.portrait .card__repeat { font-size: 17px; }
   .card__meta { margin-top: 10px; font: 400 var(--meta)/1.35 "JetBrains Mono", monospace; color: var(--bone-62); }
 
   .tag { left: var(--gutter); display: flex; align-items: baseline; gap: 12px; white-space: nowrap;
@@ -75,6 +78,7 @@
     padding: 10px 14px; background: rgb(10 10 12 / .82); border: 1px solid var(--line); border-radius: 7px; }
   body.portrait .tag { font-size: 28px; }
   .tag span { color: var(--copper); letter-spacing: .02em; text-transform: none; }
+  .tag em { font-style: normal; color: var(--bone-62); letter-spacing: .06em; margin-left: 6px; }
 
   #hud { left: var(--gutter); right: var(--gutter); bottom: 96px; display: flex;
     justify-content: space-between; }
@@ -100,15 +104,15 @@
   <canvas id="scene"></canvas>
   <div id="brand" class="layer"></div>
   <div id="intro" class="layer">
-    <div class="eyebrow">Mansoura, Egypt</div>
-    <h1>One desk.</h1>
-    <p id="intro-sub">Every line starts here.</p>
+    <div class="eyebrow" id="intro-eyebrow"></div>
+    <h1 id="intro-title"></h1>
+    <p id="intro-sub"></p>
   </div>
   <div id="cards"></div>
-  <div id="hud" class="layer eyebrow"><span>World domination</span><b id="hud-count"></b></div>
+  <div id="hud" class="layer eyebrow"><span id="hud-label"></span><b id="hud-count"></b></div>
   <div id="finale" class="layer">
-    <div class="eyebrow">Where they are</div>
-    <h1>World<br>domination <b id="percent"></b></h1>
+    <div class="eyebrow" id="finale-eyebrow"></div>
+    <h1><span id="finale-title"></span> <b id="percent"></b></h1>
     <p id="stats"></p>
     <div id="cta"><strong id="next"></strong><div id="site"></div></div>
   </div>

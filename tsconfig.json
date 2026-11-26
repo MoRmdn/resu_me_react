@@ -30,5 +30,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "exports"]
+  "exclude": ["node_modules", "exports", "My Portfolio"]
 }

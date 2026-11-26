@@ -5,50 +5,50 @@ import { getCopy, ui } from "@/content/copy-i18n";
 import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Reveal } from "@/components/motion/Reveal";
 
 import { contact, socials } from "@/content/site";
 import { getProfile } from "@/content/profile-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
+import { stagger } from "@/lib/motion";
 
 /**
  * No form. Enquiries used to land in a Firebase console; they now go straight
  * to a channel Mohamed already watches, and the world-writable database path
  * that fed the form is closed.
  *
- * The 5fr/7fr split is inverted here — the only section that does that — and
- * WhatsApp, as the first channel, holds this viewport's single Tier 1 copper
- * fill (DESIGN-SYSTEM v2 §1.3).
+ * The ink band: Contact and the footer keep the dark palette in both themes
+ * (the `band` class), the ledger's closing page. WhatsApp, as the first
+ * channel, holds this viewport's single copper fill.
  */
 export function Contact({ locale = "en" }: LocaleProps) {
   const { contactCopy } = getCopy(locale);
   const copy = ui[locale];
   const { channels } = getProfile(locale);
   return (
-    <Section id="contact" tone="ink-800" z={20} offset={-40}>
+    <Section id="contact" tone="ink-900" className="band text-bone" border={false}>
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
-        <div>
-          <Reveal>
-            <Eyebrow>{contactCopy.eyebrow}</Eyebrow>
-            <h2 className="mt-6 text-display-l text-balance">
+        <div data-reveal>
+          <div>
+            <Eyebrow index={6}>{contactCopy.eyebrow}</Eyebrow>
+            <h2 className="mt-4 text-display-xl">
               <span className="block">{contactCopy.headline[0]}</span>
               <span className="block">{contactCopy.headline[1]}</span>
             </h2>
             <p className="mt-7 max-w-[46ch] text-body-l text-bone-70">{contactCopy.blurb}</p>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.1}>
+          <div>
             <div className="mt-10 flex items-center gap-3 border-t border-line pt-7">
-              <span className="pulse-dot size-1.5 rounded-full bg-jade" aria-hidden />
+              <span className="size-1.5 rounded-full bg-jade" aria-hidden />
               <div>
                 <p className="eyebrow text-bone-52">{contactCopy.availabilityLabel}</p>
                 <p className="mt-1.5 text-body text-bone-70">{contactCopy.availability}</p>
               </div>
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.16}>
+          <div>
             <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
               {socials.map((s) => (
                 <li key={s.label}>
@@ -74,11 +74,11 @@ export function Contact({ locale = "en" }: LocaleProps) {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
         </div>
 
-        <Reveal delay={0.06}>
-          <div className="rounded-lg border border-line bg-ink-700 p-7 elevation-card md:p-9">
+        <div>
+          <div data-reveal style={stagger(1)} className="rounded-lg border border-line bg-ink-700 p-7 elevation-card md:p-9">
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-line pb-5">
               <p className="eyebrow text-bone-52">{contactCopy.channelsLabel}</p>
               <p className="text-caption text-bone-52">{contactCopy.channelsNote}</p>
@@ -92,7 +92,7 @@ export function Contact({ locale = "en" }: LocaleProps) {
               ))}
             </ul>
           </div>
-        </Reveal>
+        </div>
       </div>
     </Section>
   );
@@ -109,7 +109,7 @@ function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocalePr
     <div
       className={cn(
         "group relative flex h-full flex-col gap-2 p-5 transition-colors duration-fast ease-fast",
-        isPrimary ? "bg-copper text-ink-900" : "hover:bg-ink-600",
+        isPrimary ? "bg-copper text-on-copper" : "hover:bg-ink-600",
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -125,14 +125,14 @@ function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocalePr
             channel_placement: "contact_grid",
           })}
         >
-          <span className={isPrimary ? "text-ink-900" : "text-bone-52"}>{channel.label}</span>
+          <span className={isPrimary ? "text-on-copper" : "text-bone-52"}>{channel.label}</span>
           {isExternal && <span className="sr-only">{copy.external}</span>}
         </a>
         <span
           aria-hidden
           className={cn(
-            "shrink-0 text-[0.75rem] transition-transform duration-fast ease-fast group-hover:translate-x-0.5",
-            isPrimary ? "text-ink-900/70" : "text-bone-28",
+            "shrink-0 text-[0.75rem] transition-transform duration-fast ease-fast group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5",
+            isPrimary ? "text-on-copper/70" : "text-bone-28",
           )}
         >
           {isExternal ? "↗" : "→"}
@@ -142,7 +142,7 @@ function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocalePr
       <p
         className={cn(
           "font-mono text-[0.8125rem] break-all",
-          isPrimary ? "text-ink-900" : "text-bone",
+          isPrimary ? "text-on-copper" : "text-bone",
         )}
       >
         <bdi dir="ltr">{channel.handle}</bdi>
@@ -150,7 +150,7 @@ function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocalePr
 
       {/* The note follows the handle in every cell; only the copy button is
           pushed to the foot, so notes stay on a common baseline across the row. */}
-      <p className={cn("text-[0.75rem]", isPrimary ? "text-ink-900/70" : "text-bone-52")}>
+      <p className={cn("text-[0.75rem]", isPrimary ? "text-on-copper/70" : "text-bone-52")}>
         {channel.note}
       </p>
 

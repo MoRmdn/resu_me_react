@@ -2,6 +2,7 @@ import * as en from "./copy";
 import type { Locale } from "./locale";
 import { reviewTotal, reviewPlatforms } from "./reviews";
 import { clientCountries } from "./clients";
+import { metrics } from "./site";
 
 export const ui = {
   en: {
@@ -14,6 +15,12 @@ export const ui = {
     hire: "Hire me",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    sections: "Sections",
+    intro: "Intro",
+    toDark: "Switch to the dark theme",
+    toLight: "Switch to the light theme",
+    themeDark: "Dark",
+    themeLight: "Light",
     skip: "Skip to content",
     credentials: "Credentials",
     external: "(opens in a new tab)",
@@ -49,6 +56,12 @@ export const ui = {
     hire: "لنعمل معًا",
     openMenu: "فتح القائمة",
     closeMenu: "إغلاق القائمة",
+    sections: "الأقسام",
+    intro: "البداية",
+    toDark: "التبديل إلى الوضع الداكن",
+    toLight: "التبديل إلى الوضع الفاتح",
+    themeDark: "داكن",
+    themeLight: "فاتح",
     skip: "انتقل إلى المحتوى",
     credentials: "التعليم والشهادات",
     external: "(يفتح في علامة تبويب جديدة)",
@@ -80,24 +93,35 @@ const ar: typeof en = {
   ...en,
   hero: {
     ...en.hero,
-    status: "متاح للعمل",
-    place: "المنصورة، مصر · UTC+3",
-    headline: ["تطبيقات Flutter", "من الفكرة", "إلى الإطلاق."],
+    place: "المنصورة، مصر",
+    status: "متاح لمشاريع جديدة",
+    role: "مهندس برمجيات",
+    headline: ["أبني تطبيقات تضع العربية أولًا، لأعمال من المغرب إلى عُمان"],
     intro:
-      "أنا محمد رمضان، مهندس برمجيات بخبرة تتجاوز خمس سنوات في بناء تطبيقات الهاتف والويب لفرق في ست دول. أستخدم Bloc وGetX وCubit والبنية النظيفة لبناء تطبيقات سريعة وسهلة الصيانة.",
-    primaryCta: { ...en.hero.primaryCta, label: "شاهد الأعمال" },
+      "أنا محمد رمضان. منذ خمس سنوات أبني منتجات للهاتف والويب لسبعة فرق في ست دول، ببنية واضحة يستطيع المطور التالي أن يكمل عليها.",
+    primaryCta: { ...en.hero.primaryCta, label: "ابدأ مشروعًا" },
+    secondaryCta: { ...en.hero.secondaryCta, label: "استعرض الأعمال" },
     resumeCta: { ...en.hero.resumeCta, label: "تنزيل السيرة الذاتية (بالإنجليزية)" },
-    trackRecordLabel: "الخبرة بالأرقام",
-    viewsLabel: "زيارة للصفحة",
-    trackRecord: en.hero.trackRecord.map((item, i) => ({
-      ...item,
-      label: ["سنوات في تطوير Flutter", "تطبيقات ومنتجات مختارة", "فرق عمل في ست دول"][i],
-    })),
+    ledger: {
+      basedIn: "المقر",
+      since: "أُطلق التطبيقات منذ",
+      teams: "الفرق",
+      teamsValue: `${metrics.teams} فرق في ${metrics.countries} دول`,
+      now: "الآن",
+      nowProduct: "NAAS",
+      nowJoin: "في",
+    },
+    figureCaption: "شاشات من ثلاثة تطبيقات منشورة",
+    promos: [
+      { ...en.hero.promos[0], alt: "صورة متجر Lpermis: شاشة الحجز تحت عنوان عربي" },
+      { ...en.hero.promos[1], alt: "الشاشة الرئيسية لتطبيق AYCO بعنوان تقارير صيانة بلا ورق" },
+      { ...en.hero.promos[2], alt: "صورة متجر مطبب: دليل المستشفيات تحت عنوان عربي" },
+    ],
   },
   about: {
     ...en.about,
-    eyebrow: "01 / نبذة عني",
-    headline: ["درست المعلوماتية الحيوية،", "ووجدت شغفي", "في بناء التطبيقات."],
+    eyebrow: "نبذة عني",
+    headline: ["درست المعلوماتية الحيوية،", "ووجدت شغفي في بناء التطبيقات"],
     lede: "أبني تطبيقات متعددة المنصات تمنح المستخدم تجربة طبيعية: تشغيل سريع، وتفاعل سلس، وحالة واضحة في كل خطوة.",
     body: [
       "كان مشروع تخرجي تطبيقًا لتحليل البيانات وعرضها على الهاتف، ومنه بدأت الرحلة. منذ ذلك الحين قدت منتجات من ملف `main.dart` فارغ إلى الإطلاق: منصة لتعليم القيادة في المغرب، وتطبيقًا طبيًا في ليبيا، ومنتجًا للتوفيق بين العملاء ومقدمي الخدمات في السعودية، وسوقًا متعدد البائعين في تركيا، ونظام تقارير صيانة ميدانية بنيته بمفردي. تختلف المجالات، لكن منهجي ثابت: إدارة واضحة للحالة، وبنية تسهّل عمل المطور التالي، واختبارات للوحدات والواجهات حيث تضيف قيمة.",
@@ -121,17 +145,16 @@ const ar: typeof en = {
     builtLabel: "تطبيق عملي",
   },
   experienceCopy: {
-    eyebrow: "02 / الخبرة",
-    headline: "سبعة فرق في ست دول.",
-    hint: "اضغط على الوظيفة لعرض التفاصيل",
+    eyebrow: "الخبرة",
+    headline: "سبعة فرق في ست دول",
     currentBadge: "حاليًا",
-    bandAxisNote: "المدة · اختر شريطًا",
-    bandCaption: "تداخلت أربع من هذه الوظائف خلال عام 2024؛ وكان معظمها عن بُعد وبدوام جزئي.",
+    bandCaption:
+      "طول الشريط هو مدة العمل في الدور. تداخلت أربع من هذه الوظائف خلال عام 2024، وكان معظمها عن بُعد وبدوام جزئي.",
   },
   projectsCopy: {
     ...en.projectsCopy,
-    eyebrow: "03 / المشاريع",
-    headline: "تطبيقات ومنتجات مختارة.",
+    eyebrow: "المشاريع",
+    headline: "تطبيقات ومنتجات مختارة",
     countLabel: (n) => `${n} مشروعًا مختارًا`,
     privateLabel: "مشروع خاص لعميل · دون رابط عام",
     websiteLabel: "زيارة الموقع",
@@ -144,8 +167,8 @@ const ar: typeof en = {
     socialLabel: "تصاميم المتجر والتواصل الاجتماعي",
     screensLabel: (title) => `شاشات ${title}`,
     galleryEyebrow: "المعرض",
-    galleryHeadline: "المزيد من الأعمال.",
-    galleryNote: (n) => `${n} مشاريع أخرى · اضغط لعرض التفاصيل`,
+    galleryHeadline: "المزيد من الأعمال",
+    galleryNote: (n) => `${n} مشاريع أخرى`,
     storyLabels: {
       problem: "المشكلة",
       responsibility: "مسؤوليتي",
@@ -162,15 +185,15 @@ const ar: typeof en = {
     },
   },
   skillsCopy: {
-    eyebrow: "04 / المهارات",
-    headline: "أدوات العمل.",
+    eyebrow: "المهارات",
+    headline: "أدوات العمل",
     blurb:
       "خبرة متعمقة في Dart وFlutter وإدارة الحالة والمدفوعات، ومعرفة عملية بالخدمات الخلفية والبيانات والتصميم لتسهيل التعاون بين الفريق.",
   },
   reviewsCopy: {
     ...en.reviewsCopy,
-    eyebrow: "05 / التقييمات",
-    headline: `${reviewTotal} تقييمًا وعملًا.`,
+    eyebrow: "التقييمات",
+    headline: `${reviewTotal} تقييمًا وعملًا`,
     blurb:
       "تقييمات وأعمال عبر منصات العمل الحر. النصوص الأصلية منقولة كما كتبها العملاء، والترجمات موضّحة ويمكن الرجوع إلى الأصل.",
     note: "مجموعة منتقاة من التقييمات. القوائم الكاملة متاحة عبر روابط المنصات أعلاه.",
@@ -183,6 +206,7 @@ const ar: typeof en = {
     ...en.clientMapCopy,
     eyebrow: "مواقع العملاء",
     headline: "عملاء حول العالم",
+    coverageLabel: (percent) => `نسبة الدول حول العالم: ${percent}%`,
     blurb:
       "كل دولة مضاءة تضم عميلًا تعاونت معه عبر إحدى هذه المنصات الخمس. وتنطلق الخطوط من المنصورة، حيث أعمل.",
     mapLabel: `خريطة مواقع العملاء في ${clientCountries.length} دولة. الأرقام نفسها متاحة في القائمة التالية.`,
@@ -195,7 +219,7 @@ const ar: typeof en = {
     unplacedNote: (n) => `${n} عملاء آخرين لا تظهر دولهم للعامة، لذلك لا يظهرون على الخريطة.`,
   },
   contactCopy: {
-    eyebrow: "06 / تواصل معي",
+    eyebrow: "تواصل معي",
     headline: ["لديك تطبيق", "تريد بناءه؟"],
     blurb:
       "سواء كنت تبحث عن مهندس بدوام كامل، أو متعاون لمشروع، أو دعم لإطلاق متأخر، تواصل معي عبر القناة الأنسب لك وسأرد خلال يوم.",
@@ -261,6 +285,7 @@ const ar: typeof en = {
         items: [
           "يستخدم Google Analytics ملفات _ga لمدة تصل إلى عامين للتمييز بين الزيارات.",
           "يُحفظ اختيارك في هذا المتصفح حتى لا يتكرر السؤال في كل زيارة.",
+          "إذا اخترت الوضع الفاتح أو الداكن، يُحفظ هذا الاختيار في التخزين المحلي أيضًا، ولا شيء غيره.",
           "يزيد عداد الزيارات مرة لكل تحميل للصفحة ولا يحتفظ بمعلومات عنك.",
         ],
       },

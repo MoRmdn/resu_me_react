@@ -26,6 +26,13 @@ type ParamSpec = {
 };
 
 export const PARAMS = {
+  theme_choice: {
+    label: "Theme choice",
+    description:
+      "The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping.",
+    type: "string",
+    values: ["light", "dark"],
+  },
   target_locale: {
     label: "Target language",
     description:
@@ -69,11 +76,19 @@ export const PARAMS = {
     label: "Navigation location",
     description: "Which navigation surface held the link that was clicked.",
     type: "string",
-    values: ["header", "mobile_menu", "footer", "skip_link", "privacy_page", "consent_notice"],
+    values: [
+      "header",
+      "mobile_menu",
+      "section_rail",
+      "footer",
+      "skip_link",
+      "privacy_page",
+      "consent_notice",
+    ],
   },
   menu_action: {
     label: "Menu action",
-    description: "Whether the mobile menu was opened or closed.",
+    description: "Whether the navigation menu (the island's links, or the sheet on a phone) was opened or closed.",
     type: "string",
     values: ["open", "close"],
   },
@@ -183,6 +198,7 @@ export const PARAMS = {
       "arrow_keys",
       "menu_button",
       "backdrop",
+      "link",
     ],
   },
   link_type: {
@@ -384,8 +400,8 @@ export const EVENTS = {
   },
   nav_menu_toggle: {
     group: "Navigation",
-    description: "Shows how often phone visitors use the menu, and how they leave it.",
-    trigger: "The mobile menu opening or closing.",
+    description: "Shows how often visitors open the section menu, and how they leave it.",
+    trigger: "The nav island's section menu opening or closing.",
     params: ["menu_action", "toggle_method"],
   },
   cta_click: {
@@ -492,6 +508,12 @@ export const EVENTS = {
     params: ["link_text", "link_url"],
   },
 
+  theme_toggle: {
+    group: "Navigation",
+    description: "Shows how many visitors prefer the dark theme over the light default.",
+    trigger: "A click on the theme toggle in the nav.",
+    params: ["theme_choice"],
+  },
   language_switch: {
     group: "Navigation",
     description: "Measures visitors explicitly changing the portfolio language.",

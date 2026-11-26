@@ -26,6 +26,7 @@ export function ProjectImage({
   height,
   className,
   style,
+  loading = "lazy",
 }: {
   file: string;
   widths: number[];
@@ -35,6 +36,8 @@ export function ProjectImage({
   height: number;
   className?: string;
   style?: React.CSSProperties;
+  /** Eager only for images in the first viewport. */
+  loading?: "lazy" | "eager";
 }) {
   const real = availableWidths(file, widths);
   const set = (ext: string) =>
@@ -49,7 +52,7 @@ export function ProjectImage({
         alt={alt}
         width={width}
         height={height}
-        loading="lazy"
+        loading={loading}
         decoding="async"
         className={className}
         style={style}

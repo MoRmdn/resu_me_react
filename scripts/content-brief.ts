@@ -23,7 +23,7 @@ import {
 } from "../content/site";
 import { orderedProjects as projects } from "../content/projects";
 import { experiences } from "../content/experience";
-import { skillGroups, marqueeItems } from "../content/skills";
+import { skillGroups, technologyStripItems } from "../content/skills";
 import * as copy from "../content/copy";
 
 const out: string[] = [];
@@ -69,24 +69,22 @@ w("---");
 w();
 w("## Hero");
 w();
-w(`- Status chip: **${copy.hero.status}** · ${copy.hero.place}`);
+w(`- Location: **${copy.hero.place}**`);
 w("- Headline (the CTA carries the copper accent):");
 copy.hero.headline.forEach((l, i) => w(`  ${i + 1}. ${l}`));
 w(`- Intro: ${copy.hero.intro}`);
 w(
-  `- CTAs: **${copy.hero.primaryCta.label}** (primary) · ${copy.hero.secondaryCta.label} (ghost) · ${copy.hero.resumeCta.label} (text link)`,
+  `- CTAs: **${copy.hero.primaryCta.label}** (primary) · ${copy.hero.secondaryCta.label} (secondary)`,
 );
-w(`- Panel "${copy.hero.trackRecordLabel}" — three metrics that count up once in view:`);
-copy.hero.trackRecord.forEach((m) => w(`  - **${m.value}${m.suffix}** — ${m.label}`));
-w(
-  `- Plus a live "${copy.hero.viewsLabel}" figure streamed from Firebase (real number, changes on every load).`,
-);
+w("- Ledger strip:");
+w(`  - ${copy.hero.ledger.basedIn} · ${copy.hero.ledger.since} · ${copy.hero.ledger.teams}: ${copy.hero.ledger.teamsValue} · ${copy.hero.ledger.now}`);
+w(`- Figure: ${copy.hero.figureCaption} (${copy.hero.promos.map((p) => p.slug).join(", ")})`);
 w();
-w("## Tech marquee");
+w("## Technology strip");
 w();
-w(`${marqueeItems.length} items, infinite horizontal strip, pauses on hover:`);
+w(`${technologyStripItems.length} technologies:`);
 w();
-w(marqueeItems.join(" · "));
+w(technologyStripItems.join(" · "));
 w();
 w("---");
 w();
@@ -224,7 +222,7 @@ w();
 w("## Footer");
 w();
 w(
-  `Mark + "${site.shortName} © <year> · ${copy.footerCopy.builtWith}" · "${site.designCodename} ${site.designVersion} · <n> views" · "${copy.footerCopy.backToTop} ↑"`,
+  `Mark + "${site.shortName} © <year>" · live page views · "${copy.hero.resumeCta.label}" · "${copy.footerCopy.privacyLabel}" · "${copy.footerCopy.backToTop}"`,
 );
 w();
 

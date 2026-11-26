@@ -163,7 +163,9 @@ export const projects: Project[] = [
       "A bilingual vocabulary-learning workflow with a personal word bank, practice tests and subscription plans.",
     links: {
       appStore: "https://apps.apple.com/eg/app/saad/id1628542366",
+      playStore: "https://play.google.com/store/apps/details?id=com.awjeek.saad",
     },
+    bundleId: "com.awjeek.saad",
     media: {
       icon: { file: "saad-icon" },
       plate: "promo",

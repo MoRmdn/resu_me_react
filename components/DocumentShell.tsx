@@ -30,9 +30,13 @@ import { localizeProject } from "@/content/projects-i18n";
  */
 const archivo = localFont({
   src: "../app/fonts/archivo-latin-var.woff2",
-  weight: "400 700",
+  weight: "400 600",
+  style: "normal",
   variable: "--font-archivo",
   display: "swap",
+  // The file is instanced to wdth 100–118: body text at 100, Ledger's
+  // display headings at 118 (see the `wide` utility in globals.css).
+  declarations: [{ prop: "font-stretch", value: "100% 118%" }],
 });
 
 const jetbrainsMono = localFont({
@@ -157,8 +161,11 @@ const englishMetadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0A0C",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#100e0d" },
+  ],
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -343,6 +350,9 @@ function jsonLd(locale: Locale) {
   };
 }
 
+/** Mirrors THEME_KEY in lib/theme.ts. */
+const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default function DocumentShell({
   children,
   locale,
@@ -352,8 +362,15 @@ export default function DocumentShell({
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
       className={`${archivo.variable} ${jetbrainsMono.variable} ${plexArabic.variable}`}
+      // The pre-paint script sets data-theme before React hydrates.
+      suppressHydrationWarning
     >
       <body className="bg-ink-900 text-bone antialiased">
+        <script
+          // Static, author-controlled string. First in <body>, so it runs
+          // before anything paints: the stored theme, else the system one.
+          dangerouslySetInnerHTML={{ __html: themeScript }}
+        />
         <script
           type="application/ld+json"
           // Static, author-controlled string — no user input reaches this.
@@ -361,7 +378,7 @@ export default function DocumentShell({
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:rounded-md focus:bg-copper focus:px-4 focus:py-2 focus:font-semibold focus:text-ink-900"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:rounded-md focus:bg-copper focus:px-4 focus:py-2 focus:font-semibold focus:text-on-copper"
           {...trackAttrs("nav_link_click", {
             link_target: "main",
             link_text: "Skip to content",
@@ -371,7 +388,6 @@ export default function DocumentShell({
           {ui[locale].skip}
         </a>
         {children}
-        <div className="grain" aria-hidden />
         <AnalyticsRoot locale={locale} />
       </body>
     </html>

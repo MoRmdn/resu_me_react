@@ -1,7 +1,5 @@
 import type { LocaleProps } from "@/content/locale";
 import { getCopy } from "@/content/copy-i18n";
-import Image from "next/image";
-import { Reveal } from "@/components/motion/Reveal";
 import { ClientMapExplorer } from "@/components/sections/ClientMapExplorer";
 
 import { clientCountries, clientsIn, type ClientFilter } from "@/content/clients";
@@ -33,10 +31,6 @@ function weights(country: (typeof clientCountries)[number]) {
  * bundle; ClientMapExplorer only holds the filter and the hover. Everything the
  * map says is also in the ranked list it renders, which is the part screen
  * readers and crawlers get.
- *
- * The intro is CSS keyed off Reveal's `data-visible`, staggered by `--i` from
- * the nearest country outward. The finished map is the base style, so with no
- * JS or reduced motion it is simply already there.
  */
 export function ClientMap({ locale = "en" }: LocaleProps) {
   const { clientMapCopy } = getCopy(locale);
@@ -49,7 +43,7 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
     Object.keys(country.clients).join(" ");
 
   return (
-    <Reveal className="mt-24 md:mt-32">
+    <div data-reveal className="mt-24 md:mt-32">
       <ClientMapExplorer
         locale={locale}
         height={worldMap.height}
@@ -57,15 +51,9 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
         platforms={reviewPlatforms.map(({ id, label }) => ({ id, label }))}
         positions={Object.fromEntries(shapes.map((s) => [s.id, [s.x, s.y]]))}
       >
-        <Image
-          src="/images/world-land.svg"
-          alt=""
-          width={worldMap.width}
-          height={worldMap.height}
-          loading="lazy"
-          unoptimized
-          className="absolute inset-0 size-full"
-        />
+        {/* The land is an image used as a mask, so it takes the theme's ink
+            rather than the colour baked into the file. */}
+        <div aria-hidden className="map-land absolute inset-0 size-full" />
         <svg
           viewBox={`0 0 ${worldMap.width} ${worldMap.height}`}
           role="img"
@@ -119,6 +107,6 @@ export function ClientMap({ locale = "en" }: LocaleProps) {
           </g>
         </svg>
       </ClientMapExplorer>
-    </Reveal>
+    </div>
   );
 }

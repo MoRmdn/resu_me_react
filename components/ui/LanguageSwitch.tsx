@@ -5,7 +5,15 @@ import { ui } from "@/content/copy-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
 /** A full navigation gives each language its own server-rendered document. */
-export function LanguageSwitch({ locale, privacy = false }: { locale: Locale; privacy?: boolean }) {
+export function LanguageSwitch({
+  locale,
+  privacy = false,
+  className = "rounded-md border border-line px-3",
+}: {
+  locale: Locale;
+  privacy?: boolean;
+  className?: string;
+}) {
   const [hash, setHash] = useState("");
   useEffect(() => {
     const update = () => setHash(window.location.hash);
@@ -21,7 +29,7 @@ export function LanguageSwitch({ locale, privacy = false }: { locale: Locale; pr
       hrefLang={target}
       lang={target}
       aria-label={`${ui[locale].language}: ${target === "ar" ? ui[locale].arabic : ui[locale].english}`}
-      className="inline-flex min-h-11 shrink-0 items-center rounded-md border border-line px-3 text-caption text-bone"
+      className={`inline-flex min-h-11 shrink-0 items-center text-caption text-bone ${className}`}
       {...trackAttrs("language_switch", { target_locale: target })}
     >
       {target === "ar" ? ui[locale].arabic : ui[locale].english}

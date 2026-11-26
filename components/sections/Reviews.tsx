@@ -1,10 +1,9 @@
+import { stagger } from "@/lib/motion";
 import { ClientMap } from "@/components/sections/ClientMap";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ReviewCard } from "@/components/ui/ReviewCard";
 import { PlatformMark } from "@/components/brand/PlatformMark";
-import { Reveal } from "@/components/motion/Reveal";
-import { CountUp } from "@/components/motion/CountUp";
 import { getCopy, ui } from "@/content/copy-i18n";
 import type { LocaleProps } from "@/content/locale";
 import { reviewPlatforms, reviews, initialReviewIds, selectedReviews } from "@/content/reviews";
@@ -16,19 +15,19 @@ export function Reviews({ locale = "en" }: LocaleProps) {
   const initial = selectedReviews(initialReviewIds);
   const remaining = reviews.filter((r) => !initialReviewIds.includes(r.id));
   return (
-    <Section id="reviews" tone="ink-900" z={19} offset={-40} className="overflow-x-clip">
-      <div className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-20">
-        <Reveal>
-          <Eyebrow>{reviewsCopy.eyebrow}</Eyebrow>
-          <h2 className="mt-6 text-display-l text-balance">{reviewsCopy.headline}</h2>
-        </Reveal>
-        <Reveal delay={0.06}>
+    <Section id="reviews" tone="ink-900" className="overflow-x-clip">
+      <div data-reveal className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">
+        <div>
+          <Eyebrow index={5}>{reviewsCopy.eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-display-l">{reviewsCopy.headline}</h2>
+        </div>
+        <div>
           <p className="max-w-[46ch] text-body text-bone-70">{reviewsCopy.blurb}</p>
-        </Reveal>
+        </div>
       </div>
 
-      <Reveal>
-        <ul className="hairline-grid grid-cols-2 overflow-hidden rounded-lg border border-line lg:grid-cols-5">
+      <div>
+        <ul data-reveal className="hairline-grid grid-cols-2 overflow-hidden rounded-lg border border-line lg:grid-cols-5">
           {reviewPlatforms.map((platform) => (
             <li
               key={platform.id}
@@ -43,14 +42,14 @@ export function Reviews({ locale = "en" }: LocaleProps) {
                 />
                 <span
                   aria-hidden
-                  className="text-[0.75rem] text-bone-28 transition-transform duration-fast ease-fast group-hover:translate-x-0.5"
+                  className="text-[0.75rem] text-bone-52 transition-colors duration-fast ease-fast group-hover:text-bone rtl:-scale-x-100"
                 >
                   &#8599;
                 </span>
               </div>
               <div>
-                <p className="text-metric text-bone">
-                  <CountUp value={platform.count} />
+                <p className="font-mono text-[2rem] leading-none font-medium tracking-[-0.03em] text-bone tabular">
+                  {platform.count}
                 </p>
                 <a
                   href={platform.url}
@@ -79,19 +78,19 @@ export function Reviews({ locale = "en" }: LocaleProps) {
             </li>
           ))}
         </ul>
-      </Reveal>
+      </div>
 
       <div className="review-grid mt-10">
         <ul className="review-list">
-          {initial.map((review) => (
-            <li key={review.id} className="review-slot">
+          {initial.map((review, i) => (
+            <li key={review.id} data-reveal style={stagger(i % 3)} className="review-slot">
               <ReviewCard review={review} locale={locale} />
             </li>
           ))}
         </ul>
         <details className="reviews-more mt-6">
           <summary
-            className="inline-flex min-h-11 cursor-pointer items-center rounded-md border border-line px-5 text-caption text-bone"
+            className="inline-flex min-h-11 cursor-pointer items-center rounded-md border border-line-strong px-5 text-caption text-bone transition-colors duration-fast ease-fast hover:border-bone"
             {...trackAttrs("reviews_expand", { toggle_action: "open" })}
           >
             <span className="when-closed">{copy.moreReviews}</span>
