@@ -15,11 +15,11 @@ nothing here is a placeholder.
 - **Résumé:** /Mohamed_Ramadan_CV.pdf
 - **Links:** GitHub → MoRmdn (https://github.com/MoRmdn) · LinkedIn → Eng. M.Ramadan (https://linkedin.com/in/mormdn) · X → @MoRmdn (https://x.com/MoRmdn)
 - **Headline numbers:** 5 years · 12 selected apps and products · 7 teams · 6 countries
-- **Nav:** About · Experience · Projects · Skills · Reviews · Contact
+- **Nav:** About · Experience · Projects · Skills · Reviews · Services · Contact
 
 ### Education & certifications
 
-- B.Sc. Bioinformatics — Mansoura University, 2021 (final-year project graded A+)
+- B.Sc. Computer Science, major in Bioinformatics — Mansoura University, 2021 (final-year project graded A+)
 - Learn JavaScript · Learn React — Scrimba, 2026
 - Android Basics Nanodegree — Udacity, 2020
 - Arabic (native) · English (professional working proficiency)
@@ -57,7 +57,7 @@ Dart · Flutter · Bloc · GetX · Riverpod · Firebase · GraphQL · ML Kit · 
 
 ## About — eyebrow `About`
 
-Headline (3 lines): Bioinformatics degree, / mobile obsession
+Headline (3 lines): Computer science degree, / mobile obsession
 
 **Lede (set larger):** I build cross-platform apps that behave like native ones — fast to open, smooth under the thumb, and honest about state.
 
@@ -86,7 +86,7 @@ Badge on the current role reads `Current`.
 > of them remote and part-time. A strictly linear timeline will misrepresent
 > this. Either show the concurrency deliberately or avoid a time axis.
 
-### 01. Flutter Developer — MisMar | مسمار
+### 01. Software Engineer — MisMar | مسمار
 
 `March 2025 — Present` · Saudi Arabia (Remote) · Remote, contract, full-time · **CURRENT**
 
@@ -442,6 +442,67 @@ Stripe · PayPal · Moyasar · Fawry · FlutterWave · PayU · PayStack
 **Architecture, process & testing** (13)
 
 Clean Architecture · Feature-first architecture · SOLID · OOP · Firestore Security Rules · Responsive design · Agile SDLC · GitFlow · Unit testing · Widget testing · Vite · Vitest · React Testing Library
+
+---
+
+## Services — eyebrow `Services`, headline "What you can hire me for"
+
+Send me the idea, or the problem you have now, with whatever requirements you already know. I'll reply within a day with a plan and a realistic estimate.
+
+Call to action (ghost, never copper — Contact's WhatsApp can share the viewport): "Send me your idea" → WhatsApp
+
+**A new app, from idea to the stores** — For founders and businesses starting from an idea
+
+One Flutter codebase for Android and iOS, taken from the architecture to a published listing.
+
+Includes: Arabic and English, right-to-left included · Firebase, REST or GraphQL back end · Release on the App Store and Google Play
+
+Seen in (in-page links): Lpermis → #lpermis · Mutabbib → #mutabbib · Saber Yamen → #saber-yamen
+
+"Ask about this" opens WhatsApp prefilled with: "Hi Mohamed, I'd like to build a new app."
+
+**Fix or extend an app you already have** — For teams whose app stalled, or whose developer moved on
+
+A codebase someone else started. I work with what is there rather than starting over.
+
+Includes: Bug and crash fixes · Flutter and package upgrades · New features on the existing back end
+
+Seen in (in-page links): SAAD → #saad · Bracket Media → #experience
+
+"Ask about this" opens WhatsApp prefilled with: "Hi Mohamed, I have an existing app that needs work."
+
+**Web apps and dashboards** — For companies that run their operations in the browser
+
+Back-office platforms and web products, with the same architecture as the apps.
+
+Includes: Flutter Web, React or Next.js · Roles and permissions for every kind of user · Arabic and English interfaces
+
+Seen in (in-page links): NAAS → #naas · JS Quest → #js-quest
+
+"Ask about this" opens WhatsApp prefilled with: "Hi Mohamed, I need a web app or dashboard."
+
+**Payments, Arabic and offline** — For projects held up by one difficult feature
+
+The parts that stall a project, added to an app you already have or built in from the start.
+
+Includes: Stripe, PayPal, Moyasar, Fawry, Flutterwave, PayU and Paystack · Right-to-left layouts and Arabic PDFs · Offline work that syncs when the connection returns
+
+Seen in (in-page links): AYCO → #ayco · Dental Dinar → #dental-dinar
+
+"Ask about this" opens WhatsApp prefilled with: "Hi Mohamed, I need help with payments, Arabic or offline support."
+
+Ways to work together:
+
+- **Fixed-scope project** — An agreed scope at an agreed price, delivered in milestones. (channels: fiverr, khamsat, whatsapp)
+- **Contract by the hour** — Open-ended work, with payment held in escrow until each stage is done. (channels: upwork, freelancer)
+- **A seat on your team** — Full-time or part-time and remote, as I have been for 7 teams in 6 countries. (channels: email)
+
+How a project runs (an ordered list with no visible numbers; Ledger numbering is the eyebrows' alone):
+
+- **Scope** — We agree what gets built and what doesn't, before any code. You get: A written scope
+- **Estimate** — A realistic price and timeline, split into milestones you can check. You get: Price, timeline and milestones
+- **Build** — Clean architecture, tests where they earn their keep, and progress you hear about without asking. You get: An update at every milestone
+- **Release** — I prepare the listings and publish to the App Store and Google Play. You get: Published apps and the full source code
 
 ---
 

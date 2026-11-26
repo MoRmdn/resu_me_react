@@ -15,7 +15,7 @@ import { useThemeMode } from "@/lib/useTheme";
 import { nextThemeMode, setThemeMode, type ThemeMode } from "@/lib/theme";
 import { cn } from "@/lib/cn";
 
-/** Ledger numbering, the page's signature: 01 About … 06 Contact. */
+/** Ledger numbering, the page's signature: 01 About … 07 Contact. */
 const index = (i: number) => String(i + 1).padStart(2, "0");
 
 /** One glyph per theme mode: half-filled for auto, sun for light, moon for dark. */

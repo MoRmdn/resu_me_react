@@ -32,9 +32,31 @@ Baseline is the saved production export from the branch base, using the same loc
 
 English HTML increased 5.7%; its hydrated element count fell 23.8%. Additional stories and bilingual support have a payload cost; removing review clones reduces eventual DOM work. These measurements do not establish any LCP improvement. No live deployment or new Lighthouse audit was performed.
 
-## Outstanding GA configuration
+## GA configuration
 
-Register **`target_locale`** as an event-scoped custom dimension (display name: **Target language**) in the site's GA4 property. Values are `en` and `ar`. No connected GA administration capability was available; plugin discovery found reporting integrations but no usable registration capability. The parameter is already declared, documented and sent by `language_switch`.
+Verified on 2026-11-26 in the `m0rmdn` GA4 property (`504991130`). All 56 custom
+definitions in [the generated list](ANALYTICS-EVENTS.md#register-these-in-ga)
+matched the reloaded hub by name, scope, and parameter or user property.
+
+| Type | Verified | Added on 2026-11-26 |
+| --- | --- | --- |
+| Event-scoped custom dimensions | 50 of 50 | 48 |
+| User-scoped custom dimensions | 4 of 4 | 4 |
+| Event-scoped custom metrics in Seconds | 2 of 2 | 2 (`dwell_seconds`, `visit_seconds`) |
+| Requested key events | 1 of 3 | 1 (`contact_channel_click`) |
+
+**Skipped.** Event dimensions **Service** (`service_id`) and **Target language**
+(`target_locale`) were already registered with the correct scope. GA did not show
+`contact_email_copy` or `resume_download` in either Key events or Recent events,
+so both were left pending. Recent events covers the last 28 days. All custom
+definitions fit within their quotas.
+
+**Shortened GA descriptions**
+
+| Event parameter | Saved description |
+| --- | --- |
+| `theme_choice` | Theme mode selected via the nav toggle: auto (follows system, default), light (Ledger) or dark (Obsidian). Measures overrides of the system setting. |
+| `channel_placement` | Where a contact click came from: Hero, Services (main CTA, Ask about this, or ways of working), or Contact grid. service_id identifies the offer. |
 
 ---
 

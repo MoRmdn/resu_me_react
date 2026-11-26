@@ -66,7 +66,7 @@ client locations.
 artboard (`#A3460F`, `#0B655A`) to hold 4.5:1 as text. The artboard's "UTC+3"
 is dropped (Egypt is UTC+2 half the year) and every figure comes from
 `content/`. The section rail appears from 1600px, not 1440px, where it would
-touch the content column. Skill plates carry no number: `01–06` is reserved
+touch the content column. Skill plates carry no number: `01–07` is reserved
 for sections.
 
 ## Motion inventory (v2.1)

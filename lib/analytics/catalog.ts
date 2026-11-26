@@ -50,7 +50,7 @@ export const PARAMS = {
   section_id: {
     label: "Section",
     description:
-      "The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy.",
+      "The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy.",
     type: "string",
   },
 
@@ -289,9 +289,17 @@ export const PARAMS = {
   },
   channel_placement: {
     label: "Contact placement",
-    description: "Where the contact link was clicked: the hero or the Contact section's grid.",
+    description:
+      "Where the contact link was clicked: the hero, the Services section (its main call to action, an offer's Ask about this, or a way of working), or the Contact section's grid. Services shows whether reading the offers moves a visitor to get in touch; service_id says which offer.",
     type: "string",
-    values: ["hero", "contact_grid"],
+    values: ["hero", "services", "contact_grid"],
+  },
+  service_id: {
+    label: "Service",
+    description:
+      "Which offer in the Services section the visitor acted on: new_app (a new app taken to the stores), existing_app (fixing or extending an app they already have), web (web apps and dashboards) or hard_parts (payments, Arabic and offline). Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand.",
+    type: "string",
+    values: ["new_app", "existing_app", "web", "hard_parts"],
   },
   social_label: {
     label: "Social profile",
@@ -583,9 +591,18 @@ export const EVENTS = {
   contact_channel_click: {
     group: "Conversions",
     description: "A visitor reaching out. This is the main goal of the site.",
-    trigger: "A click on a contact channel in the Contact grid, or on WhatsApp in the hero.",
+    trigger:
+      "A click on a contact channel in the Contact grid, or on WhatsApp in the hero or the Services section.",
     params: ["channel_id", "channel_label", "channel_placement"],
+    optional: ["service_id"],
     keyEvent: true,
+  },
+  service_proof_click: {
+    group: "Conversions",
+    description:
+      "Shows a visitor checking the evidence behind an offer before getting in touch: which offer they were weighing, and which project or role they went to see.",
+    trigger: "A click on a project or role named under Seen in on a Services offer.",
+    params: ["service_id", "link_target", "link_text"],
   },
   contact_email_copy: {
     group: "Conversions",

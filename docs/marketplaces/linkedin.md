@@ -18,6 +18,17 @@
   roles' dates still differ slightly from the site (Mutabbib "Nov 2023 - Dec 2025" vs Ebdda "Jan 2024 - Jan 2026";
   Arcit-AI ends Mar 2025 vs Dec 2024; Demeter ends Mar 2025 vs Jan 2025): ask before changing.
 
+## Still to sync (2026-11-26)
+
+Not done: the Chrome profile used for the other marketplaces is not signed in to
+LinkedIn. To match the site:
+
+- **Headline:** drop "Flutter at MisMar"; the site calls the current role Software
+  Engineer.
+- **Experience, MisMar:** title "Software Engineer". Past roles keep their titles.
+- **Education:** "Bachelor's degree, Computer Science (major in Bioinformatics)",
+  Mansoura University, 2017–2021.
+
 ## Editing through a browser
 
 - About: the pencil ("Edit about") opens `/in/mormdn/edit/forms/summary/new/`. The box is a rich-text

@@ -14,7 +14,7 @@ export const experiences: Experience[] = [
   {
     slug: "mismar",
     company: "MisMar | مسمار",
-    position: "Flutter Developer",
+    position: "Software Engineer",
     location: "Saudi Arabia (Remote)",
     country: "Saudi Arabia",
     startDate: "March 2025",

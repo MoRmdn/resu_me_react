@@ -45,6 +45,7 @@ export const SENTENCES: Record<EventName, string> = {
   client_map_country_view: "Looked at {country_name} on the client map",
 
   contact_channel_click: "Reached out via {channel_label} from the {channel_placement}",
+  service_proof_click: "Went to {link_text} from the {service_id} offer",
   contact_email_copy: "Copied the email address",
   resume_download: "Downloaded the CV ({file_name})",
   social_profile_click: "Opened the {social_label} profile",

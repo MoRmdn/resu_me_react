@@ -89,7 +89,6 @@ const englishMetadata: Metadata = {
   creator: site.name,
   keywords: [
     "Software engineer",
-    "Flutter developer",
     "Mobile developer",
     "Cross-platform",
     "Dart",

@@ -22,6 +22,12 @@ reviews" and not "reviews".
 - Reviews are in Arabic: keep the original and add a labelled `translation`.
 - Update the four places in [README.md](README.md).
 
+## Degree line, 2026-11-26
+
+The bio's degree now reads "بكالوريوس علوم الحاسب بتخصص المعلوماتية الحيوية"
+(Computer Science, major in Bioinformatics), as in [bio-ar.md](bio-ar.md). Job title
+was already "مهندس برمجيات".
+
 ## Bio rewritten from scratch, 2026-11-07
 
 The text is in [bio-ar.md](bio-ar.md). Edit page: `https://khamsat.com/account`;

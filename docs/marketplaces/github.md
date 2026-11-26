@@ -15,6 +15,8 @@
 - **Bio** (a profile setting, 160 characters): "Software Engineer · Flutter, Firebase & React · Apps on App
   Store & Google Play" was first set, then changed to "Software Engineer · Cross-Platform Mobile and Web
   Applications · Apps on App Store & Google Play" to match the site title.
+- **README, 2026-11-26:** the MisMar row in the experience table says "Software Engineer" (commit `977ab69`).
+  The degree line already read "B.Sc. Computer Science — Bioinformatics".
 - **Left alone:** the profile's name field is empty and its location reads "127.0.0.1" (probably a joke).
 
 ## Editing

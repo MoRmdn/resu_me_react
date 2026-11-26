@@ -157,7 +157,7 @@ export const projects: Project[] = [
       "SAAD turns real content into a vocabulary course. Learners open a song, a movie clip or an interview, see how many of its words are new to them, and sort each one into New, Learning or Known. Everything they choose to learn lands in a searchable word bank, with translations, spoken pronunciation and short tests to move words from Learning to Known. The app runs in Arabic or English with a full right-to-left layout and light and dark themes, and sells monthly and yearly plans on top of a free tier. Built solo end to end, from the Flutter client to the release pipeline.",
     technologies: ["Flutter", "Provider", "GetIt", "Dio", "Firebase", "RTL / Arabic"],
     tags: ["Education", "Language Learning", "Vocabulary", "RTL"],
-    country: "Egypt",
+    country: "Saudi Arabia",
     category: "Education",
     achievement:
       "A bilingual vocabulary-learning workflow with a personal word bank, practice tests and subscription plans.",

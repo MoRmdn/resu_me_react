@@ -2,7 +2,7 @@
 
 A single-page Next.js portfolio, statically exported and deployed to Firebase
 Hosting (project `m0rmdn`), live at **https://mormdn.com**. One scrolling page,
-eight sections, plus a `noindex` privacy page that Google Analytics' terms require.
+nine sections, plus a `noindex` privacy page that Google Analytics' terms require.
 
 This replaces a Flutter Web app that still lives at `/Users/dark/Dev/resu_me`.
 The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
@@ -177,7 +177,7 @@ change that adds or changes something a visitor can interact with.
   dividers, watermarks. Never put a word a reader needs in one of them, and
   mark them `aria-hidden` when they render as text. Copper on a fill takes
   `text-on-copper`, never `text-ink-900`.
-- **Ledger numbering (`01–06`) is the page's one signature.** It marks the
+- **Ledger numbering (`01–07`) is the page's one signature.** It marks the
   section eyebrows (`<Eyebrow index>`), the section rail and the menu sheet.
   Do not number anything else.
 - **Every animation needs a `prefers-reduced-motion` fallback**, and it must
@@ -287,6 +287,17 @@ dependency list — an unstable `ids` array makes `useScrollSpy` destroy and
 recreate its `IntersectionObserver` on every render.
 
 ---
+
+**Services promises what the marketplace bio promises.** `servicesCopy` in
+`content/copy.ts` restates the "what I offer" and "how I work" lines of
+`docs/marketplaces/bio-ar.md`. Change one, change the other. An offer's
+"Seen in" names only projects or roles on this page that did that kind of work:
+SAAD and Bracket Media back "fix an existing app" because SAAD was rebuilt on
+an existing backend and Bracket Media was a legacy migration, not because they
+are recent. Prices, timelines and post-launch support terms are deliberately
+absent: add them only when Mohamed states them. The per-offer WhatsApp links
+prefill a first line (`message`) for the visitor to send; that text never goes
+to analytics, which gets only `service_id`.
 
 **Review quotes are verbatim.** `content/reviews.json` is copied word for word
 from the marketplaces, typos included. Fix nothing. An Arabic review keeps the

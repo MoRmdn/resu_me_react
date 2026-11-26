@@ -10,7 +10,7 @@ Codename: **Obsidian & Copper**.
 > **v3.0 — Ledger (November 2026).** Direction A of the Claude Design project
 > "Flutter portfolio redesign" (page *Portfolio Directions*). Light ruled paper
 > by default with the Obsidian dark theme a toggle away, wide Archivo for
-> display, mono figures, and one signature: Ledger numbering, `01–06`, on the
+> display, mono figures, and one signature: Ledger numbering, `01–07`, on the
 > section eyebrows, the left rail and the menu sheet, and nowhere else.
 
 ---
@@ -135,9 +135,10 @@ steps up to `#171412` so it still reads apart.
   values derived from `content/`.
 - Sections sit flush, 120px vertical padding desktop and 80px mobile, divided by
   hairlines. Grounds: hero paper, tech strip band, proof line sheet, About paper,
-  Experience band, Projects paper, Skills band, Reviews paper, Contact ink band.
+  Experience band, Projects paper, Skills band, Reviews paper, Services band,
+  Contact ink band.
 - Every section title is preceded by its Ledger number. Nothing else on the
-  page uses `01–06`.
+  page uses `01–07`.
 
 ---
 
@@ -174,13 +175,13 @@ Use the `--ink-700` surface, `--r-lg` radius, and a neutral hairline. Interactiv
 ### Navigation
 - **Island.** A fixed 56px pill, centred, on `ink-800` with a hairline and the
   soft shadow: the mark, the section toggle (progress ring, active section,
-  `n/6`), the section links that slide open beside it (with the auto / light / dark theme toggle),
+  `n/7`), the section links that slide open beside it (with the auto / light / dark theme toggle),
   the language switch and the ink Hire me. The progress ring is a conic
   gradient fed by a `--progress` variable written in a rAF scroll callback, with
   no React state. Below `lg` the links open as a sheet under the island
   (numbered rows, language, theme). Escape closes it and returns focus.
 - **Rail.** From 1600px, a fixed column at the inline start lists
-  `01 About … 06 Contact`, the active one in full `bone`.
+  `01 About … 07 Contact`, the active one in full `bone`.
 
 ### Inputs
 Reserved for future forms: fill `--ink-600`, 1px `--line`, `--r-md`, 14px padding, 16px Archivo. Label above in `eyebrow` mono. Focus: border copper. Error: `--rose` border + 13px message. Contact currently ships no form.
@@ -208,6 +209,26 @@ hairline dividers between. Live/streamed values take `--jade`.
 One white plate per group on a two-column grid, every second plate 40px lower
 from `sm`. Chips are hairline outlines; the core skills (`coreSkills` in
 `content/skills.ts`) are the only filled ones.
+
+### Services
+Section 06, on the `ink-800` band directly above Contact, so the process ends
+where the channels begin. Three blocks: offers, ways to work, process.
+
+- **Offers.** 4/8 split: number, title, blurb and a ghost "Send me your idea"
+  link on the start side (sticky from `lg`); four offer cards in a two-column
+  hairline grid on the end side. Each card answers in order: title, who it is
+  for (caption), one-line body, Includes (three dash-marked lines), Seen in
+  (underlined in-page links to projects or roles that did that work), and Ask
+  about this, which opens WhatsApp with a first line written for that offer.
+- **Ways to work together.** A three-column hairline grid on `ink-900`
+  (fixed scope, by the hour, a seat on your team), each with hairline chip
+  links to the channels that suit it.
+- **Process.** An `<ol>` with **no visible numbers**: a short bone tick on a
+  hairline marks each step, and each ends with "You get" and its deliverable.
+  One shared line across four columns from `lg`; below that each step carries
+  its own.
+- **No copper.** Contact's WhatsApp cell can share the viewport.
+- Each block reveals as a whole.
 
 ### Private-project card
 For work with no public listing (AYCO). Must read as deliberate, never as a broken card.

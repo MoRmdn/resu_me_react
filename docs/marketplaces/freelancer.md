@@ -17,6 +17,21 @@
 - The modal truncates; check the whole quote before copying.
 - Never guess a country for `unplaced`.
 
+## Title and degree, synced 2026-11-26
+
+- **Headline:** "Software Engineer | Mobile and Web Applications". Freelancer caps it at
+  **50 characters**, so the site's full title does not fit.
+- **About:** the first line now reads "Software engineer with 5+ years building and
+  shipping cross-platform mobile and web apps for iOS, Android and the web." The rest
+  is unchanged.
+- **Experience, MisMar:** title is "Software Engineer". Past roles keep their real
+  titles.
+- **Education** and **Qualifications:** "Bachelor's Degree in Computer Science, major
+  in Bioinformatics"; the qualification summary no longer describes a "Bioinformatics
+  and Computational Biology" degree.
+- Still open from the list below: the MisMar description, its start date and the
+  NAAS portfolio item.
+
 ## Profile text: NOT yet synced to the site (2026-11-07)
 
 The browser used for edits was **not signed in** to Freelancer, and signing in is
