@@ -81,8 +81,9 @@ steps up to `#171412` so it still reads apart.
 ## 2. Typography
 
 - **Display / UI:** `Archivo`, variable `wght 400–600` × `wdth 100–118`.
-  Headings (`h1–h3`) set `font-variation-settings: "wdth" 118`; body stays at
-  100. The `wide` utility applies 118 elsewhere. The committed file is
+  Page and section titles (`h1`, `h2`) set
+  `font-variation-settings: "wdth" 118`; card and project names (`h3`) and body
+  stay at 100, because wide type at 24px reads as squashed. The `wide` utility applies 118 elsewhere. The committed file is
   instanced to exactly that range (Latin subset, ~37 KB).
 - **Mono:** `JetBrains Mono` 400 / 500 for figures, dates, counts and the
   Ledger numbers. Always `tabular`.

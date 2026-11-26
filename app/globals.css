@@ -82,8 +82,8 @@
   --text-h1--font-weight: 500;
 
   --text-h2: clamp(1.5rem, 2.4vw, 1.875rem); /* 24 → 30 */
-  --text-h2--line-height: 1.15;
-  --text-h2--letter-spacing: -0.02em;
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.015em;
   --text-h2--font-weight: 600;
 
   --text-h3: clamp(1.1875rem, 1.7vw, 1.3125rem); /* 19 → 21 */
@@ -295,10 +295,16 @@
     display: none !important;
   }
 
+  /* Wide is the display voice: page and section titles only. Card and
+     project names (h3) stay at the normal width, where they read as names
+     rather than as squashed headlines. */
+  h1,
+  h2 {
+    font-variation-settings: "wdth" 118;
+  }
   h1,
   h2,
   h3 {
-    font-variation-settings: "wdth" 118;
     text-wrap: balance;
   }
 }
