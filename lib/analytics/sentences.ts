@@ -15,7 +15,7 @@ export const SENTENCES: Record<EventName, string> = {
   review_summary_click: "Followed the early summary to client reviews",
   nav_link_click: "Clicked {link_text} in the {nav_location}",
   nav_menu_toggle: "Section menu: {menu_action} via {toggle_method}",
-  theme_toggle: "Switched to the {theme_choice} theme",
+  theme_toggle: "Switched the theme to {theme_choice}",
   cta_click: "Clicked the {link_text} button",
   deep_link_landing: "Arrived directly on #{landing_hash}",
 
@@ -45,6 +45,7 @@ export const SENTENCES: Record<EventName, string> = {
   client_map_country_view: "Looked at {country_name} on the client map",
 
   contact_channel_click: "Reached out via {channel_label} from the {channel_placement}",
+  service_proof_click: "Went to {link_text} from the {service_id} offer",
   contact_email_copy: "Copied the email address",
   resume_download: "Downloaded the CV ({file_name})",
   social_profile_click: "Opened the {social_label} profile",

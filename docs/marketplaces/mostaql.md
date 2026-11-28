@@ -31,6 +31,12 @@
 - Match the bullet style: the bio's bullet lines start with a single space.
 - Arabic wording for NAAS should follow `content/profile-i18n.ts`.
 
+## Degree line, 2026-11-26
+
+The bio's degree now reads "بكالوريوس علوم الحاسب بتخصص المعلوماتية الحيوية"
+(Computer Science, major in Bioinformatics), as in [bio-ar.md](bio-ar.md). Saved and
+checked on the public `/u/MoRmdn` page.
+
 ## Bio rewritten from scratch, 2026-11-07
 
 Replaces the 2026-11-07 morning patch above. The full text is in

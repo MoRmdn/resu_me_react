@@ -11,6 +11,7 @@ import "@/app/globals.css";
 import type { Locale } from "@/content/locale";
 import { ui } from "@/content/copy-i18n";
 import { localizeProject } from "@/content/projects-i18n";
+import { themeScript } from "@/lib/theme";
 
 /**
  * Fonts are self-hosted by next/font rather than pulled from the Google Fonts
@@ -88,7 +89,6 @@ const englishMetadata: Metadata = {
   creator: site.name,
   keywords: [
     "Software engineer",
-    "Flutter developer",
     "Mobile developer",
     "Cross-platform",
     "Dart",
@@ -350,9 +350,6 @@ function jsonLd(locale: Locale) {
   };
 }
 
-/** Mirrors THEME_KEY in lib/theme.ts. */
-const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}`;
-
 export default function DocumentShell({
   children,
   locale,
@@ -368,7 +365,8 @@ export default function DocumentShell({
       <body className="bg-ink-900 text-bone antialiased">
         <script
           // Static, author-controlled string. First in <body>, so it runs
-          // before anything paints: the stored theme, else the system one.
+          // before anything paints: the stored theme, else the system one,
+          // and it keeps following the system while the choice is auto.
           dangerouslySetInnerHTML={{ __html: themeScript }}
         />
         <script

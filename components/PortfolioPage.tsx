@@ -8,6 +8,7 @@ import { Experience } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
 import { Reviews } from "@/components/sections/Reviews";
+import { Services } from "@/components/sections/Services";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
 import { RevealObserver } from "@/components/motion/RevealObserver";
@@ -24,6 +25,7 @@ export default function PortfolioPage({ locale = "en" }: LocaleProps) {
         <Projects locale={locale} />
         <Skills locale={locale} />
         <Reviews locale={locale} />
+        <Services locale={locale} />
         <Contact locale={locale} />
       </main>
       <Footer locale={locale} />

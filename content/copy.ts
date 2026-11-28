@@ -44,7 +44,7 @@ export const hero = {
 
 export const about = {
   eyebrow: "About",
-  headline: ["Bioinformatics degree,", "mobile obsession"],
+  headline: ["Computer science degree,", "mobile obsession"],
   lede: "I build cross-platform apps that behave like native ones — fast to open, smooth under the thumb, and honest about state.",
   body: [
     "My final-year project was mobile data analysis and visualisation; that's where the habit started. Since then I've led products from an empty `main.dart` to the App Store: a driving-school platform in Morocco, a medical social network in Libya, an AI matchmaking product in Saudi Arabia, a multi-vendor marketplace in Türkiye, and a field-service reporting system built solo end to end. Different domains, same discipline — Bloc or Cubit for anything with real business logic, clean architecture so the next developer isn't cursing my name, and unit and widget tests where they earn their keep.",
@@ -146,6 +146,148 @@ export const clientMapCopy = {
     `${count} more ${count === 1 ? "client has" : "clients have"} no public country, so ${count === 1 ? "isn't" : "aren't"} on the map.`,
 };
 
+/**
+ * What a client can hire for, how they can engage, and what happens after the
+ * first message. Every offer, inclusion and step restates the "what I offer /
+ * how I work" lines of the marketplace bio (docs/marketplaces/bio-ar.md) or a
+ * fact elsewhere in content/, so the site and the profiles promise the same
+ * thing. Prices, timelines and post-launch support terms are left out until
+ * Mohamed states them: a made-up range would be a promise he never made.
+ *
+ * `proof` links only to projects and roles on this page that did that kind of
+ * work (SAAD was rebuilt around an existing backend; Bracket Media was a legacy
+ * null-safety migration). `target` is the in-page anchor.
+ *
+ * `message` prefills the WhatsApp chat. It is the visitor's own message to
+ * send, carries nothing about them, and is never sent to analytics.
+ *
+ * The steps are an ordered list with no visible numbers: Ledger numbering
+ * belongs to the section eyebrows alone.
+ */
+export const servicesCopy = {
+  eyebrow: "Services",
+  headline: "What you can hire me for",
+  blurb:
+    "Send me the idea, or the problem you have now, with whatever requirements you already know. I'll reply within a day with a plan and a realistic estimate.",
+  ctaLabel: "Send me your idea",
+  ctaMessage: "Hi Mohamed, I have a project I'd like to discuss.",
+  includesLabel: "Includes",
+  proofLabel: "Seen in",
+  askLabel: "Ask about this",
+  offers: [
+    {
+      id: "new_app" as const,
+      title: "A new app, from idea to the stores",
+      audience: "For founders and businesses starting from an idea",
+      body: "One Flutter codebase for Android and iOS, taken from the architecture to a published listing.",
+      includes: [
+        "Arabic and English, right-to-left included",
+        "Firebase, REST or GraphQL back end",
+        "Release on the App Store and Google Play",
+      ],
+      proof: [
+        { name: "Lpermis", target: "lpermis" },
+        { name: "Mutabbib", target: "mutabbib" },
+        { name: "Saber Yamen", target: "saber-yamen" },
+      ],
+      message: "Hi Mohamed, I'd like to build a new app.",
+    },
+    {
+      id: "existing_app" as const,
+      title: "Fix or extend an app you already have",
+      audience: "For teams whose app stalled, or whose developer moved on",
+      body: "A codebase someone else started. I work with what is there rather than starting over.",
+      includes: [
+        "Bug and crash fixes",
+        "Flutter and package upgrades",
+        "New features on the existing back end",
+      ],
+      proof: [
+        { name: "SAAD", target: "saad" },
+        { name: "Bracket Media", target: "experience" },
+      ],
+      message: "Hi Mohamed, I have an existing app that needs work.",
+    },
+    {
+      id: "web" as const,
+      title: "Web apps and dashboards",
+      audience: "For companies that run their operations in the browser",
+      body: "Back-office platforms and web products, with the same architecture as the apps.",
+      includes: [
+        "Flutter Web, React or Next.js",
+        "Roles and permissions for every kind of user",
+        "Arabic and English interfaces",
+      ],
+      proof: [
+        { name: "NAAS", target: "naas" },
+        { name: "JS Quest", target: "js-quest" },
+      ],
+      message: "Hi Mohamed, I need a web app or dashboard.",
+    },
+    {
+      id: "hard_parts" as const,
+      title: "Payments, Arabic and offline",
+      audience: "For projects held up by one difficult feature",
+      body: "The parts that stall a project, added to an app you already have or built in from the start.",
+      includes: [
+        "Stripe, PayPal, Moyasar, Fawry, Flutterwave, PayU and Paystack",
+        "Right-to-left layouts and Arabic PDFs",
+        "Offline work that syncs when the connection returns",
+      ],
+      proof: [
+        { name: "AYCO", target: "ayco" },
+        { name: "Dental Dinar", target: "dental-dinar" },
+      ],
+      message: "Hi Mohamed, I need help with payments, Arabic or offline support.",
+    },
+  ],
+  modelsLabel: "Ways to work together",
+  models: [
+    {
+      id: "fixed",
+      title: "Fixed-scope project",
+      body: "An agreed scope at an agreed price, delivered in milestones.",
+      channels: ["fiverr", "khamsat", "whatsapp"],
+    },
+    {
+      id: "contract",
+      title: "Contract by the hour",
+      body: "Open-ended work, with payment held in escrow until each stage is done.",
+      channels: ["upwork", "freelancer"],
+    },
+    {
+      id: "team",
+      title: "A seat on your team",
+      body: `Full-time or part-time and remote, as I have been for ${metrics.teams} teams in ${metrics.countries} countries.`,
+      channels: ["email"],
+    },
+  ],
+  processLabel: "How a project runs",
+  youGetLabel: "You get",
+  steps: [
+    {
+      title: "Scope",
+      body: "We agree what gets built and what doesn't, before any code.",
+      deliverable: "A written scope",
+    },
+    {
+      title: "Estimate",
+      body: "A realistic price and timeline, split into milestones you can check.",
+      deliverable: "Price, timeline and milestones",
+    },
+    {
+      title: "Build",
+      body: "Clean architecture, tests where they earn their keep, and progress you hear about without asking.",
+      deliverable: "An update at every milestone",
+    },
+    {
+      title: "Release",
+      body: "I prepare the listings and publish to the App Store and Google Play.",
+      deliverable: "Published apps and the full source code",
+    },
+  ],
+};
+
 export const contactCopy = {
   eyebrow: "Contact",
   headline: ["Got an app", "to build?"],
@@ -244,6 +386,7 @@ export const llmsCopy = {
   projectsHeading: "Projects",
   applicationIdLabel: "Application ID",
   outcomeLabel: "Outcome",
+  servicesHeading: "Services",
   skillsHeading: "Skills",
   reviewsHeading: "Client reviews",
   reviewsSummary: (total: number, platforms: number) =>

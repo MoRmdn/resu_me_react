@@ -9,7 +9,7 @@ const roles: Record<
   Pick<Experience, "description" | "achievements" | "location" | "position" | "engagement">
 > = {
   mismar: {
-    position: "مطور Flutter",
+    position: "مهندس برمجيات",
     location: "السعودية (عن بُعد)",
     engagement: "عن بُعد، بعقد وبدوام كامل",
     description:
@@ -153,7 +153,7 @@ export function getSkills(locale: Locale) {
 
 export function getProfile(locale: Locale) {
   if (locale === "en") return { channels, education, learningNow, navSections };
-  const labels = ["نبذة عني", "الخبرة", "المشاريع", "المهارات", "التقييمات", "التواصل"];
+  const labels = ["نبذة عني", "الخبرة", "المشاريع", "المهارات", "التقييمات", "الخدمات", "التواصل"];
   const notes = [
     "أسرع وسيلة للرد",
     "عمل بعقد وضمان الدفع",
@@ -170,7 +170,7 @@ export function getProfile(locale: Locale) {
       note: notes[i],
     })),
     education: [
-      "بكالوريوس المعلوماتية الحيوية — جامعة المنصورة، 2021 (مشروع التخرج بتقدير A+)",
+      "بكالوريوس علوم الحاسب، تخصص المعلوماتية الحيوية — جامعة المنصورة، 2021 (مشروع التخرج بتقدير A+)",
       "Learn JavaScript · Learn React — Scrimba، 2026",
       "Android Basics Nanodegree — Udacity، 2020",
       "العربية (اللغة الأم) · الإنجليزية (كفاءة مهنية)",

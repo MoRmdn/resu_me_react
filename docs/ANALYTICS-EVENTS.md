@@ -42,10 +42,10 @@ Shows which project or section outside links send visitors straight to.
 
 ### `theme_toggle`
 
-Shows how many visitors prefer the dark theme over the light default.
+Shows how many visitors override the automatic theme, and whether they pick light or dark.
 
 - **Fires on:** A click on the theme toggle in the nav.
-- **Sentence:** Switched to the {theme_choice} theme
+- **Sentence:** Switched the theme to {theme_choice}
 - **Params:** `theme_choice`
 
 ### `language_switch`
@@ -249,9 +249,18 @@ Shows which client countries visitors look for, often their own.
 
 A visitor reaching out. This is the main goal of the site.
 
-- **Fires on:** A click on a contact channel in the Contact grid, or on WhatsApp in the hero.
+- **Fires on:** A click on a contact channel in the Contact grid, or on WhatsApp in the hero or the Services section.
 - **Sentence:** Reached out via {channel_label} from the {channel_placement}
 - **Params:** `channel_id`, `channel_label`, `channel_placement`
+- **Optional:** `service_id`
+
+### `service_proof_click`
+
+Shows a visitor checking the evidence behind an offer before getting in touch: which offer they were weighing, and which project or role they went to see.
+
+- **Fires on:** A click on a project or role named under Seen in on a Services offer.
+- **Sentence:** Went to {link_text} from the {service_id} offer
+- **Params:** `service_id`, `link_target`, `link_text`
 
 ### `contact_email_copy` (key event)
 
@@ -335,10 +344,10 @@ Shows how visitors answer the notice, which explains gaps in European data.
 
 | Parameter | Type | Values | Description |
 |---|---|---|---|
-| `theme_choice` | string | light, dark | The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping. |
+| `theme_choice` | string | auto, light, dark | The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way. |
 | `target_locale` | string | en, ar | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | `event_description` | string |  | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
-| `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
+| `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy. |
 | `link_target` | string |  | The in-page section or page a navigation link goes to, such as projects. |
 | `link_text` | string |  | The visible label of the link or button that was clicked. |
 | `link_url` | string |  | The full address of the external page the visitor was sent to. |
@@ -376,7 +385,8 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `view_trigger` | string | hover, click | How the country was looked at: by resting on it, or by clicking its row. |
 | `channel_id` | string |  | The contact channel the visitor chose, such as whatsapp. |
 | `channel_label` | string |  | The display name of the contact channel, such as WhatsApp. |
-| `channel_placement` | string | hero, contact_grid | Where the contact link was clicked: the hero or the Contact section's grid. |
+| `channel_placement` | string | hero, services, contact_grid | Where the contact link was clicked: the hero, the Services section (its main call to action, an offer's Ask about this, or a way of working), or the Contact section's grid. Services shows whether reading the offers moves a visitor to get in touch; service_id says which offer. |
+| `service_id` | string | new_app, existing_app, web, hard_parts | Which offer in the Services section the visitor acted on: new_app (a new app taken to the stores), existing_app (fixing or extending an app they already have), web (web apps and dashboards) or hard_parts (payments, Arabic and offline). Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand. |
 | `social_label` | string |  | The social profile that was opened, such as LinkedIn. |
 | `file_name` | string |  | The name of the file that was downloaded. |
 | `element_tag` | string |  | The HTML tag of the element that was clicked, such as img or p. |
@@ -399,10 +409,10 @@ reports until they are registered, and registering is not retroactive.
 
 | Dimension name | Event parameter | Description |
 |---|---|---|
-| Theme choice | `theme_choice` | The colour theme the visitor switched to with the nav toggle: light (Ledger, the default) or dark (Obsidian). Measures whether a dark option is worth keeping. |
+| Theme choice | `theme_choice` | The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way. |
 | Target language | `target_locale` | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | Event description | `event_description` | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
-| Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, contact, navigation, footer or privacy. |
+| Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy. |
 | Link target | `link_target` | The in-page section or page a navigation link goes to, such as projects. |
 | Navigation location | `nav_location` | Which navigation surface held the link that was clicked. |
 | Menu action | `menu_action` | Whether the navigation menu (the island's links, or the sheet on a phone) was opened or closed. |
@@ -436,7 +446,8 @@ reports until they are registered, and registering is not retroactive.
 | Country view trigger | `view_trigger` | How the country was looked at: by resting on it, or by clicking its row. |
 | Contact channel | `channel_id` | The contact channel the visitor chose, such as whatsapp. |
 | Contact channel name | `channel_label` | The display name of the contact channel, such as WhatsApp. |
-| Contact placement | `channel_placement` | Where the contact link was clicked: the hero or the Contact section's grid. |
+| Contact placement | `channel_placement` | Where the contact link was clicked: the hero, the Services section (its main call to action, an offer's Ask about this, or a way of working), or the Contact section's grid. Services shows whether reading the offers moves a visitor to get in touch; service_id says which offer. |
+| Service | `service_id` | Which offer in the Services section the visitor acted on: new_app (a new app taken to the stores), existing_app (fixing or extending an app they already have), web (web apps and dashboards) or hard_parts (payments, Arabic and offline). Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand. |
 | Social profile | `social_label` | The social profile that was opened, such as LinkedIn. |
 | Element tag | `element_tag` | The HTML tag of the element that was clicked, such as img or p. |
 | Element text | `element_text` | The first words of the element that was clicked. Always empty inside a review card, so reviewer names are never sent. |

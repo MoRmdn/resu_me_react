@@ -1,4 +1,4 @@
-import { about, contactCopy, hero, llmsCopy, projectsCopy } from "@/content/copy";
+import { about, contactCopy, hero, llmsCopy, projectsCopy, servicesCopy } from "@/content/copy";
 import { clientCountries, unplacedClients } from "@/content/clients";
 import { experiences } from "@/content/experience";
 import { projects } from "@/content/projects";
@@ -93,6 +93,33 @@ export function GET() {
       ...(p.highlights?.length ? [""] : []),
     );
   }
+
+  add(
+    `## ${llmsCopy.servicesHeading}`,
+    "",
+    servicesCopy.blurb,
+    "",
+    ...servicesCopy.offers.flatMap((o) => [
+      `### ${o.title}`,
+      "",
+      `${o.audience}. ${o.body}`,
+      "",
+      ...o.includes.map((item) => `- ${item}`),
+      "",
+      `${servicesCopy.proofLabel}: ${o.proof.map((p) => p.name).join(", ")}`,
+      "",
+    ]),
+    `${servicesCopy.modelsLabel}:`,
+    "",
+    ...servicesCopy.models.map((m) => `- ${m.title}: ${m.body}`),
+    "",
+    `${servicesCopy.processLabel}:`,
+    "",
+    ...servicesCopy.steps.map(
+      (step, i) => `${i + 1}. ${step.title}: ${step.body} ${servicesCopy.youGetLabel}: ${step.deliverable}.`,
+    ),
+    "",
+  );
 
   add(`## ${llmsCopy.skillsHeading}`, "");
   add(...skillGroups.map((g) => `- ${g.label}: ${g.items.join(", ")}`), "");

@@ -32,6 +32,11 @@
   role)", skills Flutter, Dart, Firebase, Web Application Development, image from
   `assets/projects/naas-promo.webp` converted to PNG (Upwork takes jpg, png, gif).
   Check the live profile to see whether it was published.
+- **Employment history, MisMar title:** "Software Engineer" since 2026-11-26 (was
+  "Flutter Developer"). The Title box only saves a value picked from its suggestion
+  list: type it, delete and retype the last letter to open the list, then click the
+  suggestion. **Education** already read "Bachelor of Computer Science (BCompSc),
+  Bioinformatics".
 - **Headline** (70-character limit): "Software Engineer | Cross-Platform Mobile and Web
   Applications", the site's title. Upwork rejects `·` ("unsupported special
   characters") but accepts `|`. It was "Software Engineer | Flutter, Firebase &

@@ -23,7 +23,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-11-25",
+  contentLastChanged: "2026-11-26",
 } as const;
 
 export const contact = {
@@ -123,11 +123,12 @@ export const navSections = [
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "reviews", label: "Reviews" },
+  { id: "services", label: "Services" },
   { id: "contact", label: "Contact" },
 ] as const;
 
 export const education = [
-  "B.Sc. Bioinformatics — Mansoura University, 2021 (final-year project graded A+)",
+  "B.Sc. Computer Science, major in Bioinformatics — Mansoura University, 2021 (final-year project graded A+)",
   "Learn JavaScript · Learn React — Scrimba, 2026",
   "Android Basics Nanodegree — Udacity, 2020",
   "Arabic (native) · English (professional working proficiency)",

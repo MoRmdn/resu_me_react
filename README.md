@@ -4,9 +4,9 @@ Single-page portfolio. Next.js 16, statically exported, hosted on Firebase.
 
 **Live:** [mormdn.com](https://mormdn.com)
 
-Flutter developer in Mansoura. Five years of cross-platform apps. The page is
+Software engineer in Mansoura. Five years of cross-platform mobile and web apps. The page is
 one scroll: Hero, marketplace proof, About, Experience, Projects, Skills,
-Reviews and client map, Contact. English is `/`, Arabic is `/ar/`; both locales
+Reviews and client map, Services, Contact. English is `/`, Arabic is `/ar/`; both locales
 also have a `noindex` privacy page.
 
 ## Why React

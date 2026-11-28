@@ -199,6 +199,36 @@ skillGroups.forEach((g) => {
 });
 w("---");
 w();
+w(`## Services — eyebrow \`${copy.servicesCopy.eyebrow}\`, headline "${copy.servicesCopy.headline}"`);
+w();
+w(copy.servicesCopy.blurb);
+w();
+w(`Call to action (ghost, never copper — Contact's WhatsApp can share the viewport): "${copy.servicesCopy.ctaLabel}" \u2192 WhatsApp`);
+w();
+copy.servicesCopy.offers.forEach((o) => {
+  w(`**${o.title}** \u2014 ${o.audience}`);
+  w();
+  w(o.body);
+  w();
+  w(`${copy.servicesCopy.includesLabel}: ${o.includes.join(" \u00b7 ")}`);
+  w();
+  w(`${copy.servicesCopy.proofLabel} (in-page links): ${o.proof.map((p) => `${p.name} \u2192 #${p.target}`).join(" \u00b7 ")}`);
+  w();
+  w(`"${copy.servicesCopy.askLabel}" opens WhatsApp prefilled with: "${o.message}"`);
+  w();
+});
+w(`${copy.servicesCopy.modelsLabel}:`);
+w();
+copy.servicesCopy.models.forEach((m) => w(`- **${m.title}** \u2014 ${m.body} (channels: ${m.channels.join(", ")})`));
+w();
+w(`${copy.servicesCopy.processLabel} (an ordered list with no visible numbers; Ledger numbering is the eyebrows' alone):`);
+w();
+copy.servicesCopy.steps.forEach((s) =>
+  w(`- **${s.title}** \u2014 ${s.body} ${copy.servicesCopy.youGetLabel}: ${s.deliverable}`),
+);
+w();
+w("---");
+w();
 w(`## Contact — eyebrow \`${copy.contactCopy.eyebrow}\``);
 w();
 w(`Headline: ${copy.contactCopy.headline.join(" / ")} (the word "build?" is copper)`);

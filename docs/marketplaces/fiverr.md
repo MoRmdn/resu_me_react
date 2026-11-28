@@ -27,6 +27,12 @@
 - **Work experience, MisMar:** the site's NAAS wording (limit 2,000, now 806).
   Fiverr flags the Ebdda LTD entry **"Rejected"** (not verified): worth a look.
 
+## Title and degree, synced 2026-11-26
+
+- **Work experience, MisMar:** title "Software Engineer" (was "Flutter Developer").
+- **Education:** field of study "Computer Science, major in Bioinformatics" (was
+  "computer engineering"). Fiverr lowercases it on display.
+
 ## Editing through a browser
 
 - The editable profile is `https://www.fiverr.com/sellers/mormdn/edit`.

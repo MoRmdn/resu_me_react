@@ -30,7 +30,7 @@ export function Contact({ locale = "en" }: LocaleProps) {
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
         <div data-reveal>
           <div>
-            <Eyebrow index={6}>{contactCopy.eyebrow}</Eyebrow>
+            <Eyebrow index={7}>{contactCopy.eyebrow}</Eyebrow>
             <h2 className="mt-4 text-display-xl">
               <span className="block">{contactCopy.headline[0]}</span>
               <span className="block">{contactCopy.headline[1]}</span>

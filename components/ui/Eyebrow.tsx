@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Section label with its Ledger number (01 About … 06 Contact), the page's
+ * Section label with its Ledger number (01 About … 07 Contact), the page's
  * signature. Sentence case, 13px, bone-52 — the contrast floor.
  */
 export function Eyebrow({

@@ -36,9 +36,11 @@ for (const locale of ["en", "ar"]) {
     html.indexOf('<section id="projects"'),
     html.indexOf('<section id="skills"'),
   );
-  const firstFeatured = projectSection.indexOf('<article id="ayco"');
+  // Attribute order is React's, and data-reveal now precedes id.
+  const articleAt = (slug) => projectSection.search(new RegExp(`<article[^>]*\\sid="${slug}"`));
+  const firstFeatured = articleAt("ayco");
   const testimonials = projectSection.indexOf('<ul class="testimonial-list"');
-  const secondFeatured = projectSection.indexOf('<article id="saad"');
+  const secondFeatured = articleAt("saad");
   assert.ok(
     firstFeatured >= 0 && testimonials > firstFeatured && testimonials < secondFeatured,
     "Testimonials follow the first featured project",
