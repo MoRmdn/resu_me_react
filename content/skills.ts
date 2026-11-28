@@ -10,6 +10,10 @@ import type { SkillGroup } from "./types";
  *
  * "Moyasar" was previously misspelled "Moyaser". September 2026 added the
  * front-end and Supabase capabilities, all exercised in JS Quest.
+ * November 2026 added TypeScript and the Node.js back-end surface, read from
+ * the SAAD API's own dependencies (Express, Mongoose, jsonwebtoken, the
+ * OpenAPI generator, the S3 client pointed at Cloudflare R2). These are not on
+ * the CV yet.
  */
 /** The depth: the only filled chips in the Skills plates. */
 export const coreSkills = ["Dart", "Flutter"];
@@ -17,7 +21,17 @@ export const coreSkills = ["Dart", "Flutter"];
 export const skillGroups: SkillGroup[] = [
   {
     label: "Languages & frameworks",
-    items: ["Dart", "Flutter", "JavaScript", "React", "Next.js", "Python", "HTML", "CSS"],
+    items: [
+      "Dart",
+      "Flutter",
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Python",
+      "HTML",
+      "CSS",
+    ],
     highlighted: true,
   },
   {
@@ -41,6 +55,12 @@ export const skillGroups: SkillGroup[] = [
   {
     label: "Back end & cloud",
     items: [
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT authentication",
+      "OpenAPI (Swagger)",
+      "S3-compatible storage",
       "Firebase Auth",
       "Cloud Firestore",
       "Cloud Storage",
