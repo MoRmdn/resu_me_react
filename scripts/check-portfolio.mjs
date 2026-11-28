@@ -24,7 +24,9 @@ for (const locale of ["en", "ar"]) {
     html.indexOf('<section id="reviews"'),
     html.indexOf('<section id="contact"'),
   );
-  const cards = [...wall.matchAll(/<article class="review-card"[\s\S]*?<\/article>/g)].map(
+  // A review a project claims is shown in that project's details, so the
+  // cards are counted over the whole page, not only the Reviews section.
+  const cards = [...html.matchAll(/<article class="review-card"[\s\S]*?<\/article>/g)].map(
     (m) => m[0],
   );
   assert.equal(cards.length, reviews.length, "Canonical reviews appear once, with no clones");
@@ -38,22 +40,18 @@ for (const locale of ["en", "ar"]) {
   );
   // Attribute order is React's, and data-reveal now precedes id.
   const articleAt = (slug) => projectSection.search(new RegExp(`<article[^>]*\\sid="${slug}"`));
-  const firstFeatured = articleAt("ayco");
-  const testimonials = projectSection.indexOf('<ul class="testimonial-list"');
-  const secondFeatured = articleAt("saad");
+  assert.ok(!projectSection.includes("testimonial-list"), "No testimonial block inside Projects");
+  const lpermis = articleAt("lpermis");
+  const afterLpermis = articleAt("saber-yamen");
+  const lpermisReview = projectSection.indexOf('data-review="upwork-lpermis"');
   assert.ok(
-    firstFeatured >= 0 && testimonials > firstFeatured && testimonials < secondFeatured,
-    "Testimonials follow the first featured project",
+    lpermis >= 0 && lpermisReview > lpermis && lpermisReview < afterLpermis,
+    "The Lpermis review sits inside the Lpermis project",
   );
-  const testimonialList = projectSection.slice(
-    testimonials,
-    projectSection.indexOf("</ul>", testimonials),
+  assert.ok(
+    !wall.includes('data-review="upwork-lpermis"'),
+    "A review shown in a project's details is not repeated in Reviews",
   );
-  const testimonialIds = [...testimonialList.matchAll(/data-review="([^"]+)"/g)].map((m) => m[1]);
-  assert.equal(testimonialIds.length, 3, "Three project testimonials");
-  for (const id of testimonialIds) {
-    assert.ok(!initialIds.includes(id), `Projects testimonial is not repeated at Reviews start: ${id}`);
-  }
   for (const review of reviews) {
     const card = cards.find((card) => card.includes(`data-review="${review.id}"`));
     assert.ok(card, `Review ${review.id} is server-rendered`);

@@ -97,9 +97,8 @@ export const reviewCardCopy = {
   sourceLabel: "on",
 };
 
-export const testimonialIds = ["upwork-lpermis", "khamsat-bassam", "fiverr-nathan-invaluable"];
-// The opening Reviews grid complements the Projects testimonials rather than
-// showing the same three cards again. Keep these two ID sets disjoint.
+// A review named by a project's `reviewId` is shown in that project's details
+// and nowhere else, so it must not be listed here.
 export const initialReviewIds = [
   "upwork-arcit-ai",
   "khamsat-hussain",

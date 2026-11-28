@@ -102,29 +102,39 @@ export function ApplicationId({
 
 /**
  * What sits behind a click: the long story beside the build facts, shared by a
- * gallery plane and a featured panel. `onFace` is for a surface that already
- * carries the description and the outcome. `children` ends the facts column.
+ * gallery plane and a featured panel. `descriptionOnFace` and `outcomeOnFace`
+ * say what the surface above already shows, so nothing is printed twice: a
+ * fact appears once per card. A story's result that repeats the outcome word
+ * for word is printed in one of the two places only. `review` is the one
+ * client review about this project. `children` ends the facts column.
  */
 export function ProjectDetail({
   locale = "en",
   project,
-  onFace,
+  descriptionOnFace,
+  outcomeOnFace,
+  review,
   className,
   children,
 }: {
   locale?: Locale;
   project: Project;
-  onFace?: boolean;
+  descriptionOnFace?: boolean;
+  outcomeOnFace?: boolean;
+  review?: React.ReactNode;
   className?: string;
   children?: React.ReactNode;
 }) {
   const { projectsCopy } = getCopy(locale);
+  const resultIsOutcome = project.story?.result === project.achievement;
   return (
     <div className={cn("grid gap-x-12 gap-y-8 lg:grid-cols-[7fr_5fr]", className)}>
       <div>
-        {!onFace && <p className="max-w-[62ch] text-body-l text-bone">{project.description}</p>}
+        {!descriptionOnFace && (
+          <p className="max-w-[62ch] text-body-l text-bone">{project.description}</p>
+        )}
         {!project.story && (
-          <p className={cn("max-w-[62ch] text-body text-bone-70", !onFace && "mt-4")}>
+          <p className={cn("max-w-[62ch] text-body text-bone-70", !descriptionOnFace && "mt-4")}>
             {project.longDescription}
           </p>
         )}
@@ -142,19 +152,27 @@ export function ProjectDetail({
               <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.decisions}</h4>
               <HighlightList highlights={project.story.decisions} className="mt-2" />
             </div>
-            <div>
-              <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.result}</h4>
-              <p className="mt-2 text-body text-bone">{project.story.result}</p>
-            </div>
+            {!(outcomeOnFace && resultIsOutcome) && (
+              <div>
+                <h4 className="text-caption font-medium text-bone-52">{projectsCopy.storyLabels.result}</h4>
+                <p className="mt-2 text-body text-bone">{project.story.result}</p>
+              </div>
+            )}
           </div>
         )}
         {!project.story && project.highlights && (
           <HighlightList highlights={project.highlights} className="mt-6" />
         )}
+        {review && (
+          <div className="mt-8">
+            <h4 className="text-caption font-medium text-bone-52">{projectsCopy.clientReviewLabel}</h4>
+            <div className="review-grid mt-3 max-w-[62ch]">{review}</div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-6 border-t border-line pt-6 lg:border-t-0 lg:border-s lg:pt-0 lg:ps-12">
-        {!onFace && (
+        {!outcomeOnFace && !resultIsOutcome && (
           <div>
             <p className="eyebrow text-bone-52">{projectsCopy.outcomeLabel}</p>
             <p className="mt-2.5 text-body text-bone">{project.achievement}</p>

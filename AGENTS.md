@@ -445,9 +445,21 @@ CDN on every deploy, so only browser caches can lag.
 
 **Reviews use a static grid.** Six selected reviews appear first; the rest stay in
 server-rendered HTML inside a native disclosure. Translations are labelled and
-originals remain accessible. The six opening Reviews IDs must stay disjoint from
-the three Projects testimonial IDs so the same cards do not greet visitors twice.
+originals remain accessible. A quote appears once on the homepage: a review that
+is about one project on the page is named by that project's `reviewId`
+(`content/projects.ts`), shown inside its details under "Client review", and left
+out of the Reviews list. Only Lpermis has one. `assertClosedSet` fails the build
+if such a review does not exist, belongs to a project that is not featured, or
+is also one of the six opening reviews. There is no separate testimonial block.
 The export still deduplicates by review ID. Do not reintroduce cloned review tracks.
+
+**A project card says each fact once.** A private card names "Private client"
+in one line, not two. A card with store buttons has no "Store links provided"
+line above them. A card with a ledger (AYCO) shows the ledger on its face and
+the outcome sentence once, inside the details. When a story's result repeats
+the outcome word for word, `ProjectDetail` prints only the one on the face.
+The wide gallery tile shows its description and outcome at every width,
+because its detail plane leaves both out.
 
 **Locale is explicit.** English is `/`, Arabic is `/ar/`, with matching privacy
 pages. Root layouts render `lang` and `dir` before JavaScript. Copy lives under

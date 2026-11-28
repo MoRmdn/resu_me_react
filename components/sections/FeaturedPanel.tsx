@@ -37,10 +37,13 @@ export function FeaturedPanel({
   locale = "en",
   project,
   flip,
+  review,
 }: {
   locale?: Locale;
   project: Project;
   flip: boolean;
+  /** The one client review about this project, rendered on the server. */
+  review?: React.ReactNode;
 }) {
   const { projectsCopy } = getCopy(locale);
   const [isOpen, setIsOpen] = useState(false);
@@ -109,7 +112,14 @@ export function FeaturedPanel({
             {media?.icon && <IconTile icon={media.icon} title={project.title} size={64} />}
             <div className="flex flex-col gap-2 pt-0.5">
               <p className="text-caption leading-normal text-bone-52">
-                {project.country} &middot; {project.category}
+                {/* A private card says so once, in the line under the pitch. */}
+                {project.isPrivate ? (
+                  project.category
+                ) : (
+                  <>
+                    {project.country} &middot; {project.category}
+                  </>
+                )}
               </p>
               <h3 className="text-h2">
                 {/* Stretched over the whole face, so the name of the control is
@@ -135,10 +145,15 @@ export function FeaturedPanel({
 
           <p className="max-w-[62ch] text-body text-bone">{project.description}</p>
 
-          <p className="text-caption leading-normal text-bone-52">
-            {projectsCopy.availability[project.availability]}
-          </p>
-          <p className="text-h3 text-bone">{project.achievement}</p>
+          {/* The store buttons below already say the links are provided. */}
+          {project.availability !== "store_links" && (
+            <p className="text-caption leading-normal text-bone-52">
+              {projectsCopy.availability[project.availability]}
+            </p>
+          )}
+          {/* A ledger carries the outcome as figures, so the sentence would
+              repeat it. The sentence stays in the detail below. */}
+          {!project.ledger && <p className="text-h3 text-bone">{project.achievement}</p>}
           {project.ledger ? (
             <dl className="hairline-grid grid-cols-3 overflow-hidden rounded-md border border-line">
               {project.ledger.map((entry) => (
@@ -195,7 +210,9 @@ export function FeaturedPanel({
           <ProjectDetail
             locale={locale}
             project={project}
-            onFace
+            descriptionOnFace
+            outcomeOnFace={!project.ledger}
+            review={review}
             className="border-t border-line p-6 md:p-8"
           >
             <button

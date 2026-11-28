@@ -186,8 +186,10 @@ function GalleryItem({
 
             {wide && (
               <>
-                <p className="hidden text-caption text-bone-70 sm:block">{project.description}</p>
-                <p className="mt-auto hidden border-t border-line pt-3 font-mono text-[0.78125rem] text-bone-52 sm:block">
+                {/* Shown at every width: the plane below leaves both out for
+                    this tile, so hiding them here hid them from phones. */}
+                <p className="text-caption text-bone-70">{project.description}</p>
+                <p className="mt-auto border-t border-line pt-3 font-mono text-[0.78125rem] text-bone-52">
                   {project.achievement}
                 </p>
               </>
@@ -242,7 +244,13 @@ function DetailPlane({
         </button>
       </div>
 
-      <ProjectDetail locale={locale} project={project} onFace={onTile} className="mt-4">
+      <ProjectDetail
+        locale={locale}
+        project={project}
+        descriptionOnFace={onTile}
+        outcomeOnFace={onTile}
+        className="mt-4"
+      >
         {hasCaseStudy(project.slug) && (
           <div>
             <CaseStudyLink locale={locale} project={project} placement="gallery" />

@@ -499,7 +499,7 @@
 }
 
 /* Static review grids. Every original stays in the served HTML once per area. */
-.review-grid .review-list, .testimonial-list {
+.review-grid .review-list {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
@@ -508,7 +508,7 @@
   list-style: none;
   width: 100%;
 }
-.review-grid .review-slot, .testimonial-list > li { min-width: 0; width: auto; }
+.review-grid .review-slot { min-width: 0; width: auto; }
 .review-grid .review-card { width: 100%; min-width: 0; }
 .review-grid .review-card__body { display: flex; flex-direction: column; gap: 14px; }
 .review-card__label { color: var(--color-bone-52); font-size: 0.75rem; line-height: 1.5; }
@@ -520,10 +520,10 @@
 .reviews-more .when-open, .reviews-more[open] .when-closed { display: none; }
 .reviews-more[open] .when-open { display: inline; }
 @media (min-width: 768px) {
-  .review-grid .review-list, .testimonial-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .review-grid .review-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
-  .review-grid .review-list, .testimonial-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .review-grid .review-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 /* review-cards:end */
 

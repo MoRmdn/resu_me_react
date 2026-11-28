@@ -31,6 +31,12 @@ export type Project = {
   availability: ProjectAvailability;
   analyticsLabels?: { category: string; country: string };
   story?: ProjectStory;
+  /**
+   * The id of the one review that is about this project. It is shown inside
+   * the project's details and left out of the Reviews list, so a quote appears
+   * once on the page. Featured projects only; `assertClosedSet` checks both.
+   */
+  reviewId?: string;
   slug: string;
   title: string;
   /** One-line summary used on cards. */
