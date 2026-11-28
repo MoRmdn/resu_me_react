@@ -7,6 +7,7 @@ import { PlatformMark } from "@/components/brand/PlatformMark";
 import { getCopy, ui } from "@/content/copy-i18n";
 import type { LocaleProps } from "@/content/locale";
 import { sectionNumber } from "@/content/site";
+import { projectReviewIds } from "@/content/projects";
 import { reviewPlatforms, reviews, initialReviewIds, selectedReviews } from "@/content/reviews";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
@@ -14,7 +15,10 @@ export function Reviews({ locale = "en" }: LocaleProps) {
   const { reviewsCopy } = getCopy(locale);
   const copy = ui[locale];
   const initial = selectedReviews(initialReviewIds);
-  const remaining = reviews.filter((r) => !initialReviewIds.includes(r.id));
+  // A review shown in a project's details is not repeated here.
+  const remaining = reviews.filter(
+    (r) => !initialReviewIds.includes(r.id) && !projectReviewIds.includes(r.id),
+  );
   return (
     <Section id="reviews" tone="ink-800" className="overflow-x-clip">
       <div data-reveal className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">

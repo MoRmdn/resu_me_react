@@ -304,6 +304,7 @@ export const projects: Project[] = [
   {
     slug: "lpermis",
     availability: "store_links",
+    reviewId: "upwork-lpermis",
     story: {
       problem:
         "Learner drivers need driving-theory practice and appointment booking in one mobile product.",
@@ -604,6 +605,11 @@ export const orderedProjects = ORDER.map((slug) => {
 
 /** The big panels, in ORDER. */
 export const featuredProjects = orderedProjects.filter((p) => FEATURED.includes(p.slug));
+
+/** Reviews shown inside a project's details, so the Reviews list skips them. */
+export const projectReviewIds: readonly string[] = projects.flatMap((p) =>
+  p.reviewId ? [p.reviewId] : [],
+);
 
 /** Everything else, as gallery tiles, in ORDER. */
 export const galleryProjects = orderedProjects.filter((p) => !FEATURED.includes(p.slug));

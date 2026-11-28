@@ -5,12 +5,12 @@ import { FeaturedPanel } from "@/components/sections/FeaturedPanel";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { getProjects } from "@/content/projects-i18n";
 import { sectionNumber } from "@/content/site";
-import { Testimonials } from "./SocialProof";
+import { ReviewCard } from "@/components/ui/ReviewCard";
+import { selectedReviews } from "@/content/reviews";
 
 export function Projects({ locale = "en" }: LocaleProps) {
   const { projectsCopy } = getCopy(locale);
   const { featuredProjects, galleryProjects, orderedProjects } = getProjects(locale);
-  const [firstFeatured, ...remainingFeatured] = featuredProjects;
   return (
     <Section id="projects" tone="ink-900">
       <SectionHeader
@@ -22,17 +22,19 @@ export function Projects({ locale = "en" }: LocaleProps) {
         headingClassName="max-w-[800px]"
       />
 
-      {firstFeatured && (
-        <FeaturedPanel locale={locale} project={firstFeatured} flip={false} />
-      )}
-
-      {/* Lead with the work itself; client evidence supports the first project
-          rather than occupying the section's entire opening viewport. */}
-      <Testimonials locale={locale} />
-
       <div className="flex flex-col gap-4">
-        {remainingFeatured.map((project, i) => (
-          <FeaturedPanel key={project.slug} locale={locale} project={project} flip={i % 2 === 0} />
+        {featuredProjects.map((project, i) => (
+          <FeaturedPanel
+            key={project.slug}
+            locale={locale}
+            project={project}
+            flip={i % 2 === 1}
+            review={
+              project.reviewId && (
+                <ReviewCard review={selectedReviews([project.reviewId])[0]} locale={locale} />
+              )
+            }
+          />
         ))}
       </div>
 

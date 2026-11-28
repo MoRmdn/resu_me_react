@@ -123,6 +123,7 @@ export const projectsCopy = {
   detailsLabel: "Details",
   bundleIdLabel: "Application ID",
   outcomeLabel: "Outcome",
+  clientReviewLabel: "Client review",
   builtWithLabel: "Built with",
   socialLabel: "Store & social artwork",
   screensLabel: (title: string) => `${title} store screens`,

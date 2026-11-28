@@ -385,6 +385,10 @@ unchanged.
 - (Superseded: the technology strip and the marketplace summary under the hero were removed when the page was reordered for clients.) The first featured
   project leads with its artwork; three verbatim testimonials follow it as
   supporting evidence, before the remaining featured projects.
+- (Superseded, late November 2026: the three-testimonial block was removed.
+  A review about one project sits inside that project's details under
+  "Client review"; the rest are in Reviews. A project card states each fact
+  once: see AGENTS.md, "A project card says each fact once".)
 - Featured projects show their outcome and availability on the face, followed by problem, responsibility, decisions and result inside the existing detail plane.
 - Reviews use a static 1/2/3-column grid at phone/768px/1024px widths. Six appear initially; native disclosure contains the remaining server-rendered reviews. No loop or cloned review tracks remain on the site.
 - Reviews show the document language first. Translations are labelled, with originals in an accessible native disclosure; no original is rewritten.

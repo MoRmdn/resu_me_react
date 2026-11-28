@@ -184,4 +184,4 @@ the Arabic/French/English switch. Vet any replacement the same way.
 
 The English and Arabic route groups each own a root layout. `components/DocumentShell.tsx` supplies fonts, metadata, JSON-LD and analytics; `PortfolioPage` and `PrivacyPage` share the actual page composition. Content dictionaries under `content/*-i18n.ts` supply translated presentation data, while source identifiers and URLs remain shared.
 
-`SocialProof.tsx` supplies the curated testimonials inside Projects. `Reviews` renders the canonical static review grid and native disclosure; review exports deduplicate by the stable review ID. `ReviewCard` retains the verbatim source quote behind a labelled translation. Mobile Skills compact below 768px without removing capabilities.
+A project's `reviewId` puts its one client review inside that project's details. `Reviews` renders the canonical static review grid and native disclosure; review exports deduplicate by the stable review ID. `ReviewCard` retains the verbatim source quote behind a labelled translation. Mobile Skills compact below 768px without removing capabilities.

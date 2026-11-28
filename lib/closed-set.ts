@@ -1,6 +1,6 @@
 import { caseStudies } from "@/content/case-studies";
-import { projects } from "@/content/projects";
-import { reviews } from "@/content/reviews";
+import { featuredProjects, projects } from "@/content/projects";
+import { initialReviewIds, reviews } from "@/content/reviews";
 import { services } from "@/content/services";
 
 /**
@@ -56,6 +56,24 @@ export function assertClosedSet() {
     if (study.services.length + study.related.length === 0) {
       problems.push(`${at}: a dead end, with no service and no related study`);
     }
+  }
+
+  const featured = new Set(featuredProjects.map((p) => p.slug));
+  const claimed = new Map<string, string>();
+  for (const project of projects) {
+    const id = project.reviewId;
+    if (!id) continue;
+    const at = `project ${project.slug}`;
+    if (!reviewIds.has(id)) problems.push(`${at}: review "${id}" does not exist`);
+    if (!featured.has(project.slug)) {
+      problems.push(`${at}: has a review but is not featured, so nothing would render it`);
+    }
+    if (initialReviewIds.includes(id)) {
+      problems.push(`${at}: review "${id}" also opens the Reviews section`);
+    }
+    const other = claimed.get(id);
+    if (other) problems.push(`${at}: review "${id}" is already used by project ${other}`);
+    claimed.set(id, project.slug);
   }
 
   if (problems.length > 0) {
