@@ -4,7 +4,8 @@ import { useState } from "react";
 import { IconTile } from "@/components/ui/IconTile";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { SocialStrip } from "@/components/ui/ProjectPlate";
-import { ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
+import { CaseStudyLink, ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
+import { hasCaseStudy } from "@/content/case-studies";
 import { getCopy } from "@/content/copy-i18n";
 import type { Locale, LocaleProps } from "@/content/locale";
 import type { Project } from "@/content/types";
@@ -242,6 +243,11 @@ function DetailPlane({
       </div>
 
       <ProjectDetail locale={locale} project={project} onFace={onTile} className="mt-4">
+        {hasCaseStudy(project.slug) && (
+          <div>
+            <CaseStudyLink locale={locale} project={project} placement="gallery" />
+          </div>
+        )}
         <ProjectLinks locale={locale} project={project} placement="gallery" />
       </ProjectDetail>
 

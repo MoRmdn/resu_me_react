@@ -2,42 +2,21 @@
 
 import type { LocaleProps } from "@/content/locale";
 import { getProfile } from "@/content/profile-i18n";
-import { ui } from "@/content/copy-i18n";
+import { getCopy, ui } from "@/content/copy-i18n";
 import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MoRmdnMark } from "@/components/brand/MoRmdnMark";
-import { site } from "@/content/site";
+import { channels, site } from "@/content/site";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { track } from "@/lib/analytics/gtag";
 import { useScrollSpy } from "@/lib/useScrollSpy";
 import { useHydrated } from "@/lib/useHydrated";
-import { useThemeMode } from "@/lib/useTheme";
-import { nextThemeMode, setThemeMode, type ThemeMode } from "@/lib/theme";
 import { cn } from "@/lib/cn";
+import { whatsappWith } from "@/lib/paths";
 
-/** Ledger numbering, the page's signature: 01 About … 07 Contact. */
+/** Ledger numbering, the page's signature: 01 Services … 07 Contact. */
 const index = (i: number) => String(i + 1).padStart(2, "0");
-
-/** One glyph per theme mode: half-filled for auto, sun for light, moon for dark. */
-function ThemeIcon({ mode }: { mode: ThemeMode }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      {mode === "auto" && (
-        <>
-          <circle cx="12" cy="12" r="8" />
-          <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
-        </>
-      )}
-      {mode === "light" && (
-        <>
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" strokeLinecap="round" />
-        </>
-      )}
-      {mode === "dark" && <path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z" strokeLinejoin="round" />}
-    </svg>
-  );
-}
 
 /**
  * The nav island and, on wide screens, the section rail. Both share one
@@ -49,12 +28,12 @@ export function Nav({ locale = "en" }: LocaleProps) {
   // unstable id list makes useScrollSpy rebuild its observer on every render.
   const { navSections } = useMemo(() => getProfile(locale), [locale]);
   const copy = ui[locale];
+  const { contactCopy } = getCopy(locale);
+  const whatsapp = channels.find((c) => c.id === "whatsapp")!;
   const ids = useMemo(() => navSections.map((s) => s.id), [navSections]);
   const active = useScrollSpy(ids);
   const activeIndex = navSections.findIndex((s) => s.id === active);
   const hydrated = useHydrated();
-  // Null in server HTML; auto is the default, so that is what it renders.
-  const themeMode = useThemeMode() ?? "auto";
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const ring = useRef<HTMLSpanElement>(null);
@@ -94,24 +73,6 @@ export function Nav({ locale = "en" }: LocaleProps) {
 
   // Closed links leave the tab order only once JavaScript can open them again.
   const linkTab = hydrated && !open ? -1 : undefined;
-  const nextMode = nextThemeMode(themeMode);
-  const modeLabel = { auto: copy.themeAuto, light: copy.themeLight, dark: copy.themeDark };
-  // Cycles auto → light → dark → auto. The name says the current mode and
-  // contains the visible label, so voice control can target it.
-  const themeButton = (className: string, withLabel = false, tabIndex?: number) => (
-    <button
-      type="button"
-      tabIndex={tabIndex}
-      onClick={() => setThemeMode(nextMode)}
-      aria-label={`${copy.theme}: ${modeLabel[themeMode]}`}
-      title={withLabel ? undefined : `${copy.theme}: ${modeLabel[themeMode]}`}
-      className={className}
-      {...trackAttrs("theme_toggle", { theme_choice: nextMode })}
-    >
-      <ThemeIcon mode={themeMode} />
-      {withLabel && modeLabel[themeMode]}
-    </button>
-  );
 
   return (
     <>
@@ -135,7 +96,7 @@ export function Nav({ locale = "en" }: LocaleProps) {
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls={open ? "nav-links nav-sheet" : "nav-links"}
-            className="inline-flex h-11 shrink-0 items-center gap-2.5 rounded-pill px-2.5 text-[0.90625rem] font-semibold text-bone transition-colors duration-fast ease-fast hover:bg-bone-06"
+            className="inline-flex h-11 min-w-0 items-center gap-2 rounded-pill px-2 text-[0.90625rem] sm:gap-2.5 sm:px-2.5 font-semibold text-bone transition-colors duration-fast ease-fast hover:bg-bone-06"
             {...trackAttrs("nav_menu_toggle", {
               menu_action: open ? "close" : "open",
               toggle_method: "menu_button",
@@ -148,17 +109,19 @@ export function Nav({ locale = "en" }: LocaleProps) {
             >
               <span className="absolute inset-[3px] rounded-pill bg-ink-800" />
             </span>
-            <span className="whitespace-nowrap">
+            {/* The label gives way first on a narrow phone, so the language
+                switch and the WhatsApp button always fit. */}
+            <span className="truncate">
               <span className="sr-only">{open ? copy.closeMenu : copy.openMenu}: </span>
               {activeIndex >= 0 ? navSections[activeIndex].label : copy.intro}
             </span>
-            <span aria-hidden className="font-mono text-[0.75rem] font-normal text-bone-52 tabular">
+            <span aria-hidden className="hidden font-mono text-[0.75rem] font-normal text-bone-52 tabular sm:inline">
               {activeIndex >= 0 ? activeIndex + 1 : 0}/{navSections.length}
             </span>
             <span
               aria-hidden
               className={cn(
-                "text-[0.9375rem] text-bone-52 transition-transform duration-base ease-base rtl:-scale-x-100",
+                "text-[0.9375rem] text-bone-52 transition-transform duration-base ease-base max-[359px]:hidden rtl:-scale-x-100",
                 open && "rotate-90",
               )}
             >
@@ -192,23 +155,30 @@ export function Nav({ locale = "en" }: LocaleProps) {
                 {link.label}
               </a>
             ))}
-            {themeButton(
-              "ms-0.5 grid size-10 shrink-0 place-items-center rounded-pill text-bone transition-colors duration-fast ease-fast hover:bg-bone-06",
-              false,
-              linkTab,
-            )}
+            <ThemeToggle
+              locale={locale}
+              className="ms-0.5 grid size-10 shrink-0 place-items-center rounded-pill text-bone transition-colors duration-fast ease-fast hover:bg-bone-06"
+              tabIndex={linkTab}
+            />
           </div>
 
-          <span className="hidden lg:contents">
-            <LanguageSwitch locale={locale} className="rounded-pill px-3 hover:bg-bone-06" />
-          </span>
+          {/* At every width: someone who reads Arabic first and lands on the
+              English page must not have to open a menu to find it. */}
+          <LanguageSwitch locale={locale} className="rounded-pill px-2 hover:bg-bone-06 sm:px-3" />
 
           <a
-            href="#contact"
-            className="ms-1 inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-pill bg-bone px-4 text-[0.875rem] font-semibold text-ink-900 transition-colors duration-fast ease-fast hover:bg-bone-70"
-            {...trackAttrs("cta_click", { cta_id: "nav_hire_me", link_text: copy.hire })}
+            href={whatsappWith(whatsapp.url, contactCopy.whatsappMessage)}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="ms-1 inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-pill bg-bone px-3 text-[0.875rem] font-semibold text-ink-900 sm:px-4 transition-colors duration-fast ease-fast hover:bg-bone-70"
+            {...trackAttrs("contact_channel_click", {
+              channel_id: whatsapp.id,
+              channel_label: copy.whatsapp,
+              channel_placement: "nav",
+            })}
           >
-            {copy.hire}
+            {copy.whatsapp}
+            <span className="sr-only">{copy.external}</span>
           </a>
         </nav>
 
@@ -242,12 +212,12 @@ export function Nav({ locale = "en" }: LocaleProps) {
                 </li>
               ))}
             </ul>
-            <div className="mt-1.5 flex items-center justify-between gap-2 border-t border-line px-1.5 pt-2.5 pb-1">
-              <LanguageSwitch locale={locale} />
-              {themeButton(
-                "inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-3.5 text-caption font-medium text-bone",
-                true,
-              )}
+            <div className="mt-1.5 flex items-center justify-end gap-2 border-t border-line px-1.5 pt-2.5 pb-1">
+              <ThemeToggle
+                locale={locale}
+                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-3.5 text-caption font-medium text-bone"
+                withLabel
+              />
             </div>
           </div>
         )}

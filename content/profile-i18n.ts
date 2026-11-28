@@ -1,4 +1,4 @@
-import { channels, education, learningNow, navSections } from "./site";
+import { channels, education, learningNow, navSections, type SectionId } from "./site";
 import { experiences } from "./experience";
 import { skillGroups } from "./skills";
 import type { Experience } from "./types";
@@ -153,21 +153,31 @@ export function getSkills(locale: Locale) {
 
 export function getProfile(locale: Locale) {
   if (locale === "en") return { channels, education, learningNow, navSections };
-  const labels = ["نبذة عني", "الخبرة", "المشاريع", "المهارات", "التقييمات", "الخدمات", "التواصل"];
-  const notes = [
-    "أسرع وسيلة للرد",
-    "عمل بعقد وضمان الدفع",
-    "للعمل بدوام كامل والتفاصيل المطولة",
-    "عروض المشاريع",
-    "خدمات محددة النطاق",
-    "للعملاء الناطقين بالعربية",
-  ];
+  // Keyed by id, never by position: reordering the English arrays cannot put
+  // an Arabic label on the wrong section, and a new id without one fails to compile.
+  const labels: Record<SectionId, string> = {
+    services: "الخدمات",
+    projects: "المشاريع",
+    reviews: "التقييمات",
+    about: "نبذة عني",
+    experience: "الخبرة",
+    skills: "المهارات",
+    contact: "التواصل",
+  };
+  const notes: Record<(typeof channels)[number]["id"], string> = {
+    whatsapp: "أسرع وسيلة للرد",
+    upwork: "عمل بعقد وضمان الدفع",
+    email: "للتفاصيل المطولة والملفات",
+    freelancer: "عروض المشاريع",
+    fiverr: "خدمات محددة النطاق",
+    khamsat: "للعملاء الناطقين بالعربية",
+  };
   return {
-    navSections: navSections.map((item, i) => ({ ...item, label: labels[i] })),
-    channels: channels.map((item, i) => ({
+    navSections: navSections.map((item) => ({ ...item, label: labels[item.id] })),
+    channels: channels.map((item) => ({
       ...item,
       label: item.id === "email" ? "البريد الإلكتروني" : item.label,
-      note: notes[i],
+      note: notes[item.id],
     })),
     education: [
       "بكالوريوس علوم الحاسب، تخصص المعلوماتية الحيوية — جامعة المنصورة، 2021 (مشروع التخرج بتقدير A+)",

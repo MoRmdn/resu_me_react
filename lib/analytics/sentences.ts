@@ -12,7 +12,6 @@ export const SENTENCES: Record<EventName, string> = {
   language_switch: "Switched the portfolio to {target_locale}",
   reviews_expand: "{toggle_action} the additional reviews",
   review_original_toggle: "{toggle_action} the original review wording",
-  review_summary_click: "Followed the early summary to client reviews",
   nav_link_click: "Clicked {link_text} in the {nav_location}",
   nav_menu_toggle: "Section menu: {menu_action} via {toggle_method}",
   theme_toggle: "Switched the theme to {theme_choice}",
@@ -31,6 +30,7 @@ export const SENTENCES: Record<EventName, string> = {
   project_toggle: "{toggle_action} details for {project_title} via {toggle_method}",
   project_link_click: "Opened {link_type} for {project_title}",
   project_screens_swipe: "Swiped the screenshots of {project_title}",
+  case_study_click: "Opened the case study for {project_title} from the {project_placement}",
 
   experience_toggle: "{toggle_action} role at {experience_company} via {toggle_method}",
   experience_dwell: "Spent {dwell_seconds}s on the role at {experience_company}",
@@ -46,6 +46,8 @@ export const SENTENCES: Record<EventName, string> = {
 
   contact_channel_click: "Reached out via {channel_label} from the {channel_placement}",
   service_proof_click: "Went to {link_text} from the {service_id} offer",
+  service_page_click: "Opened the {service_id} service page from the {nav_location}",
+  faq_toggle: "{toggle_action} a {service_id} question: {link_text}",
   contact_email_copy: "Copied the email address",
   resume_download: "Downloaded the CV ({file_name})",
   social_profile_click: "Opened the {social_label} profile",

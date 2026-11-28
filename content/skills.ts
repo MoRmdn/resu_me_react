@@ -80,19 +80,3 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
 ];
-
-/** The marquee strip — short names only, and deliberately not the full skill list. */
-export const technologyStripItems = [
-  "Dart",
-  "Flutter",
-  "Bloc",
-  "GetX",
-  "Riverpod",
-  "Firebase",
-  "GraphQL",
-  "ML Kit",
-  "Clean Architecture",
-  "Cloud Functions",
-  "Stripe",
-  "Hive",
-];

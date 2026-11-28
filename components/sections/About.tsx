@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 import { getProfile } from "@/content/profile-i18n";
+import { sectionNumber } from "@/content/site";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
 /**
@@ -20,7 +21,7 @@ export function About({ locale = "en" }: LocaleProps) {
       <div className="grid gap-14 lg:grid-cols-[4fr_7fr] lg:gap-16">
         <div className="flex flex-col gap-10">
           <div data-reveal>
-            <Eyebrow index={1}>{about.eyebrow}</Eyebrow>
+            <Eyebrow index={sectionNumber("about")}>{about.eyebrow}</Eyebrow>
             <h2 className="mt-4 text-display-l">{about.headline.join(" ")}</h2>
           </div>
 

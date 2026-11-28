@@ -11,6 +11,7 @@ import { getExperiences } from "@/content/profile-i18n";
 import { attentionAttrs, experienceParams, trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
 import { useHydrated } from "@/lib/useHydrated";
+import { sectionNumber } from "@/content/site";
 
 /**
  * Collapsed panels stay in the DOM — that is what puts every achievement bullet
@@ -32,7 +33,7 @@ export function Experience({ locale = "en" }: LocaleProps) {
   return (
     <Section id="experience" tone="ink-800">
       <SectionHeader
-        index={2}
+        index={sectionNumber("experience")}
         eyebrow={experienceCopy.eyebrow}
         headline={experienceCopy.headline}
         aside={<p className="max-w-[36ch] text-[0.875rem] text-bone-70">{experienceCopy.bandCaption}</p>}

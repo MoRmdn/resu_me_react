@@ -9,8 +9,8 @@ import { trackAttrs } from "@/lib/analytics/attrs";
 
 /**
  * Google Analytics' terms require a privacy policy, so this exists. It carries
- * `noindex` and stays out of the sitemap: for search, the site is still the one
- * page. The links here are plain anchors on purpose: a full page load is what
+ * `noindex` and stays out of the sitemap, unlike the service and case-study
+ * pages. The links here are plain anchors on purpose: a full page load is what
  * starts a fresh count of sections, projects and scroll depth for the next page.
  */
 export default function PrivacyPage({ locale = "en" }: LocaleProps) {
@@ -32,7 +32,7 @@ export default function PrivacyPage({ locale = "en" }: LocaleProps) {
           </a>
 
           <div className="mt-4">
-            <LanguageSwitch locale={locale} privacy />
+            <LanguageSwitch locale={locale} path="privacy/" />
           </div>
           <p className="eyebrow mt-10 text-bone-52">{privacyCopy.eyebrow}</p>
           <h1 className="mt-6 text-display-l text-balance">{privacyCopy.headline}</h1>

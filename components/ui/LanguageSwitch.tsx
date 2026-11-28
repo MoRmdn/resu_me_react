@@ -4,14 +4,18 @@ import type { Locale } from "@/content/locale";
 import { ui } from "@/content/copy-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
-/** A full navigation gives each language its own server-rendered document. */
+/**
+ * A full navigation gives each language its own server-rendered document.
+ * `path` is the page under the locale root (`privacy/`, `projects/ayco/`), so
+ * the switch lands on the same page in the other language.
+ */
 export function LanguageSwitch({
   locale,
-  privacy = false,
+  path = "",
   className = "rounded-md border border-line px-3",
 }: {
   locale: Locale;
-  privacy?: boolean;
+  path?: string;
   className?: string;
 }) {
   const [hash, setHash] = useState("");
@@ -22,7 +26,7 @@ export function LanguageSwitch({
     return () => window.removeEventListener("hashchange", update);
   }, []);
   const target = locale === "en" ? "ar" : "en";
-  const href = `${target === "ar" ? "/ar/" : "/"}${privacy ? "privacy/" : ""}${hash}`;
+  const href = `${target === "ar" ? "/ar/" : "/"}${path}${hash}`;
   return (
     <a
       href={href}

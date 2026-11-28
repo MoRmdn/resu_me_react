@@ -1,10 +1,14 @@
 import { about, contactCopy, hero, llmsCopy, projectsCopy, servicesCopy } from "@/content/copy";
+import { caseStudies } from "@/content/case-studies";
 import { clientCountries, unplacedClients } from "@/content/clients";
 import { experiences } from "@/content/experience";
 import { projects } from "@/content/projects";
 import { reviewPlatforms, reviewTotal } from "@/content/reviews";
+import { services } from "@/content/services";
 import { channels, contact, education, site, socials } from "@/content/site";
 import { skillGroups } from "@/content/skills";
+import { caseStudyPath, servicePath } from "@/lib/paths";
+import { projectNames } from "@/lib/projectNames";
 
 // `output: "export"` refuses to build a route handler that has not
 // declared itself static, so llms.txt needs this explicitly.
@@ -118,6 +122,22 @@ export function GET() {
     ...servicesCopy.steps.map(
       (step, i) => `${i + 1}. ${step.title}: ${step.body} ${servicesCopy.youGetLabel}: ${step.deliverable}.`,
     ),
+    "",
+  );
+
+  // Each case study and service has its own page, in English at these
+  // addresses and in Arabic under /ar/.
+  add(
+    `## ${llmsCopy.caseStudiesHeading}`,
+    "",
+    ...caseStudies.map((c) => {
+      const project = projects.find((p) => p.slug === c.slug)!;
+      return `- [${projectNames(project.title).name}](${site.url}/${caseStudyPath(c.slug)}): ${c.summary}`;
+    }),
+    "",
+    `## ${llmsCopy.servicePagesHeading}`,
+    "",
+    ...services.map((s) => `- [${s.headline}](${site.url}/${servicePath(s.slug)}): ${s.summary}`),
     "",
   );
 

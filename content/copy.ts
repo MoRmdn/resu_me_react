@@ -5,31 +5,38 @@
  * The hero intro previously said "four years" — the CV says over five.
  */
 import { clientCountries } from "./clients";
-import { reviews, reviewTotal } from "./reviews";
+import { reviewPlatforms, reviews, reviewTotal } from "./reviews";
 import { contact, metrics, site } from "./site";
 
 export const hero = {
   place: String(site.location),
   status: "Taking new projects",
   role: "Software engineer",
-  // Morocco and Oman are the western and eastern ends of content/clients.json.
-  headline: ["I build Arabic‑first apps for businesses from Morocco to Oman"],
-  intro: `I'm ${site.name}. For ${metrics.yearsExperience} years I've built mobile and web products for ${metrics.teams} teams in ${metrics.countries} countries, on a clean architecture the next developer can pick up.`,
+  // Names the three things a business asks for, in the words of the Services
+  // offers. Plain websites are not claimed here until they are an offer.
+  // What is built comes first, because that is the word a visitor scans for.
+  headline: ["Mobile apps, dashboards and internal systems, built Arabic‑first"],
+  // The proof a client can check: the marketplace totals, not the employer count.
+  intro: `I'm ${site.name}. ${metrics.yearsExperience} years building mobile and web products for businesses, with ${reviewTotal} reviews and completed jobs from clients on ${reviewPlatforms.length} marketplaces.`,
   // Ledger leads with the conversation, because WhatsApp is the stated
-  // first-choice channel; the work is the quieter second action.
-  primaryCta: { label: "Start a project", href: "https://wa.me/201281100168" },
+  // first-choice channel; the work is the quieter second action. The label
+  // names the channel, and Hero.tsx prefills contactCopy.whatsappMessage.
+  primaryCta: { label: "Message me on WhatsApp", href: "https://wa.me/201281100168" },
   secondaryCta: { label: "See the work", href: "#projects" },
   resumeCta: { label: "Download CV", href: contact.resumeUrl },
-  /** The ledger strip under the hero. Values are filled in by Hero.tsx from content/. */
+  /**
+   * The ledger strip under the hero: what clients say and where they are.
+   * Every value is derived from reviews.ts and clients.json; Hero.tsx works out
+   * the first year and the country with the most clients. It carries no
+   * employer and no client total: clients.json counts a client once per site.
+   */
   ledger: {
-    basedIn: "Based in",
+    reviews: "Reviews and jobs",
+    reviewsValue: `${reviewTotal} on ${reviewPlatforms.length} marketplaces`,
+    clients: "Clients in",
+    clientsValue: `${clientCountries.length} countries`,
+    topCountry: "Most clients in",
     since: "Shipping since",
-    teams: "Teams",
-    teamsValue: `${metrics.teams} in ${metrics.countries} countries`,
-    now: "Now",
-    // The product of the current role; its company comes from experience.ts.
-    nowProduct: "NAAS",
-    nowJoin: "at",
   },
   figureCaption: "Screens from three shipped apps",
   /** The three promos in the hero figure, by project slug. */
@@ -42,20 +49,35 @@ export const hero = {
   ],
 };
 
+/**
+ * The homepage's <title> and description, and the site name on share cards.
+ * The title carries the name, the brand word and the phrase a client searches
+ * for; Google shows about 60 characters of it. The description is
+ * `site.description`, so the search snippet, the share card and the structured
+ * data say the same thing.
+ */
+export const metaCopy = {
+  title: `${site.name} (${site.shortName}) — Mobile App & Dashboard Developer`,
+  description: String(site.description),
+  siteName: `${site.shortName} — ${site.name}`,
+  /** Share card, 1200x630: `npm run og` draws one per language. */
+  ogImage: "/og.png",
+};
+
 export const about = {
   eyebrow: "About",
   headline: ["Computer science degree,", "mobile obsession"],
   lede: "I build cross-platform apps that behave like native ones — fast to open, smooth under the thumb, and honest about state.",
   body: [
     "My final-year project was mobile data analysis and visualisation; that's where the habit started. Since then I've led products from an empty `main.dart` to the App Store: a driving-school platform in Morocco, a medical social network in Libya, an AI matchmaking product in Saudi Arabia, a multi-vendor marketplace in Türkiye, and a field-service reporting system built solo end to end. Different domains, same discipline — Bloc or Cubit for anything with real business logic, clean architecture so the next developer isn't cursing my name, and unit and widget tests where they earn their keep.",
-    "I like the unglamorous wins: cutting data load times by 20%, shaving 10% off a bundle, upgrading a legacy app to null safety before it became someone's emergency.",
+    "I like the unglamorous wins: cutting data load times by 20%, cutting an app's size by 20%, upgrading a legacy app to null safety before it became someone's emergency.",
     "This year I took the same habits to the web — React, then Next.js — and built JS Quest to prove it rather than claim it: a hundred-question JavaScript course where the answers live in Postgres behind row-level security, because a quiz you can beat by reading the network tab teaches nothing.",
   ],
   stats: [
     { value: "20%", label: "Faster data load, Eleven Stars" },
     { value: "25%", label: "More bookings, Mutabbib" },
     { value: "15%", label: "Retention lift, Arcit-AI" },
-    { value: "10%", label: "Smaller binary, Cyparta" },
+    { value: "20%", label: "Smaller app, Cyparta" },
   ],
 };
 
@@ -288,17 +310,80 @@ export const servicesCopy = {
   ],
 };
 
+/**
+ * Labels for the case study pages at /projects/<slug>/. The stories themselves
+ * are in case-studies.ts. No Ledger numbers on these pages: numbering belongs
+ * to the homepage section eyebrows alone.
+ */
+export const caseStudyCopy = {
+  eyebrow: "Case study",
+  homeLabel: "Home",
+  projectsLabel: "Projects",
+  factLabels: {
+    client: "Client",
+    role: "My part",
+    period: "Period",
+    platforms: "Platforms",
+    builtWith: "Built with",
+  },
+  contextLabel: "The client and the product",
+  challengeLabel: "What was asked",
+  decisionsLabel: "Key decisions",
+  outcomesLabel: "What changed",
+  highlightsLabel: "Under the hood",
+  reviewLabel: "What the client said",
+  lessonsLabel: "If your project looks like this",
+  servicesLabel: "Services in this project",
+  ctaHeadline: "Building something like this?",
+  ctaBody: "Send me what you have in mind. I'll reply within a day with a plan and a realistic estimate.",
+  ctaLabel: "Message me on WhatsApp",
+  relatedLabel: "More case studies",
+  readLabel: "Read the case study",
+};
+
+/** Labels for the service pages at /services/<slug>/. The services are in services.ts. */
+export const servicePageCopy = {
+  homeLabel: "Home",
+  servicesLabel: "Services",
+  groupLabels: { apps: "Mobile apps", web: "Web", app_types: "By kind of app" },
+  seeWorkLabel: "See the work",
+  situationsLabel: "This is for you if",
+  scopeLabel: "What's included",
+  deliverablesLabel: "What you get",
+  proofLabel: "Where I've done it",
+  proofLinkLabel: { caseStudy: "Read the case study", project: "See the project", role: "See the role" },
+  reviewsLabel: "What clients said",
+  reviewsNote: (count: number) => `${count} reviews from this kind of work, copied word for word`,
+  moreReviewsLabel: (count: number) => `Show the other ${count} reviews`,
+  fewerReviewsLabel: "Show fewer reviews",
+  faqLabel: "Questions",
+  boundariesLabel: "What I won't promise",
+  relatedLabel: "Related services",
+  ctaHeadline: "Tell me what you need",
+  ctaLabel: "Message me on WhatsApp",
+  detailsLabel: "Details",
+};
+
 export const contactCopy = {
   eyebrow: "Contact",
   headline: ["Got an app", "to build?"],
   blurb:
-    "Full-time, contract or a second pair of hands on a release that's slipping — reach me wherever suits you and I'll reply within a day.",
+    "A new app, a dashboard, or an app that needs fixing: tell me what you need on whichever channel suits you and I'll reply within a day.",
   availabilityLabel: "Availability",
   availability: "Taking new work · Mansoura / remote",
   channelsLabel: "Get in touch",
   channelsNote: "Pick whichever is easiest — they all reach me.",
   copyLabel: "Copy address",
   copiedLabel: "Copied",
+  /**
+   * What a visitor's first WhatsApp line and email subject say when the link
+   * is not about one offer or project: the hero, the nav, the Contact grid and
+   * the ways of working. It is theirs to edit and send, it carries nothing
+   * about them, and it never goes to analytics. It says the site sent them,
+   * which is the only way an enquiry can be told apart from a marketplace one.
+   */
+  whatsappMessage: "Hi Mohamed, I found you through your website and I have a project to discuss.",
+  emailSubject: "Project enquiry from mormdn.com",
 };
 
 export const footerCopy = {
@@ -387,6 +472,8 @@ export const llmsCopy = {
   applicationIdLabel: "Application ID",
   outcomeLabel: "Outcome",
   servicesHeading: "Services",
+  caseStudiesHeading: "Case studies",
+  servicePagesHeading: "Service pages",
   skillsHeading: "Skills",
   reviewsHeading: "Client reviews",
   reviewsSummary: (total: number, platforms: number) =>

@@ -152,6 +152,25 @@
         ]
       },
       {
+        "//": "Case studies and service pages, English here and Arabic in the next rule. Globs, so a new page is covered without a new rule. Nothing but HTML and its RSC payloads lives under these paths: images are under /images/.",
+        "source": "/@(projects|services)/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/ar/@(projects|services)/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
+      },
+      {
         "source": "/**/__next*",
         "headers": [
           {

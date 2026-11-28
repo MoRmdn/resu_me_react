@@ -1,3 +1,8 @@
+// Type-only and relative, so `npm run brief` (plain tsc, no path aliases) still
+// compiles content/. Ties every service id to the analytics catalog: a service
+// that is not declared there does not compile.
+import type { EventParams } from "../lib/analytics/catalog";
+
 /**
  * Content model for the portfolio.
  *
@@ -135,4 +140,97 @@ export type ProjectMedia = {
   screens?: { file: string; width: number; height: number; alt: string }[];
   /** 1:1 posts. A different aspect, so they get their own strip. */
   social?: { file: string; width: number; height: number; alt: string }[];
+};
+
+/** A service's analytics id. Declared in lib/analytics/catalog.ts. */
+export type ServiceId = EventParams<"service_page_click">["service_id"];
+
+export type ServiceGroup = "apps" | "web" | "app_types";
+
+/**
+ * Evidence for a claim: a project on this site, a role, or this site itself.
+ * `target` is a project slug, a case study slug, or `experience`. The page
+ * resolves it: a case study when there is one, otherwise the homepage anchor.
+ * `note` says what in that work backs this service.
+ */
+export type ServiceProof = { name: string; target: string; note: string };
+
+/**
+ * One service, and its page at /services/<slug>/.
+ *
+ * Every claim restates the marketplace bio (docs/marketplaces/bio-ar.md) or a
+ * fact elsewhere in content/. No prices, timelines or response times until
+ * Mohamed states them.
+ */
+export type Service = {
+  id: ServiceId;
+  slug: string;
+  group: ServiceGroup;
+  /** The card title, as on the homepage. */
+  title: string;
+  /** The page's H1 and <title>: the phrase people search for, once. */
+  headline: string;
+  /** Meta description, and the line under the title in lists. Under ~155 characters. */
+  summary: string;
+  /** Who it is for, in one line. */
+  audience: string;
+  /** What it is, in one sentence. */
+  body: string;
+  /** Three short lines for the homepage card. */
+  includes: string[];
+  /** "This is for you if…": the situations a client recognises themselves in. */
+  situations: { title: string; body: string }[];
+  /** The full scope, grouped. */
+  scope: { title: string; items: string[] }[];
+  /** What the client has at the end. */
+  deliverables: string[];
+  proof: ServiceProof[];
+  /** Reviews whose `project` field matches one of these, shown on the page. */
+  reviewProjects?: string[];
+  /** Of those, the ones shown first, in this order. The rest sit behind a disclosure. */
+  leadReviewIds?: string[];
+  /** Questions, each with a stable id that never changes with the wording. */
+  faq: { id: string; q: string; a: string }[];
+  /** What I deliberately do not promise. */
+  boundaries?: string[];
+  related: ServiceId[];
+  /** Prefills the WhatsApp chat. Never sent to analytics. */
+  message: string;
+};
+
+/**
+ * The full story of one project, at /projects/<slug>/. Structure after the
+ * case studies of Very Good Ventures and LeanCode: what was asked, what was
+ * decided and why, what changed, and what a client with a similar project
+ * should know. Facts only from content/, the CV and the verbatim reviews.
+ */
+export type CaseStudy = {
+  /** A project slug from projects.ts. */
+  slug: string;
+  /** The H1: the outcome, not the app name. */
+  headline: string;
+  /** Meta description and the lede under the H1. Under ~155 characters. */
+  summary: string;
+  /** The credits block. A missing period is omitted, never guessed. */
+  facts: { client: string; role: string; period?: string; platforms: string };
+  /** The client and the product. */
+  context: string[];
+  /** What was asked, and what made it hard. */
+  challenge: string[];
+  /** One bold line each, then why. */
+  decisions: { title: string; body: string }[];
+  /** What changed. A value only where the number is already defensible. */
+  outcomes: { value?: string; label: string }[];
+  /** Technical detail, for the developer reading over the client's shoulder. */
+  highlights?: string[];
+  /** For a reader whose project looks like this one. */
+  lessons: string[];
+  /** Services this project demonstrates, linked at the end. */
+  services: ServiceId[];
+  /** Verbatim reviews of this project, by id. */
+  reviewIds?: string[];
+  /** Other case studies to read next, by slug. */
+  related: string[];
+  /** Prefills the WhatsApp chat. Never sent to analytics. */
+  message: string;
 };

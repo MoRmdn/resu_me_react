@@ -66,9 +66,9 @@ steps up to `#171412` so it still reads apart.
 ### 1.3 Rules
 
 - **One copper fill per viewport, and it is the primary action.** The hero's
-  Start a project and Contact's WhatsApp cell. The island's Hire me is ink-solid
-  (`bg-bone text-ink-900`), never copper, because it shares the first viewport
-  with the hero CTA.
+  Message me on WhatsApp and Contact's WhatsApp cell. The island's WhatsApp
+  button is ink-solid (`bg-bone text-ink-900`), never copper, because it shares
+  the first viewport with the hero CTA.
 - Copper may also mark one thing in a component: the open timeline bar, the
   progress ring, the focus ring.
 - The logo's copper half is identity and exempt.
@@ -131,12 +131,18 @@ steps up to `#171412` so it still reads apart.
   headline, then a 5/7 split: intro and two actions on the start side, the
   figure on the end side (Lpermis and Mutabbib store promos and AYCO's home screen on a white
   sheet at staggered tops 0 / 32 / 16px). Under it the ledger strip: a
-  four-cell hairline `<dl>` (based in, shipping since, teams, now) with mono
-  values derived from `content/`.
+  four-cell hairline `<dl>` (reviews and jobs, clients in, most clients in,
+  shipping since) with mono values derived from `content/`. The hero is
+  written for a client: no employer and no current role.
+- On a 360x640 phone the primary action stays on the first screen in both
+  languages. Below `md` the hero's top padding is 112px and the gap under the
+  headline 32px.
 - Sections sit flush, 120px vertical padding desktop and 80px mobile, divided by
-  hairlines. Grounds: hero paper, tech strip band, proof line sheet, About paper,
-  Experience band, Projects paper, Skills band, Reviews paper, Services band,
-  Contact ink band.
+  hairlines. The order is the client's: the offer, the proof, who does the
+  work, how to get in touch. Grounds alternate: hero paper, Services band,
+  Projects paper, Reviews band, About paper, Experience band, Skills paper,
+  Contact ink band. Nothing sits between the hero and Services: no technology
+  strip and no proof line, because the hero carries the review total itself.
 - Every section title is preceded by its Ledger number. Nothing else on the
   page uses `01–07`.
 
@@ -165,7 +171,7 @@ the hero figure, the map tooltip. No coloured shadows, no glow, no grain.
 |---|---|---|---|
 | **Primary** | copper fill, `on-copper` label, `--r-md`, 600 weight | `copper-bright` | `copper-dim` |
 | **Ghost** | transparent, 1px `line-strong`, bone label | border `bone` | — |
-| **Ink** | `bone` fill, `ink-900` label, pill (the island's Hire me) | `bone-70` | — |
+| **Ink** | `bone` fill, `ink-900` label, pill (the island's WhatsApp button) | `bone-70` | — |
 
 Height 44px min (touch target), icon 18px, gap 8px.
 
@@ -176,12 +182,15 @@ Use the `--ink-700` surface, `--r-lg` radius, and a neutral hairline. Interactiv
 - **Island.** A fixed 56px pill, centred, on `ink-800` with a hairline and the
   soft shadow: the mark, the section toggle (progress ring, active section,
   `n/7`), the section links that slide open beside it (with the auto / light / dark theme toggle),
-  the language switch and the ink Hire me. The progress ring is a conic
-  gradient fed by a `--progress` variable written in a rAF scroll callback, with
-  no React state. Below `lg` the links open as a sheet under the island
-  (numbered rows, language, theme). Escape closes it and returns focus.
+  the language switch and the ink WhatsApp button, which opens the chat with a
+  first line written. The language switch shows at every width. The progress
+  ring is a conic gradient fed by a `--progress` variable written in a rAF
+  scroll callback, with no React state. Below `lg` the links open as a sheet
+  under the island (numbered rows, theme). Below `sm` the `n/7` counter hides
+  and the section label truncates before the island can overflow. Escape closes
+  the sheet and returns focus.
 - **Rail.** From 1600px, a fixed column at the inline start lists
-  `01 About … 07 Contact`, the active one in full `bone`.
+  `01 Services … 07 Contact`, the active one in full `bone`.
 
 ### Inputs
 Reserved for future forms: fill `--ink-600`, 1px `--line`, `--r-md`, 14px padding, 16px Archivo. Label above in `eyebrow` mono. Focus: border copper. Error: `--rose` border + 13px message. Contact currently ships no form.
@@ -211,8 +220,9 @@ from `sm`. Chips are hairline outlines; the core skills (`coreSkills` in
 `content/skills.ts`) are the only filled ones.
 
 ### Services
-Section 06, on the `ink-800` band directly above Contact, so the process ends
-where the channels begin. Three blocks: offers, ways to work, process.
+Section 01, on the `ink-800` band directly under the hero, so the offer comes
+before the work and the reviews that back it. Three blocks: offers, ways to
+work, process.
 
 - **Offers.** 4/8 split: number, title, blurb and a ghost "Send me your idea"
   link on the start side (sticky from `lg`); four offer cards in a two-column
@@ -227,7 +237,7 @@ where the channels begin. Three blocks: offers, ways to work, process.
   hairline marks each step, and each ends with "You get" and its deliverable.
   One shared line across four columns from `lg`; below that each step carries
   its own.
-- **No copper.** Contact's WhatsApp cell can share the viewport.
+- **No copper.** The hero's WhatsApp button can share the viewport.
 - Each block reveals as a whole.
 
 ### Private-project card
@@ -317,9 +327,10 @@ Fiverr's "World Domination" panel, for all five marketplaces at once.
 - Interactive controls use brief colour, opacity, or border transitions. Map
   transitions communicate a change of filter or the country being inspected.
 - The nav island's links slide open (max-width and opacity, 420ms).
-- **Hero entrance** (`.enter`): status line, intro, figure, each promo and the
-  ledger strip fade up 20px over 720ms, 90ms apart. The headline itself only
-  moves (`.rise-lcp`), so it stays the LCP element.
+- **Hero entrance** (`.enter`): status line, figure, each promo and the
+  ledger strip fade up 20px over 720ms, 90ms apart. The headline, the intro and
+  the two actions only move (`.rise-lcp`), so the headline stays the LCP
+  element and the primary action is visible from the first frame.
 - **Scroll reveal** (`[data-reveal]`): section headers, About blocks, timeline
   rows, featured panels, skill plates, review cards and the Contact columns
   fade up once on first view, 70ms apart within a group. Hairline grids reveal
@@ -371,7 +382,7 @@ unchanged.
 
 ### Portfolio enhancement — November 2026
 
-- A compact marketplace summary follows the technology strip. The first featured
+- (Superseded: the technology strip and the marketplace summary under the hero were removed when the page was reordered for clients.) The first featured
   project leads with its artwork; three verbatim testimonials follow it as
   supporting evidence, before the remaining featured projects.
 - Featured projects show their outcome and availability on the face, followed by problem, responsibility, decisions and result inside the existing detail plane.
