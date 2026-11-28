@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Section label with its Ledger number (01 About … 07 Contact), the page's
+ * Section label with its Ledger number (01 Services … 07 Contact), the page's
  * signature. Sentence case, 13px, bone-52 — the contrast floor.
  */
 export function Eyebrow({
@@ -11,7 +11,7 @@ export function Eyebrow({
   as: Tag = "p",
 }: {
   children: React.ReactNode;
-  /** 1-based position in the nav; omit for labels that are not sections. */
+  /** `sectionNumber(id)` from content/site.ts; omit for labels that are not sections. */
   index?: number;
   className?: string;
   as?: "p" | "span" | "div";

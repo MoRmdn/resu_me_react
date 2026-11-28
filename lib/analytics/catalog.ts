@@ -50,7 +50,7 @@ export const PARAMS = {
   section_id: {
     label: "Section",
     description:
-      "The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy.",
+      "The band of the page the event happened in. On the homepage: hero, about, experience, projects, skills, reviews, services or contact. On a case study or service page, the id of that page's band, such as case-study, decisions, included, proof or faq. Also navigation, footer or privacy. Read it with the page path to tell the pages apart.",
     type: "string",
   },
 
@@ -74,7 +74,8 @@ export const PARAMS = {
   },
   nav_location: {
     label: "Navigation location",
-    description: "Which navigation surface held the link that was clicked.",
+    description:
+      "Which navigation surface held the link that was clicked: the homepage nav island, mobile menu or section rail; the header or breadcrumb of a case study or service page; the homepage Services section; a service or case study page's own links; the footer, skip link, privacy page or consent notice.",
     type: "string",
     values: [
       "header",
@@ -84,6 +85,11 @@ export const PARAMS = {
       "skip_link",
       "privacy_page",
       "consent_notice",
+      "page_header",
+      "breadcrumb",
+      "services_section",
+      "service_page",
+      "case_study_page",
     ],
   },
   menu_action: {
@@ -94,9 +100,10 @@ export const PARAMS = {
   },
   cta_id: {
     label: "CTA",
-    description: "Which call-to-action button was clicked.",
+    description:
+      "Which call-to-action button was clicked. hero_see_work is the hero's See the work button. nav_hire_me was the nav island's Hire me button while it scrolled to the Contact section; it is now a WhatsApp link and reports contact_channel_click with the nav placement.",
     type: "string",
-    values: ["hero_see_work", "nav_hire_me"],
+    values: ["hero_see_work"],
   },
   landing_hash: {
     label: "Landing anchor",
@@ -164,9 +171,10 @@ export const PARAMS = {
   },
   project_placement: {
     label: "Project placement",
-    description: "Where the project sits on the page: a full featured panel or a gallery tile.",
+    description:
+      "Where the project appears: a featured panel or gallery tile on the homepage, its own case study page, a proof card on a service page, or a related case study card at the end of another case study.",
     type: "string",
-    values: ["featured", "gallery"],
+    values: ["featured", "gallery", "case_study", "service_page", "related"],
   },
   project_category: {
     label: "Project category",
@@ -180,7 +188,8 @@ export const PARAMS = {
   },
   toggle_action: {
     label: "Toggle action",
-    description: "Whether a project or experience panel was opened or closed.",
+    description:
+      "Whether a project or experience panel, a disclosure, or a question on a service page was opened or closed.",
     type: "string",
     values: ["open", "close"],
   },
@@ -290,16 +299,36 @@ export const PARAMS = {
   channel_placement: {
     label: "Contact placement",
     description:
-      "Where the contact link was clicked: the hero, the Services section (its main call to action, an offer's Ask about this, or a way of working), or the Contact section's grid. Services shows whether reading the offers moves a visitor to get in touch; service_id says which offer.",
+      "Where the contact link was clicked: the homepage hero, its nav island (the WhatsApp button that stays on screen while the page scrolls), its Services section (the main call to action, an offer's Ask about this, or a way of working) or its Contact grid; the header of a case study or service page; or the body of a case study or service page. Hero against nav shows whether visitors reach out before reading or after; services and service pages show whether reading the offers moves a visitor to get in touch, and service_id says which offer.",
     type: "string",
-    values: ["hero", "services", "contact_grid"],
+    values: ["hero", "nav", "services", "contact_grid", "page_header", "case_study", "service_page"],
   },
   service_id: {
     label: "Service",
     description:
-      "Which offer in the Services section the visitor acted on: new_app (a new app taken to the stores), existing_app (fixing or extending an app they already have), web (web apps and dashboards) or hard_parts (payments, Arabic and offline). Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand.",
+      "Which service the visitor acted on, in the Services section or on a service page. Apps: new_app, existing_app, store_release, firebase, payments, arabic_offline, ui_ux, maintenance, code_review. Web: website, web, company_system, hosting, seo, speed. By kind of app: booking_app, healthcare_app, education_app. hard_parts was the combined payments, Arabic and offline offer before it was split. Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand.",
     type: "string",
-    values: ["new_app", "existing_app", "web", "hard_parts"],
+    values: [
+      "new_app",
+      "existing_app",
+      "store_release",
+      "firebase",
+      "payments",
+      "arabic_offline",
+      "ui_ux",
+      "maintenance",
+      "code_review",
+      "website",
+      "web",
+      "company_system",
+      "hosting",
+      "seo",
+      "speed",
+      "booking_app",
+      "healthcare_app",
+      "education_app",
+      "hard_parts",
+    ],
   },
   social_label: {
     label: "Social profile",
@@ -414,8 +443,8 @@ export const EVENTS = {
   },
   cta_click: {
     group: "Navigation",
-    description: "Shows which call to action moves visitors towards the work or towards hiring.",
-    trigger: "A click on the hero's See the work button or the nav's Hire me button.",
+    description: "Shows how many visitors choose to look at the work before getting in touch.",
+    trigger: "A click on the hero's See the work button.",
     params: ["cta_id", "link_text"],
   },
   deep_link_landing: {
@@ -495,6 +524,14 @@ export const EVENTS = {
     trigger: "A project's screenshot strip being swiped sideways, once per project.",
     params: PROJECT,
   },
+  case_study_click: {
+    group: "Projects",
+    description:
+      "A visitor asking for the whole story of a project. project_placement says where the link was: a homepage panel or tile, a service page's proof, or another case study.",
+    trigger:
+      "A click on a link to a project's case study page, from a featured panel, a gallery detail plane, a service page or another case study.",
+    params: [...PROJECT, "link_text"],
+  },
 
   experience_toggle: {
     group: "Experience",
@@ -541,13 +578,6 @@ export const EVENTS = {
     trigger: "Activating a review original-text disclosure.",
     params: ["toggle_action"],
   },
-  review_summary_click: {
-    group: "Reviews",
-    description:
-      "Measures visitors following the early credibility summary to the full reviews section.",
-    trigger: "Clicking Read client reviews below the technology strip.",
-    params: [],
-  },
   review_platform_click: {
     group: "Reviews",
     description:
@@ -592,7 +622,7 @@ export const EVENTS = {
     group: "Conversions",
     description: "A visitor reaching out. This is the main goal of the site.",
     trigger:
-      "A click on a contact channel in the Contact grid, or on WhatsApp in the hero or the Services section.",
+      "A click on a contact channel in the Contact grid, or on WhatsApp in the hero, the nav island, the Services section, or the header or body of a case study or service page.",
     params: ["channel_id", "channel_label", "channel_placement"],
     optional: ["service_id"],
     keyEvent: true,
@@ -601,8 +631,24 @@ export const EVENTS = {
     group: "Conversions",
     description:
       "Shows a visitor checking the evidence behind an offer before getting in touch: which offer they were weighing, and which project or role they went to see.",
-    trigger: "A click on a project or role named under Seen in on a Services offer.",
+    trigger:
+      "A click on a project or role named under Seen in on a Services offer, or in the proof list of a service page.",
     params: ["service_id", "link_target", "link_text"],
+  },
+  service_page_click: {
+    group: "Conversions",
+    description:
+      "Shows which services visitors want to read about in full before getting in touch, and which surface sent them there.",
+    trigger:
+      "A click on a link to a service page from the homepage Services section, the services index, a case study or another service page.",
+    params: ["service_id", "link_text", "nav_location"],
+  },
+  faq_toggle: {
+    group: "Conversions",
+    description:
+      "Shows the questions that stand between a visitor and getting in touch. link_text is the question as written on the page, never anything the visitor typed.",
+    trigger: "A question in a service page's FAQ being opened or closed.",
+    params: ["service_id", "link_text", "toggle_action"],
   },
   contact_email_copy: {
     group: "Conversions",

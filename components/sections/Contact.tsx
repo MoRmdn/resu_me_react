@@ -6,10 +6,11 @@ import { useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
-import { contact, socials } from "@/content/site";
+import { contact, sectionNumber, socials } from "@/content/site";
 import { getProfile } from "@/content/profile-i18n";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { cn } from "@/lib/cn";
+import { channelHref } from "@/lib/paths";
 import { stagger } from "@/lib/motion";
 
 /**
@@ -30,7 +31,7 @@ export function Contact({ locale = "en" }: LocaleProps) {
       <div className="grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
         <div data-reveal>
           <div>
-            <Eyebrow index={7}>{contactCopy.eyebrow}</Eyebrow>
+            <Eyebrow index={sectionNumber("contact")}>{contactCopy.eyebrow}</Eyebrow>
             <h2 className="mt-4 text-display-xl">
               <span className="block">{contactCopy.headline[0]}</span>
               <span className="block">{contactCopy.headline[1]}</span>
@@ -102,6 +103,7 @@ type Channel = ReturnType<typeof getProfile>["channels"][number];
 
 function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocaleProps) {
   const copy = ui[locale];
+  const { contactCopy } = getCopy(locale);
   const isPrimary = "primary" in channel && channel.primary;
   const isExternal = channel.url.startsWith("http");
 
@@ -114,7 +116,7 @@ function ChannelCard({ channel, locale = "en" }: { channel: Channel } & LocalePr
     >
       <div className="flex items-center justify-between gap-2">
         <a
-          href={channel.url}
+          href={channelHref(channel, contactCopy)}
           {...(isExternal ? { target: "_blank", rel: "noreferrer noopener" } : {})}
           // Stretched link: the whole cell is the target, so the tap area is
           // the card rather than the label.

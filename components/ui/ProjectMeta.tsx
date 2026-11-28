@@ -6,6 +6,38 @@ import type { Project } from "@/content/types";
 import { projectParams, trackAttrs, type TrackAttrs } from "@/lib/analytics/attrs";
 import type { EventParams, ProjectPlacement } from "@/lib/analytics/catalog";
 import { cn } from "@/lib/cn";
+import { caseStudyPath, localePath } from "@/lib/paths";
+
+/**
+ * The way from a panel or tile to the project's whole story. A plain anchor,
+ * not next/link: a full page load starts a fresh count of the next page.
+ */
+export function CaseStudyLink({
+  locale = "en",
+  project,
+  placement,
+}: {
+  locale?: Locale;
+  project: Project;
+  placement: ProjectPlacement;
+}) {
+  const { caseStudyCopy } = getCopy(locale);
+  return (
+    <a
+      href={localePath(locale, caseStudyPath(project.slug))}
+      className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line-strong px-5 py-2.5 text-[0.875rem] font-medium text-bone transition-colors duration-fast ease-fast hover:border-bone"
+      {...trackAttrs("case_study_click", {
+        ...projectParams(project, placement),
+        link_text: caseStudyCopy.readLabel,
+      })}
+    >
+      {caseStudyCopy.readLabel}
+      <span aria-hidden className="rtl:-scale-x-100">
+        →
+      </span>
+    </a>
+  );
+}
 
 /** Numbered detail bullets. The numerals are decoration, so bone-28 is fine. */
 export function HighlightList({

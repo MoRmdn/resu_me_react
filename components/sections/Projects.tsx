@@ -4,6 +4,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeaturedPanel } from "@/components/sections/FeaturedPanel";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { getProjects } from "@/content/projects-i18n";
+import { sectionNumber } from "@/content/site";
 import { Testimonials } from "./SocialProof";
 
 export function Projects({ locale = "en" }: LocaleProps) {
@@ -13,7 +14,7 @@ export function Projects({ locale = "en" }: LocaleProps) {
   return (
     <Section id="projects" tone="ink-900">
       <SectionHeader
-        index={3}
+        index={sectionNumber("projects")}
         eyebrow={projectsCopy.eyebrow}
         headline={projectsCopy.headline}
         note={projectsCopy.countLabel(orderedProjects.length)}

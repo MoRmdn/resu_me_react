@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getSkills } from "@/content/profile-i18n";
 import { coreSkills } from "@/content/skills";
+import { sectionNumber } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 /**
@@ -16,10 +17,10 @@ export function Skills({ locale = "en" }: LocaleProps) {
   const { skillsCopy } = getCopy(locale);
   const skillGroups = getSkills(locale);
   return (
-    <Section id="skills" tone="ink-800">
+    <Section id="skills" tone="ink-900">
       <div className="grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
         <div data-reveal>
-          <Eyebrow index={4}>{skillsCopy.eyebrow}</Eyebrow>
+          <Eyebrow index={sectionNumber("skills")}>{skillsCopy.eyebrow}</Eyebrow>
           <h2 className="mt-4 text-display-l">{skillsCopy.headline}</h2>
           <p className="mt-5 max-w-[36ch] text-body text-bone-70">{skillsCopy.blurb}</p>
         </div>

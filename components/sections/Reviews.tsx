@@ -6,6 +6,7 @@ import { ReviewCard } from "@/components/ui/ReviewCard";
 import { PlatformMark } from "@/components/brand/PlatformMark";
 import { getCopy, ui } from "@/content/copy-i18n";
 import type { LocaleProps } from "@/content/locale";
+import { sectionNumber } from "@/content/site";
 import { reviewPlatforms, reviews, initialReviewIds, selectedReviews } from "@/content/reviews";
 import { trackAttrs } from "@/lib/analytics/attrs";
 
@@ -15,10 +16,10 @@ export function Reviews({ locale = "en" }: LocaleProps) {
   const initial = selectedReviews(initialReviewIds);
   const remaining = reviews.filter((r) => !initialReviewIds.includes(r.id));
   return (
-    <Section id="reviews" tone="ink-900" className="overflow-x-clip">
+    <Section id="reviews" tone="ink-800" className="overflow-x-clip">
       <div data-reveal className="mb-12 grid items-end gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">
         <div>
-          <Eyebrow index={5}>{reviewsCopy.eyebrow}</Eyebrow>
+          <Eyebrow index={sectionNumber("reviews")}>{reviewsCopy.eyebrow}</Eyebrow>
           <h2 className="mt-4 text-display-l">{reviewsCopy.headline}</h2>
         </div>
         <div>

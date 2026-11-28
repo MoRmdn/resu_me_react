@@ -26,9 +26,9 @@ Shows how often visitors open the section menu, and how they leave it.
 
 ### `cta_click`
 
-Shows which call to action moves visitors towards the work or towards hiring.
+Shows how many visitors choose to look at the work before getting in touch.
 
-- **Fires on:** A click on the hero's See the work button or the nav's Hire me button.
+- **Fires on:** A click on the hero's See the work button.
 - **Sentence:** Clicked the {link_text} button
 - **Params:** `cta_id`, `link_text`
 
@@ -141,6 +141,14 @@ Shows phone visitors exploring a project's screenshots.
 - **Sentence:** Swiped the screenshots of {project_title}
 - **Params:** `project_slug`, `project_title`, `project_placement`, `project_category`, `project_country`
 
+### `case_study_click`
+
+A visitor asking for the whole story of a project. project_placement says where the link was: a homepage panel or tile, a service page's proof, or another case study.
+
+- **Fires on:** A click on a link to a project's case study page, from a featured panel, a gallery detail plane, a service page or another case study.
+- **Sentence:** Opened the case study for {project_title} from the {project_placement}
+- **Params:** `project_slug`, `project_title`, `project_placement`, `project_category`, `project_country`, `link_text`
+
 ## Experience
 
 ### `experience_toggle`
@@ -186,14 +194,6 @@ Measures visitors opening or closing the original wording of a translated review
 - **Fires on:** Activating a review original-text disclosure.
 - **Sentence:** {toggle_action} the original review wording
 - **Params:** `toggle_action`
-
-### `review_summary_click`
-
-Measures visitors following the early credibility summary to the full reviews section.
-
-- **Fires on:** Clicking Read client reviews below the technology strip.
-- **Sentence:** Followed the early summary to client reviews
-- **Params:** None
 
 ### `review_platform_click`
 
@@ -249,7 +249,7 @@ Shows which client countries visitors look for, often their own.
 
 A visitor reaching out. This is the main goal of the site.
 
-- **Fires on:** A click on a contact channel in the Contact grid, or on WhatsApp in the hero or the Services section.
+- **Fires on:** A click on a contact channel in the Contact grid, or on WhatsApp in the hero, the nav island, the Services section, or the header or body of a case study or service page.
 - **Sentence:** Reached out via {channel_label} from the {channel_placement}
 - **Params:** `channel_id`, `channel_label`, `channel_placement`
 - **Optional:** `service_id`
@@ -258,9 +258,25 @@ A visitor reaching out. This is the main goal of the site.
 
 Shows a visitor checking the evidence behind an offer before getting in touch: which offer they were weighing, and which project or role they went to see.
 
-- **Fires on:** A click on a project or role named under Seen in on a Services offer.
+- **Fires on:** A click on a project or role named under Seen in on a Services offer, or in the proof list of a service page.
 - **Sentence:** Went to {link_text} from the {service_id} offer
 - **Params:** `service_id`, `link_target`, `link_text`
+
+### `service_page_click`
+
+Shows which services visitors want to read about in full before getting in touch, and which surface sent them there.
+
+- **Fires on:** A click on a link to a service page from the homepage Services section, the services index, a case study or another service page.
+- **Sentence:** Opened the {service_id} service page from the {nav_location}
+- **Params:** `service_id`, `link_text`, `nav_location`
+
+### `faq_toggle`
+
+Shows the questions that stand between a visitor and getting in touch. link_text is the question as written on the page, never anything the visitor typed.
+
+- **Fires on:** A question in a service page's FAQ being opened or closed.
+- **Sentence:** {toggle_action} a {service_id} question: {link_text}
+- **Params:** `service_id`, `link_text`, `toggle_action`
 
 ### `contact_email_copy` (key event)
 
@@ -347,13 +363,13 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `theme_choice` | string | auto, light, dark | The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way. |
 | `target_locale` | string | en, ar | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | `event_description` | string |  | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
-| `section_id` | string |  | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy. |
+| `section_id` | string |  | The band of the page the event happened in. On the homepage: hero, about, experience, projects, skills, reviews, services or contact. On a case study or service page, the id of that page's band, such as case-study, decisions, included, proof or faq. Also navigation, footer or privacy. Read it with the page path to tell the pages apart. |
 | `link_target` | string |  | The in-page section or page a navigation link goes to, such as projects. |
 | `link_text` | string |  | The visible label of the link or button that was clicked. |
 | `link_url` | string |  | The full address of the external page the visitor was sent to. |
-| `nav_location` | string | header, mobile_menu, section_rail, footer, skip_link, privacy_page, consent_notice | Which navigation surface held the link that was clicked. |
+| `nav_location` | string | header, mobile_menu, section_rail, footer, skip_link, privacy_page, consent_notice, page_header, breadcrumb, services_section, service_page, case_study_page | Which navigation surface held the link that was clicked: the homepage nav island, mobile menu or section rail; the header or breadcrumb of a case study or service page; the homepage Services section; a service or case study page's own links; the footer, skip link, privacy page or consent notice. |
 | `menu_action` | string | open, close | Whether the navigation menu (the island's links, or the sheet on a phone) was opened or closed. |
-| `cta_id` | string | hero_see_work, nav_hire_me | Which call-to-action button was clicked. |
+| `cta_id` | string | hero_see_work | Which call-to-action button was clicked. hero_see_work is the hero's See the work button. nav_hire_me was the nav island's Hire me button while it scrolled to the Contact section; it is now a WhatsApp link and reports contact_channel_click with the nav placement. |
 | `landing_hash` | string |  | The in-page anchor the visitor arrived on from outside, such as lpermis, without the hash. |
 | `dwell_seconds` | number |  | Seconds the visitor stayed stopped on a project, section or experience in one stop. Idle time and hidden tabs are excluded. |
 | `scroll_percent` | number |  | The scroll depth milestone reached: 25, 50, 75 or 100 percent of the page. |
@@ -365,10 +381,10 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `click_count` | number |  | How many clicks the visitor made during the page load. |
 | `project_slug` | string |  | The stable identifier of the project, such as lpermis-pro. |
 | `project_title` | string |  | The display name of the project, without its translation or subtitle. |
-| `project_placement` | string | featured, gallery | Where the project sits on the page: a full featured panel or a gallery tile. |
+| `project_placement` | string | featured, gallery, case_study, service_page, related | Where the project appears: a featured panel or gallery tile on the homepage, its own case study page, a proof card on a service page, or a related case study card at the end of another case study. |
 | `project_category` | string |  | The project's market category, such as Healthcare. |
 | `project_country` | string |  | The country the project was built for. |
-| `toggle_action` | string | open, close | Whether a project or experience panel was opened or closed. |
+| `toggle_action` | string | open, close | Whether a project or experience panel, a disclosure, or a question on a service page was opened or closed. |
 | `toggle_method` | string | tile, panel, close_button, escape, list_row, timeline_bar, arrow_keys, menu_button, backdrop, link | The control the visitor used to open or close a panel or the mobile menu. |
 | `link_type` | string | website, source, app_store, play_store | Which listing of the project was opened. |
 | `experience_slug` | string |  | The stable identifier of the role, such as mismar. |
@@ -385,8 +401,8 @@ Shows how visitors answer the notice, which explains gaps in European data.
 | `view_trigger` | string | hover, click | How the country was looked at: by resting on it, or by clicking its row. |
 | `channel_id` | string |  | The contact channel the visitor chose, such as whatsapp. |
 | `channel_label` | string |  | The display name of the contact channel, such as WhatsApp. |
-| `channel_placement` | string | hero, services, contact_grid | Where the contact link was clicked: the hero, the Services section (its main call to action, an offer's Ask about this, or a way of working), or the Contact section's grid. Services shows whether reading the offers moves a visitor to get in touch; service_id says which offer. |
-| `service_id` | string | new_app, existing_app, web, hard_parts | Which offer in the Services section the visitor acted on: new_app (a new app taken to the stores), existing_app (fixing or extending an app they already have), web (web apps and dashboards) or hard_parts (payments, Arabic and offline). Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand. |
+| `channel_placement` | string | hero, nav, services, contact_grid, page_header, case_study, service_page | Where the contact link was clicked: the homepage hero, its nav island (the WhatsApp button that stays on screen while the page scrolls), its Services section (the main call to action, an offer's Ask about this, or a way of working) or its Contact grid; the header of a case study or service page; or the body of a case study or service page. Hero against nav shows whether visitors reach out before reading or after; services and service pages show whether reading the offers moves a visitor to get in touch, and service_id says which offer. |
+| `service_id` | string | new_app, existing_app, store_release, firebase, payments, arabic_offline, ui_ux, maintenance, code_review, website, web, company_system, hosting, seo, speed, booking_app, healthcare_app, education_app, hard_parts | Which service the visitor acted on, in the Services section or on a service page. Apps: new_app, existing_app, store_release, firebase, payments, arabic_offline, ui_ux, maintenance, code_review. Web: website, web, company_system, hosting, seo, speed. By kind of app: booking_app, healthcare_app, education_app. hard_parts was the combined payments, Arabic and offline offer before it was split. Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand. |
 | `social_label` | string |  | The social profile that was opened, such as LinkedIn. |
 | `file_name` | string |  | The name of the file that was downloaded. |
 | `element_tag` | string |  | The HTML tag of the element that was clicked, such as img or p. |
@@ -412,11 +428,11 @@ reports until they are registered, and registering is not retroactive.
 | Theme choice | `theme_choice` | The theme mode the visitor switched to with the nav toggle, which cycles auto → light → dark: auto (the default, follows the system setting), light (Ledger) or dark (Obsidian). Measures whether visitors override the system theme, and which way. |
 | Target language | `target_locale` | The language explicitly selected by the visitor in the site language switch, for measuring demand for each translation. |
 | Event description | `event_description` | A readable sentence saying what the visitor did, such as 'Opened details for Lpermis Pro'. Added to every event automatically. |
-| Section | `section_id` | The band of the page the event happened in: hero, about, experience, projects, skills, reviews, services, contact, navigation, footer or privacy. |
+| Section | `section_id` | The band of the page the event happened in. On the homepage: hero, about, experience, projects, skills, reviews, services or contact. On a case study or service page, the id of that page's band, such as case-study, decisions, included, proof or faq. Also navigation, footer or privacy. Read it with the page path to tell the pages apart. |
 | Link target | `link_target` | The in-page section or page a navigation link goes to, such as projects. |
-| Navigation location | `nav_location` | Which navigation surface held the link that was clicked. |
+| Navigation location | `nav_location` | Which navigation surface held the link that was clicked: the homepage nav island, mobile menu or section rail; the header or breadcrumb of a case study or service page; the homepage Services section; a service or case study page's own links; the footer, skip link, privacy page or consent notice. |
 | Menu action | `menu_action` | Whether the navigation menu (the island's links, or the sheet on a phone) was opened or closed. |
-| CTA | `cta_id` | Which call-to-action button was clicked. |
+| CTA | `cta_id` | Which call-to-action button was clicked. hero_see_work is the hero's See the work button. nav_hire_me was the nav island's Hire me button while it scrolled to the Contact section; it is now a WhatsApp link and reports contact_channel_click with the nav placement. |
 | Landing anchor | `landing_hash` | The in-page anchor the visitor arrived on from outside, such as lpermis, without the hash. |
 | Scroll percent | `scroll_percent` | The scroll depth milestone reached: 25, 50, 75 or 100 percent of the page. |
 | Max scroll percent | `max_scroll_percent` | The deepest point of the page reached during the page load, as a percentage. |
@@ -426,10 +442,10 @@ reports until they are registered, and registering is not retroactive.
 | Click count | `click_count` | How many clicks the visitor made during the page load. |
 | Project slug | `project_slug` | The stable identifier of the project, such as lpermis-pro. |
 | Project | `project_title` | The display name of the project, without its translation or subtitle. |
-| Project placement | `project_placement` | Where the project sits on the page: a full featured panel or a gallery tile. |
+| Project placement | `project_placement` | Where the project appears: a featured panel or gallery tile on the homepage, its own case study page, a proof card on a service page, or a related case study card at the end of another case study. |
 | Project category | `project_category` | The project's market category, such as Healthcare. |
 | Project country | `project_country` | The country the project was built for. |
-| Toggle action | `toggle_action` | Whether a project or experience panel was opened or closed. |
+| Toggle action | `toggle_action` | Whether a project or experience panel, a disclosure, or a question on a service page was opened or closed. |
 | Toggle method | `toggle_method` | The control the visitor used to open or close a panel or the mobile menu. |
 | Project link type | `link_type` | Which listing of the project was opened. |
 | Experience slug | `experience_slug` | The stable identifier of the role, such as mismar. |
@@ -446,8 +462,8 @@ reports until they are registered, and registering is not retroactive.
 | Country view trigger | `view_trigger` | How the country was looked at: by resting on it, or by clicking its row. |
 | Contact channel | `channel_id` | The contact channel the visitor chose, such as whatsapp. |
 | Contact channel name | `channel_label` | The display name of the contact channel, such as WhatsApp. |
-| Contact placement | `channel_placement` | Where the contact link was clicked: the hero, the Services section (its main call to action, an offer's Ask about this, or a way of working), or the Contact section's grid. Services shows whether reading the offers moves a visitor to get in touch; service_id says which offer. |
-| Service | `service_id` | Which offer in the Services section the visitor acted on: new_app (a new app taken to the stores), existing_app (fixing or extending an app they already have), web (web apps and dashboards) or hard_parts (payments, Arabic and offline). Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand. |
+| Contact placement | `channel_placement` | Where the contact link was clicked: the homepage hero, its nav island (the WhatsApp button that stays on screen while the page scrolls), its Services section (the main call to action, an offer's Ask about this, or a way of working) or its Contact grid; the header of a case study or service page; or the body of a case study or service page. Hero against nav shows whether visitors reach out before reading or after; services and service pages show whether reading the offers moves a visitor to get in touch, and service_id says which offer. |
+| Service | `service_id` | Which service the visitor acted on, in the Services section or on a service page. Apps: new_app, existing_app, store_release, firebase, payments, arabic_offline, ui_ux, maintenance, code_review. Web: website, web, company_system, hosting, seo, speed. By kind of app: booking_app, healthcare_app, education_app. hard_parts was the combined payments, Arabic and offline offer before it was split. Shows which kind of work brings enquiries, so the offers can be reordered or rewritten by demand. |
 | Social profile | `social_label` | The social profile that was opened, such as LinkedIn. |
 | Element tag | `element_tag` | The HTML tag of the element that was clicked, such as img or p. |
 | Element text | `element_text` | The first words of the element that was clicked. Always empty inside a review card, so reviewer names are never sent. |

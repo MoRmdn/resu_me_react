@@ -862,6 +862,13 @@
   border-color: var(--color-line-strong);
 }
 
+/* Decoration only: the toggle is the button stretched over the card. Once
+   rotated, the icon gets its own stacking context and would sit above that
+   stretched button and swallow the tap, so it never takes pointer events. */
+.gallery-tile__plus {
+  pointer-events: none;
+}
+
 .gallery-tile[data-open="true"] .gallery-tile__plus,
 .feature-panel[data-open="true"] .gallery-tile__plus {
   transform: rotate(45deg);

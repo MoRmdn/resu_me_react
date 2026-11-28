@@ -21,6 +21,18 @@
         "out"
       ],
       "port": 3011
+    },
+    {
+      "name": "portfolio-static-3012",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "3012",
+        "-d",
+        "out"
+      ],
+      "port": 3012
     }
   ]
 }

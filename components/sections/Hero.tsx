@@ -2,33 +2,34 @@ import type { LocaleProps } from "@/content/locale";
 import { getCopy, ui } from "@/content/copy-i18n";
 import { getProjects } from "@/content/projects-i18n";
 import { experiences } from "@/content/experience";
+import { clientCountries, clientsIn } from "@/content/clients";
+import { countryName } from "@/content/countries-i18n";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { projectNames } from "@/lib/projectNames";
 import { trackAttrs } from "@/lib/analytics/attrs";
 import { stagger } from "@/lib/motion";
+import { whatsappWith } from "@/lib/paths";
 import { cn } from "@/lib/cn";
 
 /** Staggered tops for the three promos, so the sheet reads as hand-laid. */
 const OFFSETS = ["", "mt-8", "mt-4"];
 
 export function Hero({ locale = "en" }: LocaleProps) {
-  const { hero } = getCopy(locale);
+  const { hero, contactCopy } = getCopy(locale);
   const { orderedProjects } = getProjects(locale);
   const firstYear = Math.min(...experiences.map((e) => Number(e.start.slice(0, 4))));
-  const current = experiences.find((e) => e.end === null);
-  const currentCompany = current?.company.split(" | ")[0];
+  // The country with the most client accounts, whichever it is when the data changes.
+  const topCountry = clientCountries.reduce((top, c) => (clientsIn(c, "all") > clientsIn(top, "all") ? c : top));
 
   const ledger = [
-    { label: hero.ledger.basedIn, value: hero.place },
+    { label: hero.ledger.reviews, value: hero.ledger.reviewsValue },
+    { label: hero.ledger.clients, value: hero.ledger.clientsValue },
+    { label: hero.ledger.topCountry, value: countryName(topCountry.id, topCountry.name, locale) },
     { label: hero.ledger.since, value: String(firstYear) },
-    { label: hero.ledger.teams, value: hero.ledger.teamsValue },
-    ...(currentCompany
-      ? [{ label: hero.ledger.now, value: `${hero.ledger.nowProduct} ${hero.ledger.nowJoin} ${currentCompany}` }]
-      : []),
   ];
 
   return (
-    <section id="top" className="mx-auto w-full max-w-content px-5 pt-32 pb-16 md:px-8 md:pt-36">
+    <section id="top" className="mx-auto w-full max-w-content px-5 pt-28 pb-16 md:px-8 md:pt-36">
       <p className="enter flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.875rem] text-bone-70" style={stagger(0)}>
         <span className="inline-flex items-center gap-2 font-medium text-jade">
           <span aria-hidden className="size-[7px] rounded-pill bg-jade" />
@@ -42,12 +43,14 @@ export function Hero({ locale = "en" }: LocaleProps) {
 
       <h1 className="hero-headline rise-lcp mt-7 max-w-[16ch]">{hero.headline.join(" ")}</h1>
 
-      <div className="mt-12 grid items-start gap-10 lg:grid-cols-[5fr_7fr] lg:gap-14">
-        <div className="enter lg:pt-4" style={stagger(2)}>
+      <div className="mt-8 grid items-start gap-10 md:mt-12 lg:grid-cols-[5fr_7fr] lg:gap-14">
+        {/* The intro and both actions paint with the headline, so a way to get
+            in touch is on screen from the first frame. They only move. */}
+        <div className="rise-lcp lg:pt-4">
           <p className="max-w-[36rem] text-body-l text-bone-70">{hero.intro}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href={hero.primaryCta.href}
+              href={whatsappWith(hero.primaryCta.href, contactCopy.whatsappMessage)}
               target="_blank"
               rel="noreferrer noopener"
               className="inline-flex min-h-12 items-center gap-2.5 rounded-md bg-copper px-5 font-semibold text-on-copper transition-colors duration-fast ease-fast hover:bg-copper-bright active:bg-copper-dim"

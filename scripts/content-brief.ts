@@ -23,7 +23,7 @@ import {
 } from "../content/site";
 import { orderedProjects as projects } from "../content/projects";
 import { experiences } from "../content/experience";
-import { skillGroups, technologyStripItems } from "../content/skills";
+import { skillGroups } from "../content/skills";
 import * as copy from "../content/copy";
 
 const out: string[] = [];
@@ -77,14 +77,8 @@ w(
   `- CTAs: **${copy.hero.primaryCta.label}** (primary) · ${copy.hero.secondaryCta.label} (secondary)`,
 );
 w("- Ledger strip:");
-w(`  - ${copy.hero.ledger.basedIn} · ${copy.hero.ledger.since} · ${copy.hero.ledger.teams}: ${copy.hero.ledger.teamsValue} · ${copy.hero.ledger.now}`);
+w(`  - ${copy.hero.ledger.reviews}: ${copy.hero.ledger.reviewsValue} · ${copy.hero.ledger.clients}: ${copy.hero.ledger.clientsValue} · ${copy.hero.ledger.topCountry} · ${copy.hero.ledger.since}`);
 w(`- Figure: ${copy.hero.figureCaption} (${copy.hero.promos.map((p) => p.slug).join(", ")})`);
-w();
-w("## Technology strip");
-w();
-w(`${technologyStripItems.length} technologies:`);
-w();
-w(technologyStripItems.join(" · "));
 w();
 w("---");
 w();

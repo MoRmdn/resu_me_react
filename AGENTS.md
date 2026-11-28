@@ -1,8 +1,11 @@
 # resu_me (React) — Mohamed Ramadan's portfolio
 
-A single-page Next.js portfolio, statically exported and deployed to Firebase
-Hosting (project `m0rmdn`), live at **https://mormdn.com**. One scrolling page,
-nine sections, plus a `noindex` privacy page that Google Analytics' terms require.
+A Next.js portfolio, statically exported and deployed to Firebase Hosting
+(project `m0rmdn`), live at **https://mormdn.com**. The homepage is one
+scrolling page: a hero and seven numbered sections. Below it sit a small closed
+set of pages, each in English and Arabic: one per service at
+`/services/<slug>/`, one per case study at `/projects/<slug>/`, and a `noindex`
+privacy page that Google Analytics' terms require.
 
 This replaces a Flutter Web app that still lives at `/Users/dark/Dev/resu_me`.
 The reason for the port: Flutter Web paints text into a `<canvas>`, so the page
@@ -56,7 +59,7 @@ npm run dev
 | `npm run promos` | compose store-style promos into `assets/projects/` (needs Chrome), then run `npm run images` |
 | `npm run banners` | compose the LinkedIn, Facebook and X banners into `exports/social-banners/` (gitignored, needs Chrome) |
 | `npm run video` | render the reviews and client map film into `exports/video/` (gitignored, needs Chrome and Xcode command line tools); words and chapters live in `scripts/video/reel.json`, guide in `docs/REEL.md` |
-| `npm run og` | regenerate `public/og.png` |
+| `npm run og` | regenerate the share cards, `public/og.png` and `public/og-ar.png`, with the totals read from `content/` |
 | `npm run map` | redraw the client map from `content/clients.json` |
 | `npm run export:reviews` | build, then package the review cards into `exports/review-cards/` (gitignored) |
 
@@ -76,13 +79,14 @@ CI is `.github/workflows/firebase-deploy.yml`: PRs get a 7-day preview channel,
 
 Server components by default. `"use client"` only where something genuinely
 needs the browser: `Nav`, `Experience`, `FeaturedPanel`, `ProjectGallery`, `Contact`,
-`Footer`, the consent and language controls, and `ClientMapExplorer`. No state library, no router — it is one page.
+`Footer`, the consent and language controls, and `ClientMapExplorer`. No state library and no client router: links between pages are plain anchors (`lib/paths.ts`).
 
 ```
 app/
-├── (english)/       English root layout, home and privacy routes
-├── (arabic)/        Arabic root layout, /ar/ and /ar/privacy/
-│                    shared composition: components/PortfolioPage.tsx
+├── (english)/       English root layout: home, privacy, services/[slug], projects/[slug]
+├── (arabic)/        Arabic root layout: the same routes under /ar/
+│                    shared composition: components/PortfolioPage.tsx and
+│                    components/pages/ (ServicePage, CaseStudyPage)
 │                    shared document: components/DocumentShell.tsx
 ├── llms.txt/         /llms.txt, built from content/ — never hand-edit a copy of it
 └── globals.css       ALL design tokens (@theme) + the animation layer
@@ -92,7 +96,8 @@ components/
 ├── ui/               Section, Eyebrow, Button, Tag, ReviewCard
 └── sections/         one file per band of the page
 content/              every word and number the site renders
-lib/                  firebase, hooks, cn
+lib/                  firebase, hooks, cn; paths, seo and page-metadata (titles),
+                      structured-data, closed-set (the build check on page links)
 lib/analytics/        the event catalog, the tag, the listeners, the dwell engine
 docs/                 ANALYTICS.md (the rules), ANALYTICS-EVENTS.md (generated)
                       marketplaces/ one file per marketplace: what the site shows, where it lives, how to refresh
@@ -104,8 +109,9 @@ scripts/              image + OG generation, run by hand
 
 **All copy lives in `content/`, never inline in a component.** `site.ts`
 (identity, links, metrics), `projects.ts`, `experience.ts`, `skills.ts`,
-`copy.ts` (section prose), `types.ts`, `reviews.ts` + `reviews.json` (client
-reviews), `platform-marks.json` (marketplace logos), `clients.ts` + `clients.json`
+`copy.ts` (section prose and `metaCopy`, the homepage title), `services.ts` and
+`case-studies.ts` (one entry per page, Arabic in their `-i18n.ts` twins),
+`types.ts`, `reviews.ts` + `reviews.json` (client reviews), `platform-marks.json` (marketplace logos), `clients.ts` + `clients.json`
 (clients by country) and `world-map.json` (generated, do not edit).
 
 Reconciled against `Mohamed_Ramadan_CV_EN.pdf`. If the CV changes, change
@@ -229,26 +235,97 @@ move would re-render the page on every mouse twitch.
 `{"source": "**", "destination": "/index.html"}` rewrite makes every URL on the
 site return `200` with the homepage, which hands a crawler an unbounded space
 of duplicate pages. With no rewrite, Hosting serves `out/404.html` with a real
-`404`. The site is one static page with in-page anchors and no client router,
-so nothing needs the rewrite.
+`404`. Every page is a static file and there is no client router, so nothing
+needs the rewrite.
 
 **`**/*.html` header rules do not match `/`.** Firebase matches the *request*
 path, not the file it resolves to, and `cleanUrls` means the homepage is
-requested as `/`. The `must-revalidate` rule therefore names `/`, `/404` and
-`/privacy/` explicitly. Add any new page to that list or it ships with a one-hour
-cache.
+requested as `/`. The `must-revalidate` rules therefore name `/`, `/ar/`, `/404`
+and the privacy pages explicitly, and cover `/services/**` and `/projects/**`
+in both languages with globs. A page outside those paths needs its own rule or
+it ships with a one-hour cache. Check `Cache-Control` on a preview channel
+after adding a route: the globs have not been verified against live headers.
 
 **Next's RSC payloads are public.** `/__next._full.txt` and friends are the
 whole page again as plain text at their own URLs. `firebase.json` sends them
 `X-Robots-Tag: noindex`. It is deliberately not a `robots.txt` `Disallow` — a
 disallowed URL is never fetched, so the directive would never be read.
 
-**The hero headline paints at full opacity from the first frame.** `.rise-lcp`
-uses a short translation so the headline is eligible for LCP as soon as it
-paints. The three images in the hero figure (Lpermis and Mutabbib promos,
-AYCO's home screen) load eagerly. The ledger
-strip's values are derived from `content/` (first experience year, current
-role), so they move with the data.
+**The hero headline, intro and both buttons paint at full opacity from the
+first frame.** `.rise-lcp` uses a short translation so the headline is eligible
+for LCP as soon as it paints, and a way to get in touch is on screen before any
+entrance animation runs. Do not put the intro or the buttons back under
+`.enter`: that hides them until the stagger plays. The three images in the hero
+figure (Lpermis and Mutabbib promos, AYCO's home screen) load eagerly.
+
+**The pages below the homepage are a closed set.** `assertClosedSet` in
+`lib/closed-set.ts` runs from `app/sitemap.ts` on every build and fails it when
+a service's `related`, a case study's `services` or `related`, a proof target
+or a review id names something that does not exist, or when a page has no
+onward link to another page. Do not list a planned page anywhere: an id with no
+page used to render an empty block with no error. A new service page needs
+proof that is already on the site, and its slug is permanent once indexed
+(`firebase.json` has no redirects). There are three pages now (new app, fix an
+existing app, the AYCO study). Write no more until Search Console shows
+impressions for these.
+
+**Titles carry a buyer's phrase and the brand word.** The homepage title and
+description are `metaCopy` in `content/copy.ts` (Arabic in `copy-i18n.ts`). A
+sub-page title is its own headline, then `| MoRmdn` (`lib/seo.ts`). A case
+study's title is its outcome, never the project's codename. Arabic pages use
+`og-ar.png`. Keep "برمجة تطبيقات الجوال" in the Arabic homepage title: it is the
+phrase a Gulf client types.
+
+**A sub-page's contact button paints on the first frame too.** The service and
+case-study heroes put their WhatsApp button and the review total under
+`.rise-lcp`, not `.enter`, for the same reason as the homepage hero.
+
+**The homepage is ordered for a client, and the order has one source.**
+`navSections` in `content/site.ts` is the order: Services, Projects, Reviews,
+then About, Experience and Skills (who does the work), then Contact.
+`PortfolioPage` maps over it, the nav island, sheet and rail list it, and every
+section takes its Ledger number from `sectionNumber(id)`. To move a section,
+move its line there and re-check that the `ink-900` / `ink-800` grounds still
+alternate. Never hard-code an `index`. Do not put a CV band (About, Experience,
+Skills, credentials) above the reviews, and do not bring back the framework
+strip under the hero: neither answers what a client came to ask.
+
+**Arabic labels are keyed by id, never by array position.** `getProfile("ar")`
+looks section labels and channel notes up in `Record`s typed on the English
+ids, so reordering cannot mislabel the Arabic page and a missing key fails
+`npm run typecheck`. Some older lists in `content/copy-i18n.ts` and
+`content/projects-i18n.ts` still bind by index (`[i]`): reorder the English
+side of one of those and the Arabic silently shifts. Convert a list to ids
+before reordering it.
+
+**The CV settles a disputed figure.** `public/Mohamed_Ramadan_CV.pdf` is what
+`content/` is reconciled against. Cyparta's app-size saving is 20% there; the
+site once said 10% in four places. A number must match the CV everywhere it
+appears, About and the service pages included.
+
+**The hero speaks to a client, not a recruiter.** The headline names what is
+built, the intro and the ledger strip carry marketplace proof (reviews and
+jobs, client countries, the country with the most clients, first year), all
+derived from `content/reviews.ts`, `content/clients.json` and
+`content/experience.ts`. Employers, the current role and the client total stay
+out of it: `clients.json` counts a client once per site, so a total would
+double-count. The primary button must still be on the first screen of a
+360x640 phone in both languages; measure it after changing the headline or
+intro.
+
+**Every WhatsApp and email link is prefilled.** No link opens an empty chat: a
+message that arrives with the site's first line is the only way to tell a site
+enquiry from a marketplace one. Offers, service pages and case studies carry
+their own `message`; everything else (hero, nav island, Contact grid, ways of
+working) uses `contactCopy.whatsappMessage` and `contactCopy.emailSubject`
+through `channelHref` in `lib/paths.ts`. `content/site.ts` keeps the bare
+URLs, because the structured data lists them as `sameAs`. The text is the
+visitor's to edit and send, and never goes to analytics.
+
+**The nav island's button is a WhatsApp link, and the language switch shows at
+every width.** Someone who reads Arabic first and lands on `/` must not have to
+open a menu to find `/ar/`. On a narrow phone the section label truncates
+before anything else gives way, and the `n/7` counter shows from `sm`.
 
 **The theme is set before first paint.** `themeScript` in `lib/theme.ts` runs
 inline, first in `<body>` (`components/DocumentShell.tsx`). It reads

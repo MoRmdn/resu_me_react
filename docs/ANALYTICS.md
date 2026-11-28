@@ -53,7 +53,7 @@ lib/analytics/
   listeners.ts   one delegated listener each for click, copy, hover, swipe, errors
   attention.ts   the dwell engine
 components/analytics/
-  AnalyticsRoot.tsx   mounted once, in app/layout.tsx
+  AnalyticsRoot.tsx   mounted once, in components/DocumentShell.tsx, which both root layouts render
   ConsentNotice.tsx   the regional notice, and the control on /privacy/
 ```
 
@@ -115,9 +115,10 @@ Nothing to do, as long as it renders as `<section id="...">`. `Section` does.
 
 ### Add a page
 
-`AnalyticsRoot` is in the root layout, so it is covered. Give its content a
-`<section id="...">`, and add the page to the `must-revalidate` list in
-`firebase.json`.
+`AnalyticsRoot` is in `DocumentShell`, which both root layouts render, so it is
+covered. Give its content a `<section id="...">`. Service and case-study pages
+are already covered by the `must-revalidate` globs in `firebase.json`; a page at
+any other path needs its own rule there.
 
 ### Time something new
 

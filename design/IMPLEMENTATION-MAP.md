@@ -29,17 +29,17 @@ size to reach `em`. `-3.8` on 96px became `-0.04em`.
 | Band | File | Ground |
 |---|---|---|
 | Hero | `components/sections/Hero.tsx` | ink-900 |
-| Tech strip | `components/sections/TechStrip.tsx` | ink-800 |
-| Proof line | `components/sections/SocialProof.tsx` | ink-700 |
+| Services | `components/sections/Services.tsx` | ink-800 |
+| Projects | `components/sections/Projects.tsx` | ink-900 |
+| Reviews | `components/sections/Reviews.tsx` | ink-800 |
 | About | `components/sections/About.tsx` | ink-900 |
 | Experience | `components/sections/Experience.tsx` | ink-800 |
-| Projects | `components/sections/Projects.tsx` | ink-900 |
-| Skills | `components/sections/Skills.tsx` | ink-800 |
-| Reviews | `components/sections/Reviews.tsx` | ink-900 |
+| Skills | `components/sections/Skills.tsx` | ink-900 |
 | Contact | `components/sections/Contact.tsx` | ink band (`.band`) |
 | Footer | `components/sections/Footer.tsx` | ink band (`.band`) |
 | Nav | `components/sections/Nav.tsx` | island (ink-800) + section rail |
 
+The rows above are in page order, which is `navSections` in `content/site.ts`.
 Bands sit flush, divided by hairlines. The Ledger reference is direction A of
 the Claude Design project "Flutter portfolio redesign", page *Portfolio
 Directions*.
@@ -58,7 +58,7 @@ they render as text the element is `aria-hidden`, so "decorative" is enforced
 rather than asserted.
 
 **Accent allocation.** The hero and Contact each use copper for their primary
-action. The island's Hire me is ink-solid, not the artboard's copper, because it
+action. The island's WhatsApp button is ink-solid, not the artboard's copper, because it
 shares the first viewport with the hero CTA. The map uses copper to encode
 client locations.
 
@@ -184,4 +184,4 @@ the Arabic/French/English switch. Vet any replacement the same way.
 
 The English and Arabic route groups each own a root layout. `components/DocumentShell.tsx` supplies fonts, metadata, JSON-LD and analytics; `PortfolioPage` and `PrivacyPage` share the actual page composition. Content dictionaries under `content/*-i18n.ts` supply translated presentation data, while source identifiers and URLs remain shared.
 
-`SocialProof` supplies the early summary and the curated testimonials. `Reviews` renders the canonical static review grid and native disclosure; review exports deduplicate by the stable review ID. `ReviewCard` retains the verbatim source quote behind a labelled translation. Mobile Skills compact below 768px without removing capabilities.
+`SocialProof.tsx` supplies the curated testimonials inside Projects. `Reviews` renders the canonical static review grid and native disclosure; review exports deduplicate by the stable review ID. `ReviewCard` retains the verbatim source quote behind a labelled translation. Mobile Skills compact below 768px without removing capabilities.

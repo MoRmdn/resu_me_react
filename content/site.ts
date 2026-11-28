@@ -8,8 +8,12 @@ export const site = {
   location: "Mansoura, Egypt",
   timezone: "UTC+3",
   url: "https://mormdn.com",
+  // Written for the client who has never heard the name: what is built and
+  // for whom, with the brand word beside the name. No framework list.
   description:
-    "Mohamed Ramadan — software engineer in Mansoura, Egypt. Five years building cross-platform mobile and web apps in Flutter for teams in six countries. Bloc, GetX, Cubit, Firebase, clean architecture.",
+    "Mohamed Ramadan (MoRmdn) builds Arabic-first mobile apps, dashboards and internal systems for businesses: five years of cross-platform work in Flutter, from the first scope to the App Store and Google Play.",
+  /** How the brand is spelled across the profiles, for `alternateName`. */
+  alternateNames: ["MoRmdn", "mormdn", "محمد رمضان"],
   designCodename: "Obsidian & Copper",
   designVersion: "v2.1",
 
@@ -23,7 +27,7 @@ export const site = {
    * and a lastmod that always says today is a lastmod Google learns to ignore.
    * Bump this when the content genuinely changes.
    */
-  contentLastChanged: "2026-11-26",
+  contentLastChanged: "2026-11-28",
 } as const;
 
 export const contact = {
@@ -63,7 +67,7 @@ export const channels = [
     label: "Email",
     handle: contact.email,
     url: contact.emailUrl,
-    note: "Full-time and long briefs",
+    note: "Long briefs and documents",
     copyable: true,
   },
   {
@@ -117,15 +121,28 @@ export const metrics = {
   countries: 6,
 } as const;
 
+/**
+ * The homepage's sections, in the order a client reads them: the offer, the
+ * proof (work, then reviews), who does the work, and how to get in touch.
+ *
+ * This array is the one source of that order. `PortfolioPage` renders the
+ * sections from it, the nav island, sheet and rail list it, and each section's
+ * Ledger number comes from `sectionNumber`. To move a section, move its line.
+ */
 export const navSections = [
+  { id: "services", label: "Services" },
+  { id: "projects", label: "Projects" },
+  { id: "reviews", label: "Reviews" },
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
-  { id: "reviews", label: "Reviews" },
-  { id: "services", label: "Services" },
   { id: "contact", label: "Contact" },
 ] as const;
+
+export type SectionId = (typeof navSections)[number]["id"];
+
+/** A section's Ledger number, 1-based: its place in `navSections`. */
+export const sectionNumber = (id: SectionId) => navSections.findIndex((s) => s.id === id) + 1;
 
 export const education = [
   "B.Sc. Computer Science, major in Bioinformatics — Mansoura University, 2021 (final-year project graded A+)",

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { IconTile } from "@/components/ui/IconTile";
 import { ProjectPlate, ScreenStrip } from "@/components/ui/ProjectPlate";
-import { ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
+import { CaseStudyLink, ProjectDetail, ProjectLinks } from "@/components/ui/ProjectMeta";
+import { hasCaseStudy } from "@/content/case-studies";
 import { getCopy } from "@/content/copy-i18n";
 import type { Locale } from "@/content/locale";
 import type { Project } from "@/content/types";
@@ -153,7 +154,11 @@ export function FeaturedPanel({
           ) : null}
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-1">
-            <div className="relative z-10">
+            {/* Above the stretched toggle, so these stay links. */}
+            <div className="relative z-10 flex flex-wrap items-center gap-3">
+              {hasCaseStudy(project.slug) && (
+                <CaseStudyLink locale={locale} project={project} placement="featured" />
+              )}
               <ProjectLinks locale={locale} project={project} placement="featured" buttons />
             </div>
             <span
